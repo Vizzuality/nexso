@@ -15,4 +15,8 @@ $(function() {
         $(".filter").fadeToggle(150);
     });
 
+    $(".filter ul li").on("click", function() {
+        $(this).toggleClass("selected");
+    });
+
 });
