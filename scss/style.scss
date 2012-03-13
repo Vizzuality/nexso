@@ -31,19 +31,19 @@ html { height: 100% }
 body { height: 100%; margin: 0; padding: 0; overflow:hidden; }
 
 body {
-  font-family: "Helvetica Neue", sans-serif;
-  font-size: 15px;
-  color:$dark_gray;
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 15px;
+    color:$dark_gray;
 }
 
 a { color:#000; text-decoration: none; }
 
 h1 {
-  font-family: 'News Cycle', sans-serif;
-  color: $title_blue;
-  font-weight:normal;
-  font-size:42px;
-  text-transform: lowercase;
+    font-family: 'News Cycle', sans-serif;
+    color: $title_blue;
+    font-weight:normal;
+    font-size:42px;
+    text-transform: lowercase;
 }
 
 h2, h3, h4, h5 { font-family: "Helvetica Neue", sans-serif; }
@@ -56,23 +56,23 @@ h4 { font-size: 11px; font-weight:bold; }
 
 /* Navigation */
 nav {
-  height: 80px;
-  background:url(../img/backgrounds/bkg_navigation.png) repeat-x;
+    height: 80px;
+    background:url(../img/backgrounds/bkg_navigation.png) repeat-x;
 
-  h1 { position:relative; top: 10px; float:left; }
+    h1 { position:relative; top: 10px; float:left; }
 
-  ul { // Main menu
-    position:relative;
-    top: 30px;
-    float:right; 
+    ul { // Main menu
+        position:relative;
+        top: 30px;
+        float:right; 
 
-    li {
-      display:inline; 
-      margin-left: 26px;
+        li {
+            display:inline; 
+            margin-left: 26px;
 
-      a { font-size:19px; color: #000000; text-transform: uppercase; font-family: 'News Cycle', sans-serif; }
-}
-}
+            a { position:relative; font-size:19px; color: #000000; text-transform: uppercase; font-family: 'News Cycle', sans-serif; z-index: 150; }
+        }
+    }
 }
 
 #map { height: 100%; }
@@ -80,108 +80,128 @@ nav {
 /* Basic infobox */
 
 .box {
-  $header_height: 119px;
+    $header_height: 119px;
 
-  position:relative;
-  width: 304px;
+    position:relative;
+    width: 304px;
 
-  .header {
-    background: url(../img/backgrounds/bkg_box_top_gold.png) repeat-y;
-    position:absolute;
-    width: 304px - 35*2;
-    height:$header_height - 70;
-    top:-$header_height;
-    padding: 35px;
+    .header {
+        background: url(../img/backgrounds/bkg_box_top_gold.png) repeat-y;
+        position:absolute;
+        width: 304px - 35*2;
+        height:$header_height - 70;
+        top:-$header_height;
+        padding: 35px;
 
-    hgroup { // header titles
-      width: 220px;
-      
-      h2 { color:#fff; @include text-shadow(1px 1px 1px $dark_gold); line-height:22px;}
-      h3 { @include text-shadow(1px 1px 1px $light_gold); margin: 0 0 6px 0; color:$gold; opacity:.6; text-transform:uppercase; }
-  }
-} // header
+        hgroup { // header titles
+            width: 220px;
 
-.content {
+            h2 { color:#fff; @include text-shadow(1px 1px 1px $dark_gold); line-height:22px;}
+            h3 { @include text-shadow(1px 1px 1px $light_gold); margin: 0 0 6px 0; color:$gold; opacity:.6; text-transform:uppercase; }
+        }
+    } // header
 
-  width: 304px - 43*2;
-  padding: 29px 43px 24px 43px;
-  background:url(../img/backgrounds/bkg_boxes.png) repeat-y -944px top;
-  
-} // content
-.footer { width:100%; background:url(../img/backgrounds/bkg_boxes.png) no-repeat -631px bottom; height:13px; position:absolute; left: 0; bottom: -13px; }
+    .content {
+
+        width: 304px - 43*2;
+        padding: 29px 43px 24px 43px;
+        background:url(../img/backgrounds/bkg_boxes.png) repeat-y -944px top;
+
+    } // content
+    .footer { width:100%; background:url(../img/backgrounds/bkg_boxes.png) no-repeat -631px bottom; height:13px; position:absolute; left: 0; bottom: -13px; }
 } // box
 
 // Infobox content elements
 .box {
-  .content {
-    a { font-size:11px; font-weight:bold; text-transform: uppercase; }
+    .content {
+        a { font-size:11px; font-weight:bold; text-transform: uppercase; }
 
-    h4 { margin: 0 0 5px 0; text-transform: uppercase; color:$light_gray; }
+        h4 { margin: 0 0 5px 0; text-transform: uppercase; color:$light_gray; }
 
-    ul { 
-      list-style:square;
-      margin: 0 0 29px 0;
+        ul { 
+            list-style:square;
+            margin: 0 0 29px 0;
 
-      &:last-child { margin: 0; }
+            &:last-child { margin: 0; }
 
-      li { 
-        margin: 0 0 7px 0;
-        color: $dark_gray;
-        font-size:15px;
-        line-height:22px;
+            li { 
+                margin: 0 0 7px 0;
+                color: $dark_gray;
+                font-size:15px;
+                line-height:22px;
 
-        a { font-size:15px; color: #333333; text-transform: none; font-weight:normal; border-bottom: 1px dotted #4C4C4C; }
-  }
-} // ul
+                a { font-size:15px; color: #333333; text-transform: none; font-weight:normal; border-bottom: 1px dotted #4C4C4C; }
+            }
+        } // ul
 
-} // content
-// Configuration of the elements for the different infoboxes 
-&.blue .content a { color: $link_color; }
+    } // content
+    // Configuration of the elements for the different infoboxes 
+    &.blue .content a { color: $link_color; }
 }
 
 /* Golden box */
 .box.golden {
-  .header { background: url(../img/backgrounds/bkg_box_top_gold.png) repeat-y; }
+    .header { background: url(../img/backgrounds/bkg_box_top_gold.png) repeat-y; }
 
-  .header hgroup { // header titles
-    @include text-shadow(1px 1px 1px $light_gold);
-    h2 { color:#fff; @include text-shadow(1px 1px 1px $dark_gold);}
-    h3 { color:$gold; }
-}
+    .header hgroup { // header titles
+        @include text-shadow(1px 1px 1px $light_gold);
+        h2 { color:#fff; @include text-shadow(1px 1px 1px $dark_gold);}
+        h3 { color:$gold; }
+    }
 
-.content { background-position: -944px top; }
-.footer { background-position: -631px bottom; }
+    .content { background-position: -944px top; }
+    .footer { background-position: -631px bottom; }
 } // golden box
 
 /* Green box */
 .box.green {
-  .header { background: url(../img/backgrounds/bkg_box_top_green.png) repeat-y; }
+    .header { background: url(../img/backgrounds/bkg_box_top_green.png) repeat-y; }
 
-  .header hgroup { // header titles
-    
-    h2 { color:#fff; @include text-shadow(1px 1px 1px $dark_green);}
-    h3 { @include text-shadow(1px 1px 1px $light_green); color:$green; }
-}
+    .header hgroup { // header titles
 
-.content { background-position: -308px top; }
-.footer { background-position: left bottom; }
+        h2 { color:#fff; @include text-shadow(1px 1px 1px $dark_green);}
+        h3 { @include text-shadow(1px 1px 1px $light_green); color:$green; }
+    }
+
+    .content { background-position: -308px top; }
+    .footer { background-position: left bottom; }
 } // green box
 
 
 /* Blue box */
 .box.blue {
-  .header { background: url(../img/backgrounds/bkg_box_top_blue.png) repeat-y; }
+    .header { background: url(../img/backgrounds/bkg_box_top_blue.png) repeat-y; }
 
-  .header hgroup { // header titles
-    
-    h2 { color:#fff; @include text-shadow(1px 1px 1px $dark_blue);}
-    h3 { @include text-shadow(1px 1px 1px $light_blue); color:$blue; }
-}
+    .header hgroup { // header titles
 
-.content { background-position: -1566px top; }
-.footer { background-position: -1259px bottom; }
+        h2 { color:#fff; @include text-shadow(1px 1px 1px $dark_blue);}
+        h3 { @include text-shadow(1px 1px 1px $light_blue); color:$blue; }
+    }
+
+    .content { background-position: -1566px top; }
+    .footer { background-position: -1259px bottom; }
 } // blue box
 
+// Temporary positioning TODO: get rid of it
 .box.golden { position:absolute; top: 300px; left: 100px; }
 .box.green { position:absolute;  top: 300px; left: 500px; }
 .box.blue { position:absolute;   top: 300px; left: 900px; }
+
+nav ul li .filter {
+    display:none;
+
+    position:absolute;
+    width:236px;
+    top: 35px; left: -65px;
+    z-index:100;
+
+    div.content {
+        width:236px;
+        height:300px;
+        background:url(../img/backgrounds/bkg_filter.png) repeat-y -242px bottom;
+    }
+
+    div.t { position:absolute; top: -55px; left: 0; width:236px; height: 55px; background:url(../img/backgrounds/bkg_filter.png) no-repeat left top; }
+    div.b { position:absolute; bottom: -13px; left: 0; width:236px; height: 13px; background:url(../img/backgrounds/bkg_filter.png) no-repeat -492px top; }
+
+} // filter

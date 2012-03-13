@@ -157,10 +157,12 @@ nav ul li {
 }
 /* line 73, ../scss/style.scss */
 nav ul li a {
+  position: relative;
   font-size: 19px;
   color: #000000;
   text-transform: uppercase;
   font-family: 'News Cycle', sans-serif;
+  z-index: 150;
 }
 
 /* line 78, ../scss/style.scss */
@@ -333,23 +335,57 @@ nav ul li a {
   background-position: -1259px bottom;
 }
 
-/* line 185, ../scss/style.scss */
+/* line 186, ../scss/style.scss */
 .box.golden {
   position: absolute;
   top: 300px;
   left: 100px;
 }
 
-/* line 186, ../scss/style.scss */
+/* line 187, ../scss/style.scss */
 .box.green {
   position: absolute;
   top: 300px;
   left: 500px;
 }
 
-/* line 187, ../scss/style.scss */
+/* line 188, ../scss/style.scss */
 .box.blue {
   position: absolute;
   top: 300px;
   left: 900px;
+}
+
+/* line 190, ../scss/style.scss */
+nav ul li .filter {
+  display: none;
+  position: absolute;
+  width: 236px;
+  top: 35px;
+  left: -65px;
+  z-index: 100;
+}
+/* line 198, ../scss/style.scss */
+nav ul li .filter div.content {
+  width: 236px;
+  height: 300px;
+  background: url(../img/backgrounds/bkg_filter.png) repeat-y -242px bottom;
+}
+/* line 204, ../scss/style.scss */
+nav ul li .filter div.t {
+  position: absolute;
+  top: -55px;
+  left: 0;
+  width: 236px;
+  height: 55px;
+  background: url(../img/backgrounds/bkg_filter.png) no-repeat left top;
+}
+/* line 205, ../scss/style.scss */
+nav ul li .filter div.b {
+  position: absolute;
+  bottom: -13px;
+  left: 0;
+  width: 236px;
+  height: 13px;
+  background: url(../img/backgrounds/bkg_filter.png) no-repeat -492px top;
 }

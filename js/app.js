@@ -7,3 +7,9 @@ function initialize() {
   var map = new google.maps.Map(document.getElementById("map"),
       myOptions);
 }
+
+$(function() {
+    $("nav a.toggle-filter").on("click", function() {
+        $(".filter").fadeToggle(150);
+    });
+});
