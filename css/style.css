@@ -68,12 +68,12 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 }
 
 @import url(http://fonts.googleapis.com/css?family=News+Cycle);
-/* line 30, ../scss/style.scss */
+/* line 31, ../scss/style.scss */
 html {
   height: 100%;
 }
 
-/* line 31, ../scss/style.scss */
+/* line 32, ../scss/style.scss */
 body {
   height: 100%;
   margin: 0;
@@ -81,20 +81,20 @@ body {
   overflow: hidden;
 }
 
-/* line 33, ../scss/style.scss */
+/* line 34, ../scss/style.scss */
 body {
   font-family: "Helvetica Neue", sans-serif;
   font-size: 15px;
   color: #333333;
 }
 
-/* line 39, ../scss/style.scss */
+/* line 40, ../scss/style.scss */
 a {
   color: #000;
   text-decoration: none;
 }
 
-/* line 41, ../scss/style.scss */
+/* line 42, ../scss/style.scss */
 h1 {
   font-family: 'News Cycle', sans-serif;
   color: #0c5fb2;
@@ -103,59 +103,59 @@ h1 {
   text-transform: lowercase;
 }
 
-/* line 49, ../scss/style.scss */
+/* line 50, ../scss/style.scss */
 h2, h3, h4, h5 {
   font-family: "Helvetica Neue", sans-serif;
 }
 
-/* line 51, ../scss/style.scss */
+/* line 52, ../scss/style.scss */
 h2 {
   font-size: 18px;
   font-weight: bold;
 }
 
-/* line 52, ../scss/style.scss */
+/* line 53, ../scss/style.scss */
 h3 {
-  font-size: 11px;
+  font-size: 14px;
   font-weight: bold;
 }
 
-/* line 53, ../scss/style.scss */
+/* line 54, ../scss/style.scss */
 h4 {
   font-size: 11px;
   font-weight: bold;
 }
 
-/* line 55, ../scss/style.scss */
+/* line 56, ../scss/style.scss */
 .content {
   width: 980px;
   margin: auto;
 }
 
 /* Navigation */
-/* line 58, ../scss/style.scss */
+/* line 59, ../scss/style.scss */
 nav {
   height: 80px;
   background: url(../img/backgrounds/bkg_navigation.png) repeat-x;
 }
-/* line 62, ../scss/style.scss */
+/* line 63, ../scss/style.scss */
 nav h1 {
   position: relative;
   top: 10px;
   float: left;
 }
-/* line 64, ../scss/style.scss */
+/* line 65, ../scss/style.scss */
 nav ul {
   position: relative;
   top: 30px;
   float: right;
 }
-/* line 69, ../scss/style.scss */
+/* line 70, ../scss/style.scss */
 nav ul li {
   display: inline;
   margin-left: 26px;
 }
-/* line 73, ../scss/style.scss */
+/* line 74, ../scss/style.scss */
 nav ul li a {
   position: relative;
   font-size: 19px;
@@ -165,18 +165,18 @@ nav ul li a {
   z-index: 150;
 }
 
-/* line 78, ../scss/style.scss */
+/* line 79, ../scss/style.scss */
 #map {
   height: 100%;
 }
 
 /* Basic infobox */
-/* line 82, ../scss/style.scss */
+/* line 83, ../scss/style.scss */
 .box {
   position: relative;
   width: 304px;
 }
-/* line 88, ../scss/style.scss */
+/* line 89, ../scss/style.scss */
 .box .header {
   background: url(../img/backgrounds/bkg_box_top_gold.png) repeat-y;
   position: absolute;
@@ -185,31 +185,31 @@ nav ul li a {
   top: -119px;
   padding: 35px;
 }
-/* line 96, ../scss/style.scss */
+/* line 97, ../scss/style.scss */
 .box .header hgroup {
   width: 220px;
 }
-/* line 99, ../scss/style.scss */
+/* line 100, ../scss/style.scss */
 .box .header hgroup h2 {
   color: #fff;
   text-shadow: 1px 1px 1px #845412;
   line-height: 22px;
 }
-/* line 100, ../scss/style.scss */
-.box .header hgroup h3 {
+/* line 101, ../scss/style.scss */
+.box .header hgroup h4 {
   text-shadow: 1px 1px 1px #ffcc00;
   margin: 0 0 6px 0;
   color: #9a6100;
   opacity: .6;
   text-transform: uppercase;
 }
-/* line 104, ../scss/style.scss */
+/* line 105, ../scss/style.scss */
 .box .content {
   width: 218px;
   padding: 29px 43px 24px 43px;
   background: url(../img/backgrounds/bkg_boxes.png) repeat-y -944px top;
 }
-/* line 111, ../scss/style.scss */
+/* line 112, ../scss/style.scss */
 .box .footer {
   width: 100%;
   background: url(../img/backgrounds/bkg_boxes.png) no-repeat -631px bottom;
@@ -219,35 +219,35 @@ nav ul li a {
   bottom: -13px;
 }
 
-/* line 117, ../scss/style.scss */
+/* line 118, ../scss/style.scss */
 .box .content a {
   font-size: 11px;
   font-weight: bold;
   text-transform: uppercase;
 }
-/* line 119, ../scss/style.scss */
+/* line 120, ../scss/style.scss */
 .box .content h4 {
   margin: 0 0 5px 0;
   text-transform: uppercase;
   color: #bbbbbb;
 }
-/* line 121, ../scss/style.scss */
+/* line 122, ../scss/style.scss */
 .box .content ul {
   list-style: square;
   margin: 0 0 29px 0;
 }
-/* line 125, ../scss/style.scss */
+/* line 126, ../scss/style.scss */
 .box .content ul:last-child {
   margin: 0;
 }
-/* line 127, ../scss/style.scss */
+/* line 128, ../scss/style.scss */
 .box .content ul li {
   margin: 0 0 7px 0;
   color: #333333;
   font-size: 15px;
   line-height: 22px;
 }
-/* line 133, ../scss/style.scss */
+/* line 134, ../scss/style.scss */
 .box .content ul li a {
   font-size: 15px;
   color: #333333;
@@ -255,123 +255,123 @@ nav ul li a {
   font-weight: normal;
   border-bottom: 1px dotted #4C4C4C;
 }
-/* line 139, ../scss/style.scss */
+/* line 140, ../scss/style.scss */
 .box.blue .content a {
   color: #1872a0;
 }
 
 /* Golden box */
-/* line 144, ../scss/style.scss */
+/* line 145, ../scss/style.scss */
 .box.golden .header {
   background: url(../img/backgrounds/bkg_box_top_gold.png) repeat-y;
 }
-/* line 146, ../scss/style.scss */
+/* line 147, ../scss/style.scss */
 .box.golden .header hgroup {
   text-shadow: 1px 1px 1px #ffcc00;
 }
-/* line 148, ../scss/style.scss */
+/* line 149, ../scss/style.scss */
 .box.golden .header hgroup h2 {
   color: #fff;
   text-shadow: 1px 1px 1px #845412;
 }
-/* line 149, ../scss/style.scss */
-.box.golden .header hgroup h3 {
+/* line 150, ../scss/style.scss */
+.box.golden .header hgroup h4 {
   color: #9a6100;
 }
-/* line 152, ../scss/style.scss */
+/* line 153, ../scss/style.scss */
 .box.golden .content {
   background-position: -944px top;
 }
-/* line 153, ../scss/style.scss */
+/* line 154, ../scss/style.scss */
 .box.golden .footer {
   background-position: -631px bottom;
 }
 
 /* Green box */
-/* line 158, ../scss/style.scss */
+/* line 159, ../scss/style.scss */
 .box.green .header {
   background: url(../img/backgrounds/bkg_box_top_green.png) repeat-y;
 }
-/* line 162, ../scss/style.scss */
+/* line 163, ../scss/style.scss */
 .box.green .header hgroup h2 {
   color: #fff;
   text-shadow: 1px 1px 1px #52642a;
 }
-/* line 163, ../scss/style.scss */
-.box.green .header hgroup h3 {
+/* line 164, ../scss/style.scss */
+.box.green .header hgroup h4 {
   text-shadow: 1px 1px 1px #b2e053;
   color: #5f7232;
 }
-/* line 166, ../scss/style.scss */
+/* line 167, ../scss/style.scss */
 .box.green .content {
   background-position: -308px top;
 }
-/* line 167, ../scss/style.scss */
+/* line 168, ../scss/style.scss */
 .box.green .footer {
   background-position: left bottom;
 }
 
 /* Blue box */
-/* line 173, ../scss/style.scss */
+/* line 174, ../scss/style.scss */
 .box.blue .header {
   background: url(../img/backgrounds/bkg_box_top_blue.png) repeat-y;
 }
-/* line 177, ../scss/style.scss */
+/* line 178, ../scss/style.scss */
 .box.blue .header hgroup h2 {
   color: #fff;
   text-shadow: 1px 1px 1px #0f445e;
 }
-/* line 178, ../scss/style.scss */
-.box.blue .header hgroup h3 {
+/* line 179, ../scss/style.scss */
+.box.blue .header hgroup h4 {
   text-shadow: 1px 1px 1px #1b93cf;
   color: #104c6b;
 }
-/* line 181, ../scss/style.scss */
+/* line 182, ../scss/style.scss */
 .box.blue .content {
   background-position: -1566px top;
 }
-/* line 182, ../scss/style.scss */
+/* line 183, ../scss/style.scss */
 .box.blue .footer {
   background-position: -1259px bottom;
 }
 
-/* line 186, ../scss/style.scss */
+/* line 187, ../scss/style.scss */
 .box.golden {
   position: absolute;
   top: 300px;
   left: 100px;
 }
 
-/* line 187, ../scss/style.scss */
+/* line 188, ../scss/style.scss */
 .box.green {
   position: absolute;
   top: 300px;
   left: 500px;
 }
 
-/* line 188, ../scss/style.scss */
+/* line 189, ../scss/style.scss */
 .box.blue {
   position: absolute;
   top: 300px;
   left: 900px;
 }
 
-/* line 190, ../scss/style.scss */
+/* line 191, ../scss/style.scss */
 nav ul li .filter {
-  display: none;
   position: absolute;
   width: 236px;
   top: 35px;
   left: -65px;
   z-index: 100;
 }
-/* line 198, ../scss/style.scss */
+/* line 199, ../scss/style.scss */
 nav ul li .filter div.content {
-  width: 236px;
-  height: 300px;
+  width: 186px;
+  height: 274px;
   background: url(../img/backgrounds/bkg_filter.png) repeat-y -242px bottom;
+  padding: 13px 25px;
 }
-/* line 204, ../scss/style.scss */
+/* line 206, ../scss/style.scss */
 nav ul li .filter div.t {
   position: absolute;
   top: -55px;
@@ -380,7 +380,7 @@ nav ul li .filter div.t {
   height: 55px;
   background: url(../img/backgrounds/bkg_filter.png) no-repeat left top;
 }
-/* line 205, ../scss/style.scss */
+/* line 207, ../scss/style.scss */
 nav ul li .filter div.b {
   position: absolute;
   bottom: -13px;
@@ -388,4 +388,12 @@ nav ul li .filter div.b {
   width: 236px;
   height: 13px;
   background: url(../img/backgrounds/bkg_filter.png) no-repeat -492px top;
+}
+
+/* line 215, ../scss/style.scss */
+nav ul li .filter .content h3 {
+  font-family: 'News Cycle', sans-serif;
+  font-size: 14px;
+  color: #999999;
+  text-transform: uppercase;
 }

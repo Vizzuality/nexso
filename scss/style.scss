@@ -25,6 +25,7 @@ $link_color:    #1872A0; // #156690
 $line_color:    #A1A1A0;
 $standard_gray: #666666;
 $light_gray:    #BBBBBB;
+$subtle_gray:   #999999;
 $dark_gray:     #333333;
 
 html { height: 100% }
@@ -49,7 +50,7 @@ h1 {
 h2, h3, h4, h5 { font-family: "Helvetica Neue", sans-serif; }
 
 h2 { font-size: 18px; font-weight:bold; }
-h3 { font-size: 11px; font-weight:bold; }
+h3 { font-size: 14px; font-weight:bold; }
 h4 { font-size: 11px; font-weight:bold; }
 
 .content { width:980px; margin: auto; }
@@ -97,7 +98,7 @@ nav {
             width: 220px;
 
             h2 { color:#fff; @include text-shadow(1px 1px 1px $dark_gold); line-height:22px;}
-            h3 { @include text-shadow(1px 1px 1px $light_gold); margin: 0 0 6px 0; color:$gold; opacity:.6; text-transform:uppercase; }
+            h4 { @include text-shadow(1px 1px 1px $light_gold); margin: 0 0 6px 0; color:$gold; opacity:.6; text-transform:uppercase; }
         }
     } // header
 
@@ -146,7 +147,7 @@ nav {
     .header hgroup { // header titles
         @include text-shadow(1px 1px 1px $light_gold);
         h2 { color:#fff; @include text-shadow(1px 1px 1px $dark_gold);}
-        h3 { color:$gold; }
+        h4 { color:$gold; }
     }
 
     .content { background-position: -944px top; }
@@ -160,7 +161,7 @@ nav {
     .header hgroup { // header titles
 
         h2 { color:#fff; @include text-shadow(1px 1px 1px $dark_green);}
-        h3 { @include text-shadow(1px 1px 1px $light_green); color:$green; }
+        h4 { @include text-shadow(1px 1px 1px $light_green); color:$green; }
     }
 
     .content { background-position: -308px top; }
@@ -175,7 +176,7 @@ nav {
     .header hgroup { // header titles
 
         h2 { color:#fff; @include text-shadow(1px 1px 1px $dark_blue);}
-        h3 { @include text-shadow(1px 1px 1px $light_blue); color:$blue; }
+        h4 { @include text-shadow(1px 1px 1px $light_blue); color:$blue; }
     }
 
     .content { background-position: -1566px top; }
@@ -188,7 +189,7 @@ nav {
 .box.blue { position:absolute;   top: 300px; left: 900px; }
 
 nav ul li .filter {
-    display:none;
+//    display:none;
 
     position:absolute;
     width:236px;
@@ -196,12 +197,21 @@ nav ul li .filter {
     z-index:100;
 
     div.content {
-        width:236px;
-        height:300px;
+        width:236px - 25*2;
+        height:300px - 13*2;
         background:url(../img/backgrounds/bkg_filter.png) repeat-y -242px bottom;
+        padding: 13px 25px;
     }
 
     div.t { position:absolute; top: -55px; left: 0; width:236px; height: 55px; background:url(../img/backgrounds/bkg_filter.png) no-repeat left top; }
     div.b { position:absolute; bottom: -13px; left: 0; width:236px; height: 13px; background:url(../img/backgrounds/bkg_filter.png) no-repeat -492px top; }
 
+} // filter
+
+
+// Filter components
+nav ul li .filter {
+.content {
+    h3 { font-family: 'News Cycle', sans-serif; font-size:14px; color: $subtle_gray; text-transform:uppercase; }
+} // content
 } // filter

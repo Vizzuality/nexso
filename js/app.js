@@ -9,7 +9,10 @@ function initialize() {
 }
 
 $(function() {
+
     $("nav a.toggle-filter").on("click", function() {
+        $(this).toggleClass("selected");
         $(".filter").fadeToggle(150);
     });
+
 });
