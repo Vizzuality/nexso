@@ -4,13 +4,24 @@
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
 
 @import "compass/reset";
+@import "compass/css3";
 @import url(http://fonts.googleapis.com/css?family=News+Cycle);
 
 $light_blue:    #0C5FB2;
+$gold:          #9A6100;
+$dark_gold:     #845412;
 $link_color:    #1872A0; // #156690
 $line_color:    #A1A1A0;
 $standard_gray: #666666;
 $light_gray:    #BBBBBB;
+$light_gold:    #FFCC00;
+$dark_gray:     #333333;
+
+body {
+font-family: "Helvetica Neue", sans-serif;
+font-size: 15px;
+color:$dark_gray;
+}
 
 a { color:#000; text-decoration: none; }
 
@@ -22,13 +33,22 @@ h1 {
   text-transform: lowercase;
 }
 
+h2, h3, h4, h5 { font-family: "Helvetica Neue", sans-serif; }
+
+h2 { font-size: 18px; font-weight:bold; }
+h3 { font-size: 11px; font-weight:bold; }
+h4 { font-size: 11px; font-weight:bold; }
+
+.content { width:980px; margin: auto; }
+
+/* Navigation */
 nav {
   height: 80px;
   background:url(../img/backgrounds/bkg_navigation.png) repeat-x;
 
   h1 { position:relative; top: 10px; float:left; }
 
-  ul {
+  ul { // Main menu
     position:relative;
     top: 30px;
     float:right; 
@@ -37,14 +57,57 @@ nav {
       display:inline; 
       margin-left: 26px;
 
-      a { 
-        font-size:19px;
-        color: #000000;
-        text-transform: uppercase; 
-        font-family: 'News Cycle', sans-serif;
-  }
-  }
+      a { font-size:19px; color: #000000; text-transform: uppercase; font-family: 'News Cycle', sans-serif; }
 }
+}
+}
+.map {
+  padding: 50px;
+
 }
 
-.content { width:980px; margin: auto; }
+.box {
+  $header_height: 119px;
+
+  position:relative;
+  width: 304px;
+
+  .header {
+    background: url(../img/backgrounds/bkg_box_top_gold.png) repeat-y;
+    position:absolute;
+    width:100%;
+    height:$header_height - 70;
+    top:-$header_height;
+    padding: 35px;
+
+    hgroup { // header titles
+      width: 220px;
+      @include text-shadow(1px 1px 1px $light_gold);
+      h2 { color:#fff; @include text-shadow(1px 1px 1px $dark_gold);}
+      h3 { margin: 0 0 8px 0; color:$gold; opacity:.6; text-transform:uppercase; }
+  }
+}
+
+.content {
+  h4 {
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
+    color:$light_gray;
+  }
+  padding: 29px 43px 5px 43px;
+  background:url(../img/backgrounds/bkg_boxes.png) repeat-y -308px top;
+  ul { 
+    list-style:square;
+    margin: 0 0 29px 0;
+    li { 
+      color: $dark_gray;
+      font-size:15px;
+      margin: 0 0 15px 0;
+      a { border-bottom: 1px dotted #4C4C4C; }
+    }
+  }
+}
+
+.b { width:100%; background:url(../img/backgrounds/bkg_boxes.png) no-repeat left bottom; height:13px; position:absolute; left: 0; bottom: -13px; }
+
+}
