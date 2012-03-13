@@ -409,26 +409,43 @@ nav ul li .filter .content ul li {
   display: block;
   margin: 0;
 }
-/* line 221, ../scss/style.scss */
+/* line 222, ../scss/style.scss */
+nav ul li .filter .content ul.ticks li {
+  background: url(../img/icons/icons.png) no-repeat left -66px;
+}
+/* line 224, ../scss/style.scss */
+nav ul li .filter .content ul.ticks li.selected {
+  background: url(../img/icons/icons.png) no-repeat left -44px;
+}
+/* line 231, ../scss/style.scss */
+nav ul li .filter .content ul.radio li {
+  margin: 0 0 5px 0;
+  background: url(../img/icons/icons.png) no-repeat left -21px;
+}
+/* line 234, ../scss/style.scss */
+nav ul li .filter .content ul.radio li.selected {
+  background: url(../img/icons/icons.png) no-repeat left 3px;
+}
+/* line 240, ../scss/style.scss */
 nav ul li .filter .content ul {
   margin: 0 0 20px 0;
 }
-/* line 224, ../scss/style.scss */
+/* line 243, ../scss/style.scss */
 nav ul li .filter .content ul li {
   margin: 0 0 14px 0;
   padding-left: 20px;
   background: url(../img/icons/icons.png) no-repeat left -66px;
   cursor: pointer;
 }
-/* line 230, ../scss/style.scss */
+/* line 249, ../scss/style.scss */
 nav ul li .filter .content ul li.selected {
   background: url(../img/icons/icons.png) no-repeat left -44px;
 }
-/* line 232, ../scss/style.scss */
+/* line 251, ../scss/style.scss */
 nav ul li .filter .content ul li.selected a {
   color: #666666;
 }
-/* line 235, ../scss/style.scss */
+/* line 254, ../scss/style.scss */
 nav ul li .filter .content ul li a {
   font-family: "Helvetica Neue", sans-serif;
   font-size: 11px;
@@ -436,7 +453,7 @@ nav ul li .filter .content ul li a {
   text-transform: uppercase;
   line-height: 14px;
 }
-/* line 245, ../scss/style.scss */
+/* line 264, ../scss/style.scss */
 nav ul li .filter .content hr {
   border: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);

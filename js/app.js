@@ -15,8 +15,13 @@ $(function() {
         $(".filter").fadeToggle(150);
     });
 
-    $(".filter ul li").on("click", function() {
+    $(".filter ul.ticks li").on("click", function() {
         $(this).toggleClass("selected");
+    });
+
+    $(".filter ul.radio li").on("click", function() {
+        $(this).parent().find("li").removeClass("selected");
+        $(this).addClass("selected");
     });
 
 });

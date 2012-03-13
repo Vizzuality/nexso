@@ -218,6 +218,25 @@ nav ul li .filter {
     ul { position:none; top: 0; float:none; }
     ul li { display:block; margin:0; }
 
+    ul.ticks {
+        li { 
+            background:url(../img/icons/icons.png) no-repeat left -66px; 
+            &.selected {
+                background:url(../img/icons/icons.png) no-repeat left -44px; 
+            }
+        }
+    }
+
+    ul.radio {
+        li { 
+            margin: 0 0 5px 0;
+            background:url(../img/icons/icons.png) no-repeat left -21px; 
+            &.selected {
+                background:url(../img/icons/icons.png) no-repeat left 3px; 
+            }
+        }
+    }
+
     ul {
         margin: 0 0 20px 0;
 
