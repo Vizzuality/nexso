@@ -178,11 +178,12 @@ nav ul li a {
 .box .header hgroup h2 {
   color: #fff;
   text-shadow: 1px 1px 1px #845412;
+  line-height: 22px;
 }
 /* line 99, ../scss/style.scss */
 .box .header hgroup h3 {
   text-shadow: 1px 1px 1px #ffcc00;
-  margin: 0 0 8px 0;
+  margin: 0 0 6px 0;
   color: #9a6100;
   opacity: .6;
   text-transform: uppercase;
@@ -195,7 +196,7 @@ nav ul li a {
 }
 /* line 109, ../scss/style.scss */
 .box .content h4 {
-  margin: 0 0 10px 0;
+  margin: 0 0 5px 0;
   text-transform: uppercase;
   color: #bbbbbb;
 }

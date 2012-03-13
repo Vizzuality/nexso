@@ -95,8 +95,8 @@ nav {
     hgroup { // header titles
       width: 220px;
       
-      h2 { color:#fff; @include text-shadow(1px 1px 1px $dark_gold);}
-      h3 { @include text-shadow(1px 1px 1px $light_gold); margin: 0 0 8px 0; color:$gold; opacity:.6; text-transform:uppercase; }
+      h2 { color:#fff; @include text-shadow(1px 1px 1px $dark_gold); line-height:22px;}
+      h3 { @include text-shadow(1px 1px 1px $light_gold); margin: 0 0 6px 0; color:$gold; opacity:.6; text-transform:uppercase; }
   }
 } // header
 
@@ -106,7 +106,7 @@ nav {
   padding: 29px 43px 5px 43px;
   background:url(../img/backgrounds/bkg_boxes.png) repeat-y -944px top;
   
-  h4 { margin: 0 0 10px 0; text-transform: uppercase; color:$light_gray; }
+  h4 { margin: 0 0 5px 0; text-transform: uppercase; color:$light_gray; }
 
   ul { 
     list-style:square;
@@ -168,7 +168,7 @@ nav {
 
 .content { background-position: -1566px top; }
 .footer { background-position: -1259px bottom; }
-} // green box
+} // blue box
 
 .box.golden { position:absolute; top: 300px; left: 100px; }
 .box.green { position:absolute;  top: 300px; left: 500px; }
