@@ -9,6 +9,7 @@
 
 $light_blue:    #0C5FB2;
 $gold:          #9A6100;
+$green:         #5F7232;
 $dark_gold:     #845412;
 $link_color:    #1872A0; // #156690
 $line_color:    #A1A1A0;
@@ -16,6 +17,8 @@ $standard_gray: #666666;
 $light_gray:    #BBBBBB;
 $light_gold:    #FFCC00;
 $dark_gray:     #333333;
+$light_green:   #B2E053;
+$dark_green:    #52642A;
 
 body {
 font-family: "Helvetica Neue", sans-serif;
@@ -66,6 +69,8 @@ nav {
 
 }
 
+/* Basic infobox */
+
 .box {
   $header_height: 119px;
 
@@ -75,39 +80,70 @@ nav {
   .header {
     background: url(../img/backgrounds/bkg_box_top_gold.png) repeat-y;
     position:absolute;
-    width:100%;
+    width: 304px - 35*2;
     height:$header_height - 70;
     top:-$header_height;
     padding: 35px;
 
     hgroup { // header titles
       width: 220px;
-      @include text-shadow(1px 1px 1px $light_gold);
+      
       h2 { color:#fff; @include text-shadow(1px 1px 1px $dark_gold);}
-      h3 { margin: 0 0 8px 0; color:$gold; opacity:.6; text-transform:uppercase; }
+      h3 { @include text-shadow(1px 1px 1px $light_gold); margin: 0 0 8px 0; color:$gold; opacity:.6; text-transform:uppercase; }
   }
-}
+} // header
 
 .content {
-  h4 {
-    margin: 0 0 10px 0;
-    text-transform: uppercase;
-    color:$light_gray;
-  }
+
+  width: 304px - 43*2;
   padding: 29px 43px 5px 43px;
-  background:url(../img/backgrounds/bkg_boxes.png) repeat-y -308px top;
+  background:url(../img/backgrounds/bkg_boxes.png) repeat-y -944px top;
+  
+  h4 { margin: 0 0 10px 0; text-transform: uppercase; color:$light_gray; }
+
   ul { 
     list-style:square;
     margin: 0 0 29px 0;
+
+    &:last-child { margin: 0; }
+
     li { 
+      margin: 0 0 7px 0;
       color: $dark_gray;
       font-size:15px;
-      margin: 0 0 15px 0;
+      line-height:22px;
+
       a { border-bottom: 1px dotted #4C4C4C; }
     }
   }
+} // content
+.footer { width:100%; background:url(../img/backgrounds/bkg_boxes.png) no-repeat -631px bottom; height:13px; position:absolute; left: 0; bottom: -13px; }
+} // box
+
+/* Golden box */
+.box.golden {
+  .header { background: url(../img/backgrounds/bkg_box_top_gold.png) repeat-y; }
+
+  .header hgroup { // header titles
+    @include text-shadow(1px 1px 1px $light_gold);
+    h2 { color:#fff; @include text-shadow(1px 1px 1px $dark_gold);}
+    h3 { color:$gold; }
 }
 
-.b { width:100%; background:url(../img/backgrounds/bkg_boxes.png) no-repeat left bottom; height:13px; position:absolute; left: 0; bottom: -13px; }
+.content { background-position: -944px top; }
+.footer { background-position: -631px bottom; }
+} // golden box
 
+/* Green box */
+.box.green {
+  .header { background: url(../img/backgrounds/bkg_box_top_green.png) repeat-y; }
+
+  .header hgroup { // header titles
+    
+    h2 { color:#fff; @include text-shadow(1px 1px 1px $dark_green);}
+    h3 { @include text-shadow(1px 1px 1px $light_green); color:$green; }
 }
+
+.content { background-position: -308px top; }
+.footer { background-position: left bottom; }
+} // green box
