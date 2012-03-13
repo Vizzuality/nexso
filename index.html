@@ -2,12 +2,18 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <link href="/css/style.css" media="screen, projection" rel="stylesheet" type="text/css" />
 <!--[if IE]>
       <link href="/css/ie.css" media="screen, projection" rel="stylesheet" type="text/css" />
     <![endif]-->
+
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBjtJpHprawtS8OfQtC9Pb_urVpbZ8gTaM&sensor=false"> </script>
+<script type="text/javascript" src="/js/app.js"> </script>
+
 </head>
-<body>
+<body onload="initialize()">
 
 <nav>
   <div class="content">
@@ -19,7 +25,7 @@
   </div>
 </nav>
 
-<div class="map">
+<div id="map"></div>
 
   <div class="box golden">
     <div class="header">
@@ -88,10 +94,5 @@
     </div>
     <div class="footer"></div>
   </div>
-
-
-
-</div>
-
 </body>
 </html>

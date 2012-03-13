@@ -27,10 +27,13 @@ $standard_gray: #666666;
 $light_gray:    #BBBBBB;
 $dark_gray:     #333333;
 
+html { height: 100% }
+body { height: 100%; margin: 0; padding: 0; overflow:hidden; }
+
 body {
-font-family: "Helvetica Neue", sans-serif;
-font-size: 15px;
-color:$dark_gray;
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 15px;
+  color:$dark_gray;
 }
 
 a { color:#000; text-decoration: none; }
@@ -71,10 +74,8 @@ nav {
 }
 }
 }
-.map {
-  padding: 50px;
 
-}
+#map { height: 100%; }
 
 /* Basic infobox */
 
