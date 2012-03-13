@@ -358,6 +358,7 @@ nav ul li a {
 
 /* line 191, ../scss/style.scss */
 nav ul li .filter {
+  display: none;
   position: absolute;
   width: 236px;
   top: 35px;
