@@ -1,0 +1,50 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+@import "compass/reset";
+@import url(http://fonts.googleapis.com/css?family=News+Cycle);
+
+$light_blue:    #0C5FB2;
+$link_color:    #1872A0; // #156690
+$line_color:    #A1A1A0;
+$standard_gray: #666666;
+$light_gray:    #BBBBBB;
+
+a { color:#000; text-decoration: none; }
+
+h1 {
+  font-family: 'News Cycle', sans-serif;
+  color: $light_blue;
+  font-weight:normal;
+  font-size:42px;
+  text-transform: lowercase;
+}
+
+nav {
+  height: 80px;
+  background:url(../img/backgrounds/bkg_navigation.png) repeat-x;
+
+  h1 { position:relative; top: 10px; float:left; }
+
+  ul {
+    position:relative;
+    top: 30px;
+    float:right; 
+
+    li {
+      display:inline; 
+      margin-left: 26px;
+
+      a { 
+        font-size:19px;
+        color: #000000;
+        text-transform: uppercase; 
+        font-family: 'News Cycle', sans-serif;
+  }
+  }
+}
+}
+
+.content { width:980px; margin: auto; }
