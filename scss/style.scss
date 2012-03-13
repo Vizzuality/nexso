@@ -104,29 +104,40 @@ nav {
 .content {
 
   width: 304px - 43*2;
-  padding: 29px 43px 5px 43px;
+  padding: 29px 43px 24px 43px;
   background:url(../img/backgrounds/bkg_boxes.png) repeat-y -944px top;
   
-  h4 { margin: 0 0 5px 0; text-transform: uppercase; color:$light_gray; }
-
-  ul { 
-    list-style:square;
-    margin: 0 0 29px 0;
-
-    &:last-child { margin: 0; }
-
-    li { 
-      margin: 0 0 7px 0;
-      color: $dark_gray;
-      font-size:15px;
-      line-height:22px;
-
-      a { border-bottom: 1px dotted #4C4C4C; }
-    }
-  }
 } // content
 .footer { width:100%; background:url(../img/backgrounds/bkg_boxes.png) no-repeat -631px bottom; height:13px; position:absolute; left: 0; bottom: -13px; }
 } // box
+
+// Infobox content elements
+.box {
+  .content {
+    a { font-size:11px; font-weight:bold; text-transform: uppercase; }
+
+    h4 { margin: 0 0 5px 0; text-transform: uppercase; color:$light_gray; }
+
+    ul { 
+      list-style:square;
+      margin: 0 0 29px 0;
+
+      &:last-child { margin: 0; }
+
+      li { 
+        margin: 0 0 7px 0;
+        color: $dark_gray;
+        font-size:15px;
+        line-height:22px;
+
+        a { font-size:15px; color: #333333; text-transform: none; font-weight:normal; border-bottom: 1px dotted #4C4C4C; }
+  }
+} // ul
+
+} // content
+// Configuration of the elements for the different infoboxes 
+&.blue .content a { color: $link_color; }
+}
 
 /* Golden box */
 .box.golden {
