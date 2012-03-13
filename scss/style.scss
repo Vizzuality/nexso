@@ -198,9 +198,9 @@ nav ul li .filter {
 
     div.content {
         width:236px - 25*2;
-        height:300px - 13*2;
+        height:300px - 13 + 7;
         background:url(../img/backgrounds/bkg_filter.png) repeat-y -242px bottom;
-        padding: 13px 25px;
+        padding: 13px 25px 7px 25px;
     }
 
     div.t { position:absolute; top: -55px; left: 0; width:236px; height: 55px; background:url(../img/backgrounds/bkg_filter.png) no-repeat left top; }
@@ -212,6 +212,36 @@ nav ul li .filter {
 // Filter components
 nav ul li .filter {
 .content {
-    h3 { font-family: 'News Cycle', sans-serif; font-size:14px; color: $subtle_gray; text-transform:uppercase; }
+    h3 { margin: 0 0 19px 0; font-family: 'News Cycle', sans-serif; font-size:14px; color: $subtle_gray; text-transform:uppercase; }
+
+    // reset nav ul inherited styles 
+    ul { position:none; top: 0; float:none; }
+    ul li { display:block; margin:0; }
+
+    ul {
+        margin: 0 0 20px 0;
+
+        li {
+            margin: 0 0 14px 0;
+            a {
+            font-family: "Helvetica Neue", sans-serif;
+            font-size:11px;
+            color: $standard_gray;
+            text-transform: uppercase;
+            line-height:14px;
+        }
+        }
+    }
+
+    hr { 
+        border: none;
+        border-bottom: 1px solid rgba(0,0,0,.2);
+        width: 229px;
+        left: -21px;
+        position: relative;
+        margin-bottom:20px;
+    
+    }
+
 } // content
 } // filter

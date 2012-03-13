@@ -367,9 +367,9 @@ nav ul li .filter {
 /* line 199, ../scss/style.scss */
 nav ul li .filter div.content {
   width: 186px;
-  height: 274px;
+  height: 294px;
   background: url(../img/backgrounds/bkg_filter.png) repeat-y -242px bottom;
-  padding: 13px 25px;
+  padding: 13px 25px 7px 25px;
 }
 /* line 206, ../scss/style.scss */
 nav ul li .filter div.t {
@@ -392,8 +392,45 @@ nav ul li .filter div.b {
 
 /* line 215, ../scss/style.scss */
 nav ul li .filter .content h3 {
+  margin: 0 0 19px 0;
   font-family: 'News Cycle', sans-serif;
   font-size: 14px;
   color: #999999;
   text-transform: uppercase;
+}
+/* line 218, ../scss/style.scss */
+nav ul li .filter .content ul {
+  position: none;
+  top: 0;
+  float: none;
+}
+/* line 219, ../scss/style.scss */
+nav ul li .filter .content ul li {
+  display: block;
+  margin: 0;
+}
+/* line 221, ../scss/style.scss */
+nav ul li .filter .content ul {
+  margin: 0 0 20px 0;
+}
+/* line 224, ../scss/style.scss */
+nav ul li .filter .content ul li {
+  margin: 0 0 14px 0;
+}
+/* line 226, ../scss/style.scss */
+nav ul li .filter .content ul li a {
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 11px;
+  color: #666666;
+  text-transform: uppercase;
+  line-height: 14px;
+}
+/* line 236, ../scss/style.scss */
+nav ul li .filter .content hr {
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  width: 229px;
+  left: -21px;
+  position: relative;
+  margin-bottom: 20px;
 }
