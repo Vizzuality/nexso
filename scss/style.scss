@@ -7,18 +7,25 @@
 @import "compass/css3";
 @import url(http://fonts.googleapis.com/css?family=News+Cycle);
 
-$light_blue:    #0C5FB2;
+$title_blue:    #0C5FB2;
+
+$blue:          #104C6B;
+$light_blue:    #1B93CF;
+$dark_blue:     #0F445E;
+
 $gold:          #9A6100;
-$green:         #5F7232;
+$light_gold:    #FFCC00;
 $dark_gold:     #845412;
+
+$green:         #5F7232;
+$light_green:   #B2E053;
+$dark_green:    #52642A;
+
 $link_color:    #1872A0; // #156690
 $line_color:    #A1A1A0;
 $standard_gray: #666666;
 $light_gray:    #BBBBBB;
-$light_gold:    #FFCC00;
 $dark_gray:     #333333;
-$light_green:   #B2E053;
-$dark_green:    #52642A;
 
 body {
 font-family: "Helvetica Neue", sans-serif;
@@ -30,7 +37,7 @@ a { color:#000; text-decoration: none; }
 
 h1 {
   font-family: 'News Cycle', sans-serif;
-  color: $light_blue;
+  color: $title_blue;
   font-weight:normal;
   font-size:42px;
   text-transform: lowercase;
@@ -147,3 +154,22 @@ nav {
 .content { background-position: -308px top; }
 .footer { background-position: left bottom; }
 } // green box
+
+
+/* Blue box */
+.box.blue {
+  .header { background: url(../img/backgrounds/bkg_box_top_blue.png) repeat-y; }
+
+  .header hgroup { // header titles
+    
+    h2 { color:#fff; @include text-shadow(1px 1px 1px $dark_blue);}
+    h3 { @include text-shadow(1px 1px 1px $light_blue); color:$blue; }
+}
+
+.content { background-position: -1566px top; }
+.footer { background-position: -1259px bottom; }
+} // green box
+
+.box.golden { position:absolute; top: 300px; left: 100px; }
+.box.green { position:absolute;  top: 300px; left: 500px; }
+.box.blue { position:absolute;   top: 300px; left: 900px; }
