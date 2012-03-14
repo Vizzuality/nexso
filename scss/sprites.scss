@@ -19,3 +19,11 @@ $icons-comment-spacing:4px;
 
 @import "icons/*.png";
 @include all-icons-sprites;
+
+/* backgrounds */
+$layout-buttons_right-position:100%;
+$layout-dropdown_right-position:100%;
+$layout-error_right-position:100%;
+@import "backgrounds/*.png";
+@include all-backgrounds-sprites;
+

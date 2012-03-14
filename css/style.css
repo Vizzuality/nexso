@@ -89,6 +89,42 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   background-position: 0 -83px;
 }
 
+/* backgrounds */
+/* line 57, backgrounds */
+.backgrounds-sprite, .backgrounds-bkg_box_top_blue, .backgrounds-bkg_box_top_gold, .backgrounds-bkg_box_top_green, .backgrounds-bkg_boxes, .backgrounds-bkg_filter, .backgrounds-bkg_navigation {
+  background: url('/img/backgrounds-sdebe7a46b0.png') no-repeat;
+}
+
+/* line 60, ../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
+.backgrounds-bkg_box_top_blue {
+  background-position: 0 0;
+}
+
+/* line 60, ../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
+.backgrounds-bkg_box_top_gold {
+  background-position: 0 -119px;
+}
+
+/* line 60, ../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
+.backgrounds-bkg_box_top_green {
+  background-position: 0 -238px;
+}
+
+/* line 60, ../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
+.backgrounds-bkg_boxes {
+  background-position: 0 -357px;
+}
+
+/* line 60, ../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
+.backgrounds-bkg_filter {
+  background-position: 0 -370px;
+}
+
+/* line 60, ../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
+.backgrounds-bkg_navigation {
+  background-position: 0 -425px;
+}
+
 @import url(http://fonts.googleapis.com/css?family=News+Cycle);
 /* line 32, ../scss/style.scss */
 html {
