@@ -74,9 +74,8 @@ nav {
 
 
             a { 
-                &.selected {
-                    @include icons-sprite(arrows, $offset-y:-45px, $offset-x:100%);
-                }
+                &.selected { @include icons-sprite(arrows, $offset-y:-45px, $offset-x:100%); }
+
                 position:relative;
                 padding-right:25px;
                 font-size:19px;
@@ -235,9 +234,7 @@ nav ul li .filter {
     ul.ticks {
         li { 
             background:url(../img/icons/icons.png) no-repeat left -66px; 
-            &.selected {
-                background:url(../img/icons/icons.png) no-repeat left -44px; 
-            }
+            &.selected { background:url(../img/icons/icons.png) no-repeat left -44px; }
         }
     }
 
@@ -245,9 +242,7 @@ nav ul li .filter {
         li { 
             margin: 0 0 5px 0;
             background:url(../img/icons/icons.png) no-repeat left -21px; 
-            &.selected {
-                background:url(../img/icons/icons.png) no-repeat left 3px; 
-            }
+            &.selected { background:url(../img/icons/icons.png) no-repeat left 3px; }
         }
     }
 

@@ -229,18 +229,18 @@ nav ul li a.selected {
   background-position: 100% -45px;
 }
 
-/* line 93, ../scss/style.scss */
+/* line 92, ../scss/style.scss */
 #map {
   height: 100%;
 }
 
 /* Basic infobox */
-/* line 97, ../scss/style.scss */
+/* line 96, ../scss/style.scss */
 .box {
   position: relative;
   width: 304px;
 }
-/* line 103, ../scss/style.scss */
+/* line 102, ../scss/style.scss */
 .box .header {
   background: url(../img/backgrounds/bkg_box_top_gold.png) repeat-y;
   position: absolute;
@@ -249,17 +249,17 @@ nav ul li a.selected {
   top: -119px;
   padding: 35px;
 }
-/* line 111, ../scss/style.scss */
+/* line 110, ../scss/style.scss */
 .box .header hgroup {
   width: 220px;
 }
-/* line 114, ../scss/style.scss */
+/* line 113, ../scss/style.scss */
 .box .header hgroup h2 {
   color: #fff;
   text-shadow: 1px 1px 1px #845412;
   line-height: 22px;
 }
-/* line 115, ../scss/style.scss */
+/* line 114, ../scss/style.scss */
 .box .header hgroup h4 {
   text-shadow: 1px 1px 1px #ffcc00;
   margin: 0 0 6px 0;
@@ -267,13 +267,13 @@ nav ul li a.selected {
   opacity: .6;
   text-transform: uppercase;
 }
-/* line 119, ../scss/style.scss */
+/* line 118, ../scss/style.scss */
 .box .content {
   width: 218px;
   padding: 29px 43px 24px 43px;
   background: url(../img/backgrounds/bkg_boxes.png) repeat-y -944px top;
 }
-/* line 126, ../scss/style.scss */
+/* line 125, ../scss/style.scss */
 .box .footer {
   width: 100%;
   background: url(../img/backgrounds/bkg_boxes.png) no-repeat -631px bottom;
@@ -283,35 +283,35 @@ nav ul li a.selected {
   bottom: -13px;
 }
 
-/* line 132, ../scss/style.scss */
+/* line 131, ../scss/style.scss */
 .box .content a {
   font-size: 11px;
   font-weight: bold;
   text-transform: uppercase;
 }
-/* line 134, ../scss/style.scss */
+/* line 133, ../scss/style.scss */
 .box .content h4 {
   margin: 0 0 5px 0;
   text-transform: uppercase;
   color: #bbbbbb;
 }
-/* line 136, ../scss/style.scss */
+/* line 135, ../scss/style.scss */
 .box .content ul {
   list-style: square;
   margin: 0 0 29px 0;
 }
-/* line 140, ../scss/style.scss */
+/* line 139, ../scss/style.scss */
 .box .content ul:last-child {
   margin: 0;
 }
-/* line 142, ../scss/style.scss */
+/* line 141, ../scss/style.scss */
 .box .content ul li {
   margin: 0 0 7px 0;
   color: #333333;
   font-size: 15px;
   line-height: 22px;
 }
-/* line 148, ../scss/style.scss */
+/* line 147, ../scss/style.scss */
 .box .content ul li a {
   font-size: 15px;
   color: #333333;
@@ -319,108 +319,108 @@ nav ul li a.selected {
   font-weight: normal;
   border-bottom: 1px dotted #4C4C4C;
 }
-/* line 154, ../scss/style.scss */
+/* line 153, ../scss/style.scss */
 .box.blue .content a {
   color: #1872a0;
 }
 
 /* Golden box */
-/* line 159, ../scss/style.scss */
+/* line 158, ../scss/style.scss */
 .box.golden .header {
   background: url(../img/backgrounds/bkg_box_top_gold.png) repeat-y;
 }
-/* line 161, ../scss/style.scss */
+/* line 160, ../scss/style.scss */
 .box.golden .header hgroup {
   text-shadow: 1px 1px 1px #ffcc00;
 }
-/* line 163, ../scss/style.scss */
+/* line 162, ../scss/style.scss */
 .box.golden .header hgroup h2 {
   color: #fff;
   text-shadow: 1px 1px 1px #845412;
 }
-/* line 164, ../scss/style.scss */
+/* line 163, ../scss/style.scss */
 .box.golden .header hgroup h4 {
   color: #9a6100;
 }
-/* line 167, ../scss/style.scss */
+/* line 166, ../scss/style.scss */
 .box.golden .content {
   background-position: -944px top;
 }
-/* line 168, ../scss/style.scss */
+/* line 167, ../scss/style.scss */
 .box.golden .footer {
   background-position: -631px bottom;
 }
 
 /* Green box */
-/* line 173, ../scss/style.scss */
+/* line 172, ../scss/style.scss */
 .box.green .header {
   background: url(../img/backgrounds/bkg_box_top_green.png) repeat-y;
 }
-/* line 177, ../scss/style.scss */
+/* line 176, ../scss/style.scss */
 .box.green .header hgroup h2 {
   color: #fff;
   text-shadow: 1px 1px 1px #52642a;
 }
-/* line 178, ../scss/style.scss */
+/* line 177, ../scss/style.scss */
 .box.green .header hgroup h4 {
   text-shadow: 1px 1px 1px #b2e053;
   color: #5f7232;
 }
-/* line 181, ../scss/style.scss */
+/* line 180, ../scss/style.scss */
 .box.green .content {
   background-position: -308px top;
 }
-/* line 182, ../scss/style.scss */
+/* line 181, ../scss/style.scss */
 .box.green .footer {
   background-position: left bottom;
 }
 
 /* Blue box */
-/* line 188, ../scss/style.scss */
+/* line 187, ../scss/style.scss */
 .box.blue .header {
   background: url(../img/backgrounds/bkg_box_top_blue.png) repeat-y;
 }
-/* line 192, ../scss/style.scss */
+/* line 191, ../scss/style.scss */
 .box.blue .header hgroup h2 {
   color: #fff;
   text-shadow: 1px 1px 1px #0f445e;
 }
-/* line 193, ../scss/style.scss */
+/* line 192, ../scss/style.scss */
 .box.blue .header hgroup h4 {
   text-shadow: 1px 1px 1px #1b93cf;
   color: #104c6b;
 }
-/* line 196, ../scss/style.scss */
+/* line 195, ../scss/style.scss */
 .box.blue .content {
   background-position: -1566px top;
 }
-/* line 197, ../scss/style.scss */
+/* line 196, ../scss/style.scss */
 .box.blue .footer {
   background-position: -1259px bottom;
 }
 
-/* line 201, ../scss/style.scss */
+/* line 200, ../scss/style.scss */
 .box.golden {
   position: absolute;
   top: 300px;
   left: 100px;
 }
 
-/* line 202, ../scss/style.scss */
+/* line 201, ../scss/style.scss */
 .box.green {
   position: absolute;
   top: 300px;
   left: 500px;
 }
 
-/* line 203, ../scss/style.scss */
+/* line 202, ../scss/style.scss */
 .box.blue {
   position: absolute;
   top: 300px;
   left: 900px;
 }
 
-/* line 205, ../scss/style.scss */
+/* line 204, ../scss/style.scss */
 nav ul li .filter {
   display: none;
   position: absolute;
@@ -429,14 +429,14 @@ nav ul li .filter {
   left: -37px;
   z-index: 100;
 }
-/* line 213, ../scss/style.scss */
+/* line 212, ../scss/style.scss */
 nav ul li .filter div.content {
   width: 186px;
   height: 294px;
   background: url(../img/backgrounds/bkg_filter.png) repeat-y -242px bottom;
   padding: 13px 25px 7px 25px;
 }
-/* line 220, ../scss/style.scss */
+/* line 219, ../scss/style.scss */
 nav ul li .filter div.t {
   position: absolute;
   top: -55px;
@@ -445,7 +445,7 @@ nav ul li .filter div.t {
   height: 55px;
   background: url(../img/backgrounds/bkg_filter.png) no-repeat left top;
 }
-/* line 221, ../scss/style.scss */
+/* line 220, ../scss/style.scss */
 nav ul li .filter div.b {
   position: absolute;
   bottom: -13px;
@@ -455,7 +455,7 @@ nav ul li .filter div.b {
   background: url(../img/backgrounds/bkg_filter.png) no-repeat -492px top;
 }
 
-/* line 229, ../scss/style.scss */
+/* line 228, ../scss/style.scss */
 nav ul li .filter .content h3 {
   margin: 0 0 19px 0;
   font-family: 'News Cycle', sans-serif;
@@ -463,39 +463,39 @@ nav ul li .filter .content h3 {
   color: #999999;
   text-transform: uppercase;
 }
-/* line 232, ../scss/style.scss */
+/* line 231, ../scss/style.scss */
 nav ul li .filter .content ul {
   position: none;
   top: 0;
   float: none;
 }
-/* line 233, ../scss/style.scss */
+/* line 232, ../scss/style.scss */
 nav ul li .filter .content ul li {
   display: block;
   margin: 0;
 }
-/* line 236, ../scss/style.scss */
+/* line 235, ../scss/style.scss */
 nav ul li .filter .content ul.ticks li {
   background: url(../img/icons/icons.png) no-repeat left -66px;
 }
-/* line 238, ../scss/style.scss */
+/* line 237, ../scss/style.scss */
 nav ul li .filter .content ul.ticks li.selected {
   background: url(../img/icons/icons.png) no-repeat left -44px;
 }
-/* line 245, ../scss/style.scss */
+/* line 242, ../scss/style.scss */
 nav ul li .filter .content ul.radio li {
   margin: 0 0 5px 0;
   background: url(../img/icons/icons.png) no-repeat left -21px;
 }
-/* line 248, ../scss/style.scss */
+/* line 245, ../scss/style.scss */
 nav ul li .filter .content ul.radio li.selected {
   background: url(../img/icons/icons.png) no-repeat left 3px;
 }
-/* line 254, ../scss/style.scss */
+/* line 249, ../scss/style.scss */
 nav ul li .filter .content ul {
   margin: 0 0 20px 0;
 }
-/* line 257, ../scss/style.scss */
+/* line 252, ../scss/style.scss */
 nav ul li .filter .content ul li {
   width: 177px;
   margin: 0 0 14px 0;
@@ -503,15 +503,15 @@ nav ul li .filter .content ul li {
   background: url(../img/icons/icons.png) no-repeat left -66px;
   cursor: pointer;
 }
-/* line 264, ../scss/style.scss */
+/* line 259, ../scss/style.scss */
 nav ul li .filter .content ul li.selected {
   background: url(../img/icons/icons.png) no-repeat left -44px;
 }
-/* line 266, ../scss/style.scss */
+/* line 261, ../scss/style.scss */
 nav ul li .filter .content ul li.selected a {
   color: #666666;
 }
-/* line 269, ../scss/style.scss */
+/* line 264, ../scss/style.scss */
 nav ul li .filter .content ul li a {
   font-family: "Helvetica Neue", sans-serif;
   font-size: 11px;
@@ -519,7 +519,7 @@ nav ul li .filter .content ul li a {
   text-transform: uppercase;
   line-height: 14px;
 }
-/* line 279, ../scss/style.scss */
+/* line 274, ../scss/style.scss */
 nav ul li .filter .content hr {
   border: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
