@@ -6,6 +6,7 @@
 @import "compass/reset";
 @import "compass/css3";
 @import "sprites.scss";
+@import "helpers.scss";
 @import url(http://fonts.googleapis.com/css?family=News+Cycle);
 
 $title_blue:    #0C5FB2;
@@ -211,75 +212,146 @@ nav ul li {
 }
 
 nav ul li .filter {
+
+        $width: 236px;
+        $leftPadding: 25px;
+        $rightPadding: 25px;
+
     display:none;
     position:absolute;
-    width:236px;
+    width:$width;
     top: 35px; 
     right:-4px; // default filter position
     z-index:100;
 
-    div.content {
-        width:236px - 25*2;
+    .content {
+        width:$width - $leftPadding - $rightPadding;
         background:url(../img/backgrounds/bkg_filter.png) repeat-y -242px bottom;
-        padding: 13px 25px 7px 25px;
+        padding: 13px $rightPadding 7px $leftPadding;
     }
 
-    div.t { position:absolute; top: -55px; left: 0; width:236px; height: 55px; background:url(../img/backgrounds/bkg_filter.png) no-repeat left top; }
-    div.b { position:absolute; bottom: -13px; left: 0; width:236px; height: 13px; background:url(../img/backgrounds/bkg_filter.png) no-repeat -492px top; }
+    div.t { position:absolute; top: -55px; left: 0; width:$width; height: 55px; background:url(../img/backgrounds/bkg_filter.png) no-repeat left top; }
+    div.b { position:absolute; bottom: -13px; left: 0; width:$width; height: 13px; background:url(../img/backgrounds/bkg_filter.png) no-repeat -492px top; }
+
+
+    &.big {
+        $width: 316px;
+        $leftPadding: 25px;
+        $rightPadding: 0;
+
+        width:$width;
+
+        div.content {
+            width: $width - $leftPadding - $rightPadding;
+            background:url(../img/backgrounds/bkg_big_filter.png) repeat-y -322px bottom;
+            padding:0;
+            padding: 13px $rightPadding 7px $leftPadding;
+        }
+
+        div.t { top: -55px; width:$width; height: 55px; background:url(../img/backgrounds/bkg_big_filter.png) no-repeat left top; }
+        div.b { bottom: -13px; width:$width; height: 13px; background:url(../img/backgrounds/bkg_big_filter.png) no-repeat -641px top; }
+    }
 
 } // filter
 
-
 // Filter components
+nav ul li .filter.big { 
+    $width: 316px;
+    div.content {
+        h3 { font-size:11px; float:left; font-weight:100; width:75px; }
+
+        ul { 
+
+            position:relative;
+            top: 0;
+            left: 3px;
+            float:left;
+            width:209px;
+            padding: 0;
+            margin:0;
+
+            &.ticks li { 
+                &:last-child { 
+                    padding-bottom:0;
+                    border:none;
+                }
+
+                background-position: 14px -71px;
+                &.selected { background-position: 14px -44px; }
+            }
+
+            &.radio li { 
+                &:first-child { 
+                    padding-top:0;
+                    background-position: 14px -28px;
+                    &.selected { background-position: 14px 2px; }
+                }
+                background-position: 14px -16px;
+                &.selected { background-position: 14px 14px; }
+            }
+
+            li { 
+                border-bottom: 1px solid #f1f1f1;
+                width:auto;
+                padding: 12px 0 11px 35px;
+                margin: 0;
+                cursor:pointer;
+                a { display:block; width:152px; }
+            }
+
+        }
+    }
+}
+
 nav ul li .filter {
-.content {
-    h3 { margin: 0 0 19px 0; font-family: 'News Cycle', sans-serif; font-size:14px; color: $subtle_gray; text-transform:uppercase; }
+    .content {
+        h3 { margin: 0 0 19px 0; font-family: 'News Cycle', sans-serif; font-size:14px; color: $subtle_gray; text-transform:uppercase; }
 
-    // reset nav ul inherited styles 
-    ul { position:none; top: 0; float:none; }
-    ul li { display:block; margin:0; }
+        // reset nav ul inherited styles 
+        ul { position:none; top: 0; float:none; }
+        ul li { display:block; margin:0; }
 
-    ul.ticks {
-        li { 
-            background:url(../img/icons/icons.png) no-repeat left -66px; 
-            &.selected { background:url(../img/icons/icons.png) no-repeat left -44px; }
-        }
-    }
-
-    ul.radio {
-        li { 
-            margin: 0 0 5px 0;
-            background:url(../img/icons/icons.png) no-repeat left -21px; 
-            &.selected { background:url(../img/icons/icons.png) no-repeat left 3px; }
-        }
-    }
-
-    ul {
-        margin: 0 0 20px 0;
-
-        li {
-            width:177px;
-            margin: 0 0 14px 0;
-            padding-left: 20px;
-            background:url(../img/icons/icons.png) no-repeat left -66px; 
-            cursor:pointer;
-
-            &.selected {
-                background:url(../img/icons/icons.png) no-repeat left -44px; 
-                a { color: $standard_gray; }
-            }
-
-            a {
-                font-family: "Helvetica Neue", sans-serif;
-                font-size:11px;
-                color: $light_gray;
-                text-transform: uppercase;
-                line-height:14px;
+        ul.ticks {
+            li { 
+                background:url(../img/icons/icons.png) no-repeat left -66px; 
+                &.selected { background:url(../img/icons/icons.png) no-repeat left -44px; }
             }
         }
-    }
 
-    hr { border: none; border-bottom: 1px solid rgba(0,0,0,.2); width: 229px; left: -21px; position: relative; margin-bottom:20px; }
+        ul.radio {
+            li { 
+                margin: 0 0 5px 0;
+                background:url(../img/icons/icons.png) no-repeat left -21px; 
+                &.selected { background:url(../img/icons/icons.png) no-repeat left 3px; }
+            }
+        }
 
-} // content
+        ul {
+            margin: 0 0 20px 0;
+
+            li {
+                width:177px;
+                margin: 0 0 14px 0;
+                padding-left: 20px;
+                background:url(../img/icons/icons.png) no-repeat left -66px; 
+                cursor:pointer;
+
+                &.selected {
+                    background:url(../img/icons/icons.png) no-repeat left -44px; 
+                    a { color: $standard_gray; }
+                }
+
+                a {
+                    font-family: "Helvetica Neue", sans-serif;
+                    font-size:11px;
+                    color: $light_gray;
+                    text-transform: uppercase;
+                    line-height:14px;
+                }
+            }
+        }
+
+        hr { border: none; border-bottom: 1px solid rgba(0,0,0,.2); width: 229px; left: -21px; position: relative; margin-bottom:20px; }
+
+    } // content
 } // filter
