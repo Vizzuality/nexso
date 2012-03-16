@@ -421,22 +421,38 @@ nav ul li a.selected {
 }
 
 /* line 204, ../scss/style.scss */
+nav ul li {
+  position: relative;
+}
+/* line 208, ../scss/style.scss */
+nav ul li:nth-child(1) .filter {
+  right: -5px;
+}
+/* line 209, ../scss/style.scss */
+nav ul li:nth-child(2) .filter {
+  right: -4px;
+}
+/* line 210, ../scss/style.scss */
+nav ul li:nth-child(3) .filter {
+  right: -2px;
+}
+
+/* line 213, ../scss/style.scss */
 nav ul li .filter {
   display: none;
   position: absolute;
   width: 236px;
   top: 35px;
-  left: -37px;
+  right: -4px;
   z-index: 100;
 }
-/* line 212, ../scss/style.scss */
+/* line 221, ../scss/style.scss */
 nav ul li .filter div.content {
   width: 186px;
-  height: 294px;
   background: url(../img/backgrounds/bkg_filter.png) repeat-y -242px bottom;
   padding: 13px 25px 7px 25px;
 }
-/* line 219, ../scss/style.scss */
+/* line 227, ../scss/style.scss */
 nav ul li .filter div.t {
   position: absolute;
   top: -55px;
@@ -445,7 +461,7 @@ nav ul li .filter div.t {
   height: 55px;
   background: url(../img/backgrounds/bkg_filter.png) no-repeat left top;
 }
-/* line 220, ../scss/style.scss */
+/* line 228, ../scss/style.scss */
 nav ul li .filter div.b {
   position: absolute;
   bottom: -13px;
@@ -455,7 +471,7 @@ nav ul li .filter div.b {
   background: url(../img/backgrounds/bkg_filter.png) no-repeat -492px top;
 }
 
-/* line 228, ../scss/style.scss */
+/* line 236, ../scss/style.scss */
 nav ul li .filter .content h3 {
   margin: 0 0 19px 0;
   font-family: 'News Cycle', sans-serif;
@@ -463,39 +479,39 @@ nav ul li .filter .content h3 {
   color: #999999;
   text-transform: uppercase;
 }
-/* line 231, ../scss/style.scss */
+/* line 239, ../scss/style.scss */
 nav ul li .filter .content ul {
   position: none;
   top: 0;
   float: none;
 }
-/* line 232, ../scss/style.scss */
+/* line 240, ../scss/style.scss */
 nav ul li .filter .content ul li {
   display: block;
   margin: 0;
 }
-/* line 235, ../scss/style.scss */
+/* line 243, ../scss/style.scss */
 nav ul li .filter .content ul.ticks li {
   background: url(../img/icons/icons.png) no-repeat left -66px;
 }
-/* line 237, ../scss/style.scss */
+/* line 245, ../scss/style.scss */
 nav ul li .filter .content ul.ticks li.selected {
   background: url(../img/icons/icons.png) no-repeat left -44px;
 }
-/* line 242, ../scss/style.scss */
+/* line 250, ../scss/style.scss */
 nav ul li .filter .content ul.radio li {
   margin: 0 0 5px 0;
   background: url(../img/icons/icons.png) no-repeat left -21px;
 }
-/* line 245, ../scss/style.scss */
+/* line 253, ../scss/style.scss */
 nav ul li .filter .content ul.radio li.selected {
   background: url(../img/icons/icons.png) no-repeat left 3px;
 }
-/* line 249, ../scss/style.scss */
+/* line 257, ../scss/style.scss */
 nav ul li .filter .content ul {
   margin: 0 0 20px 0;
 }
-/* line 252, ../scss/style.scss */
+/* line 260, ../scss/style.scss */
 nav ul li .filter .content ul li {
   width: 177px;
   margin: 0 0 14px 0;
@@ -503,15 +519,15 @@ nav ul li .filter .content ul li {
   background: url(../img/icons/icons.png) no-repeat left -66px;
   cursor: pointer;
 }
-/* line 259, ../scss/style.scss */
+/* line 267, ../scss/style.scss */
 nav ul li .filter .content ul li.selected {
   background: url(../img/icons/icons.png) no-repeat left -44px;
 }
-/* line 261, ../scss/style.scss */
+/* line 269, ../scss/style.scss */
 nav ul li .filter .content ul li.selected a {
   color: #666666;
 }
-/* line 264, ../scss/style.scss */
+/* line 272, ../scss/style.scss */
 nav ul li .filter .content ul li a {
   font-family: "Helvetica Neue", sans-serif;
   font-size: 11px;
@@ -519,7 +535,7 @@ nav ul li .filter .content ul li a {
   text-transform: uppercase;
   line-height: 14px;
 }
-/* line 274, ../scss/style.scss */
+/* line 282, ../scss/style.scss */
 nav ul li .filter .content hr {
   border: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);

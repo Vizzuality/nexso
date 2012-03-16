@@ -11,16 +11,20 @@ function initialize() {
 $(function() {
 
     $(document).on("click", function() {
-        if ($("nav a.toggle-filter").hasClass('selected')){
-            $("nav a.toggle-filter").removeClass('selected');
+        if ($("nav a[data-toggle='filter']").hasClass('selected')){
+            $("nav a[data-toggle='filter']").removeClass('selected');
             $(".filter").fadeOut(150);
         }
     });
 
-    $("nav a.toggle-filter").on("click", function(e) {
+    $("nav a[data-toggle='filter']").on("click", function(e) {
         e.stopPropagation();
+
+        $("nav a[data-toggle='filter'].selected").not(this).removeClass("selected");
         $(this).toggleClass("selected");
-        $(".filter").fadeToggle(150);
+
+        $("nav a[data-toggle='filter']").not(this).parent().find(".filter").fadeOut(250);
+        $(this).parent().find(".filter").fadeToggle(150);
     });
 
     $(".filter ul.ticks li").on("click", function(e) {
