@@ -207,7 +207,7 @@ nav ul li {
 
     // Filter horizontal position
     &:nth-child(1) .filter { right: -5px; }
-    &:nth-child(2) .filter { right: -4px; }
+    &:nth-child(2) .filter { right: 1px; }
     &:nth-child(3) .filter { right: -2px; }
 }
 
@@ -233,10 +233,27 @@ nav ul li .filter {
     div.t { position:absolute; top: -55px; left: 0; width:$width; height: 55px; background:url(../img/backgrounds/bkg_filter.png) no-repeat left top; }
     div.b { position:absolute; bottom: -13px; left: 0; width:$width; height: 13px; background:url(../img/backgrounds/bkg_filter.png) no-repeat -492px top; }
 
+    &.view {
+        $width: 220px;
+        $leftPadding: 0;
+        $rightPadding: 0;
+
+        width:$width;
+
+        div.content {
+            width: $width - $leftPadding - $rightPadding;
+            background:url(../img/backgrounds/bkg_view_filter.png) repeat-y -222px bottom;
+            padding:0;
+            padding: 13px $rightPadding 7px $leftPadding;
+        }
+
+        div.t { top: -55px; width:$width; height: 55px; background:url(../img/backgrounds/bkg_view_filter.png) no-repeat left top; }
+        div.b { bottom: -13px; width:$width; height: 13px; background:url(../img/backgrounds/bkg_view_filter.png) no-repeat -444px top; }
+    } // view
 
     &.big {
         $width: 316px;
-        $leftPadding: 25px;
+        $leftPadding: 0;
         $rightPadding: 0;
 
         width:$width;
@@ -250,7 +267,7 @@ nav ul li .filter {
 
         div.t { top: -55px; width:$width; height: 55px; background:url(../img/backgrounds/bkg_big_filter.png) no-repeat left top; }
         div.b { bottom: -13px; width:$width; height: 13px; background:url(../img/backgrounds/bkg_big_filter.png) no-repeat -641px top; }
-    }
+    } // big
 
 } // filter
 
@@ -258,17 +275,28 @@ nav ul li .filter {
 nav ul li .filter.big { 
     $width: 316px;
     div.content {
-        h3 { font-size:11px; float:left; font-weight:100; width:75px; }
+
+        h3 {
+            float: left;
+            width: 82px;
+            left: 0;
+            margin-left:4px;
+            padding: 0 0 0 17px;
+            font-weight: 100;
+            font-size: 11px;
+            &.topic { margin-top: -1px; padding-top: 10px; border-top: 1px solid #E5E5E5;}
+        }
 
         ul { 
-
             position:relative;
             top: 0;
-            left: 3px;
+            left: 0px;
             float:left;
             width:209px;
             padding: 0;
             margin:0;
+
+            $liLeftMargin: 14px;
 
             &.ticks li { 
                 &:last-child { 
@@ -276,30 +304,30 @@ nav ul li .filter.big {
                     border:none;
                 }
 
-                background-position: 14px -71px;
-                &.selected { background-position: 14px -44px; }
+                background-position: $liLeftMargin -73px;
+                &.selected { background-position: $liLeftMargin -46px; }
             }
 
             &.radio li { 
                 &:first-child { 
                     padding-top:0;
-                    background-position: 14px -28px;
-                    &.selected { background-position: 14px 2px; }
+                    background-position: $liLeftMargin -28px;
+                    &.selected { background-position: $liLeftMargin 2px; }
                 }
-                background-position: 14px -16px;
-                &.selected { background-position: 14px 14px; }
+                background-position: $liLeftMargin -16px;
+                &.selected { background-position: $liLeftMargin 14px; }
             }
 
             li { 
-                border-bottom: 1px solid #f1f1f1;
                 width:auto;
-                padding: 12px 0 11px 35px;
                 margin: 0;
+                padding: 12px 0 11px 35px;
+                border-bottom: 1px solid #f1f1f1;
                 cursor:pointer;
-                a { display:block; width:152px; }
+                a { display:block; width:154px; }
             }
 
-        }
+        } // ul
     }
 }
 
@@ -343,6 +371,7 @@ nav ul li .filter {
 
                 a {
                     font-family: "Helvetica Neue", sans-serif;
+                    font-weight:bold;
                     font-size:11px;
                     color: $light_gray;
                     text-transform: uppercase;
