@@ -96,7 +96,6 @@ nav {
     }
 }
 
-#map { height: 100%; }
 
 /* Basic infobox */
 .box {
@@ -243,6 +242,24 @@ nav ul li .filter {
     div.t { position:absolute; top: -55px; left: 0; width:$width; height: 55px; background:url(../img/backgrounds/bkg_filter.png) no-repeat left top; }
     div.b { position:absolute; bottom: -13px; left: 0; width:$width; height: 13px; background:url(../img/backgrounds/bkg_filter.png) no-repeat -492px top; }
 
+    // iati, view and big filter
+    &.iati {
+        $width: 173px;
+        $pL: 0;
+        $pR: 0;
+
+        width:$width;
+
+        div.content {
+            width: $width - $pL - $pR;
+            background:url(../img/backgrounds/bkg_iati_filter.png) repeat-y -1*$width bottom;
+            padding: 13px $pR 7px $pL;
+        }
+
+        div.t { top: -55px; width:$width; height: 55px; background:url(../img/backgrounds/bkg_iati_filter.png) no-repeat left top; }
+        div.b { bottom: -13px; width:$width; height: 13px; background:url(../img/backgrounds/bkg_iati_filter.png) no-repeat right top; }
+    } // iati
+
     &.view {
         $width: 220px;
         $pL: 0;
@@ -253,7 +270,6 @@ nav ul li .filter {
         div.content {
             width: $width - $pL - $pR;
             background:url(../img/backgrounds/bkg_view_filter.png) repeat-y -222px bottom;
-            padding:0;
             padding: 13px $pR 7px $pL;
         }
 
@@ -271,7 +287,6 @@ nav ul li .filter {
         div.content {
             width: $width - $pL - $pR;
             background:url(../img/backgrounds/bkg_big_filter.png) repeat-y -322px bottom;
-            padding:0;
             padding: 13px $pR 7px $pL;
         }
 
@@ -280,6 +295,50 @@ nav ul li .filter {
     } // big
 
 } // filter
+
+nav ul li .filter.iati {
+    .content {
+
+    h3 { font-size:11px; color: $standard_gray; font-weight:normal; border:none; }
+    p { float:left; width:100px; font-style:italic; font-size:11px; color:$subtle_gray; }
+    p a { font-style:italic; font-size:11px; color:$subtle_gray; text-transform:none; text-decoration:underline; }
+
+    ul { 
+        position:relative;
+        top: 0;
+        left: 0px;
+        float:left;
+        width:100px;
+        padding: 0;
+        margin:0;
+
+        $liLeftMargin: 14px;
+
+        &.symbols {
+            float:left; 
+            width:38px;
+            margin-left: 5px;
+
+            li {
+                width:auto;
+                padding: 0 0 11px 14px;
+                margin: 0 0 12px 0;
+                background:none;
+                &:last-child { margin: 0; }
+
+                .icon {
+                    width:18px;
+                    height:17px;
+                    @include icons-sprite(iati);
+                    &.iati { @include icons-sprite(iati);}
+                }
+            } // li
+        } // symbols
+
+    } // ul
+    } // content
+} // iati
+
 
 // Filter components
 nav ul li .filter.view { 
@@ -349,7 +408,7 @@ nav ul li .filter.view {
                 padding: 12px 0 11px 35px;
                 border-bottom: 1px solid #f1f1f1;
                 cursor:pointer;
-                a { display:block; width:154px; }
+                a { display:block; width:128px; }
             }
 
         } // ul
@@ -406,7 +465,7 @@ nav ul li .filter.big {
                 padding: 12px 0 11px 35px;
                 border-bottom: 1px solid #f1f1f1;
                 cursor:pointer;
-                a { display:block; width:154px; }
+                a { display:block; width:128px; }
             }
 
         } // ul
@@ -521,4 +580,18 @@ aside {
         } // header
     }
     a.close { display:block; position:absolute; top: 47px; left: -10px; @include icons-sprite(close_big); z-index:1000; width:32px; height:32px; }
+}
+
+#map { height: 100%; }
+
+#timeline {
+    $width: 954px;
+    position:absolute;
+    bottom: 19px;
+    height:80px;
+    width:$width;
+    @include backgrounds-sprite(bkg_timeline);
+    left:50%;
+    margin-left:-1*$width/2;
+    z-index:10000;
 }
