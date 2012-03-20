@@ -10,6 +10,18 @@ function initialize() {
 
 $(function() {
 
+    $( "#timeline .slider" ).slider({
+        range: true,
+        min: 0,
+        max: 500,
+        step: 5,
+        values: [ 75, 300 ],
+        slide: function( event, ui ) {
+            console.log( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+        }
+    });
+    console.log( "$" + $( "#slider-range" ).slider( "values", 0 ) + " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+
     $(document).on("click", function() {
         if ($("nav a[data-toggle='filter']").hasClass('selected')){
             $("nav a[data-toggle='filter']").removeClass('selected');
