@@ -213,9 +213,9 @@ nav ul li {
 
 nav ul li .filter {
 
-        $width: 236px;
-        $leftPadding: 25px;
-        $rightPadding: 25px;
+    $width: 236px;
+    $leftPadding: 25px;
+    $rightPadding: 25px;
 
     display:none;
     position:absolute;
@@ -272,8 +272,81 @@ nav ul li .filter {
 } // filter
 
 // Filter components
+
+nav ul li .filter.view { 
+    div.content {
+
+        ul { 
+            position:relative;
+            top: 0;
+            left: 0px;
+            float:left;
+            width:172px;
+            padding: 0;
+            margin:0;
+            
+            $liLeftMargin: 14px;
+
+            &.symbols {
+                float:left; 
+                width:40px;
+                margin-left: 5px;
+
+                li {
+                    border: none;
+                    padding: 0 0 11px 14px;
+                    margin: 0 0 12px 0;
+                    background:none;
+                    border-bottom: 1px solid #E5E5E5;
+                    &:last-child { margin: 0; }
+
+                    .icon {
+                        width:14px;
+                        height:14px;
+                        @include icons-sprite(view);
+                        &.projects { @include icons-sprite(view);}
+                        &.agencies { @include icons-sprite(view, $offset-y:-59px);}
+                    }
+                } // li
+            } // symbols
+
+            &.ticks {
+                margin-left: 0;
+
+                li { 
+                    margin-bottom: 0;
+
+                    &:first-child { 
+                        padding-top: 0;
+                        background-position: $liLeftMargin -86px;
+                        &.selected { background-position: $liLeftMargin -59px; }
+                    }
+
+
+                    &:last-child { 
+                        padding-bottom:0;
+                        margin-bottom: 0!important;
+                        border:none;
+                    }
+
+                    background-position: $liLeftMargin -73px;
+                    &.selected { background-position: $liLeftMargin -46px; }
+                }
+            }
+
+            li { 
+                width:auto;
+                margin: 0;
+                padding: 12px 0 11px 35px;
+                border-bottom: 1px solid #f1f1f1;
+                cursor:pointer;
+                a { display:block; width:154px; }
+            }
+
+        } // ul
+    }
+}
 nav ul li .filter.big { 
-    $width: 316px;
     div.content {
 
         h3 {

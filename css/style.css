@@ -69,9 +69,9 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 
 /*** SPRITES ***/
 /* icons */
-/* line 39, icons */
-.icons-sprite, .icons-arrows, .icons-icons, .icons-symbols, nav ul li a.selected, nav ul li a {
-  background: url('/img/icons-sc3b5099aba.png') no-repeat;
+/* line 45, icons */
+.icons-sprite, .icons-arrows, .icons-icons, .icons-symbols, .icons-view, nav ul li a.selected, nav ul li a, nav ul li .filter.view div.content ul.symbols li .icon, nav ul li .filter.view div.content ul.symbols li .icon.projects, nav ul li .filter.view div.content ul.symbols li .icon.agencies {
+  background: url('/img/icons-s66291e62a3.png') no-repeat;
 }
 
 /* line 60, ../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
@@ -87,6 +87,11 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 /* line 60, ../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
 .icons-symbols {
   background-position: 0 -190px;
+}
+
+/* line 60, ../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
+.icons-view {
+  background-position: 0 -370px;
 }
 
 /* backgrounds */
@@ -551,6 +556,90 @@ nav ul li .filter.big div.b {
 }
 
 /* line 279, ../scss/style.scss */
+nav ul li .filter.view div.content ul {
+  position: relative;
+  top: 0;
+  left: 0px;
+  float: left;
+  width: 172px;
+  padding: 0;
+  margin: 0;
+}
+/* line 290, ../scss/style.scss */
+nav ul li .filter.view div.content ul.symbols {
+  float: left;
+  width: 40px;
+  margin-left: 5px;
+}
+/* line 295, ../scss/style.scss */
+nav ul li .filter.view div.content ul.symbols li {
+  border: none;
+  padding: 0 0 11px 14px;
+  margin: 0 0 12px 0;
+  background: none;
+  border-bottom: 1px solid #E5E5E5;
+}
+/* line 301, ../scss/style.scss */
+nav ul li .filter.view div.content ul.symbols li:last-child {
+  margin: 0;
+}
+/* line 303, ../scss/style.scss */
+nav ul li .filter.view div.content ul.symbols li .icon {
+  width: 14px;
+  height: 14px;
+  background-position: 0 -370px;
+}
+/* line 307, ../scss/style.scss */
+nav ul li .filter.view div.content ul.symbols li .icon.projects {
+  background-position: 0 -370px;
+}
+/* line 308, ../scss/style.scss */
+nav ul li .filter.view div.content ul.symbols li .icon.agencies {
+  background-position: 0 -429px;
+}
+/* line 313, ../scss/style.scss */
+nav ul li .filter.view div.content ul.ticks {
+  margin-left: 0;
+}
+/* line 316, ../scss/style.scss */
+nav ul li .filter.view div.content ul.ticks li {
+  margin-bottom: 0;
+  background-position: 14px -73px;
+}
+/* line 319, ../scss/style.scss */
+nav ul li .filter.view div.content ul.ticks li:first-child {
+  padding-top: 0;
+  background-position: 14px -86px;
+}
+/* line 322, ../scss/style.scss */
+nav ul li .filter.view div.content ul.ticks li:first-child.selected {
+  background-position: 14px -59px;
+}
+/* line 326, ../scss/style.scss */
+nav ul li .filter.view div.content ul.ticks li:last-child {
+  padding-bottom: 0;
+  margin-bottom: 0!important;
+  border: none;
+}
+/* line 333, ../scss/style.scss */
+nav ul li .filter.view div.content ul.ticks li.selected {
+  background-position: 14px -46px;
+}
+/* line 337, ../scss/style.scss */
+nav ul li .filter.view div.content ul li {
+  width: auto;
+  margin: 0;
+  padding: 12px 0 11px 35px;
+  border-bottom: 1px solid #f1f1f1;
+  cursor: pointer;
+}
+/* line 343, ../scss/style.scss */
+nav ul li .filter.view div.content ul li a {
+  display: block;
+  width: 154px;
+}
+
+/* line 352, ../scss/style.scss */
 nav ul li .filter.big div.content h3 {
   float: left;
   width: 82px;
@@ -560,13 +649,13 @@ nav ul li .filter.big div.content h3 {
   font-weight: 100;
   font-size: 11px;
 }
-/* line 287, ../scss/style.scss */
+/* line 360, ../scss/style.scss */
 nav ul li .filter.big div.content h3.topic {
   margin-top: -1px;
   padding-top: 10px;
   border-top: 1px solid #E5E5E5;
 }
-/* line 290, ../scss/style.scss */
+/* line 363, ../scss/style.scss */
 nav ul li .filter.big div.content ul {
   position: relative;
   top: 0;
@@ -576,37 +665,37 @@ nav ul li .filter.big div.content ul {
   padding: 0;
   margin: 0;
 }
-/* line 301, ../scss/style.scss */
+/* line 374, ../scss/style.scss */
 nav ul li .filter.big div.content ul.ticks li {
   background-position: 14px -73px;
 }
-/* line 302, ../scss/style.scss */
+/* line 375, ../scss/style.scss */
 nav ul li .filter.big div.content ul.ticks li:last-child {
   padding-bottom: 0;
   border: none;
 }
-/* line 308, ../scss/style.scss */
+/* line 381, ../scss/style.scss */
 nav ul li .filter.big div.content ul.ticks li.selected {
   background-position: 14px -46px;
 }
-/* line 311, ../scss/style.scss */
+/* line 384, ../scss/style.scss */
 nav ul li .filter.big div.content ul.radio li {
   background-position: 14px -16px;
 }
-/* line 312, ../scss/style.scss */
+/* line 385, ../scss/style.scss */
 nav ul li .filter.big div.content ul.radio li:first-child {
   padding-top: 0;
   background-position: 14px -28px;
 }
-/* line 315, ../scss/style.scss */
+/* line 388, ../scss/style.scss */
 nav ul li .filter.big div.content ul.radio li:first-child.selected {
   background-position: 14px 2px;
 }
-/* line 318, ../scss/style.scss */
+/* line 391, ../scss/style.scss */
 nav ul li .filter.big div.content ul.radio li.selected {
   background-position: 14px 14px;
 }
-/* line 321, ../scss/style.scss */
+/* line 394, ../scss/style.scss */
 nav ul li .filter.big div.content ul li {
   width: auto;
   margin: 0;
@@ -614,13 +703,13 @@ nav ul li .filter.big div.content ul li {
   border-bottom: 1px solid #f1f1f1;
   cursor: pointer;
 }
-/* line 327, ../scss/style.scss */
+/* line 400, ../scss/style.scss */
 nav ul li .filter.big div.content ul li a {
   display: block;
   width: 154px;
 }
 
-/* line 336, ../scss/style.scss */
+/* line 409, ../scss/style.scss */
 nav ul li .filter .content h3 {
   margin: 0 0 19px 0;
   font-family: 'News Cycle', sans-serif;
@@ -628,39 +717,39 @@ nav ul li .filter .content h3 {
   color: #999999;
   text-transform: uppercase;
 }
-/* line 339, ../scss/style.scss */
+/* line 412, ../scss/style.scss */
 nav ul li .filter .content ul {
   position: none;
   top: 0;
   float: none;
 }
-/* line 340, ../scss/style.scss */
+/* line 413, ../scss/style.scss */
 nav ul li .filter .content ul li {
   display: block;
   margin: 0;
 }
-/* line 343, ../scss/style.scss */
+/* line 416, ../scss/style.scss */
 nav ul li .filter .content ul.ticks li {
   background: url(../img/icons/icons.png) no-repeat left -66px;
 }
-/* line 345, ../scss/style.scss */
+/* line 418, ../scss/style.scss */
 nav ul li .filter .content ul.ticks li.selected {
   background: url(../img/icons/icons.png) no-repeat left -44px;
 }
-/* line 350, ../scss/style.scss */
+/* line 423, ../scss/style.scss */
 nav ul li .filter .content ul.radio li {
   margin: 0 0 5px 0;
   background: url(../img/icons/icons.png) no-repeat left -21px;
 }
-/* line 353, ../scss/style.scss */
+/* line 426, ../scss/style.scss */
 nav ul li .filter .content ul.radio li.selected {
   background: url(../img/icons/icons.png) no-repeat left 3px;
 }
-/* line 357, ../scss/style.scss */
+/* line 430, ../scss/style.scss */
 nav ul li .filter .content ul {
   margin: 0 0 20px 0;
 }
-/* line 360, ../scss/style.scss */
+/* line 433, ../scss/style.scss */
 nav ul li .filter .content ul li {
   width: 177px;
   margin: 0 0 14px 0;
@@ -668,15 +757,15 @@ nav ul li .filter .content ul li {
   background: url(../img/icons/icons.png) no-repeat left -66px;
   cursor: pointer;
 }
-/* line 367, ../scss/style.scss */
+/* line 440, ../scss/style.scss */
 nav ul li .filter .content ul li.selected {
   background: url(../img/icons/icons.png) no-repeat left -44px;
 }
-/* line 369, ../scss/style.scss */
+/* line 442, ../scss/style.scss */
 nav ul li .filter .content ul li.selected a {
   color: #666666;
 }
-/* line 372, ../scss/style.scss */
+/* line 445, ../scss/style.scss */
 nav ul li .filter .content ul li a {
   font-family: "Helvetica Neue", sans-serif;
   font-weight: bold;
@@ -685,7 +774,7 @@ nav ul li .filter .content ul li a {
   text-transform: uppercase;
   line-height: 14px;
 }
-/* line 383, ../scss/style.scss */
+/* line 456, ../scss/style.scss */
 nav ul li .filter .content hr {
   border: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);

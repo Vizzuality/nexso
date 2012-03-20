@@ -1,8 +1,8 @@
 /*** SPRITES ***/
 /* icons */
-/* line 39, icons */
-.icons-sprite, .icons-arrows, .icons-icons, .icons-symbols {
-  background: url('/img/icons-sc3b5099aba.png') no-repeat;
+/* line 45, icons */
+.icons-sprite, .icons-arrows, .icons-icons, .icons-symbols, .icons-view {
+  background: url('/img/icons-s66291e62a3.png') no-repeat;
 }
 
 /* line 60, ../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
@@ -18,6 +18,11 @@
 /* line 60, ../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
 .icons-symbols {
   background-position: 0 -190px;
+}
+
+/* line 60, ../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
+.icons-view {
+  background-position: 0 -370px;
 }
 
 /* backgrounds */
