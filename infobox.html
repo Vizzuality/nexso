@@ -1,120 +1,122 @@
 <!DOCTYPE HTML>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
+    <head>
+        <meta charset="UTF-8">
 
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-<link href="/css/style.css" media="screen, projection" rel="stylesheet" type="text/css" />
-<!--[if IE]>
-      <link href="/css/ie.css" media="screen, projection" rel="stylesheet" type="text/css" />
-    <![endif]-->
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+        <link href="/css/style.css" media="screen, projection" rel="stylesheet" type="text/css" />
+        <!--[if IE]>
+        <link href="/css/ie.css" media="screen, projection" rel="stylesheet" type="text/css" />
+        <![endif]-->
 
-<script src="http://www.google.com/jsapi"></script>
-<script>google.load("jquery", "1.7.1");</script>
+        <script src="http://www.google.com/jsapi"></script>
+        <script>google.load("jquery", "1.7.1");</script>
 
-<script type="text/javascript" src="http://aps.googleapis.com/maps/api/js?key=AIzaSyBjtJpHprawtS8OfQtC9Pb_urVpbZ8gTaM&sensor=false"> </script>
-<script type="text/javascript" src="/js/app.js"> </script>
+        <script type="text/javascript" src="http://aps.googleapis.com/maps/api/js?key=AIzaSyBjtJpHprawtS8OfQtC9Pb_urVpbZ8gTaM&sensor=false"> </script>
+        <script type="text/javascript" src="/js/app.js"> </script>
 
-</head>
-<body onload="initialize()">
+    </head>
+    <body onload="initialize()">
 
-<nav>
-    <div class="content">
-        <h1>Explorer</h1>
-        <ul>
-            <li><a href="#">View</a></li>
-            <li><a href="#" class="toggle-filter">Filter</a>
-            
-            <div class="filter">
-                <div class="content">
-                    <h3>By solution</h3>
-                    <ul class="radio">
-                        <li class="selected"><a href="#">All</a></li>
-                    	<li><a href="#">Only fomin solutions</a></li>
-                    </ul>
+        <nav>
+        <div class="content">
+            <h1>Explorer</h1>
+            <ul>
+                <li><a href="#">View</a></li>
+                <li><a href="#" class="toggle-filter">Filter</a>
 
-                    <hr />
+                <div class="filter">
+                    <div class="content">
+                        <h3>By solution</h3>
+                        <ul class="radio">
+                            <li class="selected"><a href="#">All</a></li>
+                            <li><a href="#">Only fomin solutions</a></li>
+                        </ul>
 
-                    <h3>By topic</h3>
-                    <ul class="ticks">
-                        <li class="selected"><a href="#">Sustainable tourism</a></li>
-                        <li><a href="#">Local economic dev.</a></li>
-                        <li><a href="#">Youth employment</a></li>
-                        <li><a href="#">Local economic dev.</a></li>
-                        <li><a href="#">Women entrepeneurship</a></li>
-                    </ul>
+                        <hr />
 
+                        <h3>By topic</h3>
+                        <ul class="ticks">
+                            <li class="selected"><a href="#">Sustainable tourism</a></li>
+                            <li><a href="#">Local economic dev.</a></li>
+                            <li><a href="#">Youth employment</a></li>
+                            <li><a href="#">Local economic dev.</a></li>
+                            <li><a href="#">Women entrepeneurship</a></li>
+                        </ul>
+
+                    </div>
+                    <a href="#" class="close"></a>
+                    <div class="t"></div><div class="b"></div>
                 </div>
-                <div class="t"></div>
-                <div class="b"></div>
+
+
+                </li>
+            </ul>
+        </div>
+        </nav>
+
+        <div id="map"></div>
+
+        <div class="box golden">
+
+            <div class="content">
+                <div class="header">
+                    <hgroup>
+                    <h4>Executing agency</h4>
+                    <h2>Regional Intercooperative Market for the Poor</h2>
+                    </hgroup>
+                </div>
+                <h4>Solutions</h4>
+                <ul>
+                    <li><a href="#">Irrigation in extreme unfertile terrain</a> </li>
+                    <li><a href="#">Other solution name</a> </li>
+                </ul>
+                <h4>More info</h4>
+                <ul>
+                    <li><a href="#">Agency profile at FOMIN</a> </li>
+                </ul>
             </div>
-            
-            
-            </li>
-        </ul>
-    </div>
-</nav>
 
-<div id="map"></div>
-
-<div class="box golden">
-    <div class="header">
-        <hgroup>
-        <h4>Executing agency</h4>
-        <h2>Regional Intercooperative Market for the Poor</h2>
-        </hgroup>
-    </div>
-
-    <div class="content">
-        <h4>Solutions</h4>
-        <ul>
-            <li><a href="#">Irrigation in extreme unfertile terrain</a> </li>
-            <li><a href="#">Other solution name</a> </li>
-        </ul>
-        <h4>More info</h4>
-        <ul>
-            <li><a href="#">Agency profile at FOMIN</a> </li>
-        </ul>
-    </div>
-
-    <div class="footer"></div>
-</div>
+            <a href="#" class="close"></a>
+            <div class="t"></div><div class="b"></div>
+        </div>
 
 
-<div class="box green">
-    <div class="header">
-        <hgroup>
-        <h4>Executing agency</h4>
-        <h2>Regional Intercooperative Market for the Poor</h2>
-        </hgroup>
-    </div>
-    <div class="content">
-        <h4>Solutions</h4>
-        <ul>
-            <li><a href="#">Irrigation in extreme unfertile terrain</a> </li>
-            <li><a href="#">Other solution name</a> </li>
-        </ul>
-        <h4>More info</h4>
-        <ul>
-            <li><a href="#">Agency profile at FOMIN</a> </li>
-        </ul>
-    </div>
-    <div class="footer"></div>
-</div>
+        <div class="box green">
+            <div class="content">
+                <div class="header">
+                    <hgroup>
+                    <h4>Ashoka fellow</h4>
+                    <h2>Regional Intercooperative Market for the Poor</h2>
+                    </hgroup>
+                </div>
+                <h4>Solutions</h4>
+                <ul>
+                    <li><a href="#">Irrigation in extreme unfertile terrain</a> </li>
+                    <li><a href="#">Other solution name</a> </li>
+                </ul>
+                <h4>More info</h4>
+                <ul>
+                    <li><a href="#">Fellow profile at ASHOKA</a> </li>
+                </ul>
+            </div>
+            <div class="t"></div><div class="b"></div>
+        </div>
 
 
 
-<div class="box blue">
-    <div class="header">
-        <hgroup>
-        <h4>Executing agency</h4>
-        <h2>Regional Intercooperative Market for the Poor</h2>
-        </hgroup>
-    </div>
-    <div class="content">
-        <a href="#">View project details</a>
-    </div>
-    <div class="footer"></div>
-</div>
-</body>
+        <div class="box blue">
+            <div class="content">
+                <div class="header">
+                    <hgroup>
+                    <h4>Executing agency</h4>
+                    <h2>Regional Intercooperative Market for the Poor</h2>
+                    </hgroup>
+                </div>
+                <a href="#">View project details</a>
+            </div>
+            <a href="#" class="close"></a>
+            <div class="t"></div><div class="b"></div>
+        </div>
+    </body>
 </html>

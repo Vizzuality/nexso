@@ -69,9 +69,9 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 
 /*** SPRITES ***/
 /* icons */
-/* line 45, icons */
-.icons-sprite, .icons-arrows, .icons-icons, .icons-symbols, .icons-view, nav ul li a.selected, nav ul li a, nav ul li .filter.view div.content ul.symbols li .icon, nav ul li .filter.view div.content ul.symbols li .icon.projects, nav ul li .filter.view div.content ul.symbols li .icon.agencies {
-  background: url('/img/icons-s66291e62a3.png') no-repeat;
+/* line 57, icons */
+.icons-sprite, .icons-arrows, .icons-bullet, .icons-close, .icons-icons, .icons-symbols, .icons-view, nav ul li a.selected, nav ul li a, .box .content ul li, nav ul li .filter.view div.content ul.symbols li .icon, nav ul li .filter.view div.content ul.symbols li .icon.projects, nav ul li .filter.view div.content ul.symbols li .icon.agencies {
+  background: url('/img/icons-s201f615070.png') no-repeat;
 }
 
 /* line 60, ../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
@@ -80,24 +80,34 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 }
 
 /* line 60, ../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
+.icons-bullet {
+  background-position: 0 -120px;
+}
+
+/* line 60, ../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
+.icons-close {
+  background-position: 0 -153px;
+}
+
+/* line 60, ../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
 .icons-icons {
-  background-position: 0 -90px;
+  background-position: 0 -177px;
 }
 
 /* line 60, ../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
 .icons-symbols {
-  background-position: 0 -190px;
+  background-position: 0 -277px;
 }
 
 /* line 60, ../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
 .icons-view {
-  background-position: 0 -370px;
+  background-position: 0 -457px;
 }
 
 /* backgrounds */
-/* line 69, backgrounds */
-.backgrounds-sprite, .backgrounds-bkg_big_filter, .backgrounds-bkg_box_top_blue, .backgrounds-bkg_box_top_gold, .backgrounds-bkg_box_top_green, .backgrounds-bkg_boxes, .backgrounds-bkg_filter, .backgrounds-bkg_navigation, .backgrounds-bkg_view_filter {
-  background: url('/img/backgrounds-se25b241bf3.png') no-repeat;
+/* line 75, backgrounds */
+.backgrounds-sprite, .backgrounds-bkg_big_filter, .backgrounds-bkg_box, .backgrounds-bkg_box_top_blue, .backgrounds-bkg_box_top_gold, .backgrounds-bkg_box_top_green, .backgrounds-bkg_boxes, .backgrounds-bkg_filter, .backgrounds-bkg_navigation, .backgrounds-bkg_view_filter {
+  background: url('/img/backgrounds-se2dad9e337.png') no-repeat;
 }
 
 /* line 60, ../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
@@ -106,38 +116,43 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 }
 
 /* line 60, ../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
-.backgrounds-bkg_box_top_blue {
+.backgrounds-bkg_box {
   background-position: 0 -55px;
 }
 
 /* line 60, ../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
+.backgrounds-bkg_box_top_blue {
+  background-position: 0 -70px;
+}
+
+/* line 60, ../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
 .backgrounds-bkg_box_top_gold {
-  background-position: 0 -174px;
+  background-position: 0 -189px;
 }
 
 /* line 60, ../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
 .backgrounds-bkg_box_top_green {
-  background-position: 0 -293px;
+  background-position: 0 -308px;
 }
 
 /* line 60, ../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
 .backgrounds-bkg_boxes {
-  background-position: 0 -412px;
+  background-position: 0 -427px;
 }
 
 /* line 60, ../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
 .backgrounds-bkg_filter {
-  background-position: 0 -425px;
+  background-position: 0 -440px;
 }
 
 /* line 60, ../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
 .backgrounds-bkg_navigation {
-  background-position: 0 -480px;
+  background-position: 0 -495px;
 }
 
 /* line 60, ../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
 .backgrounds-bkg_view_filter {
-  background-position: 0 -560px;
+  background-position: 0 -575px;
 }
 
 /* For modern browsers */
@@ -202,7 +217,7 @@ h2, h3, h4, h5 {
 
 /* line 54, ../scss/style.scss */
 h2 {
-  font-size: 18px;
+  font-size: 21px;
   font-weight: bold;
 }
 
@@ -269,52 +284,54 @@ nav ul li a.selected {
 }
 
 /* Basic infobox */
-/* line 97, ../scss/style.scss */
+/* line 96, ../scss/style.scss */
 .box {
   position: relative;
   width: 304px;
 }
-/* line 103, ../scss/style.scss */
-.box .header {
-  background: url(../img/backgrounds/bkg_box_top_gold.png) repeat-y;
-  position: absolute;
-  width: 234px;
-  height: 49px;
-  top: -119px;
-  padding: 35px;
+/* line 106, ../scss/style.scss */
+.box .content {
+  width: 245px;
+  padding: 22px 24px 27px 35px;
+  background: url(../img/backgrounds/bkg_box.png) repeat-y -305px top;
+}
+/* line 108, ../scss/style.scss */
+.box .content .header hgroup {
+  width: 230px;
 }
 /* line 111, ../scss/style.scss */
-.box .header hgroup {
-  width: 220px;
-}
-/* line 114, ../scss/style.scss */
-.box .header hgroup h2 {
-  color: #fff;
-  text-shadow: 1px 1px 1px #845412;
+.box .content .header hgroup h2 {
+  padding: 0 0 19px 0;
+  margin: 0 0 19px 0;
+  font-family: 'News Cycle', sans-serif;
+  color: #333333;
+  border-bottom: 2px solid #333333;
   line-height: 22px;
 }
-/* line 115, ../scss/style.scss */
-.box .header hgroup h4 {
-  text-shadow: 1px 1px 1px #ffcc00;
+/* line 112, ../scss/style.scss */
+.box .content .header hgroup h4 {
   margin: 0 0 6px 0;
   color: #9a6100;
   opacity: .6;
   text-transform: uppercase;
 }
-/* line 119, ../scss/style.scss */
-.box .content {
-  width: 218px;
-  padding: 29px 43px 24px 43px;
-  background: url(../img/backgrounds/bkg_boxes.png) repeat-y -944px top;
+/* line 124, ../scss/style.scss */
+.box .t, .box .b {
+  position: absolute;
+  width: 100%;
+  background: url(../img/backgrounds/bkg_box.png) no-repeat left bottom;
+  height: 15px;
+  left: 0;
+}
+/* line 125, ../scss/style.scss */
+.box .t {
+  top: -15px;
+  background-position: -610px bottom;
 }
 /* line 126, ../scss/style.scss */
-.box .footer {
-  width: 100%;
-  background: url(../img/backgrounds/bkg_boxes.png) no-repeat -631px bottom;
-  height: 13px;
-  position: absolute;
-  left: 0;
-  bottom: -13px;
+.box .b {
+  bottom: -15px;
+  background-position: left bottom;
 }
 
 /* line 132, ../scss/style.scss */
@@ -331,8 +348,8 @@ nav ul li a.selected {
 }
 /* line 136, ../scss/style.scss */
 .box .content ul {
-  list-style: square;
-  margin: 0 0 29px 0;
+  list-style: none;
+  margin: 0 0 19px 0;
 }
 /* line 140, ../scss/style.scss */
 .box .content ul:last-child {
@@ -344,134 +361,97 @@ nav ul li a.selected {
   color: #333333;
   font-size: 15px;
   line-height: 22px;
+  padding-left: 9px;
+  margin-left: -9px;
+  background-position: 0 -111px;
 }
-/* line 148, ../scss/style.scss */
+/* line 150, ../scss/style.scss */
+.box .content ul li:last-child {
+  margin-bottom: 0;
+}
+/* line 152, ../scss/style.scss */
 .box .content ul li a {
   font-size: 15px;
   color: #333333;
   text-transform: none;
   font-weight: normal;
-  border-bottom: 1px dotted #4C4C4C;
+  padding: 0 0 2px 0;
+  border-bottom: 1px dashed #999999;
 }
-/* line 154, ../scss/style.scss */
+/* line 158, ../scss/style.scss */
 .box.blue .content a {
   color: #1872a0;
 }
 
 /* Golden box */
-/* line 159, ../scss/style.scss */
-.box.golden .header {
-  background: url(../img/backgrounds/bkg_box_top_gold.png) repeat-y;
-}
-/* line 161, ../scss/style.scss */
-.box.golden .header hgroup {
-  text-shadow: 1px 1px 1px #ffcc00;
-}
-/* line 163, ../scss/style.scss */
+/* line 165, ../scss/style.scss */
 .box.golden .header hgroup h2 {
-  color: #fff;
-  text-shadow: 1px 1px 1px #845412;
+  border-color: #9a6100;
 }
-/* line 164, ../scss/style.scss */
+/* line 166, ../scss/style.scss */
 .box.golden .header hgroup h4 {
   color: #9a6100;
 }
-/* line 167, ../scss/style.scss */
-.box.golden .content {
-  background-position: -944px top;
-}
-/* line 168, ../scss/style.scss */
-.box.golden .footer {
-  background-position: -631px bottom;
-}
 
 /* Green box */
-/* line 173, ../scss/style.scss */
-.box.green .header {
-  background: url(../img/backgrounds/bkg_box_top_green.png) repeat-y;
-}
-/* line 177, ../scss/style.scss */
+/* line 174, ../scss/style.scss */
 .box.green .header hgroup h2 {
-  color: #fff;
-  text-shadow: 1px 1px 1px #52642a;
+  border-color: #76a228;
 }
-/* line 178, ../scss/style.scss */
+/* line 175, ../scss/style.scss */
 .box.green .header hgroup h4 {
-  text-shadow: 1px 1px 1px #b2e053;
-  color: #5f7232;
-}
-/* line 181, ../scss/style.scss */
-.box.green .content {
-  background-position: -308px top;
-}
-/* line 182, ../scss/style.scss */
-.box.green .footer {
-  background-position: left bottom;
+  color: #76a228;
 }
 
 /* Blue box */
-/* line 188, ../scss/style.scss */
-.box.blue .header {
-  background: url(../img/backgrounds/bkg_box_top_blue.png) repeat-y;
-}
-/* line 192, ../scss/style.scss */
+/* line 183, ../scss/style.scss */
 .box.blue .header hgroup h2 {
-  color: #fff;
-  text-shadow: 1px 1px 1px #0f445e;
+  border-color: #104c6b;
 }
-/* line 193, ../scss/style.scss */
+/* line 184, ../scss/style.scss */
 .box.blue .header hgroup h4 {
-  text-shadow: 1px 1px 1px #1b93cf;
   color: #104c6b;
 }
-/* line 196, ../scss/style.scss */
-.box.blue .content {
-  background-position: -1566px top;
-}
-/* line 197, ../scss/style.scss */
-.box.blue .footer {
-  background-position: -1259px bottom;
-}
 
-/* line 201, ../scss/style.scss */
+/* line 189, ../scss/style.scss */
 .box.golden {
   position: absolute;
   top: 300px;
   left: 100px;
 }
 
-/* line 202, ../scss/style.scss */
+/* line 190, ../scss/style.scss */
 .box.green {
   position: absolute;
   top: 300px;
   left: 500px;
 }
 
-/* line 203, ../scss/style.scss */
+/* line 191, ../scss/style.scss */
 .box.blue {
   position: absolute;
   top: 300px;
   left: 900px;
 }
 
-/* line 205, ../scss/style.scss */
+/* line 193, ../scss/style.scss */
 nav ul li {
   position: relative;
 }
-/* line 209, ../scss/style.scss */
+/* line 197, ../scss/style.scss */
 nav ul li:nth-child(1) .filter {
   right: -5px;
 }
-/* line 210, ../scss/style.scss */
+/* line 198, ../scss/style.scss */
 nav ul li:nth-child(2) .filter {
   right: 3px;
 }
-/* line 211, ../scss/style.scss */
+/* line 199, ../scss/style.scss */
 nav ul li:nth-child(3) .filter {
   right: -2px;
 }
 
-/* line 214, ../scss/style.scss */
+/* line 202, ../scss/style.scss */
 nav ul li .filter {
   display: none;
   position: absolute;
@@ -480,13 +460,13 @@ nav ul li .filter {
   right: -4px;
   z-index: 100;
 }
-/* line 227, ../scss/style.scss */
+/* line 215, ../scss/style.scss */
 nav ul li .filter .content {
   width: 186px;
   background: url(../img/backgrounds/bkg_filter.png) repeat-y -242px bottom;
   padding: 13px 25px 7px 25px;
 }
-/* line 233, ../scss/style.scss */
+/* line 221, ../scss/style.scss */
 nav ul li .filter div.t {
   position: absolute;
   top: -55px;
@@ -495,7 +475,7 @@ nav ul li .filter div.t {
   height: 55px;
   background: url(../img/backgrounds/bkg_filter.png) no-repeat left top;
 }
-/* line 234, ../scss/style.scss */
+/* line 222, ../scss/style.scss */
 nav ul li .filter div.b {
   position: absolute;
   bottom: -13px;
@@ -504,50 +484,50 @@ nav ul li .filter div.b {
   height: 13px;
   background: url(../img/backgrounds/bkg_filter.png) no-repeat -492px top;
 }
-/* line 236, ../scss/style.scss */
+/* line 224, ../scss/style.scss */
 nav ul li .filter.view {
   width: 220px;
 }
-/* line 243, ../scss/style.scss */
+/* line 231, ../scss/style.scss */
 nav ul li .filter.view div.content {
   width: 220px;
   background: url(../img/backgrounds/bkg_view_filter.png) repeat-y -222px bottom;
   padding: 0;
   padding: 13px 0 7px 0;
 }
-/* line 250, ../scss/style.scss */
+/* line 238, ../scss/style.scss */
 nav ul li .filter.view div.t {
   top: -55px;
   width: 220px;
   height: 55px;
   background: url(../img/backgrounds/bkg_view_filter.png) no-repeat left top;
 }
-/* line 251, ../scss/style.scss */
+/* line 239, ../scss/style.scss */
 nav ul li .filter.view div.b {
   bottom: -13px;
   width: 220px;
   height: 13px;
   background: url(../img/backgrounds/bkg_view_filter.png) no-repeat -444px top;
 }
-/* line 254, ../scss/style.scss */
+/* line 242, ../scss/style.scss */
 nav ul li .filter.big {
   width: 316px;
 }
-/* line 261, ../scss/style.scss */
+/* line 249, ../scss/style.scss */
 nav ul li .filter.big div.content {
   width: 316px;
   background: url(../img/backgrounds/bkg_big_filter.png) repeat-y -322px bottom;
   padding: 0;
   padding: 13px 0 7px 0;
 }
-/* line 268, ../scss/style.scss */
+/* line 256, ../scss/style.scss */
 nav ul li .filter.big div.t {
   top: -55px;
   width: 316px;
   height: 55px;
   background: url(../img/backgrounds/bkg_big_filter.png) no-repeat left top;
 }
-/* line 269, ../scss/style.scss */
+/* line 257, ../scss/style.scss */
 nav ul li .filter.big div.b {
   bottom: -13px;
   width: 316px;
@@ -555,7 +535,7 @@ nav ul li .filter.big div.b {
   background: url(../img/backgrounds/bkg_big_filter.png) no-repeat -641px top;
 }
 
-/* line 279, ../scss/style.scss */
+/* line 267, ../scss/style.scss */
 nav ul li .filter.view div.content ul {
   position: relative;
   top: 0;
@@ -565,13 +545,13 @@ nav ul li .filter.view div.content ul {
   padding: 0;
   margin: 0;
 }
-/* line 290, ../scss/style.scss */
+/* line 278, ../scss/style.scss */
 nav ul li .filter.view div.content ul.symbols {
   float: left;
   width: 40px;
   margin-left: 5px;
 }
-/* line 295, ../scss/style.scss */
+/* line 283, ../scss/style.scss */
 nav ul li .filter.view div.content ul.symbols li {
   border: none;
   padding: 0 0 11px 14px;
@@ -579,53 +559,53 @@ nav ul li .filter.view div.content ul.symbols li {
   background: none;
   border-bottom: 1px solid #E5E5E5;
 }
-/* line 301, ../scss/style.scss */
+/* line 289, ../scss/style.scss */
 nav ul li .filter.view div.content ul.symbols li:last-child {
   margin: 0;
 }
-/* line 303, ../scss/style.scss */
+/* line 291, ../scss/style.scss */
 nav ul li .filter.view div.content ul.symbols li .icon {
   width: 14px;
   height: 14px;
-  background-position: 0 -370px;
+  background-position: 0 -457px;
 }
-/* line 307, ../scss/style.scss */
+/* line 295, ../scss/style.scss */
 nav ul li .filter.view div.content ul.symbols li .icon.projects {
-  background-position: 0 -370px;
+  background-position: 0 -457px;
 }
-/* line 308, ../scss/style.scss */
+/* line 296, ../scss/style.scss */
 nav ul li .filter.view div.content ul.symbols li .icon.agencies {
-  background-position: 0 -429px;
+  background-position: 0 -516px;
 }
-/* line 313, ../scss/style.scss */
+/* line 301, ../scss/style.scss */
 nav ul li .filter.view div.content ul.ticks {
   margin-left: 0;
 }
-/* line 316, ../scss/style.scss */
+/* line 304, ../scss/style.scss */
 nav ul li .filter.view div.content ul.ticks li {
   margin-bottom: 0;
   background-position: 14px -73px;
 }
-/* line 319, ../scss/style.scss */
+/* line 307, ../scss/style.scss */
 nav ul li .filter.view div.content ul.ticks li:first-child {
   padding-top: 0;
   background-position: 14px -86px;
 }
-/* line 322, ../scss/style.scss */
+/* line 310, ../scss/style.scss */
 nav ul li .filter.view div.content ul.ticks li:first-child.selected {
   background-position: 14px -59px;
 }
-/* line 326, ../scss/style.scss */
+/* line 314, ../scss/style.scss */
 nav ul li .filter.view div.content ul.ticks li:last-child {
   padding-bottom: 0;
   margin-bottom: 0!important;
   border: none;
 }
-/* line 333, ../scss/style.scss */
+/* line 321, ../scss/style.scss */
 nav ul li .filter.view div.content ul.ticks li.selected {
   background-position: 14px -46px;
 }
-/* line 337, ../scss/style.scss */
+/* line 325, ../scss/style.scss */
 nav ul li .filter.view div.content ul li {
   width: auto;
   margin: 0;
@@ -633,13 +613,13 @@ nav ul li .filter.view div.content ul li {
   border-bottom: 1px solid #f1f1f1;
   cursor: pointer;
 }
-/* line 343, ../scss/style.scss */
+/* line 331, ../scss/style.scss */
 nav ul li .filter.view div.content ul li a {
   display: block;
   width: 154px;
 }
 
-/* line 352, ../scss/style.scss */
+/* line 340, ../scss/style.scss */
 nav ul li .filter.big div.content h3 {
   float: left;
   width: 82px;
@@ -649,13 +629,13 @@ nav ul li .filter.big div.content h3 {
   font-weight: 100;
   font-size: 11px;
 }
-/* line 360, ../scss/style.scss */
+/* line 348, ../scss/style.scss */
 nav ul li .filter.big div.content h3.topic {
   margin-top: -1px;
   padding-top: 10px;
   border-top: 1px solid #E5E5E5;
 }
-/* line 363, ../scss/style.scss */
+/* line 351, ../scss/style.scss */
 nav ul li .filter.big div.content ul {
   position: relative;
   top: 0;
@@ -665,37 +645,37 @@ nav ul li .filter.big div.content ul {
   padding: 0;
   margin: 0;
 }
-/* line 374, ../scss/style.scss */
+/* line 362, ../scss/style.scss */
 nav ul li .filter.big div.content ul.ticks li {
   background-position: 14px -73px;
 }
-/* line 375, ../scss/style.scss */
+/* line 363, ../scss/style.scss */
 nav ul li .filter.big div.content ul.ticks li:last-child {
   padding-bottom: 0;
   border: none;
 }
-/* line 381, ../scss/style.scss */
+/* line 369, ../scss/style.scss */
 nav ul li .filter.big div.content ul.ticks li.selected {
   background-position: 14px -46px;
 }
-/* line 384, ../scss/style.scss */
+/* line 372, ../scss/style.scss */
 nav ul li .filter.big div.content ul.radio li {
   background-position: 14px -16px;
 }
-/* line 385, ../scss/style.scss */
+/* line 373, ../scss/style.scss */
 nav ul li .filter.big div.content ul.radio li:first-child {
   padding-top: 0;
   background-position: 14px -28px;
 }
-/* line 388, ../scss/style.scss */
+/* line 376, ../scss/style.scss */
 nav ul li .filter.big div.content ul.radio li:first-child.selected {
   background-position: 14px 2px;
 }
-/* line 391, ../scss/style.scss */
+/* line 379, ../scss/style.scss */
 nav ul li .filter.big div.content ul.radio li.selected {
   background-position: 14px 14px;
 }
-/* line 394, ../scss/style.scss */
+/* line 382, ../scss/style.scss */
 nav ul li .filter.big div.content ul li {
   width: auto;
   margin: 0;
@@ -703,13 +683,13 @@ nav ul li .filter.big div.content ul li {
   border-bottom: 1px solid #f1f1f1;
   cursor: pointer;
 }
-/* line 400, ../scss/style.scss */
+/* line 388, ../scss/style.scss */
 nav ul li .filter.big div.content ul li a {
   display: block;
   width: 154px;
 }
 
-/* line 409, ../scss/style.scss */
+/* line 397, ../scss/style.scss */
 nav ul li .filter .content h3 {
   margin: 0 0 19px 0;
   font-family: 'News Cycle', sans-serif;
@@ -717,39 +697,39 @@ nav ul li .filter .content h3 {
   color: #999999;
   text-transform: uppercase;
 }
-/* line 412, ../scss/style.scss */
+/* line 400, ../scss/style.scss */
 nav ul li .filter .content ul {
   position: none;
   top: 0;
   float: none;
 }
-/* line 413, ../scss/style.scss */
+/* line 401, ../scss/style.scss */
 nav ul li .filter .content ul li {
   display: block;
   margin: 0;
 }
-/* line 416, ../scss/style.scss */
+/* line 404, ../scss/style.scss */
 nav ul li .filter .content ul.ticks li {
   background: url(../img/icons/icons.png) no-repeat left -66px;
 }
-/* line 418, ../scss/style.scss */
+/* line 406, ../scss/style.scss */
 nav ul li .filter .content ul.ticks li.selected {
   background: url(../img/icons/icons.png) no-repeat left -44px;
 }
-/* line 423, ../scss/style.scss */
+/* line 411, ../scss/style.scss */
 nav ul li .filter .content ul.radio li {
   margin: 0 0 5px 0;
   background: url(../img/icons/icons.png) no-repeat left -21px;
 }
-/* line 426, ../scss/style.scss */
+/* line 414, ../scss/style.scss */
 nav ul li .filter .content ul.radio li.selected {
   background: url(../img/icons/icons.png) no-repeat left 3px;
 }
-/* line 430, ../scss/style.scss */
+/* line 418, ../scss/style.scss */
 nav ul li .filter .content ul {
   margin: 0 0 20px 0;
 }
-/* line 433, ../scss/style.scss */
+/* line 421, ../scss/style.scss */
 nav ul li .filter .content ul li {
   width: 177px;
   margin: 0 0 14px 0;
@@ -757,15 +737,15 @@ nav ul li .filter .content ul li {
   background: url(../img/icons/icons.png) no-repeat left -66px;
   cursor: pointer;
 }
-/* line 440, ../scss/style.scss */
+/* line 428, ../scss/style.scss */
 nav ul li .filter .content ul li.selected {
   background: url(../img/icons/icons.png) no-repeat left -44px;
 }
-/* line 442, ../scss/style.scss */
+/* line 430, ../scss/style.scss */
 nav ul li .filter .content ul li.selected a {
   color: #666666;
 }
-/* line 445, ../scss/style.scss */
+/* line 433, ../scss/style.scss */
 nav ul li .filter .content ul li a {
   font-family: "Helvetica Neue", sans-serif;
   font-weight: bold;
@@ -774,7 +754,7 @@ nav ul li .filter .content ul li a {
   text-transform: uppercase;
   line-height: 14px;
 }
-/* line 456, ../scss/style.scss */
+/* line 444, ../scss/style.scss */
 nav ul li .filter .content hr {
   border: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
