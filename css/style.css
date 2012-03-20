@@ -385,12 +385,13 @@ nav ul li a.selected {
 }
 /* line 157, ../scss/style.scss */
 .box .content a.btn {
+  display: block;
   padding: 11px 0 10px 0;
   margin: 0 0 20px 0;
-  display: block;
-  color: #fff;
   width: 230px;
   height: 13px;
+  color: #fff;
+  background-color: #0D5FB2;
   text-align: center;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
@@ -399,7 +400,7 @@ nav ul li a.selected {
   -khtml-border-radius: 3px;
   border-radius: 3px;
 }
-/* line 170, ../scss/style.scss */
+/* line 171, ../scss/style.scss */
 .box a.close {
   display: block;
   position: absolute;
@@ -410,80 +411,80 @@ nav ul li a.selected {
   width: 24px;
   height: 24px;
 }
-/* line 173, ../scss/style.scss */
+/* line 174, ../scss/style.scss */
 .box.blue .content a.btn {
   background-color: #0D5FB2;
 }
 
 /* Golden box */
-/* line 180, ../scss/style.scss */
+/* line 181, ../scss/style.scss */
 .box.golden .header hgroup h2 {
   border-color: #e69525;
 }
-/* line 181, ../scss/style.scss */
+/* line 182, ../scss/style.scss */
 .box.golden .header hgroup h4 {
   color: #e69525;
 }
 
 /* Green box */
-/* line 189, ../scss/style.scss */
+/* line 190, ../scss/style.scss */
 .box.green .header hgroup h2 {
   border-color: #76a228;
 }
-/* line 190, ../scss/style.scss */
+/* line 191, ../scss/style.scss */
 .box.green .header hgroup h4 {
   color: #76a228;
 }
 
 /* Blue box */
-/* line 198, ../scss/style.scss */
+/* line 199, ../scss/style.scss */
 .box.blue .header hgroup h2 {
   border-color: #104c6b;
 }
-/* line 199, ../scss/style.scss */
+/* line 200, ../scss/style.scss */
 .box.blue .header hgroup h4 {
   color: #104c6b;
 }
 
-/* line 204, ../scss/style.scss */
+/* line 205, ../scss/style.scss */
 .box.golden {
   position: absolute;
   top: 300px;
   left: 100px;
 }
 
-/* line 205, ../scss/style.scss */
+/* line 206, ../scss/style.scss */
 .box.green {
   position: absolute;
   top: 300px;
   left: 500px;
 }
 
-/* line 206, ../scss/style.scss */
+/* line 207, ../scss/style.scss */
 .box.blue {
   position: absolute;
   top: 300px;
   left: 900px;
 }
 
-/* line 208, ../scss/style.scss */
+/* line 209, ../scss/style.scss */
 nav ul li {
   position: relative;
 }
-/* line 212, ../scss/style.scss */
+/* line 213, ../scss/style.scss */
 nav ul li:nth-child(1) .filter {
   right: -5px;
 }
-/* line 213, ../scss/style.scss */
+/* line 214, ../scss/style.scss */
 nav ul li:nth-child(2) .filter {
   right: 3px;
 }
-/* line 214, ../scss/style.scss */
+/* line 215, ../scss/style.scss */
 nav ul li:nth-child(3) .filter {
   right: -2px;
 }
 
-/* line 217, ../scss/style.scss */
+/* line 218, ../scss/style.scss */
 nav ul li .filter {
   display: none;
   position: absolute;
@@ -492,13 +493,13 @@ nav ul li .filter {
   right: -4px;
   z-index: 100;
 }
-/* line 230, ../scss/style.scss */
+/* line 231, ../scss/style.scss */
 nav ul li .filter .content {
   width: 186px;
   background: url(../img/backgrounds/bkg_filter.png) repeat-y -242px bottom;
   padding: 13px 25px 7px 25px;
 }
-/* line 236, ../scss/style.scss */
+/* line 237, ../scss/style.scss */
 nav ul li .filter div.t {
   position: absolute;
   top: -55px;
@@ -507,7 +508,7 @@ nav ul li .filter div.t {
   height: 55px;
   background: url(../img/backgrounds/bkg_filter.png) no-repeat left top;
 }
-/* line 237, ../scss/style.scss */
+/* line 238, ../scss/style.scss */
 nav ul li .filter div.b {
   position: absolute;
   bottom: -13px;
@@ -516,50 +517,50 @@ nav ul li .filter div.b {
   height: 13px;
   background: url(../img/backgrounds/bkg_filter.png) no-repeat -492px top;
 }
-/* line 239, ../scss/style.scss */
+/* line 240, ../scss/style.scss */
 nav ul li .filter.view {
   width: 220px;
 }
-/* line 246, ../scss/style.scss */
+/* line 247, ../scss/style.scss */
 nav ul li .filter.view div.content {
   width: 220px;
   background: url(../img/backgrounds/bkg_view_filter.png) repeat-y -222px bottom;
   padding: 0;
   padding: 13px 0 7px 0;
 }
-/* line 253, ../scss/style.scss */
+/* line 254, ../scss/style.scss */
 nav ul li .filter.view div.t {
   top: -55px;
   width: 220px;
   height: 55px;
   background: url(../img/backgrounds/bkg_view_filter.png) no-repeat left top;
 }
-/* line 254, ../scss/style.scss */
+/* line 255, ../scss/style.scss */
 nav ul li .filter.view div.b {
   bottom: -13px;
   width: 220px;
   height: 13px;
   background: url(../img/backgrounds/bkg_view_filter.png) no-repeat -444px top;
 }
-/* line 257, ../scss/style.scss */
+/* line 258, ../scss/style.scss */
 nav ul li .filter.big {
   width: 316px;
 }
-/* line 264, ../scss/style.scss */
+/* line 265, ../scss/style.scss */
 nav ul li .filter.big div.content {
   width: 316px;
   background: url(../img/backgrounds/bkg_big_filter.png) repeat-y -322px bottom;
   padding: 0;
   padding: 13px 0 7px 0;
 }
-/* line 271, ../scss/style.scss */
+/* line 272, ../scss/style.scss */
 nav ul li .filter.big div.t {
   top: -55px;
   width: 316px;
   height: 55px;
   background: url(../img/backgrounds/bkg_big_filter.png) no-repeat left top;
 }
-/* line 272, ../scss/style.scss */
+/* line 273, ../scss/style.scss */
 nav ul li .filter.big div.b {
   bottom: -13px;
   width: 316px;
@@ -567,7 +568,7 @@ nav ul li .filter.big div.b {
   background: url(../img/backgrounds/bkg_big_filter.png) no-repeat -641px top;
 }
 
-/* line 281, ../scss/style.scss */
+/* line 282, ../scss/style.scss */
 nav ul li .filter.view div.content ul {
   position: relative;
   top: 0;
@@ -577,13 +578,13 @@ nav ul li .filter.view div.content ul {
   padding: 0;
   margin: 0;
 }
-/* line 292, ../scss/style.scss */
+/* line 293, ../scss/style.scss */
 nav ul li .filter.view div.content ul.symbols {
   float: left;
   width: 40px;
   margin-left: 5px;
 }
-/* line 297, ../scss/style.scss */
+/* line 298, ../scss/style.scss */
 nav ul li .filter.view div.content ul.symbols li {
   border: none;
   padding: 0 0 11px 14px;
@@ -591,53 +592,53 @@ nav ul li .filter.view div.content ul.symbols li {
   background: none;
   border-bottom: 1px solid #E5E5E5;
 }
-/* line 303, ../scss/style.scss */
+/* line 304, ../scss/style.scss */
 nav ul li .filter.view div.content ul.symbols li:last-child {
   margin: 0;
 }
-/* line 305, ../scss/style.scss */
+/* line 306, ../scss/style.scss */
 nav ul li .filter.view div.content ul.symbols li .icon {
   width: 14px;
   height: 14px;
   background-position: 0 -457px;
 }
-/* line 309, ../scss/style.scss */
+/* line 310, ../scss/style.scss */
 nav ul li .filter.view div.content ul.symbols li .icon.projects {
   background-position: 0 -457px;
 }
-/* line 310, ../scss/style.scss */
+/* line 311, ../scss/style.scss */
 nav ul li .filter.view div.content ul.symbols li .icon.agencies {
   background-position: 0 -516px;
 }
-/* line 315, ../scss/style.scss */
+/* line 316, ../scss/style.scss */
 nav ul li .filter.view div.content ul.ticks {
   margin-left: 0;
 }
-/* line 318, ../scss/style.scss */
+/* line 319, ../scss/style.scss */
 nav ul li .filter.view div.content ul.ticks li {
   margin-bottom: 0;
   background-position: 14px -73px;
 }
-/* line 321, ../scss/style.scss */
+/* line 322, ../scss/style.scss */
 nav ul li .filter.view div.content ul.ticks li:first-child {
   padding-top: 0;
   background-position: 14px -86px;
 }
-/* line 324, ../scss/style.scss */
+/* line 325, ../scss/style.scss */
 nav ul li .filter.view div.content ul.ticks li:first-child.selected {
   background-position: 14px -59px;
 }
-/* line 328, ../scss/style.scss */
+/* line 329, ../scss/style.scss */
 nav ul li .filter.view div.content ul.ticks li:last-child {
   padding-bottom: 0;
   margin-bottom: 0!important;
   border: none;
 }
-/* line 335, ../scss/style.scss */
+/* line 336, ../scss/style.scss */
 nav ul li .filter.view div.content ul.ticks li.selected {
   background-position: 14px -46px;
 }
-/* line 339, ../scss/style.scss */
+/* line 340, ../scss/style.scss */
 nav ul li .filter.view div.content ul li {
   width: auto;
   margin: 0;
@@ -645,13 +646,13 @@ nav ul li .filter.view div.content ul li {
   border-bottom: 1px solid #f1f1f1;
   cursor: pointer;
 }
-/* line 345, ../scss/style.scss */
+/* line 346, ../scss/style.scss */
 nav ul li .filter.view div.content ul li a {
   display: block;
   width: 154px;
 }
 
-/* line 354, ../scss/style.scss */
+/* line 355, ../scss/style.scss */
 nav ul li .filter.big div.content h3 {
   float: left;
   width: 82px;
@@ -661,13 +662,13 @@ nav ul li .filter.big div.content h3 {
   font-weight: 100;
   font-size: 11px;
 }
-/* line 362, ../scss/style.scss */
+/* line 363, ../scss/style.scss */
 nav ul li .filter.big div.content h3.topic {
   margin-top: -1px;
   padding-top: 10px;
   border-top: 1px solid #E5E5E5;
 }
-/* line 365, ../scss/style.scss */
+/* line 366, ../scss/style.scss */
 nav ul li .filter.big div.content ul {
   position: relative;
   top: 0;
@@ -677,37 +678,37 @@ nav ul li .filter.big div.content ul {
   padding: 0;
   margin: 0;
 }
-/* line 376, ../scss/style.scss */
+/* line 377, ../scss/style.scss */
 nav ul li .filter.big div.content ul.ticks li {
   background-position: 14px -73px;
 }
-/* line 377, ../scss/style.scss */
+/* line 378, ../scss/style.scss */
 nav ul li .filter.big div.content ul.ticks li:last-child {
   padding-bottom: 0;
   border: none;
 }
-/* line 383, ../scss/style.scss */
+/* line 384, ../scss/style.scss */
 nav ul li .filter.big div.content ul.ticks li.selected {
   background-position: 14px -46px;
 }
-/* line 386, ../scss/style.scss */
+/* line 387, ../scss/style.scss */
 nav ul li .filter.big div.content ul.radio li {
   background-position: 14px -16px;
 }
-/* line 387, ../scss/style.scss */
+/* line 388, ../scss/style.scss */
 nav ul li .filter.big div.content ul.radio li:first-child {
   padding-top: 0;
   background-position: 14px -28px;
 }
-/* line 390, ../scss/style.scss */
+/* line 391, ../scss/style.scss */
 nav ul li .filter.big div.content ul.radio li:first-child.selected {
   background-position: 14px 2px;
 }
-/* line 393, ../scss/style.scss */
+/* line 394, ../scss/style.scss */
 nav ul li .filter.big div.content ul.radio li.selected {
   background-position: 14px 14px;
 }
-/* line 396, ../scss/style.scss */
+/* line 397, ../scss/style.scss */
 nav ul li .filter.big div.content ul li {
   width: auto;
   margin: 0;
@@ -715,13 +716,13 @@ nav ul li .filter.big div.content ul li {
   border-bottom: 1px solid #f1f1f1;
   cursor: pointer;
 }
-/* line 402, ../scss/style.scss */
+/* line 403, ../scss/style.scss */
 nav ul li .filter.big div.content ul li a {
   display: block;
   width: 154px;
 }
 
-/* line 411, ../scss/style.scss */
+/* line 412, ../scss/style.scss */
 nav ul li .filter .content h3 {
   margin: 0 0 19px 0;
   font-family: 'News Cycle', sans-serif;
@@ -729,39 +730,39 @@ nav ul li .filter .content h3 {
   color: #999999;
   text-transform: uppercase;
 }
-/* line 414, ../scss/style.scss */
+/* line 415, ../scss/style.scss */
 nav ul li .filter .content ul {
   position: none;
   top: 0;
   float: none;
 }
-/* line 415, ../scss/style.scss */
+/* line 416, ../scss/style.scss */
 nav ul li .filter .content ul li {
   display: block;
   margin: 0;
 }
-/* line 418, ../scss/style.scss */
+/* line 419, ../scss/style.scss */
 nav ul li .filter .content ul.ticks li {
   background: url(../img/icons/icons.png) no-repeat left -66px;
 }
-/* line 420, ../scss/style.scss */
+/* line 421, ../scss/style.scss */
 nav ul li .filter .content ul.ticks li.selected {
   background: url(../img/icons/icons.png) no-repeat left -44px;
 }
-/* line 425, ../scss/style.scss */
+/* line 426, ../scss/style.scss */
 nav ul li .filter .content ul.radio li {
   margin: 0 0 5px 0;
   background: url(../img/icons/icons.png) no-repeat left -21px;
 }
-/* line 428, ../scss/style.scss */
+/* line 429, ../scss/style.scss */
 nav ul li .filter .content ul.radio li.selected {
   background: url(../img/icons/icons.png) no-repeat left 3px;
 }
-/* line 432, ../scss/style.scss */
+/* line 433, ../scss/style.scss */
 nav ul li .filter .content ul {
   margin: 0 0 20px 0;
 }
-/* line 435, ../scss/style.scss */
+/* line 436, ../scss/style.scss */
 nav ul li .filter .content ul li {
   width: 177px;
   margin: 0 0 14px 0;
@@ -769,15 +770,15 @@ nav ul li .filter .content ul li {
   background: url(../img/icons/icons.png) no-repeat left -66px;
   cursor: pointer;
 }
-/* line 442, ../scss/style.scss */
+/* line 443, ../scss/style.scss */
 nav ul li .filter .content ul li.selected {
   background: url(../img/icons/icons.png) no-repeat left -44px;
 }
-/* line 444, ../scss/style.scss */
+/* line 445, ../scss/style.scss */
 nav ul li .filter .content ul li.selected a {
   color: #666666;
 }
-/* line 447, ../scss/style.scss */
+/* line 448, ../scss/style.scss */
 nav ul li .filter .content ul li a {
   font-family: "Helvetica Neue", sans-serif;
   font-weight: bold;
@@ -786,7 +787,7 @@ nav ul li .filter .content ul li a {
   text-transform: uppercase;
   line-height: 14px;
 }
-/* line 458, ../scss/style.scss */
+/* line 459, ../scss/style.scss */
 nav ul li .filter .content hr {
   border: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
