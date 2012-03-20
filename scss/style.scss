@@ -15,7 +15,8 @@ $blue:          #104C6B;
 $light_blue:    #1B93CF;
 $dark_blue:     #0F445E;
 
-$gold:          #9A6100;
+$gold:          #E69525; // #E69525
+
 $light_gold:    #FFCC00;
 $dark_gold:     #845412;
 
@@ -109,6 +110,7 @@ nav {
                 width: 230px;
 
                 h2 { padding: 0 0 19px 0; margin: 0 0 19px 0; font-family: 'News Cycle', sans-serif; color:$dark_gray; border-bottom: 2px solid $dark_gray; line-height:22px;}
+                h2.no_border { border:none; padding: 0; }
                 h4 { margin: 0 0 6px 0; color:$gold; opacity:.6; text-transform:uppercase; }
             }
         } // header
@@ -126,11 +128,10 @@ nav {
     .b { bottom: -1*$endsHeight; background-position:left bottom;}
 } // box
 
-// Infobox content elements
+// Infobox components
 .box {
     .content {
         a { font-size:11px; font-weight:bold; text-transform: uppercase; }
-
         h4 { margin: 0 0 5px 0; text-transform: uppercase; color:$light_gray; }
 
         ul { 
@@ -146,16 +147,31 @@ nav {
                 line-height:22px;
                 padding-left: 9px;
                 margin-left: -9px;
-                @include icons-sprite(bullet, $offset-y: 9px);
+                @include icons-sprite(bullet, $offset-y: 10px);
                 &:last-child { margin-bottom: 0; }
 
                 a { font-size:15px; color: #333333; text-transform: none; font-weight:normal; padding: 0 0 2px 0; border-bottom: 1px dashed $subtle_gray; }
             }
         } // ul
 
+        a.btn { 
+            padding: 11px 0 10px 0;
+            margin: 0 0 20px 0;
+            display:block;
+            color:#fff;
+            background-color: #0D5FB2;
+            width:230px;
+            height:34px - 11 - 10;
+            text-align:center;
+            @include border-radius(3px);
+        }
     } // content
+
+
+    a.close { display:block; position:absolute; top: -18px; right: -7px; @include icons-sprite(close); z-index:1000; width:24px; height:24px; }
+
     // Configuration of the elements for the different infoboxes 
-    &.blue .content a { color: $link_color; }
+    &.blue .content a.btn { background-color: #0D5FB2; }
 }
 
 /* Golden box */
@@ -260,7 +276,6 @@ nav ul li .filter {
 } // filter
 
 // Filter components
-
 nav ul li .filter.view { 
     div.content {
 
