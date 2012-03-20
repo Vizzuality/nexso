@@ -81,16 +81,16 @@ nav {
             margin-left: 26px;
 
             a { 
-                &.selected { @include icons-sprite(arrows, $offset-y:-45px, $offset-x:100%); }
+                &.selected { background:url(../img/icons/arrows.png) no-repeat right -45px; }
 
                 position:relative;
-                padding-right:25px;
+                padding-right:10px;
                 font-size:19px;
                 color: #000000;
                 text-transform: uppercase;
                 font-family: 'News Cycle', sans-serif;
                 z-index: 150;
-                @include icons-sprite(arrows, $offset-y:15px, $offset-x:100%);
+                background:url(../img/icons/arrows.png) no-repeat right 15px;
             }
         }
     }
@@ -216,9 +216,9 @@ nav ul li {
     position:relative;
 
     // Filter horizontal position
-    &:nth-child(1) .filter { right: -5px; }
-    &:nth-child(2) .filter { right: 3px; }
-    &:nth-child(3) .filter { right: -2px; }
+    &:nth-child(1) .filter { right: -8px; }
+    &:nth-child(2) .filter { right: -10px; }
+    &:nth-child(3) .filter { right: -14px; }
 }
 
 nav ul li .filter {

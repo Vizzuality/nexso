@@ -70,7 +70,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 /*** SPRITES ***/
 /* icons */
 /* line 99, icons */
-.icons-sprite, .icons-arrows, .icons-bullet, .icons-calendar, .icons-close, .icons-close_big, .icons-gear, .icons-icons, .icons-marker, .icons-money, .icons-plus, .icons-star, .icons-symbols, .icons-view, nav ul li a.selected, nav ul li a, .box .content ul li, .box a.close, nav ul li .filter.view div.content ul.symbols li .icon, nav ul li .filter.view div.content ul.symbols li .icon.projects, nav ul li .filter.view div.content ul.symbols li .icon.agencies, aside .content ul li.money, aside .content ul li.calendar, aside .content ul li.marker, aside .content ul li.gear, aside .content ul li.plus, aside .content ul li.star, aside a.close {
+.icons-sprite, .icons-arrows, .icons-bullet, .icons-calendar, .icons-close, .icons-close_big, .icons-gear, .icons-icons, .icons-marker, .icons-money, .icons-plus, .icons-star, .icons-symbols, .icons-view, .box .content ul li, .box a.close, nav ul li .filter.view div.content ul.symbols li .icon, nav ul li .filter.view div.content ul.symbols li .icon.projects, nav ul li .filter.view div.content ul.symbols li .icon.agencies, aside .content ul li.money, aside .content ul li.calendar, aside .content ul li.marker, aside .content ul li.gear, aside .content ul li.plus, aside .content ul li.star, aside a.close {
   background: url('/img/icons-sa94218a219.png') no-repeat;
 }
 
@@ -321,17 +321,17 @@ nav ul li {
 /* line 83, ../scss/style.scss */
 nav ul li a {
   position: relative;
-  padding-right: 25px;
+  padding-right: 10px;
   font-size: 19px;
   color: #000000;
   text-transform: uppercase;
   font-family: 'News Cycle', sans-serif;
   z-index: 150;
-  background-position: 100% 15px;
+  background: url(../img/icons/arrows.png) no-repeat right 15px;
 }
 /* line 84, ../scss/style.scss */
 nav ul li a.selected {
-  background-position: 100% -45px;
+  background: url(../img/icons/arrows.png) no-repeat right -45px;
 }
 
 /* line 99, ../scss/style.scss */
@@ -530,15 +530,15 @@ nav ul li {
 }
 /* line 219, ../scss/style.scss */
 nav ul li:nth-child(1) .filter {
-  right: -5px;
+  right: -8px;
 }
 /* line 220, ../scss/style.scss */
 nav ul li:nth-child(2) .filter {
-  right: 3px;
+  right: -10px;
 }
 /* line 221, ../scss/style.scss */
 nav ul li:nth-child(3) .filter {
-  right: -2px;
+  right: -14px;
 }
 
 /* line 224, ../scss/style.scss */
