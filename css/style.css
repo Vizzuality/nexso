@@ -464,7 +464,7 @@ nav ul li:nth-child(1) .filter {
 }
 /* line 210, ../scss/style.scss */
 nav ul li:nth-child(2) .filter {
-  right: 1px;
+  right: 3px;
 }
 /* line 211, ../scss/style.scss */
 nav ul li:nth-child(3) .filter {
