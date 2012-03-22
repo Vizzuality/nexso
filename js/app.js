@@ -10,6 +10,7 @@ function initialize() {
 
 $(function() {
 
+
     $( "#timeline .slider" ).slider({
         range: true,
         min: 0,
@@ -17,10 +18,10 @@ $(function() {
         step: 5,
         values: [ 75, 300 ],
         slide: function( event, ui ) {
-            console.log( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+            //console.log( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
         }
     });
-    console.log( "$" + $( "#slider-range" ).slider( "values", 0 ) + " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+    // console.log( "$" + $( "#slider-range" ).slider( "values", 0 ) + " - $" + $( "#slider-range" ).slider( "values", 1 ) );
 
     $(document).on("click", function() {
         if ($("nav a[data-toggle='filter']").hasClass('selected')){
@@ -28,6 +29,14 @@ $(function() {
             $(".filter").fadeOut(150);
         }
     });
+
+    // Ticks initialization
+    $("ul.radio li, ul.ticks li").each(function(i, e) {
+        var id = $(e).attr('id');
+        if (localStorage[id]) $(e).addClass('selected');
+    });
+
+    if ($("ul.radio li.selected").length <= 0) $("ul.radio li:first-child").addClass("selected");
 
     $("nav a[data-toggle='filter']").on("click", function(e) {
         e.stopPropagation();
@@ -42,12 +51,30 @@ $(function() {
     $(".filter ul.ticks li").on("click", function(e) {
         e.stopPropagation();
         $(this).toggleClass("selected");
+
+        // Store the state of the element
+        var id    = $(this).attr('id');
+        var state = $(this).hasClass('selected');
+        if (state) {
+            localStorage[id] = state;
+        } else {
+            localStorage.removeItem(id);
+        }
     });
 
     $(".filter ul.radio li").on("click", function(e) {
         e.stopPropagation();
+        $(this).parent().find("li").each(function() {
+            var id = $(this).attr('id');
+            localStorage.removeItem(id);
+        });
+
         $(this).parent().find("li").removeClass("selected");
         $(this).addClass("selected");
+
+        // Store the state of the element
+        var id = $(this).attr('id');
+        localStorage[id] = true;
     });
 
     $(".filter").on("click", function(e) {
