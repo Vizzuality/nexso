@@ -415,7 +415,6 @@ nav ul li .filter.view {
                 margin: 0;
                 padding: 12px 0 11px 35px;
                 border-bottom: 1px solid #f1f1f1;
-                cursor:pointer;
                 a { display:block; width:128px; }
             }
 
@@ -448,6 +447,7 @@ nav ul li .filter.big {
             $liLeftMargin: 14px;
 
             &.ticks li { 
+                cursor:pointer;
                 &:last-child { 
                     padding-bottom:0;
                     border:none;
@@ -458,6 +458,7 @@ nav ul li .filter.big {
             }
 
             &.radio li { 
+                cursor:pointer;
                 &:first-child { 
                     padding-top:0;
                     background-position: $liLeftMargin -28px;
@@ -472,13 +473,12 @@ nav ul li .filter.big {
                 margin: 0;
                 padding: 12px 0 11px 35px;
                 border-bottom: 1px solid #f1f1f1;
-                cursor:pointer;
-                a { display:block; width:155px; }
+                a { display:block; width:174px; }
             }
 
         } // ul
     }
-}
+} // filter.big
 
 nav ul li .filter {
     .content {
@@ -493,7 +493,7 @@ nav ul li .filter {
                 background:url(../img/icons/icons.png) no-repeat left -66px; 
                 &.selected { background:url(../img/icons/icons.png) no-repeat left -44px; }
             }
-        }
+        } // ul.ticks
 
         ul.radio {
             li { 
@@ -501,7 +501,7 @@ nav ul li .filter {
                 background:url(../img/icons/icons.png) no-repeat left -21px; 
                 &.selected { background:url(../img/icons/icons.png) no-repeat left 3px; }
             }
-        }
+        } // ul.radio
 
         ul {
             margin: 0 0 20px 0;
@@ -511,7 +511,6 @@ nav ul li .filter {
                 margin: 0 0 14px 0;
                 padding-left: 20px;
                 background:url(../img/icons/icons.png) no-repeat left -66px; 
-                cursor:pointer;
 
                 &.selected {
                     background:url(../img/icons/icons.png) no-repeat left -44px; 
@@ -527,7 +526,7 @@ nav ul li .filter {
                     line-height:14px;
                 }
             }
-        }
+        } // ul
 
         hr { border: none; border-bottom: 1px solid rgba(0,0,0,.2); width: 229px; left: -21px; position: relative; margin-bottom:20px; }
 
