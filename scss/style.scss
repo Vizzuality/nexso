@@ -31,6 +31,11 @@ $light_gray:    #BBBBBB;
 $subtle_gray:   #999999;
 $dark_gray:     #333333;
 
+
+$zTop: 1000;
+$zHigh: 100;
+$zBase: 10;
+
 html { height: 100% }
 body { height: 100%; margin: 0; padding: 0; overflow:hidden; }
 
@@ -80,7 +85,7 @@ nav {
             display:inline;
             margin-left: 26px;
 
-            a { 
+            & > a { 
                 &.selected { background:url(../img/icons/arrows.png) no-repeat right -45px; }
 
                 position:relative;
@@ -245,15 +250,17 @@ nav ul li .filter {
     // iati, view and big filter
     &.iati {
         $width: 173px;
+        $pT: 3px;
         $pL: 0;
         $pR: 0;
+        $pB: 3px;
 
         width:$width;
 
         div.content {
             width: $width - $pL - $pR;
             background:url(../img/backgrounds/bkg_iati_filter.png) repeat-y -1*$width bottom;
-            padding: 13px $pR 7px $pL;
+            padding: $pT $pR $pB $pL;
         }
 
         div.t { top: -55px; width:$width; height: 55px; background:url(../img/backgrounds/bkg_iati_filter.png) no-repeat left top; }
@@ -299,43 +306,44 @@ nav ul li .filter {
 nav ul li .filter.iati {
     .content {
 
-    h3 { font-size:11px; color: $standard_gray; font-weight:normal; border:none; }
-    p { float:left; width:100px; font-style:italic; font-size:11px; color:$subtle_gray; }
-    p a { font-style:italic; font-size:11px; color:$subtle_gray; text-transform:none; text-decoration:underline; }
+        div.legend { position:relative; left: 10px; width:100px; float:left; }
+        h3 { color: $standard_gray; font: 11px "Helvetica Neue", sans-serif;font-weight:bold; border:none; margin: 0 0 7px 0; }
+        p { font-style:italic; font-size:11px; color:$subtle_gray; line-height:13px; }
+        p a { font-style:italic; font: 11px "Helvetica Neue", sans-serif; color:$subtle_gray; text-transform:none; text-decoration:underline; }
 
-    ul { 
-        position:relative;
-        top: 0;
-        left: 0px;
-        float:left;
-        width:100px;
-        padding: 0;
-        margin:0;
+        ul { 
+            position:relative;
+            top: 0;
+            left: 0;
+            float:left;
+            width:100px;
+            padding: 0;
+            margin:0;
 
-        $liLeftMargin: 14px;
+            $liLeftMargin: 14px;
 
-        &.symbols {
-            float:left; 
-            width:38px;
-            margin-left: 5px;
+            &.symbols {
+                float:left; 
+                width:38px;
+                margin-left: 5px;
 
-            li {
-                width:auto;
-                padding: 0 0 11px 14px;
-                margin: 0 0 12px 0;
-                background:none;
-                &:last-child { margin: 0; }
+                li {
+                    width:auto;
+                    padding: 0 0 11px 10px;
+                    margin: 0 0 12px 0;
+                    background:none;
+                    &:last-child { margin: 0; }
 
-                .icon {
-                    width:18px;
-                    height:17px;
-                    @include icons-sprite(iati);
-                    &.iati { @include icons-sprite(iati);}
-                }
-            } // li
-        } // symbols
+                    .icon {
+                        width:18px;
+                        height:17px;
+                        @include icons-sprite(iati);
+                        &.iati { @include icons-sprite(iati);}
+                    }
+                } // li
+            } // symbols
 
-    } // ul
+        } // ul
     } // content
 } // iati
 
@@ -613,11 +621,8 @@ aside {
         top: $height/2 - 18px/2; 
         &.min { left: 100px;}
         &.max { left: 700px; }
-
     }
 }
-
-
 
 .ui-helper-hidden { display: none; }
 .ui-helper-hidden-accessible { position: absolute !important; clip: rect(1px 1px 1px 1px); clip: rect(1px,1px,1px,1px); }
