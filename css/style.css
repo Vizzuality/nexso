@@ -66,7 +66,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 /*** SPRITES ***/
 /* icons */
 /* line 111, icons */
-.icons-sprite, .icons-arrows, .icons-bullet, .icons-calendar, .icons-close, .icons-close_big, .icons-gear, .icons-handle, .icons-iati, .icons-icons, .icons-marker, .icons-money, .icons-plus, .icons-star, .icons-symbols, .icons-view, .box .content ul li, .box a.close, nav ul li .filter.iati .content ul.symbols li .icon, nav ul li .filter.iati .content ul.symbols li .icon.iati, nav ul li .filter.view div.content ul.symbols li .icon, nav ul li .filter.view div.content ul.symbols li .icon.projects, nav ul li .filter.view div.content ul.symbols li .icon.agencies, aside .content ul li.money, aside .content ul li.calendar, aside .content ul li.marker, aside .content ul li.gear, aside .content ul li.plus, aside .content ul li.star, aside a.close, #timeline .handle, .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus, .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
+.icons-sprite, .icons-arrows, .icons-bullet, .icons-calendar, .icons-close, .icons-close_big, .icons-gear, .icons-handle, .icons-iati, .icons-icons, .icons-marker, .icons-money, .icons-plus, .icons-star, .icons-symbols, .icons-view, .box .content ul li, .box a.close, nav ul li .filter.iati .content ul.symbols > li .icon, nav ul li .filter.iati .content ul.symbols > li .icon.iati, nav ul li .filter.view div.content ul.symbols li .icon, nav ul li .filter.view div.content ul.symbols li .icon.projects, nav ul li .filter.view div.content ul.symbols li .icon.agencies, aside .content ul li.money, aside .content ul li.calendar, aside .content ul li.marker, aside .content ul li.gear, aside .content ul li.plus, aside .content ul li.star, aside a.close, #timeline .handle, .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus, .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
   background: url('/img/icons-s4e762dcab8.png') no-repeat;
 }
 
@@ -451,7 +451,7 @@ nav ul > li > a.selected {
   -khtml-border-radius: 3px;
   border-radius: 3px;
 }
-/* line 173, ../scss/style.scss */
+/* line 172, ../scss/style.scss */
 .box a.close {
   display: block;
   position: absolute;
@@ -462,81 +462,77 @@ nav ul > li > a.selected {
   width: 24px;
   height: 24px;
 }
-/* line 176, ../scss/style.scss */
+/* line 175, ../scss/style.scss */
 .box.blue .content a.btn {
   background-color: #0D5FB2;
 }
 
-/* Golden box */
-/* line 183, ../scss/style.scss */
+/* line 181, ../scss/style.scss */
 .box.golden .header hgroup h2 {
   border-color: #e69525;
 }
-/* line 184, ../scss/style.scss */
+/* line 182, ../scss/style.scss */
 .box.golden .header hgroup h4 {
   color: #e69525;
 }
 
-/* Green box */
-/* line 192, ../scss/style.scss */
+/* line 190, ../scss/style.scss */
 .box.green .header hgroup h2 {
   border-color: #76a228;
 }
-/* line 193, ../scss/style.scss */
+/* line 191, ../scss/style.scss */
 .box.green .header hgroup h4 {
   color: #76a228;
 }
 
-/* Blue box */
-/* line 201, ../scss/style.scss */
+/* line 198, ../scss/style.scss */
 .box.blue .header hgroup h2 {
   border-color: #104c6b;
 }
-/* line 202, ../scss/style.scss */
+/* line 199, ../scss/style.scss */
 .box.blue .header hgroup h4 {
   color: #104c6b;
 }
 
-/* line 207, ../scss/style.scss */
+/* line 204, ../scss/style.scss */
 .box.golden {
   position: absolute;
   top: 300px;
   left: 100px;
 }
 
-/* line 208, ../scss/style.scss */
+/* line 205, ../scss/style.scss */
 .box.green {
   position: absolute;
   top: 300px;
   left: 500px;
 }
 
-/* line 209, ../scss/style.scss */
+/* line 206, ../scss/style.scss */
 .box.blue {
   position: absolute;
   top: 300px;
   left: 900px;
 }
 
-/* NAVIGATION */
-/* line 212, ../scss/style.scss */
+/* line 209, ../scss/style.scss */
 nav ul li {
   position: relative;
 }
-/* line 216, ../scss/style.scss */
+/* line 213, ../scss/style.scss */
 nav ul li:nth-child(1) .filter {
   right: -8px;
 }
-/* line 217, ../scss/style.scss */
+/* line 214, ../scss/style.scss */
 nav ul li:nth-child(2) .filter {
   right: -10px;
 }
-/* line 218, ../scss/style.scss */
+/* line 215, ../scss/style.scss */
 nav ul li:nth-child(3) .filter {
   right: -14px;
 }
 
-/* line 221, ../scss/style.scss */
+/* line 218, ../scss/style.scss */
 nav ul li .filter {
   display: none;
   position: absolute;
@@ -545,13 +541,13 @@ nav ul li .filter {
   right: -4px;
   z-index: 100;
 }
-/* line 234, ../scss/style.scss */
+/* line 233, ../scss/style.scss */
 nav ul li .filter .content {
   width: 186px;
   background: url(../img/backgrounds/bkg_filter.png) repeat-y -242px bottom;
   padding: 13px 25px 7px 25px;
 }
-/* line 240, ../scss/style.scss */
+/* line 239, ../scss/style.scss */
 nav ul li .filter div.t {
   position: absolute;
   top: -55px;
@@ -560,7 +556,7 @@ nav ul li .filter div.t {
   height: 55px;
   background: url(../img/backgrounds/bkg_filter.png) no-repeat left top;
 }
-/* line 241, ../scss/style.scss */
+/* line 240, ../scss/style.scss */
 nav ul li .filter div.b {
   position: absolute;
   bottom: -13px;
@@ -569,72 +565,72 @@ nav ul li .filter div.b {
   height: 13px;
   background: url(../img/backgrounds/bkg_filter.png) no-repeat -492px top;
 }
-/* line 244, ../scss/style.scss */
+/* line 243, ../scss/style.scss */
 nav ul li .filter.iati {
   width: 173px;
 }
-/* line 253, ../scss/style.scss */
+/* line 252, ../scss/style.scss */
 nav ul li .filter.iati div.content {
   width: 173px;
   background: url(../img/backgrounds/bkg_iati_filter.png) repeat-y -173px bottom;
   padding: 3px 0 3px 0;
 }
-/* line 259, ../scss/style.scss */
+/* line 258, ../scss/style.scss */
 nav ul li .filter.iati div.t {
   top: -55px;
   width: 173px;
   height: 55px;
   background: url(../img/backgrounds/bkg_iati_filter.png) no-repeat left top;
 }
-/* line 260, ../scss/style.scss */
+/* line 259, ../scss/style.scss */
 nav ul li .filter.iati div.b {
   bottom: -13px;
   width: 173px;
   height: 13px;
   background: url(../img/backgrounds/bkg_iati_filter.png) no-repeat right top;
 }
-/* line 263, ../scss/style.scss */
+/* line 262, ../scss/style.scss */
 nav ul li .filter.view {
   width: 220px;
 }
-/* line 270, ../scss/style.scss */
+/* line 269, ../scss/style.scss */
 nav ul li .filter.view div.content {
   width: 220px;
   background: url(../img/backgrounds/bkg_view_filter.png) repeat-y -222px bottom;
   padding: 13px 0 7px 0;
 }
-/* line 276, ../scss/style.scss */
+/* line 275, ../scss/style.scss */
 nav ul li .filter.view div.t {
   top: -55px;
   width: 220px;
   height: 55px;
   background: url(../img/backgrounds/bkg_view_filter.png) no-repeat left top;
 }
-/* line 277, ../scss/style.scss */
+/* line 276, ../scss/style.scss */
 nav ul li .filter.view div.b {
   bottom: -13px;
   width: 220px;
   height: 13px;
   background: url(../img/backgrounds/bkg_view_filter.png) no-repeat -444px top;
 }
-/* line 280, ../scss/style.scss */
+/* line 279, ../scss/style.scss */
 nav ul li .filter.big {
   width: 316px;
 }
-/* line 287, ../scss/style.scss */
+/* line 288, ../scss/style.scss */
 nav ul li .filter.big div.content {
   width: 316px;
   background: url(../img/backgrounds/bkg_big_filter.png) repeat-y -322px bottom;
   padding: 13px 0 7px 0;
 }
-/* line 293, ../scss/style.scss */
+/* line 294, ../scss/style.scss */
 nav ul li .filter.big div.t {
   top: -55px;
   width: 316px;
   height: 55px;
   background: url(../img/backgrounds/bkg_big_filter.png) no-repeat left top;
 }
-/* line 294, ../scss/style.scss */
+/* line 295, ../scss/style.scss */
 nav ul li .filter.big div.b {
   bottom: -13px;
   width: 316px;
@@ -642,14 +638,14 @@ nav ul li .filter.big div.b {
   background: url(../img/backgrounds/bkg_big_filter.png) no-repeat -641px top;
 }
 
-/* line 302, ../scss/style.scss */
+/* line 303, ../scss/style.scss */
 nav ul li .filter.iati .content div.legend {
   position: relative;
   left: 10px;
   width: 100px;
   float: left;
 }
-/* line 303, ../scss/style.scss */
+/* line 304, ../scss/style.scss */
 nav ul li .filter.iati .content h3 {
   color: #666666;
   font: 11px "Helvetica Neue", sans-serif;
@@ -657,14 +653,14 @@ nav ul li .filter.iati .content h3 {
   border: none;
   margin: 0 0 7px 0;
 }
-/* line 304, ../scss/style.scss */
+/* line 305, ../scss/style.scss */
 nav ul li .filter.iati .content p {
   font-style: italic;
   font-size: 11px;
   color: #999999;
   line-height: 13px;
 }
-/* line 305, ../scss/style.scss */
+/* line 306, ../scss/style.scss */
 nav ul li .filter.iati .content p a {
   font-style: italic;
   font: 11px "Helvetica Neue", sans-serif;
@@ -672,7 +668,7 @@ nav ul li .filter.iati .content p a {
   text-transform: none;
   text-decoration: underline;
 }
-/* line 307, ../scss/style.scss */
+/* line 308, ../scss/style.scss */
 nav ul li .filter.iati .content ul {
   position: relative;
   top: 0;
@@ -682,31 +678,31 @@ nav ul li .filter.iati .content ul {
   padding: 0;
   margin: 0;
 }
-/* line 318, ../scss/style.scss */
+/* line 319, ../scss/style.scss */
 nav ul li .filter.iati .content ul.symbols {
   float: left;
   width: 38px;
   margin-left: 5px;
 }
-/* line 323, ../scss/style.scss */
-nav ul li .filter.iati .content ul.symbols li {
+/* line 324, ../scss/style.scss */
+nav ul li .filter.iati .content ul.symbols > li {
   width: auto;
   padding: 0 0 11px 10px;
   margin: 0 0 12px 0;
   background: none;
 }
-/* line 328, ../scss/style.scss */
-nav ul li .filter.iati .content ul.symbols li:last-child {
+/* line 329, ../scss/style.scss */
+nav ul li .filter.iati .content ul.symbols > li:last-child {
   margin: 0;
 }
-/* line 330, ../scss/style.scss */
-nav ul li .filter.iati .content ul.symbols li .icon {
+/* line 331, ../scss/style.scss */
+nav ul li .filter.iati .content ul.symbols > li .icon {
   width: 18px;
   height: 17px;
   background-position: 0 -429px;
 }
-/* line 334, ../scss/style.scss */
-nav ul li .filter.iati .content ul.symbols li .icon.iati {
+/* line 335, ../scss/style.scss */
+nav ul li .filter.iati .content ul.symbols > li .icon.iati {
   background-position: 0 -429px;
 }
 
@@ -811,10 +807,10 @@ nav ul li .filter.big div.content h3.topic {
 }
 /* line 431, ../scss/style.scss */
 nav ul li .filter.big div.content ul {
+  float: left;
   position: relative;
   top: 0;
   left: 0px;
-  float: left;
   width: 209px;
   padding: 0;
   margin: 0;
@@ -938,7 +934,6 @@ nav ul li .filter .content hr {
   margin-bottom: 20px;
 }
 
-/* ASIDE */
 /* line 530, ../scss/style.scss */
 aside {
   position: absolute;
@@ -1160,28 +1155,16 @@ aside a.close {
   height: 100%;
 }
 
-/*
- * jQuery UI CSS Framework 1.8.18
- *
- * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
- * Dual licensed under the MIT or GPL Version 2 licenses.
- * http://jquery.org/license
- *
- * http://docs.jquery.com/UI/Theming/API
- *
- */
 /* Component containers
 ----------------------------------*/
-/* line 661, ../scss/style.scss */
+/* line 648, ../scss/style.scss */
 .ui-widget-header {
   background: url(../img/backgrounds/bkg_timeline_selected.png) 50% 50% repeat-x;
   color: #ffffff;
   font-weight: bold;
 }
 
-/* Interaction states
-----------------------------------*/
-/* line 665, ../scss/style.scss */
+/* line 649, ../scss/style.scss */
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
   display: block;
   width: 17px;
@@ -1191,7 +1174,7 @@ aside a.close {
   cursor: pointer;
 }
 
-/* line 666, ../scss/style.scss */
+/* line 650, ../scss/style.scss */
 .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
   display: block;
   cursor: pointer;
@@ -1201,14 +1184,14 @@ aside a.close {
   outline: none;
 }
 
-/* line 667, ../scss/style.scss */
+/* line 651, ../scss/style.scss */
 .ui-state-hover a, .ui-state-hover a:hover {
   color: #c77405;
   text-decoration: none;
   outline: none;
 }
 
-/* line 668, ../scss/style.scss */
+/* line 652, ../scss/style.scss */
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
   width: 17px;
   height: 18px;
@@ -1216,57 +1199,55 @@ aside a.close {
   outline: none;
 }
 
-/* line 669, ../scss/style.scss */
+/* line 653, ../scss/style.scss */
 .ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {
   color: #eb8f00;
   text-decoration: none;
   outline: none;
 }
 
-/* Interaction Cues
-----------------------------------*/
-/* line 673, ../scss/style.scss */
+/* line 654, ../scss/style.scss */
 .ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
   border: 1px solid #fed22f;
   background: #ffe45c url(images/ui-bg_highlight-soft_75_ffe45c_1x100.png) 50% top repeat-x;
   color: #363636;
 }
 
-/* line 674, ../scss/style.scss */
+/* line 655, ../scss/style.scss */
 .ui-state-highlight a, .ui-widget-content .ui-state-highlight a, .ui-widget-header .ui-state-highlight a {
   color: #363636;
 }
 
-/* line 675, ../scss/style.scss */
+/* line 656, ../scss/style.scss */
 .ui-state-error, .ui-widget-content .ui-state-error, .ui-widget-header .ui-state-error {
   border: 1px solid #cd0a0a;
   background: #b81900 url(images/ui-bg_diagonals-thick_18_b81900_40x40.png) 50% 50% repeat;
   color: #ffffff;
 }
 
-/* line 676, ../scss/style.scss */
+/* line 657, ../scss/style.scss */
 .ui-state-error a, .ui-widget-content .ui-state-error a, .ui-widget-header .ui-state-error a {
   color: #ffffff;
 }
 
-/* line 677, ../scss/style.scss */
+/* line 658, ../scss/style.scss */
 .ui-state-error-text, .ui-widget-content .ui-state-error-text, .ui-widget-header .ui-state-error-text {
   color: #ffffff;
 }
 
-/* line 678, ../scss/style.scss */
+/* line 659, ../scss/style.scss */
 .ui-priority-primary, .ui-widget-content .ui-priority-primary, .ui-widget-header .ui-priority-primary {
   font-weight: bold;
 }
 
-/* line 679, ../scss/style.scss */
+/* line 660, ../scss/style.scss */
 .ui-priority-secondary, .ui-widget-content .ui-priority-secondary, .ui-widget-header .ui-priority-secondary {
   opacity: .7;
   filter: Alpha(Opacity=70);
   font-weight: normal;
 }
 
-/* line 680, ../scss/style.scss */
+/* line 661, ../scss/style.scss */
 .ui-state-disabled, .ui-widget-content .ui-state-disabled, .ui-widget-header .ui-state-disabled {
   opacity: .35;
   filter: Alpha(Opacity=35);
@@ -1275,13 +1256,13 @@ aside a.close {
 
 /* Misc visuals
 ----------------------------------*/
-/* line 685, ../scss/style.scss */
+/* line 666, ../scss/style.scss */
 .ui-slider {
   position: relative;
   text-align: left;
 }
 
-/* line 686, ../scss/style.scss */
+/* line 667, ../scss/style.scss */
 .ui-slider .ui-slider-handle {
   position: absolute;
   z-index: 2;
@@ -1290,7 +1271,7 @@ aside a.close {
   cursor: default;
 }
 
-/* line 687, ../scss/style.scss */
+/* line 668, ../scss/style.scss */
 .ui-slider .ui-slider-range {
   position: absolute;
   z-index: 1;
@@ -1300,12 +1281,12 @@ aside a.close {
   background-position: 0 0;
 }
 
-/* line 689, ../scss/style.scss */
+/* line 670, ../scss/style.scss */
 .ui-slider-horizontal {
   height: .8em;
 }
 
-/* line 690, ../scss/style.scss */
+/* line 671, ../scss/style.scss */
 .ui-slider-horizontal .ui-slider-handle {
   cursor: col-resize;
   display: block;
@@ -1313,47 +1294,47 @@ aside a.close {
   margin-left: -0.6em;
 }
 
-/* line 691, ../scss/style.scss */
+/* line 672, ../scss/style.scss */
 .ui-slider-horizontal .ui-slider-range {
   top: 6px;
   height: 68px;
 }
 
-/* line 692, ../scss/style.scss */
+/* line 673, ../scss/style.scss */
 .ui-slider-horizontal .ui-slider-range-min {
   left: 0;
 }
 
-/* line 693, ../scss/style.scss */
+/* line 674, ../scss/style.scss */
 .ui-slider-horizontal .ui-slider-range-max {
   right: 0;
 }
 
-/* line 695, ../scss/style.scss */
+/* line 676, ../scss/style.scss */
 .ui-slider-vertical {
   width: .8em;
   height: 100px;
 }
 
-/* line 696, ../scss/style.scss */
+/* line 677, ../scss/style.scss */
 .ui-slider-vertical .ui-slider-handle {
   left: -0.3em;
   margin-left: 0;
   margin-bottom: -0.6em;
 }
 
-/* line 697, ../scss/style.scss */
+/* line 678, ../scss/style.scss */
 .ui-slider-vertical .ui-slider-range {
   left: 0;
   width: 100%;
 }
 
-/* line 698, ../scss/style.scss */
+/* line 679, ../scss/style.scss */
 .ui-slider-vertical .ui-slider-range-min {
   bottom: 0;
 }
 
-/* line 699, ../scss/style.scss */
+/* line 680, ../scss/style.scss */
 .ui-slider-vertical .ui-slider-range-max {
   top: 0;
 }

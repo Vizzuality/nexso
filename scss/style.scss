@@ -169,46 +169,43 @@ nav {
     }
   } // content
 
-
   a.close { display:block; position:absolute; top: -18px; right: -7px; @include icons-sprite(close); z-index:1000; width:24px; height:24px; }
 
   // Configuration of the elements for the different infoboxes 
   &.blue .content a.btn { background-color: #0D5FB2; }
 }
 
-/* Golden box */
+// Golden box
 .box.golden {
-
   .header hgroup { // header titles
     h2 { border-color:$gold; }
     h4 { color:$gold; }
   }
-} // golden box
+} 
 
-/* Green box */
+// Green box 
 .box.green {
   .header hgroup { // header titles
 
     h2 { border-color:$green; }
     h4 { color:$green; }
   }
-} // green box
+}
 
-
-/* Blue box */
+// Blue box 
 .box.blue {
   .header hgroup { // header titles
     h2 { border-color:$blue; }
     h4 { color:$blue; }
   }
-} // blue box
+}
 
 // Temporary positioning TODO: get rid of it
 .box.golden { position:absolute; top: 300px; left: 100px; }
 .box.green { position:absolute;  top: 300px; left: 500px; }
 .box.blue { position:absolute;   top: 300px; left: 900px; }
 
-/* NAVIGATION */
+// Navigation 
 nav ul li {
   position:relative;
 
@@ -221,8 +218,10 @@ nav ul li {
 nav ul li .filter {
 
   $width: 236px;
+  $pT: 13px;
   $pL: 25px;
   $pR: 25px;
+  $pB: 7px;
 
   display:none;
   position:absolute;
@@ -234,7 +233,7 @@ nav ul li .filter {
   .content {
     width:$width - $pL - $pR;
     background:url(../img/backgrounds/bkg_filter.png) repeat-y -242px bottom;
-    padding: 13px $pR 7px $pL;
+    padding: $pT $pR $pB $pL;
   }
 
   div.t { position:absolute; top: -55px; left: 0; width:$width; height: 55px; background:url(../img/backgrounds/bkg_filter.png) no-repeat left top; }
@@ -279,15 +278,17 @@ nav ul li .filter {
 
   &.big {
     $width: 316px;
-    $pL: 0;
+    $pT: 13px;
     $pR: 0;
+    $pB: 7px;
+    $pL: 0;
 
     width:$width;
 
     div.content {
       width: $width - $pL - $pR;
       background:url(../img/backgrounds/bkg_big_filter.png) repeat-y -322px bottom;
-      padding: 13px $pR 7px $pL;
+      padding: $pT $pR $pB $pL;
     }
 
     div.t { top: -55px; width:$width; height: 55px; background:url(../img/backgrounds/bkg_big_filter.png) no-repeat left top; }
@@ -320,7 +321,7 @@ nav ul li .filter.iati {
         width:38px;
         margin-left: 5px;
 
-        li {
+       & > li {
           width:auto;
           padding: 0 0 11px 10px;
           margin: 0 0 12px 0;
@@ -335,7 +336,6 @@ nav ul li .filter.iati {
           }
         } // li
       } // symbols
-
     } // ul
   } // content
 } // iati
@@ -429,10 +429,10 @@ nav ul li .filter.big {
     }
 
     ul { 
+      float:left;
       position:relative;
       top: 0;
       left: 0px;
-      float:left;
       width:209px;
       padding: 0;
       margin:0;
@@ -526,7 +526,7 @@ nav ul li .filter {
   } // content
 } // filter
 
-/* ASIDE */
+// Aside 
 aside {
   $width: 358px;
   $pT: 31px;
@@ -643,33 +643,14 @@ aside {
 /* Overlays */
 .ui-widget-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
-
-/*
- * jQuery UI CSS Framework 1.8.18
- *
- * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
- * Dual licensed under the MIT or GPL Version 2 licenses.
- * http://jquery.org/license
- *
- * http://docs.jquery.com/UI/Theming/API
- *
- */
-
-
 /* Component containers
 ----------------------------------*/
 .ui-widget-header { background: url(../img/backgrounds/bkg_timeline_selected.png) 50% 50% repeat-x; color: #ffffff; font-weight: bold; }
-
-/* Interaction states
-----------------------------------*/
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { display:block; width:17px; height:18px; @include icons-sprite(handle); ountline:none; cursor: pointer; }
 .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus { display:block; cursor:pointer; width:17px; height:18px; @include icons-sprite(handle); outline:none;}
 .ui-state-hover a, .ui-state-hover a:hover { color: #c77405; text-decoration: none; outline:none;}
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active { width:17px; height:18px; @include icons-sprite(handle); outline:none; }
 .ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited { color: #eb8f00; text-decoration: none; outline:none; }
-
-/* Interaction Cues
-----------------------------------*/
 .ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight  {border: 1px solid #fed22f; background: #ffe45c url(images/ui-bg_highlight-soft_75_ffe45c_1x100.png) 50% top repeat-x; color: #363636; }
 .ui-state-highlight a, .ui-widget-content .ui-state-highlight a,.ui-widget-header .ui-state-highlight a { color: #363636; }
 .ui-state-error, .ui-widget-content .ui-state-error, .ui-widget-header .ui-state-error {border: 1px solid #cd0a0a; background: #b81900 url(images/ui-bg_diagonals-thick_18_b81900_40x40.png) 50% 50% repeat; color: #ffffff; }
