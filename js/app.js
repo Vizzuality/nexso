@@ -1,24 +1,19 @@
-// Map initialization
-function initialize() {
-  var myOptions = {
-    center: new google.maps.LatLng(-34.397, 150.644),
-    zoom: 8,
-    mapTypeId: google.maps.MapTypeId.ROADMAP
-  };
-
-  var map = new google.maps.Map(document.getElementById("map"),
-  myOptions);
-}
-
 $(function() {
 
   $( "#timeline .slider" ).slider({ range: true, min: 0, max: 500, step: 5, values: [ 75, 300 ], slide: function( event, ui ) { } });
   // console.log( "$" + $( "#slider-range" ).slider( "values", 0 ) + " - $" + $( "#slider-range" ).slider( "values", 1 ) );
 
-  // generate CartoDB object linked 
-  // to examples account.
+  var myOptions = {
+    zoom: 3,
+    center: new google.maps.LatLng(37.76487, -122.41948),
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+
+  var map = new google.maps.Map(d3.select("#map").node(), myOptions);
+
+  // generate CartoDB object linked to examples account.
   var CartoDB = Backbone.CartoDB({
-    user: 'examples' // you should put your account name here
+    user: 'nexso2' // you should put your account name here
   });
 
   var Wifi = CartoDB.CartoDBModel.extend({
@@ -34,25 +29,12 @@ $(function() {
 
   var WifiPlaces= CartoDB.CartoDBCollection.extend({
     model: Wifi,
-    table: 'nyc_wifi', //public table
+    table: 'v1_agencies', //public table
     columns: {
-      'address': 'address',
-      'type': 'type',
       'name': 'name',
       'location': 'the_geom'
     }
 
-  });
-
-  var EntryView = Backbone.View.extend({
-    tagName: 'li',
-    render: function() {
-      var latlon = this.model.lat() + "," + this.model.lng();
-      $(this.el).html(
-        '<a href="http://maps.google.com/?q=' + latlon + '">' + this.model.get('address') + '</a>'
-      );
-      return this;
-    }
   });
 
   // some helper view to show how to use the model
@@ -68,14 +50,12 @@ $(function() {
     },
 
     filter_free: function() {
-      console.log('a');
       this.wifi.where = "type = 'Free'"
       this.$('ul').html('loading...');
       this.wifi.fetch();
     },
 
     filter_fee: function() {
-      console.log('b');
       this.wifi.where = "type = 'Fee-based'"
       this.$('ul').html('loading...');
       this.wifi.fetch();
@@ -83,10 +63,43 @@ $(function() {
 
     render: function() {
       var self = this;
-      this.$('ul').html('');
-      this.wifi.each(function(w) {
-        self.$('ul').append(new EntryView({model: w}).render().el);
-      });
+
+      var data = this.wifi.models;
+
+      var overlay = new google.maps.OverlayView();
+
+      // Add the container when the overlay is added to the map.
+      overlay.onAdd = function() {
+        var layer = d3.select(this.getPanes().overlayLayer).append("div")
+        .attr("class", "stations");
+
+        // Draw each marker as a separate SVG element.
+        // We could use a single SVG, but what size would it have?
+        overlay.draw = function() {
+          var projection = this.getProjection(),
+          padding = 10;
+
+          var marker = layer.selectAll("svg")
+          .data(data)
+          .each(transform) // update existing markers
+          .enter().append("svg:svg")
+          .each(transform)
+          .attr("class", "marker");
+
+          function transform(d) {
+            d = new google.maps.LatLng(d.lat(), d.lng());
+            d = projection.fromLatLngToDivPixel(d);
+            return d3.select(this)
+            .style("left", (d.x - padding) + "px")
+            .style("top", (d.y - padding) + "px");
+          }
+        };
+      };
+
+      // Bind our overlay to the map…
+      overlay.setMap(map);
+
+
     }
   });
 
