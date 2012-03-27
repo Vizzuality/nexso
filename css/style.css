@@ -66,7 +66,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 /*** SPRITES ***/
 /* icons */
 /* line 117, icons */
-.icons-sprite, .icons-arrows, .icons-bullet, .icons-calendar, .icons-close, .icons-close_big, .icons-gear, .icons-handle, .icons-iati, .icons-icons, .icons-marker, .icons-markers, .icons-money, .icons-plus, .icons-star, .icons-symbols, .icons-view, .box .content ul li, .box a.close, nav ul li .filter.iati .content ul.symbols > li .icon, nav ul li .filter.iati .content ul.symbols > li .icon.iati, nav ul li .filter.view div.content ul.symbols li .icon, nav ul li .filter.view div.content ul.symbols li .icon.projects, nav ul li .filter.view div.content ul.symbols li .icon.agencies, aside .content ul li.money, aside .content ul li.calendar, aside .content ul li.marker, aside .content ul li.gear, aside .content ul li.plus, aside .content ul li.star, aside a.close, #timeline .handle, .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus, .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
+.icons-sprite, .icons-arrows, .icons-bullet, .icons-calendar, .icons-close, .icons-close_big, .icons-gear, .icons-handle, .icons-iati, .icons-icons, .icons-marker, .icons-markers, .icons-money, .icons-plus, .icons-star, .icons-symbols, .icons-view, .box .content ul li, .box a.close, nav ul li .filter.iati .content ul.symbols > li .icon, nav ul li .filter.iati .content ul.symbols > li .icon.iati, nav ul li .filter.view div.content ul.symbols li .icon, nav ul li .filter.view div.content ul.symbols li .icon.projects, nav ul li .filter.view div.content ul.symbols li .icon.agencies, aside .content ul li.money, aside .content ul li.calendar, aside .content ul li.marker, aside .content ul li.gear, aside .content ul li.plus, aside .content ul li.star, aside a.close, #timeline .handle, .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus, .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, .marker {
   background: url('/img/icons-sc9b6e92650.png') no-repeat;
 }
 
@@ -1366,5 +1366,5 @@ aside a.close {
 
 /* line 695, ../scss/style.scss */
 .marker {
-  background: url(../img/icons/markers.png) no-repeat;
+  background-position: 0 -665px;
 }

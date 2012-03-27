@@ -16,7 +16,7 @@ $(function() {
     user: 'nexso2' // you should put your account name here
   });
 
-  var Wifi = CartoDB.CartoDBModel.extend({
+  var Point = CartoDB.CartoDBModel.extend({
 
     lat: function() {
       return this.get('location').coordinates[1];
@@ -27,21 +27,19 @@ $(function() {
     }
   });
 
-  var WifiPlaces= CartoDB.CartoDBCollection.extend({
-    model: Wifi,
+  var Agencies = CartoDB.CartoDBCollection.extend({
+    model: Point,
     table: 'v1_agencies', //public table
     columns: {
       'name': 'name',
       'location': 'the_geom'
     }
-
   });
 
   // some helper view to show how to use the model
   var ListView = Backbone.View.extend({
     events: {
-      'click .free': 'filter_free',
-      'click .fee': 'filter_fee'
+      'click .marker': 'filter_free'
     },
 
     initialize: function() {
@@ -50,15 +48,7 @@ $(function() {
     },
 
     filter_free: function() {
-      this.wifi.where = "type = 'Free'"
-      this.$('ul').html('loading...');
-      this.wifi.fetch();
-    },
-
-    filter_fee: function() {
-      this.wifi.where = "type = 'Fee-based'"
-      this.$('ul').html('loading...');
-      this.wifi.fetch();
+      console.log('a');
     },
 
     render: function() {
@@ -76,10 +66,9 @@ $(function() {
         // Draw each marker as a separate SVG element.
         // We could use a single SVG, but what size would it have?
         overlay.draw = function() {
-          var projection = this.getProjection(),
-          padding = 10;
+          var projection = this.getProjection();
 
-          var marker = layer.selectAll("svg")
+          var markers = layer.selectAll("svg")
           .data(data)
           .each(transform) // update existing markers
           .enter().append("svg:svg")
@@ -90,8 +79,8 @@ $(function() {
             d = new google.maps.LatLng(d.lat(), d.lng());
             d = projection.fromLatLngToDivPixel(d);
             return d3.select(this)
-            .style("left", (d.x - padding) + "px")
-            .style("top", (d.y - padding) + "px");
+            .style("left", d.x + "px")
+            .style("top", d.y + "px");
           }
         };
       };
@@ -103,12 +92,10 @@ $(function() {
     }
   });
 
-  var wifi_places = new WifiPlaces();
-  var wifi_list = new ListView({
-    el:$('#wifi_list'),
-    wifi: wifi_places
+  var agencies = new Agencies();
+  var agency_list = new ListView({
+    wifi: agencies
   });
-  wifi_places.fetch();
-
+  agencies.fetch();
 
 });

@@ -692,4 +692,6 @@ aside {
 }
 
 .stations svg { width: 14px; height: 14px; } 
-.marker { background:url(../img/icons/markers.png) no-repeat; }
+.marker { 
+  @include icons-sprite(markers);
+}
