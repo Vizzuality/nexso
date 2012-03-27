@@ -678,3 +678,18 @@ aside {
 .ui-slider-vertical .ui-slider-range { left: 0; width: 100%; }
 .ui-slider-vertical .ui-slider-range-min { bottom: 0; }
 .ui-slider-vertical .ui-slider-range-max { top: 0; }
+
+
+#wifi_list {
+  display:none;
+  position:absolute;
+  top: 100px; left: 100px;
+  z-index:1000;
+}
+
+.stations, .stations svg {
+  position: absolute;
+}
+
+.stations svg { width: 14px; height: 14px; } 
+.marker { background:url(../img/icons/markers.png) no-repeat; }

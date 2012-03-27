@@ -65,9 +65,9 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 
 /*** SPRITES ***/
 /* icons */
-/* line 111, icons */
-.icons-sprite, .icons-arrows, .icons-bullet, .icons-calendar, .icons-close, .icons-close_big, .icons-gear, .icons-handle, .icons-iati, .icons-icons, .icons-marker, .icons-money, .icons-plus, .icons-star, .icons-symbols, .icons-view, .box .content ul li, .box a.close, nav ul li .filter.iati .content ul.symbols > li .icon, nav ul li .filter.iati .content ul.symbols > li .icon.iati, nav ul li .filter.view div.content ul.symbols li .icon, nav ul li .filter.view div.content ul.symbols li .icon.projects, nav ul li .filter.view div.content ul.symbols li .icon.agencies, aside .content ul li.money, aside .content ul li.calendar, aside .content ul li.marker, aside .content ul li.gear, aside .content ul li.plus, aside .content ul li.star, aside a.close, #timeline .handle, .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus, .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
-  background: url('/img/icons-s4e762dcab8.png') no-repeat;
+/* line 117, icons */
+.icons-sprite, .icons-arrows, .icons-bullet, .icons-calendar, .icons-close, .icons-close_big, .icons-gear, .icons-handle, .icons-iati, .icons-icons, .icons-marker, .icons-markers, .icons-money, .icons-plus, .icons-star, .icons-symbols, .icons-view, .box .content ul li, .box a.close, nav ul li .filter.iati .content ul.symbols > li .icon, nav ul li .filter.iati .content ul.symbols > li .icon.iati, nav ul li .filter.view div.content ul.symbols li .icon, nav ul li .filter.view div.content ul.symbols li .icon.projects, nav ul li .filter.view div.content ul.symbols li .icon.agencies, aside .content ul li.money, aside .content ul li.calendar, aside .content ul li.marker, aside .content ul li.gear, aside .content ul li.plus, aside .content ul li.star, aside a.close, #timeline .handle, .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus, .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
+  background: url('/img/icons-sc9b6e92650.png') no-repeat;
 }
 
 /* line 60, ../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
@@ -121,28 +121,33 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 }
 
 /* line 60, ../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
-.icons-money {
+.icons-markers {
   background-position: 0 -665px;
 }
 
 /* line 60, ../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
+.icons-money {
+  background-position: 0 -729px;
+}
+
+/* line 60, ../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
 .icons-plus {
-  background-position: 0 -735px;
+  background-position: 0 -799px;
 }
 
 /* line 60, ../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
 .icons-star {
-  background-position: 0 -798px;
+  background-position: 0 -862px;
 }
 
 /* line 60, ../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
 .icons-symbols {
-  background-position: 0 -863px;
+  background-position: 0 -927px;
 }
 
 /* line 60, ../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
 .icons-view {
-  background-position: 0 -1016px;
+  background-position: 0 -1080px;
 }
 
 /* backgrounds */
@@ -738,15 +743,15 @@ nav ul li .filter.view div.content ul.symbols li:last-child {
 nav ul li .filter.view div.content ul.symbols li .icon {
   width: 14px;
   height: 14px;
-  background-position: 0 -1016px;
+  background-position: 0 -1080px;
 }
 /* line 376, ../scss/style.scss */
 nav ul li .filter.view div.content ul.symbols li .icon.projects {
-  background-position: 0 -1016px;
+  background-position: 0 -1080px;
 }
 /* line 377, ../scss/style.scss */
 nav ul li .filter.view div.content ul.symbols li .icon.agencies {
-  background-position: 0 -1075px;
+  background-position: 0 -1139px;
 }
 /* line 382, ../scss/style.scss */
 nav ul li .filter.view div.content ul.ticks {
@@ -972,7 +977,7 @@ aside .content ul li {
 }
 /* line 561, ../scss/style.scss */
 aside .content ul li.money {
-  background-position: 0 -637px;
+  background-position: 0 -701px;
 }
 /* line 562, ../scss/style.scss */
 aside .content ul li.calendar {
@@ -988,11 +993,11 @@ aside .content ul li.gear {
 }
 /* line 565, ../scss/style.scss */
 aside .content ul li.plus {
-  background-position: 0 -707px;
+  background-position: 0 -771px;
 }
 /* line 566, ../scss/style.scss */
 aside .content ul li.star {
-  background-position: 0 -770px;
+  background-position: 0 -834px;
 }
 /* line 567, ../scss/style.scss */
 aside .content ul li:last-child {
@@ -1337,4 +1342,29 @@ aside a.close {
 /* line 680, ../scss/style.scss */
 .ui-slider-vertical .ui-slider-range-max {
   top: 0;
+}
+
+/* line 683, ../scss/style.scss */
+#wifi_list {
+  display: none;
+  position: absolute;
+  top: 100px;
+  left: 100px;
+  z-index: 1000;
+}
+
+/* line 690, ../scss/style.scss */
+.stations, .stations svg {
+  position: absolute;
+}
+
+/* line 694, ../scss/style.scss */
+.stations svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* line 695, ../scss/style.scss */
+.marker {
+  background: url(../img/icons/markers.png) no-repeat;
 }
