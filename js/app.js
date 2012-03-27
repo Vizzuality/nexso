@@ -108,9 +108,8 @@ $(function() {
             d = projection.fromLatLngToDivPixel(d);
             return d3.select(this)
             .on('click', function(){ 
-            console.log(m);
-              var template = m.template({ name: m.name() });
               infowindow.open(latLng);
+              infowindow.setContent(m.name());
 
             }).style("left", d.x + "px")
             .style("top", d.y + "px");

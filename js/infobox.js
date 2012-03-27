@@ -26,7 +26,7 @@ InfoWindow.prototype.draw = function() {
     div = this.div_ = document.createElement('DIV');
     div.className = "infowindow";
 
-    var template= '<div class="box golden">\
+    this.template = _.template('<div class="box golden">\
     <div class="content">\
                 <div class="header">\
                     <hgroup>\
@@ -46,8 +46,8 @@ InfoWindow.prototype.draw = function() {
             </div>\
             <a href="#" class="close"></a>\
             <div class="t"></div><div class="b"></div>\
-        </div>';
-    div.innerHTML = template;
+        </div>');
+    div.innerHTML = this.template({name:'x'});
 
     $(div).find('a.close').click(function(ev){
       ev.preventDefault();
@@ -95,13 +95,17 @@ InfoWindow.prototype.updateInfowindowPosition = function(div) {
 }
 
 InfoWindow.prototype.setPosition = function() {
-  console.log(this, this.div_);
   if (this.div_) { 
     var div = this.div_;
     this.updateInfowindowPosition(div);
     this.show();
   }
 }
+
+
+InfoWindow.prototype.setContent = function(name){
+  this.div_.innerHTML = this.template({name:name});
+} 
 
 
 InfoWindow.prototype.open = function(latlng){
