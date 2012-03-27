@@ -3,7 +3,7 @@ $(function() {
   $(document).on("click", function() {
     if ($("nav a[data-toggle='filter']").hasClass('selected')){
       $("nav a[data-toggle='filter']").removeClass('selected');
-      $(".filter").fadeOut(150);
+      $("nav .filter").fadeOut(150);
     }
   });
 
@@ -21,11 +21,11 @@ $(function() {
     $("nav a[data-toggle='filter'].selected").not(this).removeClass("selected");
     $(this).toggleClass("selected");
 
-    $("nav a[data-toggle='filter']").not(this).parent().find(".filter").fadeOut(250);
-    $(this).parent().find(".filter").fadeToggle(150);
+    $("nav a[data-toggle='filter']").not(this).parent().find("nav .filter").fadeOut(250);
+    $(this).parent().find("nav .filter").fadeToggle(150);
   });
 
-  $(".filter ul.ticks li").on("click", function(e) {
+  $("nav .filter ul.ticks li").on("click", function(e) {
     e.stopPropagation();
     $(this).toggleClass("selected");
 
@@ -39,7 +39,7 @@ $(function() {
     }
   });
 
-  $(".filter ul.radio li").on("click", function(e) {
+  $(".nav filter ul.radio li").on("click", function(e) {
     e.stopPropagation();
     $(this).parent().find("li").each(function() {
       var id = $(this).attr('id');
@@ -54,7 +54,7 @@ $(function() {
     localStorage[id] = true;
   });
 
-  $(".filter").on("click", function(e) {
+  $("nav .filter").on("click", function(e) {
     e.stopPropagation();
   });
 });
