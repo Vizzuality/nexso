@@ -19,85 +19,92 @@
 <script type="text/javascript" src="/js/vendor/backbone.js"> </script>
 <script type="text/javascript" src="/js/backbone.cartodb.js"> </script>
 <script type="text/javascript" src="/js/filters.js"> </script>
+<script type="text/javascript" src="/js/d3.min.js"></script>
 <script type="text/javascript" src="/js/app.js"> </script>
 
 </head>
 <body onload="initialize()">
+  <nav>
+  <div class="content">
+    <h1>Explorer</h1>
+    <ul>
+      <li>
+      <a href="#" data-toggle="filter">Iati</a>
+      <div class="filter iati">
+        <div class="content cf">
+          <ul class="symbols">
+            <li><div class="icon iati"></div></li>
+          </ul>
+          <div class="legend">
+            <h3>Open data (IATI)</h3>
+            <p>Powered by <a href="#">OpenAidRegister</a></p>
+          </div>
+        </div>
+        <div class="t"></div>
+        <div class="b"></div>
+      </div>
+      </li>
 
-<nav>
-    <div class="content">
-        <h1>Explorer</h1>
-        <ul>
-            <li>
-            <a href="#" data-toggle="filter">Iati</a>
-            <div class="filter iati">
-                <div class="content cf">
-                    <ul class="symbols">
-                        <li><div class="icon iati"></div></li>
-                    </ul>
-                    <div class="legend">
-                    <h3>Open data (IATI)</h3>
-                    <p>Powered by <a href="#">OpenAidRegister</a></p>
-                </div>
-                </div>
-                <div class="t"></div>
-                <div class="b"></div>
-            </div>
-            </li>
+      <li><a href="#" data-toggle="filter">View</a>
 
-            <li><a href="#" data-toggle="filter">View</a>
-            
-            <div class="filter view">
-                <div class="content cf">
-                    <ul class="symbols">
-                        <li><div class="icon projects"></div></li>
-                        <li><div class="icon agencies"></div></li>
-                    </ul>
-                    <ul class="ticks">
-                        <li id="projects"><a href="#">Projects</a></li>
-                        <li id="agencies"><a href="#">Executive agencies</a></li>
-                        <li id="fellows"><a href="#">Ashoka fellows</a></li>
-                    </ul>
-                </div>
-                <div class="t"></div>
-                <div class="b"></div>
-            </div>
-            
-            </li>
-            <li>
-            <a href="#" data-toggle="filter">Filter</a>
+      <div class="filter view">
+        <div class="content cf">
+          <ul class="symbols">
+            <li><div class="icon projects"></div></li>
+            <li><div class="icon agencies"></div></li>
+          </ul>
+          <ul class="ticks">
+            <li id="projects"><a href="#">Projects</a></li>
+            <li id="agencies"><a href="#">Executive agencies</a></li>
+            <li id="fellows"><a href="#">Ashoka fellows</a></li>
+          </ul>
+        </div>
+        <div class="t"></div>
+        <div class="b"></div>
+      </div>
 
-            <div class="filter big">
-                <div class="content cf">
-                    <h3 class="solution">By solution</h3>
-                    <ul class="radio">
-                        <li id="all"><a href="#">All</a></li>
-                        <li id="solutions"><a href="#">Only fomin solutions</a></li>
-                    </ul>
+      </li>
+      <li>
+      <a href="#" data-toggle="filter">Filter</a>
 
-                    <h3 class="topic">By topic</h3>
-                    <ul class="ticks">
-                        <li id="tourism"><a href="#">Sustainable tourism</a></li>
-                        <li id="local"><a href="#">Local economic dev.</a></li>
-                        <li id="employment"><a href="#">Youth employment</a></li>
-                        <li id="local2"><a href="#">Local economic dev.</a></li>
-                        <li id="women"><a href="#">Women entrepeneurship</a></li>
-                    </ul>
+      <div class="filter big">
+        <div class="content cf">
+          <h3 class="solution">By solution</h3>
+          <ul class="radio">
+            <li id="all"><a href="#">All</a></li>
+            <li id="solutions"><a href="#">Only fomin solutions</a></li>
+          </ul>
 
-                </div>
-                <div class="t"></div>
-                <div class="b"></div>
-            </div>
+          <h3 class="topic">By topic</h3>
+          <ul class="ticks">
+            <li id="tourism"><a href="#">Sustainable tourism</a></li>
+            <li id="local"><a href="#">Local economic dev.</a></li>
+            <li id="employment"><a href="#">Youth employment</a></li>
+            <li id="local2"><a href="#">Local economic dev.</a></li>
+            <li id="women"><a href="#">Women entrepeneurship</a></li>
+          </ul>
+
+        </div>
+        <div class="t"></div>
+        <div class="b"></div>
+      </div>
 
 
-            </li>
-        </ul>
-    </div>
-    <div class="shadow"></div>
-</nav>
+      </li>
+    </ul>
+  </div>
+  <div class="shadow"></div>
+  </nav>
 
-<div id="timeline"><div class="slider"></div></div>
-<div id="map"></div>
+  <div id="wifi_list">
+    <div class="filter">
+      <a href='#' class="free">free</a> 
+      <a href='#' class="fee">fee-based</a></div>
+    <ul></ul>
+  </div>
+
+  <div id="timeline"><div class="slider"></div></div>
+  <div id="map"></div>
 
 </body>
 </html>
