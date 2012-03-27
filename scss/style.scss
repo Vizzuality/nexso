@@ -103,8 +103,9 @@ nav {
   $pR: 24px;
   $pL: 35px;
 
-  position:relative;
+  position:absolute;
   width: $width;
+  // display:none;
 
   .content {
 
@@ -694,4 +695,10 @@ aside {
 .stations svg { width: 14px; height: 14px; } 
 .marker { 
   @include icons-sprite(markers);
+  cursor:pointer;
+}
+
+.infowindow {
+  position:absolute;
+  .box { top:0;}
 }
