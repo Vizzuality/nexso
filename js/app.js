@@ -60,7 +60,7 @@ $(function() {
       this.ashoka = this.options.ashoka;
       this.agencies = this.options.agencies;
       this.agencies.bind('reset', this.render, this);
-      this.ashoka.bind('reset', this.render, this);
+     // this.ashoka.bind('reset', this.render, this);
     },
 
     addOverlay: function(data, c) {
@@ -105,9 +105,10 @@ $(function() {
 
     render: function() {
       var self = this;
+      console.log('a');
 
       this.addOverlay(this.agencies.models, 'green');
-      this.addOverlay(this.ashoka.models, 'orange');
+      // this.addOverlay(this.ashoka.models, 'orange');
     }
   });
 
@@ -127,6 +128,8 @@ $(function() {
         e.stopPropagation();
         $(this).toggleClass("selected");
 
+        agencies.fetch();
+        ashoka.fetch();
         // Store the state of the element
         var id    = $(this).attr('id');
         var state = $(this).hasClass('selected');
@@ -142,7 +145,5 @@ $(function() {
   var filterView = new FilterView({
     el:$('nav .content')
   });
-      agencies.fetch();
-      ashoka.fetch();
 
 });
