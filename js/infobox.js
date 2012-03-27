@@ -19,7 +19,7 @@ function InfoWindow(params) {
 InfoWindow.prototype = new google.maps.OverlayView();
 
 InfoWindow.prototype.draw = function() {
-  var me = this;
+  var that = this;
 
   var div = this.div_;
   if (!div) {
@@ -47,13 +47,10 @@ InfoWindow.prototype.draw = function() {
             <a href="#" class="close"></a>\
             <div class="t"></div><div class="b"></div>\
         </div>');
-    div.innerHTML = this.template({name:'x'});
 
-    $(div).find('a.close').click(function(ev){
-      ev.preventDefault();
-      ev.stopPropagation();
-      me.hide();
-    });
+    div.innerHTML = this.template({name:'Loading…'});
+
+    this.bindClose();
 
     google.maps.event.addDomListener(div, 'click', function (ev) {
       ev.preventDefault ? ev.preventDefault() : ev.returnValue = false;
@@ -103,10 +100,19 @@ InfoWindow.prototype.setPosition = function() {
 }
 
 
+InfoWindow.prototype.bindClose = function(){
+  var that = this;
+  $(this.div_).find('.close').click(function(ev){
+    ev.preventDefault();
+    ev.stopPropagation();
+    that.hide();
+  });
+}
+
 InfoWindow.prototype.setContent = function(name){
   this.div_.innerHTML = this.template({name:name});
+  this.bindClose();
 } 
-
 
 InfoWindow.prototype.open = function(latlng){
   var that = this;
