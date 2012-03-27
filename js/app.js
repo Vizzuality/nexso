@@ -1,4 +1,3 @@
-
 $(function() {
 
   $( "#timeline .slider" ).slider({ range: true, min: 0, max: 500, step: 5, values: [ 75, 300 ], slide: function( event, ui ) { } });
@@ -19,37 +18,27 @@ $(function() {
   });
 
   var Point = CartoDB.CartoDBModel.extend({
-    template: _.template('<div class="box golden">\
-    <div class="content">\
-                <div class="header">\
-                    <hgroup>\
-                    <h4>Executing agency</h4>\
-                    <h2><%= name %></h2>\
-                    </hgroup>\
-                </div>\
-                <h4>Solutions</h4>\
-                <ul>\
-                    <li><a href="#">Irrigation in extreme unfertile terrain</a> </li>\
-                    <li><a href="#">Other solution name</a> </li>\
-                </ul>\
-                <h4>More info</h4>\
-                <ul>\
-                    <li><a href="#">Agency profile at FOMIN</a> </li>\
-                </ul>\
-            </div>\
-            <a href="#" class="close"></a>\
-            <div class="t"></div><div class="b"></div>\
-        </div>'),
     name: function() {
       return this.get('name');
     },
 
     lat: function() {
+      if (!this.get('location')) return 0;
       return this.get('location').coordinates[1];
     },
 
     lng: function() {
+      if (!this.get('location')) return 0;
       return this.get('location').coordinates[0];
+    }
+  });
+
+  var Ashoka = CartoDB.CartoDBCollection.extend({
+    model: Point,
+    table: 'v1_ashoka', //public table
+    columns: {
+      'name': 'name',
+      'location': 'the_geom'
     }
   });
 
@@ -63,25 +52,18 @@ $(function() {
   });
 
   // some helper view to show how to use the model
-  var ListView = Backbone.View.extend({
+  var MapView = Backbone.View.extend({
     events: {
-      'click .stations': 'filter_free'
     },
 
     initialize: function() {
-      this.wifi = this.options.wifi;
-      this.wifi .bind('reset', this.render, this);
+      this.ashoka = this.options.ashoka;
+      this.agencies = this.options.agencies;
+      this.agencies.bind('reset', this.render, this);
+      this.ashoka.bind('reset', this.render, this);
     },
 
-    filter_free: function() {
-      console.log('a');
-    },
-
-    render: function() {
-      var self = this;
-
-      var data = this.wifi.models;
-
+    addOverlay: function(data, c) {
       var overlay = new google.maps.OverlayView();
 
       // Add the container when the overlay is added to the map.
@@ -98,7 +80,7 @@ $(function() {
           .each(transform) // update existing markers
           .enter().append("svg:svg")
           .each(transform)
-          .attr("class", "marker");
+          .attr("class", "marker " + c);
 
           function transform(d) {
           var m = d;
@@ -108,9 +90,8 @@ $(function() {
             d = projection.fromLatLngToDivPixel(d);
             return d3.select(this)
             .on('click', function(){ 
-              infowindow.open(latLng);
               infowindow.setContent(m.name());
-
+              infowindow.open(latLng);
             }).style("left", d.x + "px")
             .style("top", d.y + "px");
           }
@@ -120,13 +101,48 @@ $(function() {
       // Bind our overlay to the map…
       overlay.setMap(map);
 
+    },
+
+    render: function() {
+      var self = this;
+
+      this.addOverlay(this.agencies.models, 'green');
+      this.addOverlay(this.ashoka.models, 'orange');
     }
   });
 
   var agencies = new Agencies();
-  var agency_list = new ListView({
-    wifi: agencies
+  var ashoka   = new Ashoka();
+
+  var mapView = new MapView({
+    el:$('#map'),
+    ashoka: ashoka,
+    agencies: agencies
   });
-  agencies.fetch();
+
+  // some helper view to show how to use the model
+  var FilterView = Backbone.View.extend({
+    initialize: function() {
+      this.$(".filter ul.ticks li").on("click", function(e) {
+        e.stopPropagation();
+        $(this).toggleClass("selected");
+
+        // Store the state of the element
+        var id    = $(this).attr('id');
+        var state = $(this).hasClass('selected');
+        if (state) {
+          localStorage[id] = state;
+        } else {
+          localStorage.removeItem(id);
+        }
+      });
+    }
+  });
+
+  var filterView = new FilterView({
+    el:$('nav .content')
+  });
+      agencies.fetch();
+      ashoka.fetch();
 
 });

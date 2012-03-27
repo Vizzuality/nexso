@@ -76,29 +76,21 @@ InfoWindow.prototype.draw = function() {
     panes.floatPane.appendChild(div);
     div.style.opacity = 0;
   }
-
-  this.updateInfowindowPosition(div);
 };
-
-
-InfoWindow.prototype.updateInfowindowPosition = function(div) {
-  var pixPosition = this.getProjection().fromLatLngToDivPixel(this.latlng_);
-  if (pixPosition) {
-    div.style.width = this.width_ + 'px';
-    div.style.left = (pixPosition.x - 131) + 'px';
-    var actual_height = - $(div).find('.box').height();
-    div.style.top = (pixPosition.y + actual_height - 20) + 'px';
-  }
-}
 
 InfoWindow.prototype.setPosition = function() {
   if (this.div_) { 
     var div = this.div_;
-    this.updateInfowindowPosition(div);
+    var pixPosition = this.getProjection().fromLatLngToDivPixel(this.latlng_);
+    if (pixPosition) {
+      div.style.width = this.width_ + 'px';
+      div.style.left = (pixPosition.x - 131) + 'px';
+      var actual_height = - $(div).find('.box').height();
+      div.style.top = (pixPosition.y + actual_height - 10) + 'px';
+    }
     this.show();
   }
 }
-
 
 InfoWindow.prototype.bindClose = function(){
   var that = this;

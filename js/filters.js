@@ -25,19 +25,19 @@ $(function() {
     $(this).parent().find(".filter").fadeToggle(150);
   });
 
-  $("nav .filter ul.ticks li").on("click", function(e) {
-    e.stopPropagation();
-    $(this).toggleClass("selected");
+  // $("nav .filter ul.ticks li").on("click", function(e) {
+  //   e.stopPropagation();
+  //   $(this).toggleClass("selected");
 
-    // Store the state of the element
-    var id    = $(this).attr('id');
-    var state = $(this).hasClass('selected');
-    if (state) {
-      localStorage[id] = state;
-    } else {
-      localStorage.removeItem(id);
-    }
-  });
+  //   // Store the state of the element
+  //   var id    = $(this).attr('id');
+  //   var state = $(this).hasClass('selected');
+  //   if (state) {
+  //     localStorage[id] = state;
+  //   } else {
+  //     localStorage.removeItem(id);
+  //   }
+  // });
 
   $("nav .filter ul.radio li").on("click", function(e) {
     e.stopPropagation();

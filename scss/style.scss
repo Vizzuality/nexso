@@ -694,8 +694,11 @@ aside {
 
 .stations svg { width: 14px; height: 14px; } 
 .marker { 
-  @include icons-sprite(markers);
+  @include icons-sprite(markers, $offset-x:0);
   cursor:pointer;
+  &.green {
+    @include icons-sprite(markers, $offset-x:-14px);
+  }
 }
 
 .infowindow {
