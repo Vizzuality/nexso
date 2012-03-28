@@ -740,6 +740,12 @@ body{
   stroke-linejoin: round;
 }
 
+#counties {
+  position:absolute;
+  top:0; left:0;
+  width:100%;
+  height:100%;
+}
 #counties path{
   stroke: #ccc;
   stroke-width:0.2px;

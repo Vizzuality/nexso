@@ -43,6 +43,7 @@ var r = d3.scale.sqrt()
 
 // Our projection.
 var xy = d3.geo.mercator();
+
 var svg = d3.select("body")
         .append("svg")
         .call(d3.behavior.zoom()
@@ -50,6 +51,7 @@ var svg = d3.select("body")
         .append("g");
 
 svg.append("g").attr("id", "counties");
+svg.append("g").attr("id", "states");
 
 d3.json("https://nexso2.cartodb.com/api/v2/sql/?q=SELECT%20the_geom%20FROM%20v1_projects%20WHERE%20the_geom%20IS%20NOT%20NULL&format=geojson&dp=4", function(collection) {
   svg.select("#counties")
@@ -57,6 +59,14 @@ d3.json("https://nexso2.cartodb.com/api/v2/sql/?q=SELECT%20the_geom%20FROM%20v1_
       .data(collection.features)
     .enter().append("path")
     .attr("d", d3.geo.path().projection(xy));
+
+   d3.json("https://vizzuality.cartodb.com/api/v2/sql/?q=SELECT%20*%20FROM%20us_states%20WHERE%20the_geom%20IS%20NOT%20NULL&format=geojson&dp=4", function(collection) {
+  svg.select("#states")
+    .selectAll("path")
+      .data(collection.features)
+    .enter().append("path")
+    .attr("d", d3.geo.path().projection(xy));
+   });
 });
 
 function redraw() {

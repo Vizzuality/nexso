@@ -83,68 +83,42 @@ $(function() {
       this.updateLayer();
     },
     addPath: function() {
-
-      d3.json("https://nexso2.cartodb.com/api/v2/sql/?q=SELECT%20ST_ASGEOJSON(the_geom)%20as%20the_geom%20FROM%20v1_projects%20WHERE%20the_geom%20IS%20NOT%20NULL", function(collection) {
+      d3.json("https://nexso2.cartodb.com/api/v2/sql/?q=SELECT the_geom FROM v1_projects WHERE the_geom IS NOT NULL&format=geojson&dp=4", function(collection) {
       var self = this;
       var overlay = new google.maps.OverlayView();
 
       overlay.onAdd = function() {
       // The radius scale for the centroids.
-      var r = d3.scale.sqrt()
-      .domain([0, 1e6])
-      .range([0, 10]);
 
-      function redraw() {
-        //self.layer.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-      }
-      //console.log(collection.rows);
       // Our projection.
       var xy = d3.geo.mercator();
+
       self.layer = d3.select(this.getPanes().overlayMouseTarget).append("div")
-      .append("svg")
-      .call(d3.behavior.zoom()
-      .on("zoom", redraw))
-      .append("g");
+      .append("svg");
 
       self.layer.append("g").attr("id", "counties");
-      self.layer.append("g").attr("id", "states");
 
-        self.layer.select("#counties")
-        .selectAll("path")
-        .data(collection.rows)
-        .enter().append("path")
-        .each(transform)
-        .attr("fill", "#559")
-        .attr("stroke", "black")
-        .attr("stroke-width", "0.2")
-        .attr("opacity", 1.0)
-        .attr("d", d3.geo.path().projection(xy));
-      }
-      function transform(d) {
-      console.log(d);
-      return d;
-
+      self.layer.select("#counties")
+      .selectAll("path")
+      .data(collection.features)
+      .enter().append("path")
+      .each(feature)
+      .attr("fill", "#ccc")
+      .attr("stroke", "black")
+      .attr("stroke-width", "2")
+      .attr("stroke-dasharray", function(d) { return (d + 1) + ",5"; })
+      .attr("opacity", 1.0)
+      .attr("d", d3.geo.path().projection(xy));
       }
 
-      overlay.draw = function() {
-        //var projection = this.getProjection();
-
-        //var lat = collection.features[0].geometry.coordinates[0]; 
-        //var lng = collection.features[1].geometry.coordinates[0]; 
-
-        //  var latLng = new google.maps.LatLng(lat, lng);
-        //  var d = new google.maps.LatLng(lat, lng);
-        //  d = projection.fromLatLngToDivPixel(d);
-
-        //  console.log(d3.select(this));
-        //  return d3.select(this)
-        //  .style("left", d.x + "px")
-        //  .style("top", d.y + "px");
-
-        //  //self.layer.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-      }
+      overlay.draw = function() { }
       overlay.setMap(map);
       });
+
+      function feature(a) {
+      return null;
+
+      }
     },
 
     addOverlay: function(data, c) {
@@ -183,13 +157,13 @@ $(function() {
           var latLng = new google.maps.LatLng(d.lat(), d.lng());
           d = new google.maps.LatLng(d.lat(), d.lng());
           d = projection.fromLatLngToDivPixel(d);
-          
+
           var markerClass;
 
           if (m.topic_id) {
-             markerClass = "marker " + c + " t_" + m.topic_id(); 
+            markerClass = "marker " + c + " t_" + m.topic_id(); 
           } else {
-             markerClass = "marker " + c; 
+            markerClass = "marker " + c; 
           }
           return d3.select(this)
           .on('click', function(){ 
@@ -231,13 +205,13 @@ $(function() {
         $(this).toggleClass("selected");
         var id = $(this).attr('id');
 
-          if ($(this).hasClass('selected')) {
-            if (id == "agencies") agencies.fetch();
-            if (id == "ashoka") ashoka.fetch();
-          } else {
-            if (id == "agencies") mapView.removeOverlay(id);
-            if (id == "ashoka") mapView.removeOverlay(id);
-          }
+        if ($(this).hasClass('selected')) {
+          if (id == "agencies") agencies.fetch();
+          if (id == "ashoka") ashoka.fetch();
+        } else {
+          if (id == "agencies") mapView.removeOverlay(id);
+          if (id == "ashoka") mapView.removeOverlay(id);
+        }
 
         // Store the state of the element
         var id    = $(this).attr('id');

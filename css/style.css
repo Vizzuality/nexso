@@ -1410,6 +1410,15 @@ body {
 }
 
 /* line 743, ../scss/style.scss */
+#counties {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* line 749, ../scss/style.scss */
 #counties path {
   stroke: #ccc;
   stroke-width: 0.2px;
