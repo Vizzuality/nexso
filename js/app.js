@@ -69,7 +69,9 @@ $(function() {
       // Add the container when the overlay is added to the map.
       overlay.onAdd = function() {
         var layer = d3.select(this.getPanes().overlayMouseTarget).append("div")
-        .attr("class", "stations");
+        .attr("class", "stations")
+        .style("width", $(document).width() + "px")
+        .style("height", $(document).height() + "px");
 
         // Draw each marker as a separate SVG element.
         overlay.draw = function() {
