@@ -167,13 +167,13 @@ $(function() {
         $(this).toggleClass("selected");
         var id = $(this).attr('id');
 
-        if ($(this).hasClass('selected')) {
-          if (id == "agencies") agencies.fetch();
-          if (id == "ashoka") ashoka.fetch();
-        } else {
-          if (id == "agencies") mapView.removeOverlay(id);
-          if (id == "ashoka") mapView.removeOverlay(id);
-        }
+          if ($(this).hasClass('selected')) {
+            if (id == "agencies") agencies.fetch();
+            if (id == "ashoka") ashoka.fetch();
+          } else {
+            if (id == "agencies") mapView.removeOverlay(id);
+            if (id == "ashoka") mapView.removeOverlay(id);
+          }
 
         // Store the state of the element
         var id    = $(this).attr('id');

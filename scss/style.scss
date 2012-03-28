@@ -272,7 +272,7 @@ nav ul li .filter {
     div.b { bottom: -13px; width:$width; height: 13px; background:url(../img/backgrounds/bkg_view_filter.png) no-repeat -444px top; }
   } // view
 
-  &.big {
+  &.filters {
     $width: 316px;
     $pT: 13px;
     $pR: 0;
@@ -410,7 +410,7 @@ nav ul li .filter.view {
     } // ul
   }
 }
-nav ul li .filter.big { 
+nav ul li .filter.filters { 
   div.content {
 
     h3 {
@@ -467,7 +467,7 @@ nav ul li .filter.big {
 
     } // ul
   }
-} // filter.big
+} // filter.filters
 
 nav ul li .filter {
   .content {

@@ -598,24 +598,24 @@ nav ul li .filter.view div.b {
   background: url(../img/backgrounds/bkg_view_filter.png) no-repeat -444px top;
 }
 /* line 275, ../scss/style.scss */
-nav ul li .filter.big {
+nav ul li .filter.filters {
   width: 316px;
 }
 /* line 284, ../scss/style.scss */
-nav ul li .filter.big div.content {
+nav ul li .filter.filters div.content {
   width: 316px;
   background: url(../img/backgrounds/bkg_big_filter.png) repeat-y -322px bottom;
   padding: 13px 0 7px 0;
 }
 /* line 290, ../scss/style.scss */
-nav ul li .filter.big div.t {
+nav ul li .filter.filters div.t {
   top: -55px;
   width: 316px;
   height: 55px;
   background: url(../img/backgrounds/bkg_big_filter.png) no-repeat left top;
 }
 /* line 291, ../scss/style.scss */
-nav ul li .filter.big div.b {
+nav ul li .filter.filters div.b {
   bottom: -13px;
   width: 316px;
   height: 13px;
@@ -774,7 +774,7 @@ nav ul li .filter.view div.content ul li a {
 }
 
 /* line 416, ../scss/style.scss */
-nav ul li .filter.big div.content h3 {
+nav ul li .filter.filters div.content h3 {
   float: left;
   width: 82px;
   left: 0;
@@ -784,13 +784,13 @@ nav ul li .filter.big div.content h3 {
   font-size: 11px;
 }
 /* line 424, ../scss/style.scss */
-nav ul li .filter.big div.content h3.topic {
+nav ul li .filter.filters div.content h3.topic {
   margin-top: -1px;
   padding-top: 10px;
   border-top: 1px solid #E5E5E5;
 }
 /* line 427, ../scss/style.scss */
-nav ul li .filter.big div.content ul {
+nav ul li .filter.filters div.content ul {
   float: left;
   position: relative;
   top: 0;
@@ -800,46 +800,46 @@ nav ul li .filter.big div.content ul {
   margin: 0;
 }
 /* line 438, ../scss/style.scss */
-nav ul li .filter.big div.content ul.ticks li {
+nav ul li .filter.filters div.content ul.ticks li {
   cursor: pointer;
   background-position: 14px -73px;
 }
 /* line 440, ../scss/style.scss */
-nav ul li .filter.big div.content ul.ticks li:last-child {
+nav ul li .filter.filters div.content ul.ticks li:last-child {
   padding-bottom: 0;
   border: none;
 }
 /* line 446, ../scss/style.scss */
-nav ul li .filter.big div.content ul.ticks li.selected {
+nav ul li .filter.filters div.content ul.ticks li.selected {
   background-position: 14px -46px;
 }
 /* line 449, ../scss/style.scss */
-nav ul li .filter.big div.content ul.radio li {
+nav ul li .filter.filters div.content ul.radio li {
   cursor: pointer;
   background-position: 14px -16px;
 }
 /* line 451, ../scss/style.scss */
-nav ul li .filter.big div.content ul.radio li:first-child {
+nav ul li .filter.filters div.content ul.radio li:first-child {
   padding-top: 0;
   background-position: 14px -28px;
 }
 /* line 454, ../scss/style.scss */
-nav ul li .filter.big div.content ul.radio li:first-child.selected {
+nav ul li .filter.filters div.content ul.radio li:first-child.selected {
   background-position: 14px 2px;
 }
 /* line 457, ../scss/style.scss */
-nav ul li .filter.big div.content ul.radio li.selected {
+nav ul li .filter.filters div.content ul.radio li.selected {
   background-position: 14px 14px;
 }
 /* line 460, ../scss/style.scss */
-nav ul li .filter.big div.content ul li {
+nav ul li .filter.filters div.content ul li {
   width: auto;
   margin: 0;
   padding: 12px 0 11px 35px;
   border-bottom: 1px solid #f1f1f1;
 }
 /* line 465, ../scss/style.scss */
-nav ul li .filter.big div.content ul li a {
+nav ul li .filter.filters div.content ul li a {
   display: block;
   width: 174px;
 }
