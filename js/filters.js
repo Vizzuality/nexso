@@ -8,10 +8,10 @@ $(function() {
   });
 
   // Ticks initialization
-  $("ul.radio li, ul.ticks li").each(function(i, e) {
-    var id = $(e).attr('id');
-    if (localStorage[id]) $(e).addClass('selected');
-  });
+  // $("ul.radio li, ul.ticks li").each(function(i, e) {
+  //   var id = $(e).attr('id');
+  //   if (localStorage[id]) $(e).addClass('selected');
+  // });
 
   if ($("ul.radio li.selected").length <= 0) $("ul.radio li:first-child").addClass("selected");
 
@@ -24,20 +24,6 @@ $(function() {
     $("nav a[data-toggle='filter']").not(this).parent().find(".filter").fadeOut(250);
     $(this).parent().find(".filter").fadeToggle(150);
   });
-
-  // $("nav .filter ul.ticks li").on("click", function(e) {
-  //   e.stopPropagation();
-  //   $(this).toggleClass("selected");
-
-  //   // Store the state of the element
-  //   var id    = $(this).attr('id');
-  //   var state = $(this).hasClass('selected');
-  //   if (state) {
-  //     localStorage[id] = state;
-  //   } else {
-  //     localStorage.removeItem(id);
-  //   }
-  // });
 
   $("nav .filter ul.radio li").on("click", function(e) {
     e.stopPropagation();

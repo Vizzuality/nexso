@@ -26,7 +26,7 @@ InfoWindow.prototype.draw = function() {
     div = this.div_ = document.createElement('DIV');
     div.className = "infowindow";
 
-    this.template = _.template('<div class="box golden">\
+    this.template = _.template('<div class="box <%= c %>">\
     <div class="content">\
                 <div class="header">\
                     <hgroup>\
@@ -48,7 +48,7 @@ InfoWindow.prototype.draw = function() {
             <div class="t"></div><div class="b"></div>\
         </div>');
 
-    div.innerHTML = this.template({name:'Loading…'});
+    div.innerHTML = this.template({name:'Loading…', c:''});
 
     this.bindClose();
 
@@ -84,7 +84,7 @@ InfoWindow.prototype.setPosition = function() {
     var pixPosition = this.getProjection().fromLatLngToDivPixel(this.latlng_);
     if (pixPosition) {
       div.style.width = this.width_ + 'px';
-      div.style.left = (pixPosition.x - 131) + 'px';
+      div.style.left = (pixPosition.x - 31) + 'px';
       var actual_height = - $(div).find('.box').height();
       div.style.top = (pixPosition.y + actual_height - 10) + 'px';
     }
@@ -101,8 +101,8 @@ InfoWindow.prototype.bindClose = function(){
   });
 }
 
-InfoWindow.prototype.setContent = function(name){
-  this.div_.innerHTML = this.template({name:name});
+InfoWindow.prototype.setContent = function(name, c){
+  this.div_.innerHTML = this.template({name:name, c:c});
   this.bindClose();
 } 
 

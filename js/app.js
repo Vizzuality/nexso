@@ -96,7 +96,7 @@ $(function() {
             d = projection.fromLatLngToDivPixel(d);
             return d3.select(this)
             .on('click', function(){ 
-              infowindow.setContent(m.name());
+              infowindow.setContent(m.name(), c);
               infowindow.open(latLng);
             }).style("left", d.x + "px")
             .style("top", d.y + "px");
