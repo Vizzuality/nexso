@@ -1388,3 +1388,31 @@ aside a.close {
   height: 100px;
   background: red;
 }
+
+/* line 726, ../scss/style.scss */
+svg {
+  width: 2060px;
+  height: 5000px;
+}
+
+/* line 731, ../scss/style.scss */
+body {
+  background: #111;
+}
+
+/* line 735, ../scss/style.scss */
+#states path {
+  fill-opacity: 0;
+  stroke: #fff;
+  stroke-width: 1.5px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* line 743, ../scss/style.scss */
+#counties path {
+  stroke: #ccc;
+  stroke-width: 0.2px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}

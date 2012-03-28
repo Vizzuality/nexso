@@ -82,15 +82,78 @@ $(function() {
       $(".marker."+ c).remove();
       this.updateLayer();
     },
+    addPath: function() {
+
+      d3.json("https://nexso2.cartodb.com/api/v2/sql/?q=SELECT%20ST_ASGEOJSON(the_geom)%20as%20the_geom%20FROM%20v1_projects%20WHERE%20the_geom%20IS%20NOT%20NULL", function(collection) {
+      var self = this;
+      var overlay = new google.maps.OverlayView();
+
+      overlay.onAdd = function() {
+      // The radius scale for the centroids.
+      var r = d3.scale.sqrt()
+      .domain([0, 1e6])
+      .range([0, 10]);
+
+      function redraw() {
+        //self.layer.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+      }
+      //console.log(collection.rows);
+      // Our projection.
+      var xy = d3.geo.mercator();
+      self.layer = d3.select(this.getPanes().overlayMouseTarget).append("div")
+      .append("svg")
+      .call(d3.behavior.zoom()
+      .on("zoom", redraw))
+      .append("g");
+
+      self.layer.append("g").attr("id", "counties");
+      self.layer.append("g").attr("id", "states");
+
+        self.layer.select("#counties")
+        .selectAll("path")
+        .data(collection.rows)
+        .enter().append("path")
+        .each(transform)
+        .attr("fill", "#559")
+        .attr("stroke", "black")
+        .attr("stroke-width", "0.2")
+        .attr("opacity", 1.0)
+        .attr("d", d3.geo.path().projection(xy));
+      }
+      function transform(d) {
+      console.log(d);
+      return d;
+
+      }
+
+      overlay.draw = function() {
+        //var projection = this.getProjection();
+
+        //var lat = collection.features[0].geometry.coordinates[0]; 
+        //var lng = collection.features[1].geometry.coordinates[0]; 
+
+        //  var latLng = new google.maps.LatLng(lat, lng);
+        //  var d = new google.maps.LatLng(lat, lng);
+        //  d = projection.fromLatLngToDivPixel(d);
+
+        //  console.log(d3.select(this));
+        //  return d3.select(this)
+        //  .style("left", d.x + "px")
+        //  .style("top", d.y + "px");
+
+        //  //self.layer.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+      }
+      overlay.setMap(map);
+      });
+    },
+
     addOverlay: function(data, c) {
       this.removeOverlay(c);
 
       var self = this;
       var overlay = new google.maps.OverlayView();
 
-      overlay.onRemove = function() {
-        console.log('Remove');
-      }
+      overlay.onRemove = function() { }
       // Add the container when the overlay is added to the map.
       overlay.onAdd = function() {
 
@@ -143,7 +206,8 @@ $(function() {
       overlay.setMap(map);
     },
     renderAgencies: function() {
-      this.addOverlay(this.agencies.models, 'agencies');
+      this.addPath();
+      //this.addOverlay(this.agencies.models, 'agencies');
     },
     renderAshoka: function() {
       this.addOverlay(this.ashoka.models, 'ashoka');
@@ -192,3 +256,8 @@ $(function() {
   });
 
 });
+
+
+
+
+

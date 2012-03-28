@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>U.S. States</title>
+    <script type="text/javascript" src="/js/d3.v2.min.js"></script>
+    <style type="text/css">
+
+svg {
+  width: 2060px;
+  height: 5000px;
+}
+
+body{
+    background:#111;
+}
+
+#states path {
+  fill-opacity:0;
+  stroke: #fff;
+  stroke-width:1.5px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+#counties path{
+  stroke: #ccc;
+  stroke-width:0.2px;
+  stroke-linecap: round;
+  stroke-linejoin: round;  
+}
+
+    </style>
+  </head>
+  <body>
+    <script type="text/javascript">
+
+// The radius scale for the centroids.
+var r = d3.scale.sqrt()
+    .domain([0, 1e6])
+    .range([0, 10]);
+
+// Our projection.
+var xy = d3.geo.mercator();
+var svg = d3.select("body")
+        .append("svg")
+        .call(d3.behavior.zoom()
+            .on("zoom", redraw))
+        .append("g");
+
+svg.append("g").attr("id", "counties");
+
+d3.json("https://nexso2.cartodb.com/api/v2/sql/?q=SELECT%20the_geom%20FROM%20v1_projects%20WHERE%20the_geom%20IS%20NOT%20NULL&format=geojson&dp=4", function(collection) {
+  svg.select("#counties")
+    .selectAll("path")
+      .data(collection.features)
+    .enter().append("path")
+    .attr("d", d3.geo.path().projection(xy));
+});
+
+function redraw() {
+  svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+}
+
+    </script>
+  </body>
+</html>
+

@@ -722,3 +722,27 @@ aside {
   height:100px;
   background:red;
 }
+
+svg {
+  width: 2060px;
+  height: 5000px;
+}
+
+body{
+    background:#111;
+}
+
+#states path {
+  fill-opacity:0;
+  stroke: #fff;
+  stroke-width:1.5px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+#counties path{
+  stroke: #ccc;
+  stroke-width:0.2px;
+  stroke-linecap: round;
+  stroke-linejoin: round;  
+}
