@@ -1,9 +1,9 @@
+@import url(http://fonts.googleapis.com/css?family=News+Cycle);
+
 @import "compass/reset";
 @import "compass/css3";
 @import "sprites.scss";
 @import "helpers.scss";
-
-@import url(http://fonts.googleapis.com/css?family=News+Cycle);
 
 $title_blue:    #0C5FB2;
 
@@ -698,6 +698,8 @@ aside {
 .stations svg { width: 14px; height: 14px; } 
 
 .marker { 
+  position:absolute;
+  width:14px; height:14px;
   @include icons-sprite(markers, $offset-x:0);
   cursor:pointer;
 
@@ -712,4 +714,11 @@ aside {
 .infowindow {
   position:absolute;
   .box { top:0;}
+}
+
+.stations .z {
+  position:relative;
+  width:100px;
+  height:100px;
+  background:red;
 }
