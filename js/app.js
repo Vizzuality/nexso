@@ -57,7 +57,7 @@ $(function() {
     },
 
     initialize: function() {
-      this.ashoka = this.options.ashoka;
+      //this.ashoka = this.options.ashoka;
       this.agencies = this.options.agencies;
       this.agencies.bind('reset', this.render, this);
      // this.ashoka.bind('reset', this.render, this);
@@ -105,7 +105,6 @@ $(function() {
 
     render: function() {
       var self = this;
-      console.log('a');
 
       this.addOverlay(this.agencies.models, 'green');
       // this.addOverlay(this.ashoka.models, 'orange');
@@ -129,7 +128,7 @@ $(function() {
         $(this).toggleClass("selected");
 
         agencies.fetch();
-        ashoka.fetch();
+//        ashoka.fetch();
         // Store the state of the element
         var id    = $(this).attr('id');
         var state = $(this).hasClass('selected');
