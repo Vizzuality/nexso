@@ -57,19 +57,23 @@ $(function() {
     },
 
     initialize: function() {
-      //this.ashoka = this.options.ashoka;
+      this.ashoka   = this.options.ashoka;
       this.agencies = this.options.agencies;
-      this.agencies.bind('reset', this.render, this);
-     // this.ashoka.bind('reset', this.render, this);
+      this.agencies.bind('reset', this.renderAgencies, this);
+      this.ashoka.bind('reset', this.renderAshoka, this);
     },
-
+    removeOverlay: function(c) {
+      $(".stations."+ c).remove();
+    },
     addOverlay: function(data, c) {
+      this.removeOverlay(c);
+
       var overlay = new google.maps.OverlayView();
 
       // Add the container when the overlay is added to the map.
       overlay.onAdd = function() {
         var layer = d3.select(this.getPanes().overlayMouseTarget).append("div")
-        .attr("class", "stations")
+        .attr("class", "stations " + c)
         .style("width", $(document).width() + "px")
         .style("height", $(document).height() + "px");
 
@@ -102,14 +106,12 @@ $(function() {
 
       // Bind our overlay to the map…
       overlay.setMap(map);
-
     },
-
-    render: function() {
-      var self = this;
-
-      this.addOverlay(this.agencies.models, 'green');
-      // this.addOverlay(this.ashoka.models, 'orange');
+    renderAgencies: function() {
+      this.addOverlay(this.agencies.models, 'agencies');
+    },
+    renderAshoka: function() {
+      this.addOverlay(this.ashoka.models, 'ashoka');
     }
   });
 
@@ -128,9 +130,16 @@ $(function() {
       this.$(".filter ul.ticks li").on("click", function(e) {
         e.stopPropagation();
         $(this).toggleClass("selected");
+        var id = $(this).attr('id');
 
-        agencies.fetch();
-//        ashoka.fetch();
+        if ($(this).hasClass('selected')) {
+          if (id == "agencies") agencies.fetch();
+          if (id == "ashoka") ashoka.fetch();
+        } else {
+          if (id == "agencies") mapView.removeOverlay(id);
+          if (id == "ashoka") mapView.removeOverlay(id);
+        }
+
         // Store the state of the element
         var id    = $(this).attr('id');
         var state = $(this).hasClass('selected');

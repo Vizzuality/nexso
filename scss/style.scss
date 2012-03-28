@@ -705,7 +705,11 @@ aside {
 .marker { 
   @include icons-sprite(markers, $offset-x:0);
   cursor:pointer;
-  &.green {
+
+  &.agencies {
+    @include icons-sprite(markers, $offset-x:0);
+  }
+  &.ashoka {
     @include icons-sprite(markers, $offset-x:-14px);
   }
 }
