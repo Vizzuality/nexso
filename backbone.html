@@ -18,6 +18,7 @@
 <script type="text/javascript" src="/js/vendor/underscore-1.3.1.js"> </script>
 <script type="text/javascript" src="/js/vendor/backbone.js"> </script>
 <script type="text/javascript" src="/js/vendor/GeoJSON.js"> </script>
+<script type="text/javascript" src="/js/vendor/d3.v2.min.js"> </script>
 <script type="text/javascript" src="/js/backbone.cartodb.js"> </script>
 <script type="text/javascript" src="/js/filters.js"> </script>
 <script type="text/javascript" src="/js/infobox.js"> </script>
@@ -77,12 +78,12 @@
 
           <h3 class="topic">By topic</h3>
           <ul class="ticks">
-            <li id="tourism"><a href="#">Sustainable tourism</a></li>
-            <li id="local"><a href="#">Local economic dev.</a></li>
-            <li id="employment"><a href="#">Youth employment</a></li>
-            <li id="woman"><a href="#">Women entrepeneurship</a></li>
-            <li id="financing"><a href="#">Early stage financing</a></li>
-            <li id="rural"><a href="#">Rural microfinance</a></li>
+            <li id="tourism" class="t1 selected"><a href="#">Sustainable tourism</a></li>
+            <li id="local" class="t2 selected"><a href="#">Local economic dev.</a></li>
+            <li id="employment" class="t3 selected"><a href="#">Youth employment</a></li>
+            <li id="woman" class="t4 selected"><a href="#">Women entrepeneurship</a></li>
+            <li id="financing" class="t5 selected"><a href="#">Early stage financing</a></li>
+            <li id="rural" class="t6 selected"><a href="#">Rural microfinance</a></li>
           </ul>
 
         </div>
@@ -96,13 +97,6 @@
   </div>
   <div class="shadow"></div>
   </nav>
-
-  <div id="wifi_list">
-    <div class="filter">
-      <a href='#' class="free">free</a> 
-      <a href='#' class="fee">fee-based</a></div>
-    <ul></ul>
-  </div>
 
   <div id="map"></div>
 

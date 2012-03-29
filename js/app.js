@@ -1,7 +1,12 @@
 var // DEFAULTS
 lat = 37.76487,
 lng = -122.41948,
-zoom = 3;
+zoom = 3,
+minZoom = 3;
+maxZoom = 10;
+
+var projectsStyle      = { strokeColor: "#EFC392", strokeOpacity: 1, strokeWeight: 2, fillColor: "#FBDBBA", fillOpacity: 0.5 };
+var projectsHoverStyle = { strokeColor: "#EFC392", strokeOpacity: 1, strokeWeight: 2, fillColor: "#FBDBBA", fillOpacity: .7 };
 
 $(function() {
 
@@ -11,6 +16,8 @@ $(function() {
   // Map
   var mapOptions = {
     zoom: zoom,
+    minZoom: minZoom,
+    maxZoom: maxZoom,
     center: new google.maps.LatLng(lat, lng),
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
@@ -19,6 +26,7 @@ $(function() {
 
   google.maps.event.addListener(map, 'zoom_changed', function() {
     infowindow.hide();
+    $(".stations").css({width:$(document).width(), height:$(document).height(), top:0, left:0});
   });
 
   // We reuse the same infowindow 
@@ -83,16 +91,44 @@ $(function() {
       this.state = -1 + -1*this.state;
       if (this.layer) { // There's a bug on Chrome, we need to grow/shrink the layer in order for it to show the markers
         this.layer.style("width", $(document).width() + this.state + "px");
+        this.layer.style("height", $(document).height() + this.state + "px");
+        this.layer.style("top", 0);
+        this.layer.style("left", 0);
       }
     },
+    hideOverlay: function(c) {
+      $(".marker."+ c).hide();
+      this.updateLayer();
+    },
+    showOverlay: function(c) {
+      $(".marker."+ c).show();
+      this.updateLayer();
+    },
     removeOverlay: function(c) {
+      if (c == 'agencies') this.agencies.remove(this.agencies.models);
+      else if (c == 'ashoka') this.ashoka.remove(this.ashoka.models);
       $(".marker."+ c).remove();
       this.updateLayer();
     },
+    removePath: function() {
+      if (this.projectsOverlay.length){
+        for (var i = 0; i < this.projectsOverlay.length; i++){
+          if(this.projectsOverlay[i].length){
+            for(var j = 0; j < this.projectsOverlay[i].length; j++){
+              this.projectsOverlay[i][j].setMap(null);
+            }
+          }
+        }
+      }
+    },
     addPath: function() {
+      var that = this;
       var url = "https://nexso2.cartodb.com/api/v2/sql/?q=SELECT the_geom FROM working_areas&format=geojson";
       //var url = "https://nexso2.cartodb.com/api/v2/sql?q=SELECT the_geom FROM v1_agencies&format=geojson";
-
+      this.addOverlay(url);
+    },
+    addOverlay: function(url) {
+      var that = this;
       $.ajax({
         url: url,
         success: function(data) {
@@ -101,48 +137,52 @@ $(function() {
           }
 
           function showFeature(geojson, style){
-            var currentFeature_or_Features = new GeoJSON(geojson, style || null);
-            if (currentFeature_or_Features.type && currentFeature_or_Features.type == "Error"){
-              document.getElementById("put_geojson_string_here").value = currentFeature_or_Features.message;
+            that.projectsOverlay = new GeoJSON(geojson, style || null);
+            if (that.projectsOverlay.type && that.projectsOverlay.type == "Error"){
+              document.getElementById("put_geojson_string_here").value = that.projectsOverlay.message;
               return;
             }
-            if (currentFeature_or_Features.length){
-              for (var i = 0; i < currentFeature_or_Features.length; i++){
-                if(currentFeature_or_Features[i].length){
-                  for(var j = 0; j < currentFeature_or_Features[i].length; j++){
-                    currentFeature_or_Features[i][j].setMap(map);
-                    google.maps.event.addListener(currentFeature_or_Features[i][j], 'mouseover', function(event) {
-                      this.setOptions({strokeColor: "#FF0000",
-                        strokeOpacity: 0.8,
-                        strokeWeight: 3,
-                        fillColor: "red",
-                      fillOpacity: 1});
+
+            if (that.projectsOverlay.length){
+              for (var i = 0; i < that.projectsOverlay.length; i++){
+                if(that.projectsOverlay[i].length){
+                  for(var j = 0; j < that.projectsOverlay[i].length; j++){
+                    that.projectsOverlay[i][j].setMap(map);
+
+                    // Overlay events
+                    google.maps.event.addListener(that.projectsOverlay[i][j], 'mouseover', function(event) {
+                      this.setOptions(projectsHoverStyle);
                     });
+                    google.maps.event.addListener(that.projectsOverlay[i][j], 'mouseout', function(event) {
+                      var projectsStyle = { strokeColor: "#EFC392", strokeOpacity: 1, strokeWeight: 2, fillColor: "#FBDBBA", fillOpacity: 0.5 };
+                      this.setOptions(projectsStyle);
+                    });
+
                   }
                 }
                 else{
-                  currentFeature_or_Features[i].setMap(map);
+                  that.projectsOverlay[i].setMap(map);
                 }
-                if (currentFeature_or_Features[i].geojsonProperties) {
-                  setInfoWindow(currentFeature_or_Features[i]);
+                if (that.projectsOverlay[i].geojsonProperties) {
+                  setInfoWindow(that.projectsOverlay[i]);
                 }
               }
             }else{
-              currentFeature_or_Features.setMap(map)
-              if (currentFeature_or_Features.geojsonProperties) {
-                setInfoWindow(currentFeature_or_Features);
+              that.projectsOverlay.setMap(map)
+              if (that.projectsOverlay.geojsonProperties) {
+                setInfoWindow(that.projectsOverlay);
               }
             }
 
           }
-          var style = { "strokeColor": "#EFC392", "strokeOpacity": 1, "strokeWeight": 2, "fillColor": "#FBDBBA", "fillOpacity": 0.5 };
-          showFeature(data, style);
+          showFeature(data, projectsStyle);
         }
       });
+
     },
 
-    addOverlay: function(data, c) {
-      this.removeOverlay(c);
+    addOverlay2: function(data, c) {
+      //this.removeOverlay(c);
 
       var self = this;
       var overlay = new google.maps.OverlayView();
@@ -171,27 +211,27 @@ $(function() {
         .enter().append("svg:svg")
         .each(transform);
 
-        function transform(d) {
-          var m = d;
-
-          var latLng = new google.maps.LatLng(d.lat(), d.lng());
-          d = new google.maps.LatLng(d.lat(), d.lng());
-          d = projection.fromLatLngToDivPixel(d);
+        function transform(point) {
+          var latLng = new google.maps.LatLng(point.lat(), point.lng());
+          var position = projection.fromLatLngToDivPixel(latLng);
 
           var markerClass;
 
-          if (m.topic_id) {
-            markerClass = "marker " + c + " t_" + m.topic_id(); 
+          if (point.topic_id) {
+            markerClass = "marker " + c + " t" + point.topic_id(); 
           } else {
             markerClass = "marker " + c; 
           }
+
+          if (point.topic_id == null) return;
+
           return d3.select(this)
           .on('click', function(){ 
-            infowindow.setContent(m.name(), c);
+            infowindow.setContent(point.name(), c);
             infowindow.open(latLng);
           })
-          .style("left", d.x + "px")
-          .style("top", d.y + "px")
+          .style("left", position.x + "px")
+          .style("top", position.y + "px")
           .attr("class", markerClass);
         }
       };
@@ -200,11 +240,10 @@ $(function() {
       overlay.setMap(map);
     },
     renderAgencies: function() {
-      this.addPath();
-      //this.addOverlay(this.agencies.models, 'agencies');
+      this.addOverlay2(this.agencies.models, 'agencies');
     },
     renderAshoka: function() {
-      this.addOverlay(this.ashoka.models, 'ashoka');
+      this.addOverlay2(this.ashoka.models, 'ashoka');
     }
   });
 
@@ -222,15 +261,27 @@ $(function() {
     initialize: function() {
       this.$(".filter ul.ticks li").on("click", function(e) {
         e.stopPropagation();
+
         $(this).toggleClass("selected");
-        var id = $(this).attr('id');
+
+        var id = $(this).attr('id').trim();
+        var c  = $(this).attr('class').replace(/selected/, "").trim();
 
         if ($(this).hasClass('selected')) {
           if (id == "agencies") agencies.fetch();
-          if (id == "ashoka") ashoka.fetch();
+          else if (id == "ashoka") ashoka.fetch();
+          else if (id == "projects") mapView.addPath();
+          else {
+            mapView.showOverlay(c);
+          }
         } else {
-          if (id == "agencies") mapView.removeOverlay(id);
-          if (id == "ashoka") mapView.removeOverlay(id);
+          if (id == "agencies" || id == "ashoka") {
+            mapView.removeOverlay(id);
+          } 
+          else if (id == "projects") mapView.removePath();
+          else {
+            mapView.hideOverlay(c);
+          }
         }
 
         // Store the state of the element

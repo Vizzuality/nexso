@@ -1382,17 +1382,10 @@ aside a.close {
 }
 
 /* line 719, ../scss/style.scss */
-.stations .z {
-  position: relative;
-  width: 100px;
-  height: 100px;
-  background: red;
-}
-
-/* line 726, ../scss/style.scss */
-svg {
-  width: 2060px;
-  height: 5000px;
+.stations {
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
 
 /*#states path {
