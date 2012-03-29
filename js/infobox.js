@@ -34,6 +34,9 @@ InfoWindow.prototype.draw = function() {
                     <h2><%= name %></h2>\
                     </hgroup>\
                 </div>\
+                <% if (c == "project") { %>\
+                <a href="#" class="btn">Test</a>\
+                <% } %>\
                 <h4>Solutions</h4>\
                 <ul>\
                     <li><a href="#">Irrigation in extreme unfertile terrain</a> </li>\
@@ -104,6 +107,10 @@ InfoWindow.prototype.bindClose = function(){
 InfoWindow.prototype.setContent = function(name, c){
   this.div_.innerHTML = this.template({name:name, c:c});
   this.bindClose();
+} 
+
+InfoWindow.prototype.setCallback = function(callback){
+  $(".btn").on('click', callback);
 } 
 
 InfoWindow.prototype.open = function(latlng){

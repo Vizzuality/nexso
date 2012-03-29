@@ -19,8 +19,10 @@ $(function() {
       $("aside").animate({right:0}, 250);
     }
 
-  function hideAside() {
-    $("aside").animate({right:'-400px'}, 250);
+  function hideAside(callback) {
+    $("aside").animate({right:'-400px'}, 250, function() {
+      callback && callback();
+    });
   }
 
 
@@ -133,7 +135,7 @@ $(function() {
     addPath: function() {
       var that = this;
       var url = "https://nexso2.cartodb.com/api/v2/sql/?q=SELECT the_geom FROM working_areas&format=geojson";
-      var url = "https://nexso2.cartodb.com/api/v2/sql/?q=SELECT v1_projects.title, working_areas.the_geom FROM v1_projects, working_areas, v1_project_work_areas WHERE v1_projects.cartodb_id = v1_project_work_areas.project_id AND working_areas.cartodb_id = v1_project_work_areas.id&format=geojson";
+      var url = "https://nexso2.cartodb.com/api/v2/sql/?q=SELECT v1_projects.title, v1_projects.approval_date, v1_projects.external_project_url, v1_projects.location_verbatim, v1_projects.budget, working_areas.the_geom FROM v1_projects, working_areas, v1_project_work_areas WHERE v1_projects.cartodb_id = v1_project_work_areas.project_id AND working_areas.cartodb_id = v1_project_work_areas.id&format=geojson";
       //var url = "https://nexso2.cartodb.com/api/v2/sql?q=SELECT the_geom FROM v1_agencies&format=geojson";
       this.addOverlay(url);
     },
@@ -149,8 +151,9 @@ console.log(data);
 
           function showFeature(geojson, style){
             that.projectsOverlay = new GeoJSON(geojson, style || null);
+
             if (that.projectsOverlay.type && that.projectsOverlay.type == "Error"){
-              document.getElementById("put_geojson_string_here").value = that.projectsOverlay.message;
+              alert(that.projectsOverlay.message);
               return;
             }
 
@@ -162,11 +165,29 @@ console.log(data);
 
                     // Overlay events
                     google.maps.event.addListener(that.projectsOverlay[i][j], 'click', function(event) {
-                    //console.log(this.geojsonProperties);
-                      var title = this.geojsonProperties.title;
-                      infowindow.setContent(title, "blue");
+                    console.log(this.geojsonProperties);
+                      var 
+                      title        = this.geojsonProperties.title,
+                      approvalDate = this.geojsonProperties.approval_date,
+                      moreURL      = this.geojsonProperties.external_project_url,
+                      location     = this.geojsonProperties.location_verbatim,
+                      budget       = this.geojsonProperties.budget;
+
+                      infowindow.setContent(title, "project");
+                      infowindow.setCallback(function(e) {
+                        e.preventDefault();
+                        hideAside(function() {
+                          $("aside .content .header h2").html(title);
+                          $("aside .content ul li.approvalDate span").text(approvalDate);
+                          $("aside .content ul li.location span").text(location);
+                          $("aside .content ul li.budget span").text(accounting.formatMoney(budget));
+                          // $("aside .content ul li.agency span").text(approvalDate);
+                          // $("aside .content ul li.solution span").text(approvalDate);
+                          $("aside .content ul li.more a").attr("href", moreURL);
+                        showAside();
+                        });
+                      });
                       infowindow.open(event.latLng);
-                      showAside();
                     });
 
                     google.maps.event.addListener(that.projectsOverlay[i][j], 'mouseover', function(event) {
