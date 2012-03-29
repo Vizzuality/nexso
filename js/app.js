@@ -10,6 +10,20 @@ var projectsHoverStyle = { strokeColor: "#EFC392", strokeOpacity: 1, strokeWeigh
 
 $(function() {
 
+    $("aside .close").on('click', function(e) {
+      e.preventDefault();
+      hideAside();
+    });
+
+    function showAside() {
+      $("aside").animate({right:0}, 250);
+    }
+
+  function hideAside() {
+    $("aside").animate({right:'-400px'}, 250);
+  }
+
+
   // Slider
   $( "#timeline .slider" ).slider({ range: true, min: 0, max: 500, step: 5, values: [ 75, 300 ], slide: function( event, ui ) { } });
 
@@ -119,6 +133,7 @@ $(function() {
     addPath: function() {
       var that = this;
       var url = "https://nexso2.cartodb.com/api/v2/sql/?q=SELECT the_geom FROM working_areas&format=geojson";
+      var url = "https://nexso2.cartodb.com/api/v2/sql/?q=SELECT v1_projects.title, working_areas.the_geom FROM v1_projects, working_areas, v1_project_work_areas WHERE v1_projects.cartodb_id = v1_project_work_areas.project_id AND working_areas.cartodb_id = v1_project_work_areas.id&format=geojson";
       //var url = "https://nexso2.cartodb.com/api/v2/sql?q=SELECT the_geom FROM v1_agencies&format=geojson";
       this.addOverlay(url);
     },
@@ -128,6 +143,7 @@ $(function() {
         url: url,
         success: function(data) {
 
+console.log(data);
           function setInfoWindow() {
           }
 
@@ -145,6 +161,14 @@ $(function() {
                     that.projectsOverlay[i][j].setMap(map);
 
                     // Overlay events
+                    google.maps.event.addListener(that.projectsOverlay[i][j], 'click', function(event) {
+                    //console.log(this.geojsonProperties);
+                      var title = this.geojsonProperties.title;
+                      infowindow.setContent(title, "blue");
+                      infowindow.open(event.latLng);
+                      showAside();
+                    });
+
                     google.maps.event.addListener(that.projectsOverlay[i][j], 'mouseover', function(event) {
                       this.setOptions(projectsHoverStyle);
                     });

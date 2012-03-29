@@ -530,8 +530,10 @@ aside {
   $pR: 24px;
   $pL: 33px;
 
+
   position:absolute;
-  top: $navHeight; right: 0;
+  top: $navHeight; 
+  right:-400px;
   background:#fff;
   width: $width;
   height:100%;
@@ -697,7 +699,7 @@ aside {
 
 .stations svg { width: 14px; height: 14px; } 
 
-.marker { 
+.stations > .marker { 
   position:absolute;
   width:14px; height:14px;
   @include icons-sprite(markers, $offset-x:0);
