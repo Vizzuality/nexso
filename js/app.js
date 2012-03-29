@@ -1,7 +1,6 @@
 $(function() {
 
   $( "#timeline .slider" ).slider({ range: true, min: 0, max: 500, step: 5, values: [ 75, 300 ], slide: function( event, ui ) { } });
-  // console.log( "$" + $( "#slider-range" ).slider( "values", 0 ) + " - $" + $( "#slider-range" ).slider( "values", 1 ) );
 
   var myOptions = {
     zoom: 3,
@@ -83,40 +82,67 @@ $(function() {
       this.updateLayer();
     },
     addPath: function() {
-      d3.json("https://nexso2.cartodb.com/api/v2/sql/?q=SELECT the_geom FROM v1_projects WHERE the_geom IS NOT NULL&format=geojson&dp=4", function(collection) {
-      var self = this;
-      var overlay = new google.maps.OverlayView();
+      d3.json("https://nexso2.cartodb.com/api/v2/sql/?q=SELECT the_geom FROM working_areas WHERE the_geom IS NOT NULL&format=geojson&dp=4", function(collection) {
+        var self = this;
+        var overlay = new google.maps.OverlayView();
 
-      overlay.onAdd = function() {
-      // The radius scale for the centroids.
+        overlay.onAdd = function() {
+          // The radius scale for the centroids.
 
-      // Our projection.
-      var xy = d3.geo.mercator();
+          var projection = this.getProjection();
 
-      self.layer = d3.select(this.getPanes().overlayMouseTarget).append("div")
-      .append("svg");
+          function getProjection(point) {
+            var latLng = new google.maps.LatLng(point[1], point[0]);
+            var d = projection.fromLatLngToDivPixel(latLng);
+            return [d.x, d.y];
+          }
 
-      self.layer.append("g").attr("id", "counties");
+          // Our projection.
+          var xy = getProjection;
 
-      self.layer.select("#counties")
-      .selectAll("path")
-      .data(collection.features)
-      .enter().append("path")
-      .each(feature)
-      .attr("fill", "#ccc")
-      .attr("stroke", "black")
-      .attr("stroke-width", "2")
-      .attr("stroke-dasharray", function(d) { return (d + 1) + ",5"; })
-      .attr("opacity", 1.0)
-      .attr("d", d3.geo.path().projection(xy));
-      }
+          self.layer = d3.select(this.getPanes().overlayMouseTarget).append("div")
+          .append("svg");
 
-      overlay.draw = function() { }
-      overlay.setMap(map);
+          self.layer.append("g").attr("id", "counties");
+
+          self.layer.select("#counties")
+          .selectAll("path")
+          .data(collection.features)
+          .enter().append("path")
+          .each(feature)
+          .attr("fill", "#FBDBBA")
+          .attr("stroke", "#EFC392")
+          .attr("stroke-width", "1")
+          .attr("stroke-dasharray", function(d) { return (d + 1) + ",5"; })
+          .attr("opacity", 1.0)
+          .attr("d", d3.geo.path().projection(xy))
+          .on("click", function(e) {
+            $(this).attr('fill', "red");
+          });
+        }
+
+        overlay.draw = function() {
+          var projection = this.getProjection();
+
+          function getProjection(point) {
+            var latLng = new google.maps.LatLng(point[1], point[0]);
+            var d = projection.fromLatLngToDivPixel(latLng);
+            return [d.x, d.y];
+          }
+
+          // Our projection.
+          var xy = getProjection;
+
+          self.layer.select("#counties")
+          .selectAll("path")
+          .each(feature)
+          .attr("d", d3.geo.path().projection(xy));
+        }
+        overlay.setMap(map);
       });
 
       function feature(a) {
-      return null;
+        return null;
 
       }
     },

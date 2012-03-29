@@ -728,11 +728,7 @@ svg {
   height: 5000px;
 }
 
-body{
-    background:#111;
-}
-
-#states path {
+/*#states path {
   fill-opacity:0;
   stroke: #fff;
   stroke-width:1.5px;
@@ -744,11 +740,11 @@ body{
   position:absolute;
   top:0; left:0;
   width:100%;
-  height:100%;
 }
 #counties path{
-  stroke: #ccc;
+  stroke: red;
   stroke-width:0.2px;
   stroke-linecap: round;
   stroke-linejoin: round;  
 }
+*/
