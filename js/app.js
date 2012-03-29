@@ -212,8 +212,12 @@ $(function() {
         .each(transform);
 
         function transform(point) {
+        function p() {
           var latLng = new google.maps.LatLng(point.lat(), point.lng());
           var position = projection.fromLatLngToDivPixel(latLng);
+          return [position[1], position[0]];
+          }
+          var xy = p();
 
           var markerClass;
 
@@ -230,8 +234,7 @@ $(function() {
             infowindow.setContent(point.name(), c);
             infowindow.open(latLng);
           })
-          .style("left", position.x + "px")
-          .style("top", position.y + "px")
+          .attr("d", d3.geo.path().projection(xy))
           .attr("class", markerClass);
         }
       };
