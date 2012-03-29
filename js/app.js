@@ -1,21 +1,29 @@
+var // DEFAULTS
+lat = 37.76487,
+lng = -122.41948,
+zoom = 3;
+
 $(function() {
 
+  // Slider
   $( "#timeline .slider" ).slider({ range: true, min: 0, max: 500, step: 5, values: [ 75, 300 ], slide: function( event, ui ) { } });
 
-  var myOptions = {
-    zoom: 3,
-    center: new google.maps.LatLng(37.76487, -122.41948),
+  // Map
+  var mapOptions = {
+    zoom: zoom,
+    center: new google.maps.LatLng(lat, lng),
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
 
-  var map = new google.maps.Map(d3.select("#map").node(), myOptions);
+  var map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
   google.maps.event.addListener(map, 'zoom_changed', function() {
     infowindow.hide();
   });
 
-
+  // We reuse the same infowindow 
   var infowindow = new InfoWindow({map:map});
+
   // generate CartoDB object linked to examples account.
   var CartoDB = Backbone.CartoDB({
     user: 'nexso2' // you should put your account name here
@@ -82,69 +90,55 @@ $(function() {
       this.updateLayer();
     },
     addPath: function() {
-      d3.json("https://nexso2.cartodb.com/api/v2/sql/?q=SELECT the_geom FROM working_areas WHERE the_geom IS NOT NULL&format=geojson&dp=4", function(collection) {
-        var self = this;
-        var overlay = new google.maps.OverlayView();
+      var url = "https://nexso2.cartodb.com/api/v2/sql/?q=SELECT the_geom FROM working_areas&format=geojson";
+      //var url = "https://nexso2.cartodb.com/api/v2/sql?q=SELECT the_geom FROM v1_agencies&format=geojson";
 
-        overlay.onAdd = function() {
-          // The radius scale for the centroids.
+      $.ajax({
+        url: url,
+        success: function(data) {
 
-          var projection = this.getProjection();
-
-          function getProjection(point) {
-            var latLng = new google.maps.LatLng(point[1], point[0]);
-            var d = projection.fromLatLngToDivPixel(latLng);
-            return [d.x, d.y];
+          function setInfoWindow() {
           }
 
-          // Our projection.
-          var xy = getProjection;
+          function showFeature(geojson, style){
+            var currentFeature_or_Features = new GeoJSON(geojson, style || null);
+            if (currentFeature_or_Features.type && currentFeature_or_Features.type == "Error"){
+              document.getElementById("put_geojson_string_here").value = currentFeature_or_Features.message;
+              return;
+            }
+            if (currentFeature_or_Features.length){
+              for (var i = 0; i < currentFeature_or_Features.length; i++){
+                if(currentFeature_or_Features[i].length){
+                  for(var j = 0; j < currentFeature_or_Features[i].length; j++){
+                    currentFeature_or_Features[i][j].setMap(map);
+                    google.maps.event.addListener(currentFeature_or_Features[i][j], 'mouseover', function(event) {
+                      this.setOptions({strokeColor: "#FF0000",
+                        strokeOpacity: 0.8,
+                        strokeWeight: 3,
+                        fillColor: "red",
+                      fillOpacity: 1});
+                    });
+                  }
+                }
+                else{
+                  currentFeature_or_Features[i].setMap(map);
+                }
+                if (currentFeature_or_Features[i].geojsonProperties) {
+                  setInfoWindow(currentFeature_or_Features[i]);
+                }
+              }
+            }else{
+              currentFeature_or_Features.setMap(map)
+              if (currentFeature_or_Features.geojsonProperties) {
+                setInfoWindow(currentFeature_or_Features);
+              }
+            }
 
-          self.layer = d3.select(this.getPanes().overlayMouseTarget).append("div")
-          .append("svg");
-
-          self.layer.append("g").attr("id", "counties");
-
-          self.layer.select("#counties")
-          .selectAll("path")
-          .data(collection.features)
-          .enter().append("path")
-          .each(feature)
-          .attr("fill", "#FBDBBA")
-          .attr("stroke", "#EFC392")
-          .attr("stroke-width", "1")
-          .attr("stroke-dasharray", function(d) { return (d + 1) + ",5"; })
-          .attr("opacity", 1.0)
-          .attr("d", d3.geo.path().projection(xy))
-          .on("click", function(e) {
-            $(this).attr('fill', "red");
-          });
-        }
-
-        overlay.draw = function() {
-          var projection = this.getProjection();
-
-          function getProjection(point) {
-            var latLng = new google.maps.LatLng(point[1], point[0]);
-            var d = projection.fromLatLngToDivPixel(latLng);
-            return [d.x, d.y];
           }
-
-          // Our projection.
-          var xy = getProjection;
-
-          self.layer.select("#counties")
-          .selectAll("path")
-          .each(feature)
-          .attr("d", d3.geo.path().projection(xy));
+          var style = { "strokeColor": "#EFC392", "strokeOpacity": 1, "strokeWeight": 2, "fillColor": "#FBDBBA", "fillOpacity": 0.5 };
+          showFeature(data, style);
         }
-        overlay.setMap(map);
       });
-
-      function feature(a) {
-        return null;
-
-      }
     },
 
     addOverlay: function(data, c) {
