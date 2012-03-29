@@ -173,7 +173,7 @@ nav {
   a.close { display:block; position:absolute; top: -18px; right: -7px; @include icons-sprite(close); z-index:1000; width:24px; height:24px; }
 
   // Configuration of the elements for the different infoboxes 
-  &.blue .content a.btn { background-color: #0D5FB2; }
+  &.project .content a.btn { background-color: #0D5FB2; }
 }
 
 // Agencies box
@@ -193,8 +193,8 @@ nav {
   }
 }
 
-// Blue box 
-.box.blue {
+// Project box 
+.box.project {
   .header hgroup { // header titles
     h2 { border-color:$blue; }
     h4 { color:$blue; }
@@ -565,6 +565,7 @@ aside {
         &:last-child { border:none; }
       }
     }
+    ul li a { border-bottom: 1px dashed #ccc; }
 
     .header {
       hgroup { // header titles
