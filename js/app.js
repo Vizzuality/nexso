@@ -88,13 +88,8 @@ $(function() {
       this.state = 1;
     },
     updateLayer: function() {
-      this.state = -1 + -1*this.state;
-      if (this.layer) { // There's a bug on Chrome, we need to grow/shrink the layer in order for it to show the markers
-        this.layer.style("width", $(document).width() + this.state + "px");
-        this.layer.style("height", $(document).height() + this.state + "px");
-        this.layer.style("top", 0);
-        this.layer.style("left", 0);
-      }
+      $("#map").css("width", $(document).width() + this.state + "px");
+      $("#map").css("height", $(document).height() + this.state + "px");
     },
     hideOverlay: function(c) {
       $(".marker."+ c).hide();
@@ -192,13 +187,10 @@ $(function() {
       overlay.onAdd = function() {
 
         if (!self.layer) {
-          self.layer = d3.select(this.getPanes().overlayMouseTarget).append("div")
+          self.layer = d3.select(this.getPanes().overlayMouseTarget)
           .attr("class", "stations")
-          .style("width", $(document).width() + "px")
-          .style("height", $(document).height() + "px");
-        } else {
+        } 
           self.updateLayer();
-        }
       }
 
       // Draw each marker as a separate SVG element.
@@ -212,14 +204,8 @@ $(function() {
         .each(transform);
 
         function transform(point) {
-
-        function test(point) {
-          var latLng = new google.maps.LatLng(point[1], point[0]);
+          var latLng = new google.maps.LatLng(point.lat(), point.lng());
           var position = projection.fromLatLngToDivPixel(latLng);
-          console.log(p, position);
-          return [position.x, position.y];
-          }
-          var xy = test;
 
           var markerClass;
 
@@ -232,11 +218,12 @@ $(function() {
           if (point.topic_id == null) return;
 
           return d3.select(this)
-          .attr("d", d3.geo.path().projection(xy))
           .on('click', function(){ 
             infowindow.setContent(point.name(), c);
             infowindow.open(latLng);
           })
+          .style("left", position.x + "px")
+          .style("top", position.y + "px")
           .attr("class", markerClass);
         }
       };
