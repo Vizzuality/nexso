@@ -212,12 +212,14 @@ $(function() {
         .each(transform);
 
         function transform(point) {
-        function p() {
-          var latLng = new google.maps.LatLng(point.lat(), point.lng());
+
+        function test(point) {
+          var latLng = new google.maps.LatLng(point[1], point[0]);
           var position = projection.fromLatLngToDivPixel(latLng);
-          return [position[1], position[0]];
+          console.log(p, position);
+          return [position.x, position.y];
           }
-          var xy = p();
+          var xy = test;
 
           var markerClass;
 
@@ -230,11 +232,11 @@ $(function() {
           if (point.topic_id == null) return;
 
           return d3.select(this)
+          .attr("d", d3.geo.path().projection(xy))
           .on('click', function(){ 
             infowindow.setContent(point.name(), c);
             infowindow.open(latLng);
           })
-          .attr("d", d3.geo.path().projection(xy))
           .attr("class", markerClass);
         }
       };
