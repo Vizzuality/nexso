@@ -7,6 +7,30 @@ maxZoom = 10,
 previousZoom = 3,
 previousCenter;
 
+var mapSyles = [
+ {
+   featureType: "transit",
+   stylers: [
+     { gamma: 1.8 },
+     { visibility: "off" }
+   ]
+ },{
+   featureType: "road",
+   stylers: [
+     { visibility: "off" }
+   ]
+ },{
+   featureType: "administrative",
+   elementType: "labels",
+   stylers: [
+     { saturation: -98 },
+     { gamma: 2.41 }
+   ]
+ },{
+ }
+];
+var nexsoStyle = new google.maps.StyledMapType(mapSyles, {name: "Nexso Style"});
+
 var projectsStyle      = { strokeColor: "#EFC392", strokeOpacity: 1, strokeWeight: 2, fillColor: "#FBDBBA", fillOpacity: 0.5 };
 var projectsHoverStyle = { strokeColor: "#EFC392", strokeOpacity: 1, strokeWeight: 2, fillColor: "#FBDBBA", fillOpacity: .7 };
 
@@ -49,6 +73,8 @@ $(function() {
   };
 
   var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+  map.mapTypes.set('nexsoStyle', nexsoStyle);
+  map.setMapTypeId('nexsoStyle');
 
   google.maps.event.addListener(map, 'zoom_changed', function() {
     infowindow.hide();
