@@ -30,13 +30,21 @@ InfoWindow.prototype.draw = function() {
     <div class="content">\
                 <div class="header">\
                     <hgroup>\
+                <% if (c == "project") { %>\
+                    <h4>Nexso project</h4>\
+                <% } else { %>\
                     <h4>Executing agency</h4>\
+                <% } %>\
                     <h2><%= name %></h2>\
                     </hgroup>\
                 </div>\
                 <% if (c == "project") { %>\
-                <a href="#" class="btn">Test</a>\
-                <% } %>\
+                <a href="#" class="btn">View project details</a>\
+                <h4>Solution</h4>\
+                <ul class="solutions">\
+                    <li><a href="#" target="_blank">…</a> </li>\
+                </ul>\
+                <% } else { %>\
                 <h4>Solutions</h4>\
                 <ul>\
                     <li><a href="#">Irrigation in extreme unfertile terrain</a> </li>\
@@ -46,6 +54,7 @@ InfoWindow.prototype.draw = function() {
                 <ul>\
                     <li><a href="#">Agency profile at FOMIN</a> </li>\
                 </ul>\
+                <% } %>\
             </div>\
             <a href="#" class="close"></a>\
             <div class="t"></div><div class="b"></div>\
@@ -56,8 +65,9 @@ InfoWindow.prototype.draw = function() {
     this.bindClose();
 
     google.maps.event.addDomListener(div, 'click', function (ev) {
-      ev.preventDefault ? ev.preventDefault() : ev.returnValue = false;
+      //ev.preventDefault ? ev.preventDefault() : ev.returnValue = false;
     });
+
     google.maps.event.addDomListener(div, 'dblclick', function (ev) {
       ev.preventDefault ? ev.preventDefault() : ev.returnValue = false;
     });
@@ -107,6 +117,11 @@ InfoWindow.prototype.bindClose = function(){
 InfoWindow.prototype.setContent = function(name, c){
   this.div_.innerHTML = this.template({name:name, c:c});
   this.bindClose();
+} 
+
+InfoWindow.prototype.setSolutionURL = function(title, url){
+$(this.div_).find(".solutions li a").html(title);
+$(this.div_).find(".solutions li a").attr("href", url);
 } 
 
 InfoWindow.prototype.setCallback = function(callback){

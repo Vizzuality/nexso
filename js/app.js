@@ -166,6 +166,7 @@ console.log(data);
                     // Overlay events
                     google.maps.event.addListener(that.projectsOverlay[i][j], 'click', function(event) {
                     console.log(this.geojsonProperties);
+
                       var 
                       title        = this.geojsonProperties.title,
                       approvalDate = this.geojsonProperties.approval_date,
@@ -174,8 +175,8 @@ console.log(data);
                       budget       = this.geojsonProperties.budget;
 
                       infowindow.setContent(title, "project");
+                      infowindow.setSolutionURL(title, moreURL);
                       infowindow.setCallback(function(e) {
-                        e.preventDefault();
                         hideAside(function() {
                           $("aside .content .header h2").html(title);
                           $("aside .content ul li.approvalDate span").text(approvalDate);
