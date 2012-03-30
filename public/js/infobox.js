@@ -188,13 +188,14 @@ InfoWindow.prototype.moveMaptoOpen = function() {
   //   left = (pixPosition.x + this.offsetHorizontal_ - 20);
   // }
 
-  // if ((pixPosition.x + 180) >= ($('#'+this.params_.cartodb_map_canvas).width())) {
-  //   left = (pixPosition.x + 180 - $('#'+this.params_.cartodb_map_canvas).width());
-  // }
+  if ((pixPosition.x + 320) >= ($('#map').width())) {
+     left = (pixPosition.x + 320 - $('#map').width());
+   }
 
-  console.log(pixPosition.y, $(div).height());
-  if ((pixPosition.y - $(div).height()) < 0) {
-    top = (pixPosition.y - $(div).height() - 30);
+  console.log(pixPosition.y, $(this.div_).find(".box").height());
+
+  if ((pixPosition.y - $(this.div_).find(".box").height()) < 200) {
+    top = (pixPosition.y - $(this.div_).find(".box").height() - 50);
   }
 
   this.map_.panBy(left,top);

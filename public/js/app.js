@@ -3,7 +3,7 @@ lat = 37.76487,
 lng = -122.41948,
 zoom = 3,
 minZoom = 3,
-maxZoom = 10,
+maxZoom = 16,
 previousZoom = 3,
 previousCenter;
 
