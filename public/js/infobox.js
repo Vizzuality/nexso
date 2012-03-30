@@ -131,7 +131,7 @@ InfoWindow.prototype.setCallback = function(callback){
 InfoWindow.prototype.open = function(latlng){
   var that = this;
   that.latlng_ = latlng;
-  //that.moveMaptoOpen();
+  that.moveMaptoOpen();
   that.setPosition();     
 } 
 
@@ -184,14 +184,15 @@ InfoWindow.prototype.moveMaptoOpen = function() {
   var div = this.div_;
   var pixPosition = this.getProjection().fromLatLngToContainerPixel(this.latlng_);
 
-  if ((pixPosition.x + this.offsetHorizontal_) < 0) {
-    left = (pixPosition.x + this.offsetHorizontal_ - 20);
-  }
+  // if ((pixPosition.x + this.offsetHorizontal_) < 0) {
+  //   left = (pixPosition.x + this.offsetHorizontal_ - 20);
+  // }
 
-  if ((pixPosition.x + 180) >= ($('#'+this.params_.cartodb_map_canvas).width())) {
-    left = (pixPosition.x + 180 - $('#'+this.params_.cartodb_map_canvas).width());
-  }
+  // if ((pixPosition.x + 180) >= ($('#'+this.params_.cartodb_map_canvas).width())) {
+  //   left = (pixPosition.x + 180 - $('#'+this.params_.cartodb_map_canvas).width());
+  // }
 
+  console.log(pixPosition.y, $(div).height());
   if ((pixPosition.y - $(div).height()) < 0) {
     top = (pixPosition.y - $(div).height() - 30);
   }

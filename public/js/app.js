@@ -23,7 +23,7 @@ $(function() {
     e.preventDefault();
     hideAside();
     map.setZoom(previousZoom);
-    map.setCenter(previousCenter);
+    map.panTo(previousCenter);
   });
 
   function showAside() {
@@ -109,6 +109,9 @@ $(function() {
     initialize: function() {
       this.state = 1;
       this.overlays = [];
+      this.addAgencies();
+      this.addAshokas();
+      this.addProjects();
     },
     showOverlay: function(name, topic) {
       if (this.overlays[name]) {
