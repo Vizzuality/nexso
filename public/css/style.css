@@ -57,7 +57,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 
 /*** SPRITES ***/
 /* icons */
-.icons-sprite, .icons-agency, .icons-arrows, .icons-ashoka, .icons-bullet, .icons-calendar, .icons-close, .icons-close_big, .icons-gear, .icons-handle, .icons-iati, .icons-icons, .icons-marker, .icons-markers, .icons-money, .icons-plus, .icons-star, .icons-symbols, .icons-view, .box .content ul li, .box a.close, nav ul li .filter.iati .content ul.symbols > li .icon, nav ul li .filter.iati .content ul.symbols > li .icon.iati, nav ul li .filter.view div.content ul.symbols li .icon, nav ul li .filter.view div.content ul.symbols li .icon.projects, nav ul li .filter.view div.content ul.symbols li .icon.agencies, aside .content ul li.money, aside .content ul li.calendar, aside .content ul li.marker, aside .content ul li.gear, aside .content ul li.plus, aside .content ul li.star, aside a.close, #timeline .handle, .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus, .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, .stations > .marker, .stations > .marker.agencies, .stations > .marker.ashoka {
+.icons-sprite, .icons-agency, .icons-arrows, .icons-ashoka, .icons-bullet, .icons-calendar, .icons-close, .icons-close_big, .icons-gear, .icons-handle, .icons-iati, .icons-icons, .icons-marker, .icons-markers, .icons-money, .icons-plus, .icons-star, .icons-symbols, .icons-view, .box .content ul li, .box a.close, nav ul li .filter.iati .content ul.symbols > li .icon, nav ul li .filter.iati .content ul.symbols > li .icon.iati, nav ul li .filter.view div.content ul.symbols li .icon, nav ul li .filter.view div.content ul.symbols li .icon.projects, nav ul li .filter.view div.content ul.symbols li .icon.agencies, aside .content ul li.money, aside .content ul li.calendar, aside .content ul li.marker, aside .content ul li.gear, aside .content ul li.plus, aside .content ul li.star, aside a.close, #timeline .handle, .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus, .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, .stations > .marker, .stations > .marker.agencies, .stations > .marker.ashokas {
   background: url('/img/icons-s7dab9b43b8.png') no-repeat;
 }
 
@@ -411,10 +411,10 @@ nav ul > li > a.selected {
   color: #e69525;
 }
 
-.box.ashoka .header hgroup h2 {
+.box.ashokas .header hgroup h2 {
   border-color: #76a228;
 }
-.box.ashoka .header hgroup h4 {
+.box.ashokas .header hgroup h4 {
   color: #76a228;
 }
 
@@ -1160,7 +1160,7 @@ aside a.close {
 .stations > .marker.agencies {
   background-position: 0 -693px;
 }
-.stations > .marker.ashoka {
+.stations > .marker.ashokas {
   background-position: -14px -693px;
 }
 

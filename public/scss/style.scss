@@ -185,7 +185,7 @@ nav {
 } 
 
 // Ashoka box 
-.box.ashoka {
+.box.ashokas {
   .header hgroup { // header titles
 
     h2 { border-color:$green; }
@@ -709,7 +709,7 @@ aside {
   &.agencies {
     @include icons-sprite(markers, $offset-x:0);
   }
-  &.ashoka {
+  &.ashokas {
     @include icons-sprite(markers, $offset-x:-14px);
   }
 }
