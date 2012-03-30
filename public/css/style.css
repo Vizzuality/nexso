@@ -58,7 +58,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 /*** SPRITES ***/
 /* icons */
 .icons-sprite, .icons-agency, .icons-arrows, .icons-ashoka, .icons-bullet, .icons-calendar, .icons-close, .icons-close_big, .icons-gear, .icons-handle, .icons-iati, .icons-icons, .icons-marker, .icons-markers, .icons-money, .icons-plus, .icons-star, .icons-symbols, .icons-view, .box .content ul li, .box a.close, nav ul li .filter.iati .content ul.symbols > li .icon, nav ul li .filter.iati .content ul.symbols > li .icon.iati, nav ul li .filter.view div.content ul.symbols li .icon, nav ul li .filter.view div.content ul.symbols li .icon.projects, nav ul li .filter.view div.content ul.symbols li .icon.agencies, nav ul li .filter.view div.content ul.symbols li .icon.ashokas, aside .content ul li.money, aside .content ul li.calendar, aside .content ul li.marker, aside .content ul li.gear, aside .content ul li.plus, aside .content ul li.star, aside a.close, #timeline .handle, .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus, .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, .stations > .marker, .stations > .marker.agencies, .stations > .marker.ashokas {
-  background: url('img/icons-s7c5aa32bd0.png') no-repeat;
+  background: url('../img/icons-s7c5aa32bd0.png') no-repeat;
 }
 
 .icons-agency {
@@ -135,7 +135,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 
 /* backgrounds */
 .backgrounds-sprite, .backgrounds-bkg_big_filter, .backgrounds-bkg_box, .backgrounds-bkg_boxes, .backgrounds-bkg_filter, .backgrounds-bkg_iati_filter, .backgrounds-bkg_navigation, .backgrounds-bkg_navigation_shadow, .backgrounds-bkg_paper, .backgrounds-bkg_timeline, .backgrounds-bkg_timeline_selected, .backgrounds-bkg_view_filter, #timeline {
-  background: url('/img/backgrounds-s88c74f6a2b.png') no-repeat;
+  background: url('../img/backgrounds-s88c74f6a2b.png') no-repeat;
 }
 
 .backgrounds-bkg_big_filter {
