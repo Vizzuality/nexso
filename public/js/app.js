@@ -184,6 +184,8 @@ $(function() {
                       infowindow.setContent(title, "project");
                       infowindow.setSolutionURL(title, moreURL);
                       infowindow.setCallback(function(e) {
+                        e.preventDefault();
+
                         hideAside(function() {
                           $("aside .content .header h2").html(title);
                           $("aside .content ul li.approvalDate span").text(approvalDate);
