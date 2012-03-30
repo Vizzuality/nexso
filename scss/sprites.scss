@@ -1,0 +1,34 @@
+/*** SPRITES ***/
+
+/* icons */
+
+ $icons-bullet-spacing:30px;
+ $icons-money-spacing:50px;
+ $icons-calendar-spacing:50px;
+ $icons-marker-spacing:50px;
+ $icons-gear-spacing:50px;
+ $icons-star-spacing:50px;
+ $icons-plus-spacing:50px;
+
+// $icons-link_arrows-right-position: 100%;
+// $icons-link_arrows-left-spacing:7px;
+// $icons-link_arrows-right-spacing:7px;
+// $icons-link_arrows_bottom-position:100%;
+// $icons-link_arrows_bottom-spacing:5px;
+// $icons-pagination_right-position:100%;
+// $icons-round_grey_right-position:100%;
+// $icons-list_black-spacing:30px;
+// $icons-list_blue-spacing:30px;
+// $icons-list_grey-spacing:50px;
+// $icons-round_grey_small_right-position:100%;
+// $icons-no_data_2-spacing:80px;
+// $icons-clock-spacing:2px;
+// $icons-comment-spacing:4px;
+
+@import "icons/*.png";
+@include all-icons-sprites;
+
+/* backgrounds */
+@import "backgrounds/*.png";
+@include all-backgrounds-sprites;
+
