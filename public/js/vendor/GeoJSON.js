@@ -100,6 +100,7 @@ var GeoJSON = function( geojson, kind, options ){
 				break;
 				
 			case "MultiPolygon":
+			console.log('m');
 				googleObj = [];
 				for (var i = 0; i < geojsonGeometry.coordinates.length; i++){
 					var paths = [];

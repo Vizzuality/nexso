@@ -363,7 +363,7 @@ nav ul li .filter.view {
           margin: 0 0 12px 0;
           background:none;
           border-bottom: 1px solid #E5E5E5;
-          &:last-child { margin: 0; }
+          &:last-child { margin: 0; border:0; padding-bottom:0; }
 
           .icon {
             width:14px;
@@ -371,6 +371,7 @@ nav ul li .filter.view {
             @include icons-sprite(view);
             &.projects { @include icons-sprite(view);}
             &.agencies { @include icons-sprite(view, $offset-y:-59px);}
+            &.ashokas { @include icons-sprite(view, $offset-y:-120px);}
           }
         } // li
       } // symbols
