@@ -5,8 +5,8 @@ zoom = 3,
 minZoom = 3;
 maxZoom = 10;
 
-var projectsStyle      = { strokeColor: "#0D5FB2", strokeOpacity: .5, strokeWeight: 2, fillColor: "#FBDBBA", fillOpacity: .3 };
-var projectsHoverStyle = { strokeColor: "#0D5FB2", strokeOpacity: 1, strokeWeight: 2, fillColor: "#FBDBBA", fillOpacity: .6 };
+var projectsStyle      = { strokeColor: "#0D5FB2", strokeOpacity: 1, strokeWeight: 2, fillColor: "#FBDBBA", fillOpacity: 0.5 };
+var projectsHoverStyle = { strokeColor: "#0D5FB2", strokeOpacity: 1, strokeWeight: 2, fillColor: "#FBDBBA", fillOpacity: .7 };
 
 $(function() {
 
