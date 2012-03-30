@@ -32,9 +32,8 @@ $(function() {
     });
   }
 
-
   // Slider
-  $( "#timeline .slider" ).slider({ range: true, min: 0, max: 500, step: 5, values: [ 75, 300 ], slide: function( event, ui ) { } });
+  // $( "#timeline .slider" ).slider({ range: true, min: 0, max: 500, step: 5, values: [ 75, 300 ], slide: function( event, ui ) { } });
 
   // Map
   var mapOptions = {
@@ -273,7 +272,7 @@ $(function() {
           if (point.topic_id == null) return;
 
           return d3.select(this)
-          .on('click', function(){ 
+          .on('click', function(e){ 
             infowindow.setContent(point.name(), c);
             infowindow.open(latLng);
           })
