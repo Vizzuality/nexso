@@ -8,26 +8,42 @@ previousZoom = 3,
 previousCenter;
 
 var mapSyles = [
-  {
-    featureType: "transit",
-    stylers: [
-      { gamma: 1.8 },
-      { visibility: "off" }
-    ]
-  },{
-    featureType: "road",
-    stylers: [
-      { visibility: "off" }
-    ]
-  },{
-    featureType: "administrative",
-    elementType: "labels",
-    stylers: [
-      { saturation: -98 },
-      { gamma: 2.41 }
-    ]
-  },{
-  }
+ {
+   featureType: "water",
+   stylers: [
+     { saturation: -99 },
+     { lightness: 25 }
+   ]
+ },{
+   featureType: "poi",
+   stylers: [
+     { saturation: -95 },
+     { lightness: 61 }
+   ]
+ },{
+   featureType: "administrative",
+   stylers: [
+     { saturation: -99 },
+     { gamma: 3.51 }
+   ]
+ },{
+   featureType: "road",
+   stylers: [
+     { visibility: "off" }
+   ]
+ },{
+   featureType: "road",
+   stylers: [
+     { visibility: "off" }
+   ]
+ },{
+   featureType: "landscape",
+   stylers: [
+     { saturation: -85 },
+     { lightness: 53 }
+   ]
+ },{
+ }
 ];
 var nexsoStyle = new google.maps.StyledMapType(mapSyles, {name: "Nexso Style"});
 
