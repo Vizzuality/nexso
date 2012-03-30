@@ -8,8 +8,8 @@ var GeoJSON = function( geojson, kind, options ){
       case "Point":
         opts.position = new google.maps.LatLng(geojsonGeometry.coordinates[1], geojsonGeometry.coordinates[0]);
 
-        if (kind == "agencies") opts.icon     = '/img/icons/agency.png';
-        else if (kind == "ashokas") opts.icon = '/img/icons/ashoka.png';
+        if (kind == "agencies") opts.icon     = 'img/icons/agency.png';
+        else if (kind == "ashokas") opts.icon = 'img/icons/ashoka.png';
 
         googleObj = new google.maps.Marker(opts);
 
