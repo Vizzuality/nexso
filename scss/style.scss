@@ -95,7 +95,13 @@ nav {
   } // ul
 } // nav
 
-// Basic infobox 
+// Infowindows
+.infowindow {
+  position:absolute;
+  .box { top:0;}
+}
+
+// Basic infowindow 
 .box {
   $width: 304px;
   $pT: 22px;
@@ -131,7 +137,7 @@ nav {
   .b { bottom: -1*$endsHeight; background-position:left bottom;}
 } // box
 
-// Infobox components
+// Infowindow components
 .box {
   .content {
     a { font-size:11px; font-weight:bold; text-transform: uppercase; }
@@ -172,7 +178,7 @@ nav {
 
   a.close { display:block; position:absolute; top: -18px; right: -7px; @include icons-sprite(close); z-index:1000; width:24px; height:24px; }
 
-  // Configuration of the elements for the different infoboxes 
+  // Configuration of the elements for the different infowindows 
   &.project .content a.btn { background-color: #0D5FB2; }
 }
 
@@ -583,6 +589,41 @@ aside {
 
 #map { top: -1*$navHeight; height: 100%; z-index:7; }
 
+$markerSize: 102px;
+$markerInnerSize: 70px;
+$markerRadiusSize: 102px;
+
+.circle {
+  position:relative;
+  width:$markerSize;
+  height:$markerSize;    
+  background:white;
+  border-radius:100px;
+}
+
+.circle:before {
+  background:red;   
+  left:50%;
+  top:50%;
+  margin-left:-1*$markerInnerSize;
+  margin-top:-1*$markerInnerSize);
+  content: '';  
+  position:absolute;
+  width: $markerInnerSize;  
+  height: $markerInnerSize;  
+  border-radius:100px;            
+}
+
+
+.circle:after {
+  position:absolute;
+  border:2px solid black;   
+  content: '';  
+  width: $markerRadiusSize;  
+  height: $markerRadiusSize;  
+  border-radius:100px;            
+}
+
 #timeline {
   $width: 954px;
   $height: 80px;
@@ -658,10 +699,6 @@ aside {
 .ui-priority-primary, .ui-widget-content .ui-priority-primary, .ui-widget-header .ui-priority-primary { font-weight: bold; }
 .ui-priority-secondary, .ui-widget-content .ui-priority-secondary,  .ui-widget-header .ui-priority-secondary { opacity: .7; filter:Alpha(Opacity=70); font-weight: normal; }
 .ui-state-disabled, .ui-widget-content .ui-state-disabled, .ui-widget-header .ui-state-disabled { opacity: .35; filter:Alpha(Opacity=35); background-image: none; }
-
-/* Misc visuals
-----------------------------------*/
-
 .ui-slider { position: relative; text-align: left; }
 .ui-slider .ui-slider-handle { position: absolute; z-index: 2; width: 1.2em; height: 1.2em; cursor: default; }
 .ui-slider .ui-slider-range { position: absolute; z-index: 1; font-size: .7em; display: block; border: 0; background-position: 0 0; }
@@ -679,69 +716,3 @@ aside {
 .ui-slider-vertical .ui-slider-range-max { top: 0; }
 
 
-#wifi_list {
-  display:none;
-  position:absolute;
-  top: 100px; left: 100px;
-  z-index:1000;
-}
-
-.stations {
-  width: 100%;
-  height:100%;
-  position:absolute;
-  top:0; right:0; bottom:0; left:0;
-  overflow:visible;
-}
-
-.stations svg {
-  position: absolute;
-}
-
-.stations svg { width: 14px; height: 14px; } 
-
-.stations > .marker { 
-  position:absolute;
-  width:14px; height:14px;
-  @include icons-sprite(markers, $offset-x:0);
-  cursor:pointer;
-
-  &.agencies {
-    @include icons-sprite(markers, $offset-x:0);
-  }
-  &.ashokas {
-    @include icons-sprite(markers, $offset-x:-14px);
-  }
-}
-
-.infowindow {
-  position:absolute;
-  .box { top:0;}
-}
-
-.stations {
-  position:absolute;
-  width:100%;
-  height:100%;
-}
-
-/*#states path {
-  fill-opacity:0;
-  stroke: #fff;
-  stroke-width:1.5px;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-#counties {
-  position:absolute;
-  top:0; left:0;
-  width:100%;
-}
-#counties path{
-  stroke: red;
-  stroke-width:0.2px;
-  stroke-linecap: round;
-  stroke-linejoin: round;  
-}
-*/
