@@ -241,20 +241,22 @@ $(function() {
 
             if (that.overlays[name].length){
               for (var i = 0; i < that.overlays[name].length; i++){
-                if(that.overlays[name][i].length){
-                  for(var j = 0; j < that.overlays[name][i].length; j++){
-                    that.overlays[name][i][j].setMap(map);
+                if (that.overlays[name][i].length){
+                  for (var j = 0; j < that.overlays[name][i].length; j++){
+                    var overlay = that.overlays[name][i][j];
+                    overlay.setMap(map);
 
                     // Overlay events
-                    google.maps.event.addListener(that.overlays[name][i][j], 'click', function(event) {
+                    google.maps.event.addListener(overlay, 'click', function(event) {
 
                       var 
                       that         = this,
-                      title        = this.geojsonProperties.title,
-                      approvalDate = this.geojsonProperties.approval_date,
-                      moreURL      = this.geojsonProperties.external_project_url,
-                      location     = this.geojsonProperties.location_verbatim,
-                      budget       = this.geojsonProperties.budget;
+                      properties   = this.geojsonProperties,
+                      title        = properties.title,
+                      approvalDate = properties.approval_date,
+                      moreURL      = properties.external_project_url,
+                      location     = properties.location_verbatim,
+                      budget       = properties.budget;
 
                       infowindow.setContent(title, "project");
                       infowindow.setSolutionURL(title, moreURL);
@@ -284,11 +286,11 @@ $(function() {
                       infowindow.open(event.latLng);
                     });
 
-                    google.maps.event.addListener(that.overlays[name][i][j], 'mouseover', function(event) {
+                    google.maps.event.addListener(overlay, 'mouseover', function(event) {
                       this.setOptions(projectsHoverStyle);
                     });
 
-                    google.maps.event.addListener(that.overlays[name][i][j], 'mouseout', function(event) {
+                    google.maps.event.addListener(overlay, 'mouseout', function(event) {
                       var projectsStyle      = { strokeColor: "#E79626", strokeOpacity: .5, strokeWeight: 1, fillColor: "#E79626", fillOpacity: .3 };
                       this.setOptions(projectsStyle);
                     });
