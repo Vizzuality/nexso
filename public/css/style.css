@@ -254,6 +254,7 @@ nav {
   height: 80px;
   background: url(../img/backgrounds/bkg_navigation.png) repeat-x;
   position: relative;
+  z-index: 1000;
 }
 nav h1 {
   position: relative;
@@ -787,7 +788,7 @@ aside {
   width: 358px;
   height: 100%;
   background: transparent url(../img/backgrounds/bkg_paper.png) left top repeat-y;
-  z-index: 9;
+  z-index: 10;
 }
 aside .content {
   background: #fff;
@@ -866,7 +867,9 @@ aside a.close {
 }
 
 #map {
+  top: -80px;
   height: 100%;
+  z-index: 7;
 }
 
 #timeline {

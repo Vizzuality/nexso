@@ -192,10 +192,8 @@ InfoWindow.prototype.moveMaptoOpen = function() {
      left = (pixPosition.x + 320 - $('#map').width());
    }
 
-  console.log(pixPosition.y, $(this.div_).find(".box").height());
-
   if ((pixPosition.y - $(this.div_).find(".box").height()) < 200) {
-    top = (pixPosition.y - $(this.div_).find(".box").height() - 50);
+    top = (pixPosition.y - $(this.div_).find(".box").height() - 130);
   }
 
   this.map_.panBy(left,top);

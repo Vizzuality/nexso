@@ -8,31 +8,31 @@ previousZoom = 3,
 previousCenter;
 
 var mapSyles = [
- {
-   featureType: "transit",
-   stylers: [
-     { gamma: 1.8 },
-     { visibility: "off" }
-   ]
- },{
-   featureType: "road",
-   stylers: [
-     { visibility: "off" }
-   ]
- },{
-   featureType: "administrative",
-   elementType: "labels",
-   stylers: [
-     { saturation: -98 },
-     { gamma: 2.41 }
-   ]
- },{
- }
+  {
+    featureType: "transit",
+    stylers: [
+      { gamma: 1.8 },
+      { visibility: "off" }
+    ]
+  },{
+    featureType: "road",
+    stylers: [
+      { visibility: "off" }
+    ]
+  },{
+    featureType: "administrative",
+    elementType: "labels",
+    stylers: [
+      { saturation: -98 },
+      { gamma: 2.41 }
+    ]
+  },{
+  }
 ];
 var nexsoStyle = new google.maps.StyledMapType(mapSyles, {name: "Nexso Style"});
 
-var projectsStyle      = { strokeColor: "#EFC392", strokeOpacity: 1, strokeWeight: 2, fillColor: "#FBDBBA", fillOpacity: 0.5 };
-var projectsHoverStyle = { strokeColor: "#EFC392", strokeOpacity: 1, strokeWeight: 2, fillColor: "#FBDBBA", fillOpacity: .7 };
+var projectsStyle      = { strokeColor: "#EB9827", strokeOpacity: .9, strokeWeight: 1, fillColor: "#FBDBBA", fillOpacity: .7 };
+var projectsHoverStyle = { strokeColor: "#EB9827", strokeOpacity: 1, strokeWeight: 1, fillColor: "#FBDBBA", fillOpacity: .9 };
 
 $(function() {
 
@@ -78,6 +78,7 @@ $(function() {
 
   google.maps.event.addListener(map, 'zoom_changed', function() {
     infowindow.hide();
+
     $(".stations").css({width:$(document).width(), height:$(document).height(), top:0, left:0});
   });
 
@@ -162,15 +163,15 @@ $(function() {
         }
       } else {
 
-      if (this.overlays[name].length){
-        for (var i = 0; i < this.overlays[name].length; i++){
-          if(this.overlays[name][i].length){
-            for(var j = 0; j < this.overlays[name][i].length; j++){
-              this.overlays[name][i][j].setMap(null);
+        if (this.overlays[name].length){
+          for (var i = 0; i < this.overlays[name].length; i++){
+            if(this.overlays[name][i].length){
+              for(var j = 0; j < this.overlays[name][i].length; j++){
+                this.overlays[name][i][j].setMap(null);
+              }
             }
           }
         }
-      }
       }
     },
     addAshokas: function() {
@@ -209,11 +210,11 @@ $(function() {
           }
 
           function showFeature(geojson, style){
-             try {
-            var data = JSON.parse(geojson);
-   } catch ( e ) {
-   var data = geojson;
-   }
+            try {
+              var data = JSON.parse(geojson);
+            } catch ( e ) {
+              var data = geojson;
+            }
             that.overlays[name] = new GeoJSON(data, name, style || null);
 
             if (that.overlays[name].type && that.overlays[name].type == "Error"){

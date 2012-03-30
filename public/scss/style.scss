@@ -66,6 +66,7 @@ nav {
   height: $navHeight;
   background:url(../img/backgrounds/bkg_navigation.png) repeat-x;
   position:relative;
+  z-index:1000;
 
   h1 { position:relative; top: 10px; float:left; }
 
@@ -531,7 +532,6 @@ aside {
   $pR: 24px;
   $pL: 33px;
 
-
   position:absolute;
   top: $navHeight; 
   right:-400px;
@@ -539,7 +539,7 @@ aside {
   width: $width;
   height:100%;
   background: transparent url(../img/backgrounds/bkg_paper.png) left top repeat-y;
-  z-index:9;
+  z-index:10;
 
   .content {
     background:#fff;
@@ -582,7 +582,7 @@ aside {
   a.close { display:block; position:absolute; top: 47px; left: -10px; @include icons-sprite(close_big); z-index:1000; width:32px; height:32px; }
 }
 
-#map { height: 100%; }
+#map { top: -1*$navHeight; height: 100%; z-index:7; }
 
 #timeline {
   $width: 954px;
