@@ -1,4 +1,4 @@
-var GeoJSON = function( geojson, options ){
+var GeoJSON = function( geojson, kind, options ){
 
 	var _geometryToGoogleMaps = function( geojsonGeometry, opts, geojsonProperties ){
 		
@@ -7,6 +7,10 @@ var GeoJSON = function( geojson, options ){
 		switch ( geojsonGeometry.type ){
 			case "Point":
 				opts.position = new google.maps.LatLng(geojsonGeometry.coordinates[1], geojsonGeometry.coordinates[0]);
+
+				if (kind == "agencies") opts.icon= '/img/icons/agency.png';
+				else if (kind == "ashokas") opts.icon= '/img/icons/ashoka.png';
+
 				googleObj = new google.maps.Marker(opts);
 				if (geojsonProperties) {
 					googleObj.set("geojsonProperties", geojsonProperties);

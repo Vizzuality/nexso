@@ -108,6 +108,7 @@ $(function() {
       this.agencies.bind('reset', this.renderAgencies, this);
       this.ashoka.bind('reset', this.renderAshoka, this);
       this.state = 1;
+      this.overlays = [];
     },
     updateLayer: function() {
       $("#map").css("width", $(document).width() + this.state + "px");
@@ -127,50 +128,66 @@ $(function() {
       $(".marker."+ c).remove();
       this.updateLayer();
     },
-    removePath: function() {
-      if (this.projectsOverlay.length){
-        for (var i = 0; i < this.projectsOverlay.length; i++){
-          if(this.projectsOverlay[i].length){
-            for(var j = 0; j < this.projectsOverlay[i].length; j++){
-              this.projectsOverlay[i][j].setMap(null);
+    removePath: function(name) {
+      if (this.overlays[name].length){
+        for (var i = 0; i < this.overlays[name].length; i++){
+          if(this.overlays[name][i].length){
+            for(var j = 0; j < this.overlays[name][i].length; j++){
+              this.overlays[name][i][j].setMap(null);
             }
           }
         }
       }
     },
-    addPath: function() {
+    addAgencies: function() {
       var that = this;
-      var url = "https://nexso2.cartodb.com/api/v2/sql/?q=SELECT the_geom FROM working_areas&format=geojson";
-      var url = "https://nexso2.cartodb.com/api/v2/sql/?q=SELECT v1_projects.title, v1_projects.approval_date, v1_projects.external_project_url, v1_projects.location_verbatim, v1_projects.budget, working_areas.the_geom FROM v1_projects, working_areas, v1_project_work_areas WHERE v1_projects.cartodb_id = v1_project_work_areas.project_id AND working_areas.cartodb_id = v1_project_work_areas.id&format=geojson";
-      //var url = "https://nexso2.cartodb.com/api/v2/sql?q=SELECT the_geom FROM v1_agencies&format=geojson";
-      this.addOverlay(url);
+      var url = "https://nexso2.cartodb.com/api/v2/sql?q=SELECT the_geom, external_url, name FROM v1_agencies&format=geojson";
+      this.addOverlay("agencies", url);
     },
-    addOverlay: function(url) {
+    addProjects: function() {
+      var that = this;
+      var url = "https://nexso2.cartodb.com/api/v2/sql/?q=SELECT v1_projects.title, v1_projects.approval_date, v1_projects.external_project_url, v1_projects.location_verbatim, v1_projects.budget, working_areas.the_geom FROM v1_projects, working_areas, v1_project_work_areas WHERE v1_projects.cartodb_id = v1_project_work_areas.project_id AND working_areas.cartodb_id = v1_project_work_areas.id&format=geojson";
+      this.addOverlay("projects", url);
+    },
+    addOverlay: function(name, url) {
       var that = this;
       $.ajax({
         url: url,
         success: function(data) {
 
           console.log(data);
-          function setInfoWindow() {
+
+          function setInfoWindow(overlay) {
+            google.maps.event.addListener(overlay, 'click', function(event) {
+              console.log(overlay.geojsonProperties);
+
+                      var 
+                      title    = overlay.geojsonProperties.name,
+                      moreURL = overlay.geojsonProperties.external_url;
+
+                      infowindow.setContent(title, name);
+                      infowindow.open(event.latLng);
+
+
+            });
           }
 
           function showFeature(geojson, style){
-            that.projectsOverlay = new GeoJSON(geojson, style || null);
+            that.overlays[name] = new GeoJSON(geojson, name, style || null);
 
-            if (that.projectsOverlay.type && that.projectsOverlay.type == "Error"){
-              alert(that.projectsOverlay.message);
+            if (that.overlays[name].type && that.overlays[name].type == "Error"){
+              alert(that.overlays[name].message);
               return;
             }
 
-            if (that.projectsOverlay.length){
-              for (var i = 0; i < that.projectsOverlay.length; i++){
-                if(that.projectsOverlay[i].length){
-                  for(var j = 0; j < that.projectsOverlay[i].length; j++){
-                    that.projectsOverlay[i][j].setMap(map);
+            if (that.overlays[name].length){
+              for (var i = 0; i < that.overlays[name].length; i++){
+                if(that.overlays[name][i].length){
+                  for(var j = 0; j < that.overlays[name][i].length; j++){
+                    that.overlays[name][i][j].setMap(map);
 
                     // Overlay events
-                    google.maps.event.addListener(that.projectsOverlay[i][j], 'click', function(event) {
+                    google.maps.event.addListener(that.overlays[name][i][j], 'click', function(event) {
                       console.log(this.geojsonProperties);
 
                       var 
@@ -199,27 +216,26 @@ $(function() {
                       infowindow.open(event.latLng);
                     });
 
-                    google.maps.event.addListener(that.projectsOverlay[i][j], 'mouseover', function(event) {
+                    google.maps.event.addListener(that.overlays[name][i][j], 'mouseover', function(event) {
                       this.setOptions(projectsHoverStyle);
                     });
-                    google.maps.event.addListener(that.projectsOverlay[i][j], 'mouseout', function(event) {
+
+                    google.maps.event.addListener(that.overlays[name][i][j], 'mouseout', function(event) {
                       var projectsStyle = { strokeColor: "#EFC392", strokeOpacity: 1, strokeWeight: 2, fillColor: "#FBDBBA", fillOpacity: 0.5 };
                       this.setOptions(projectsStyle);
                     });
-
                   }
+                } else{
+                  that.overlays[name][i].setMap(map);
                 }
-                else{
-                  that.projectsOverlay[i].setMap(map);
-                }
-                if (that.projectsOverlay[i].geojsonProperties) {
-                  setInfoWindow(that.projectsOverlay[i]);
+                if (that.overlays[name][i].geojsonProperties) {
+                  setInfoWindow(that.overlays[name][i]);
                 }
               }
-            }else{
-              that.projectsOverlay.setMap(map)
-              if (that.projectsOverlay.geojsonProperties) {
-                setInfoWindow(that.projectsOverlay);
+            } else{
+              that.overlays[name].setMap(map)
+              if (that.overlays[name].geojsonProperties) {
+                setInfoWindow(that.overlays[name]);
               }
             }
 
@@ -227,16 +243,14 @@ $(function() {
           showFeature(data, projectsStyle);
         }
       });
-
     },
-
-    addOverlay2: function(data, c) {
-      //this.removeOverlay(c);
+    addMarkerOverlay: function(data, c) {
 
       var self = this;
       var overlay = new google.maps.OverlayView();
 
       overlay.onRemove = function() { }
+
       // Add the container when the overlay is added to the map.
       overlay.onAdd = function() {
 
@@ -286,10 +300,10 @@ $(function() {
       overlay.setMap(map);
     },
     renderAgencies: function() {
-      this.addOverlay2(this.agencies.models, 'agencies');
+      this.addMarkerOverlay(this.agencies.models, 'agencies');
     },
     renderAshoka: function() {
-      this.addOverlay2(this.ashoka.models, 'ashoka');
+      this.addMarkerOverlay(this.ashoka.models, 'ashoka');
     }
   });
 
@@ -314,9 +328,9 @@ $(function() {
         var c  = $(this).attr('class').replace(/selected/, "").trim();
 
         if ($(this).hasClass('selected')) {
-          if (id == "agencies") agencies.fetch();
+          if (id == "agencies") mapView.addAgencies();
           else if (id == "ashoka") ashoka.fetch();
-          else if (id == "projects") mapView.addPath();
+          else if (id == "projects") mapView.addProjects();
           else {
             mapView.showOverlay(c);
           }
