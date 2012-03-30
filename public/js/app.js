@@ -2,8 +2,10 @@ var // DEFAULTS
 lat = 37.76487,
 lng = -122.41948,
 zoom = 3,
-minZoom = 3;
-maxZoom = 10;
+minZoom = 3,
+maxZoom = 10,
+previousZoom = 3,
+previousCenter;
 
 var projectsStyle      = { strokeColor: "#EFC392", strokeOpacity: 1, strokeWeight: 2, fillColor: "#FBDBBA", fillOpacity: 0.5 };
 var projectsHoverStyle = { strokeColor: "#EFC392", strokeOpacity: 1, strokeWeight: 2, fillColor: "#FBDBBA", fillOpacity: .7 };
@@ -20,6 +22,8 @@ $(function() {
   $("aside .close").on('click', function(e) {
     e.preventDefault();
     hideAside();
+    map.setZoom(previousZoom);
+    map.setCenter(previousCenter);
   });
 
   function showAside() {
@@ -193,6 +197,7 @@ $(function() {
                     google.maps.event.addListener(that.overlays[name][i][j], 'click', function(event) {
 
                       var 
+                      that         = this,
                       title        = this.geojsonProperties.title,
                       approvalDate = this.geojsonProperties.approval_date,
                       moreURL      = this.geojsonProperties.external_project_url,
@@ -213,6 +218,16 @@ $(function() {
                           // $("aside .content ul li.solution span").text(approvalDate);
                           $("aside .content ul li.more a").attr("href", moreURL);
                           showAside();
+                          infowindow.hide();
+
+                          previousZoom = map.getZoom();
+                          previousCenter = map.getCenter();
+
+
+                          var bounds = new google.maps.LatLngBounds();
+                          that.getPath().forEach( function(latlng) { bounds.extend(latlng); } ); 
+                          map.fitBounds(bounds)
+
                         });
                       });
                       infowindow.open(event.latLng);
