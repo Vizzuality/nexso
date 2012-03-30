@@ -209,10 +209,15 @@ $(function() {
           }
 
           function showFeature(geojson, style){
-            that.overlays[name] = new GeoJSON(geojson, name, style || null);
+             try {
+            var data = JSON.parse(geojson);
+   } catch ( e ) {
+   var data = geojson;
+   }
+            that.overlays[name] = new GeoJSON(data, name, style || null);
 
             if (that.overlays[name].type && that.overlays[name].type == "Error"){
-              alert(that.overlays[name].message);
+              console.log(that.overlays[name].message);
               return;
             }
 
@@ -251,7 +256,6 @@ $(function() {
 
                           previousZoom = map.getZoom();
                           previousCenter = map.getCenter();
-
 
                           var bounds = new google.maps.LatLngBounds();
                           that.getPath().forEach( function(latlng) { bounds.extend(latlng); } ); 
