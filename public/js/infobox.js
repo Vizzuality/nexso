@@ -32,6 +32,8 @@ InfoWindow.prototype.draw = function() {
                     <hgroup>\
                 <% if (c == "project") { %>\
                     <h4>Nexso project</h4>\
+                <% } else if (c == "ashokas") { %>\
+                    <h4>Ashoka fellow</h4>\
                 <% } else { %>\
                     <h4>Executing agency</h4>\
                 <% } %>\
