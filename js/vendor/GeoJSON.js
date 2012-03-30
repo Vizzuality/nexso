@@ -93,7 +93,7 @@ var GeoJSON = function( geojson, kind, options ){
           }
         }
         opts.paths = paths;
-        opts.zindex = 10;
+        opts.zindex = 30000;
         googleObj = new google.maps.Polygon(opts);
         if (geojsonProperties) {
           googleObj.set("geojsonProperties", geojsonProperties);
