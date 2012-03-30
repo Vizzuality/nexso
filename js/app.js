@@ -10,14 +10,21 @@ var projectsHoverStyle = { strokeColor: "#EFC392", strokeOpacity: 1, strokeWeigh
 
 $(function() {
 
-    $("aside .close").on('click', function(e) {
-      e.preventDefault();
-      hideAside();
-    });
+  // Key binding
+  $(document).keyup(function(e) {
+    if (e.keyCode == 27) {  // esc
+      infowindow.hide();
+    } 
+  });
 
-    function showAside() {
-      $("aside").animate({right:0}, 250);
-    }
+  $("aside .close").on('click', function(e) {
+    e.preventDefault();
+    hideAside();
+  });
+
+  function showAside() {
+    $("aside").animate({right:0}, 250);
+  }
 
   function hideAside(callback) {
     $("aside").animate({right:'-400px'}, 250, function() {
@@ -145,7 +152,7 @@ $(function() {
         url: url,
         success: function(data) {
 
-console.log(data);
+          console.log(data);
           function setInfoWindow() {
           }
 
@@ -165,7 +172,7 @@ console.log(data);
 
                     // Overlay events
                     google.maps.event.addListener(that.projectsOverlay[i][j], 'click', function(event) {
-                    console.log(this.geojsonProperties);
+                      console.log(this.geojsonProperties);
 
                       var 
                       title        = this.geojsonProperties.title,
@@ -185,7 +192,7 @@ console.log(data);
                           // $("aside .content ul li.agency span").text(approvalDate);
                           // $("aside .content ul li.solution span").text(approvalDate);
                           $("aside .content ul li.more a").attr("href", moreURL);
-                        showAside();
+                          showAside();
                         });
                       });
                       infowindow.open(event.latLng);
@@ -236,7 +243,7 @@ console.log(data);
           self.layer = d3.select(this.getPanes().overlayMouseTarget)
           .attr("class", "stations")
         } 
-          self.updateLayer();
+        self.updateLayer();
       }
 
       // Draw each marker as a separate SVG element.
