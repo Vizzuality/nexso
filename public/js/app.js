@@ -103,33 +103,26 @@ $(function() {
     },
 
     initialize: function() {
-      this.ashoka   = this.options.ashoka;
-      this.agencies = this.options.agencies;
-      this.agencies.bind('reset', this.renderAgencies, this);
-      this.ashoka.bind('reset', this.renderAshoka, this);
       this.state = 1;
       this.overlays = [];
     },
-    updateLayer: function() {
-      $("#map").css("width", $(document).width() + this.state + "px");
-      $("#map").css("height", $(document).height() + this.state + "px");
+    showOverlay: function(name, topic) {
+      if (this.overlays[name]) {
+        for (var i = 0; i < this.overlays[name].length; i++){
+          if (this.overlays[name][i].geojsonProperties.topic == topic.replace('t', ''))
+            this.overlays[name][i].setVisible(true);
+        }
+      }
     },
-    hideOverlay: function(c) {
-      $(".marker."+ c).hide();
-      this.updateLayer();
+    hideOverlay: function(name, topic) {
+      if (this.overlays[name]) {
+        for (var i = 0; i < this.overlays[name].length; i++){
+          if (this.overlays[name][i].geojsonProperties.topic == topic.replace('t', ''))
+            this.overlays[name][i].setVisible(false);
+        }
+      }
     },
-    showOverlay: function(c) {
-      $(".marker."+ c).show();
-      this.updateLayer();
-    },
-    removeOverlay: function(c) {
-      if (c == 'agencies') this.agencies.remove(this.agencies.models);
-      else if (c == 'ashoka') this.ashoka.remove(this.ashoka.models);
-      $(".marker."+ c).remove();
-      this.updateLayer();
-    },
-    removePath: function(name) {
-      console.log(name);
+    removeOverlay: function(name) {
       if (name == "ashokas" || name == "agencies") {
         for (var i = 0; i < this.overlays[name].length; i++){
           this.overlays[name][i].setMap(null);
@@ -149,7 +142,7 @@ $(function() {
     },
     addAshokas: function() {
       var that = this;
-      var url = "https://nexso2.cartodb.com/api/v2/sql?q=SELECT the_geom, ashoka_url AS url, name FROM v1_ashoka WHERE the_geom IS NOT NULL&format=geojson";
+      var url = "https://nexso2.cartodb.com/api/v2/sql?q=SELECT the_geom, ashoka_url AS url, topic_id AS topic, name FROM v1_ashoka WHERE the_geom IS NOT NULL AND topic_id IS NOT NULL&format=geojson";
       this.addOverlay("ashokas", url);
     },
     addAgencies: function() {
@@ -168,11 +161,9 @@ $(function() {
         url: url,
         success: function(data) {
 
-          console.log(data);
 
           function setInfoWindow(overlay) {
             google.maps.event.addListener(overlay, 'click', function(event) {
-              console.log(overlay.geojsonProperties);
 
               var 
               title   = overlay.geojsonProperties.name,
@@ -200,7 +191,6 @@ $(function() {
 
                     // Overlay events
                     google.maps.event.addListener(that.overlays[name][i][j], 'click', function(event) {
-                      console.log(this.geojsonProperties);
 
                       var 
                       title        = this.geojsonProperties.title,
@@ -256,61 +246,6 @@ $(function() {
         }
       });
     },
-    addMarkerOverlay: function(data, c) {
-
-      var self = this;
-      var overlay = new google.maps.OverlayView();
-
-      overlay.onRemove = function() { }
-
-      // Add the container when the overlay is added to the map.
-      overlay.onAdd = function() {
-
-        if (!self.layer) {
-          self.layer = d3.select(this.getPanes().overlayMouseTarget)
-          .attr("class", "stations")
-        } 
-        self.updateLayer();
-      }
-
-      // Draw each marker as a separate SVG element.
-      overlay.draw = function() {
-        var projection = this.getProjection();
-
-        var markers = self.layer.selectAll("svg." + c)
-        .data(data)
-        .each(transform) // update existing markers
-        .enter().append("svg:svg")
-        .each(transform);
-
-        function transform(point) {
-          var latLng = new google.maps.LatLng(point.lat(), point.lng());
-          var position = projection.fromLatLngToDivPixel(latLng);
-
-          var markerClass;
-
-          if (point.topic_id) {
-            markerClass = "marker " + c + " t" + point.topic_id(); 
-          } else {
-            markerClass = "marker " + c; 
-          }
-
-          if (point.topic_id == null) return;
-
-          return d3.select(this)
-          .on('click', function(e){ 
-            infowindow.setContent(point.name(), c);
-            infowindow.open(latLng);
-          })
-          .style("left", position.x + "px")
-          .style("top", position.y + "px")
-          .attr("class", markerClass);
-        }
-      };
-
-      // Bind our overlay to the map…
-      overlay.setMap(map);
-    },
     renderAgencies: function() {
       this.addMarkerOverlay(this.agencies.models, 'agencies');
     },
@@ -343,13 +278,15 @@ $(function() {
           if (id == "agencies") mapView.addAgencies();
           else if (id == "ashokas") mapView.addAshokas();
           else if (id == "projects") mapView.addProjects();
-          else {
-            mapView.showOverlay(c);
+          else if (c) {
+            mapView.showOverlay("ashokas", c);
           }
         } else {
           if (id == "projects" || id == "agencies" || id == "ashokas") {
-            mapView.removePath(id);
-          } 
+            mapView.removeOverlay(id);
+          } else if (c){
+            mapView.hideOverlay("ashokas", c);
+          }
         }
 
         // Store the state of the element
