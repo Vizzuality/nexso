@@ -12,6 +12,7 @@ var GeoJSON = function( geojson, kind, options ){
 				else if (kind == "ashokas") opts.icon= '/img/icons/ashoka.png';
 
 				googleObj = new google.maps.Marker(opts);
+
 				if (geojsonProperties) {
 					googleObj.set("geojsonProperties", geojsonProperties);
 				}

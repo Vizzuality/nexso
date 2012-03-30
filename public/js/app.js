@@ -129,6 +129,13 @@ $(function() {
       this.updateLayer();
     },
     removePath: function(name) {
+      console.log(name);
+      if (name == "ashokas" || name == "agencies") {
+        for (var i = 0; i < this.overlays[name].length; i++){
+          this.overlays[name][i].setMap(null);
+        }
+      } else {
+
       if (this.overlays[name].length){
         for (var i = 0; i < this.overlays[name].length; i++){
           if(this.overlays[name][i].length){
@@ -138,10 +145,16 @@ $(function() {
           }
         }
       }
+      }
+    },
+    addAshokas: function() {
+      var that = this;
+      var url = "https://nexso2.cartodb.com/api/v2/sql?q=SELECT the_geom, ashoka_url AS url, name FROM v1_ashoka WHERE the_geom IS NOT NULL&format=geojson";
+      this.addOverlay("ashokas", url);
     },
     addAgencies: function() {
       var that = this;
-      var url = "https://nexso2.cartodb.com/api/v2/sql?q=SELECT the_geom, external_url, name FROM v1_agencies&format=geojson";
+      var url = "https://nexso2.cartodb.com/api/v2/sql?q=SELECT the_geom, external_url AS url, name FROM v1_agencies WHERE the_geom IS NOT NULL&format=geojson";
       this.addOverlay("agencies", url);
     },
     addProjects: function() {
@@ -161,13 +174,12 @@ $(function() {
             google.maps.event.addListener(overlay, 'click', function(event) {
               console.log(overlay.geojsonProperties);
 
-                      var 
-                      title    = overlay.geojsonProperties.name,
-                      moreURL = overlay.geojsonProperties.external_url;
+              var 
+              title   = overlay.geojsonProperties.name,
+              moreURL = overlay.geojsonProperties.url;
 
-                      infowindow.setContent(title, name);
-                      infowindow.open(event.latLng);
-
+              infowindow.setContent(title, name);
+              infowindow.open(event.latLng);
 
             });
           }
@@ -329,19 +341,15 @@ $(function() {
 
         if ($(this).hasClass('selected')) {
           if (id == "agencies") mapView.addAgencies();
-          else if (id == "ashoka") ashoka.fetch();
+          else if (id == "ashokas") mapView.addAshokas();
           else if (id == "projects") mapView.addProjects();
           else {
             mapView.showOverlay(c);
           }
         } else {
-          if (id == "agencies" || id == "ashoka") {
-            mapView.removeOverlay(id);
+          if (id == "projects" || id == "agencies" || id == "ashokas") {
+            mapView.removePath(id);
           } 
-          else if (id == "projects") mapView.removePath();
-          else {
-            mapView.hideOverlay(c);
-          }
         }
 
         // Store the state of the element
