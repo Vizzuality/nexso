@@ -288,7 +288,7 @@ $(function() {
                     });
 
                     google.maps.event.addListener(that.overlays[name][i][j], 'mouseout', function(event) {
-                      var projectsStyle      = { strokeColor: "#0D5FB2", strokeOpacity: .5, strokeWeight: 1, fillColor: "#0D5FB2", fillOpacity: .3 };
+                      var projectsStyle      = { strokeColor: "#E79626", strokeOpacity: .5, strokeWeight: 1, fillColor: "#E79626", fillOpacity: .3 };
                       this.setOptions(projectsStyle);
                     });
                   }
