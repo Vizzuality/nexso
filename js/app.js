@@ -239,15 +239,20 @@ $(function() {
               return;
             }
 
+            for (var i = 0; i < that.overlays[name].length; i++){
+              if (that.overlays[name][i].length){
+
+                // Circle Drawing
+                var o = that.overlays[name][i][0];
+                var cLatLng = new google.maps.LatLng(o.geojsonProperties.centroid_lat, o.geojsonProperties.centroid_lon);
+                var rLatLng = new google.maps.LatLng(o.geojsonProperties.radius_point_lat, o.geojsonProperties.radius_point_lon);
+                var distanceWidget = new DistanceWidget(map, cLatLng, rLatLng);
+              }
+              }
+
             if (that.overlays[name].length){
               for (var i = 0; i < that.overlays[name].length; i++){
                 if (that.overlays[name][i].length){
-
-                  // Circle Drawing
-                  var o = that.overlays[name][i][0];
-                  var cLatLng = new google.maps.LatLng(o.geojsonProperties.centroid_lat, o.geojsonProperties.centroid_lon);
-                  var rLatLng = new google.maps.LatLng(o.geojsonProperties.radius_point_lat, o.geojsonProperties.radius_point_lon);
-                  var distanceWidget = new DistanceWidget(map, cLatLng, rLatLng);
 
                   for (var j = 0; j < that.overlays[name][i].length; j++){
                     var overlay = that.overlays[name][i][j];
