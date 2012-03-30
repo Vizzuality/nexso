@@ -47,8 +47,8 @@ var mapSyles = [
 ];
 var nexsoStyle = new google.maps.StyledMapType(mapSyles, {name: "Nexso Style"});
 
-var projectsStyle      = { strokeColor: "#EB9827", strokeOpacity: .9, strokeWeight: 1, fillColor: "#FBDBBA", fillOpacity: .7 };
-var projectsHoverStyle = { strokeColor: "#693F07", strokeOpacity: 1, strokeWeight: 2, fillColor: "#FBDBBA", fillOpacity: .9 };
+var projectsStyle      = { strokeColor: "#0D5FB2", strokeOpacity: .5, strokeWeight: 1, fillColor: "#FBDBBA", fillOpacity: .3 };
+var projectsHoverStyle = { strokeColor: "#0D5FB2", strokeOpacity: 1, strokeWeight: 2, fillColor: "#FBDBBA", fillOpacity: .6 };
 
 $(function() {
 
@@ -288,7 +288,7 @@ $(function() {
                     });
 
                     google.maps.event.addListener(that.overlays[name][i][j], 'mouseout', function(event) {
-                      var projectsStyle      = { strokeColor: "#EB9827", strokeOpacity: .9, strokeWeight: 1, fillColor: "#FBDBBA", fillOpacity: .7 };
+                      var projectsStyle      = { strokeColor: "#0D5FB2", strokeOpacity: .5, strokeWeight: 1, fillColor: "#FBDBBA", fillOpacity: .3 };
                       this.setOptions(projectsStyle);
                     });
                   }
