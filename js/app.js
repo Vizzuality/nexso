@@ -11,7 +11,7 @@ var mapSyles = [
  {
    featureType: "water",
    stylers: [
-     { saturation: -99 },
+     { saturation: -11 },
      { lightness: 25 }
    ]
  },{
