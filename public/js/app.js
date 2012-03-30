@@ -344,10 +344,4 @@ $(function() {
   var filterView = new FilterView({
     el:$('nav .content')
   });
-
 });
-
-
-
-
-
