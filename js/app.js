@@ -414,11 +414,11 @@ $(function() {
         // Store the state of the element
         var id    = $(this).attr('id');
         var state = $(this).hasClass('selected');
-        if (state) {
-          localStorage[id] = state;
-        } else {
-          localStorage.removeItem(id);
-        }
+       // if (state) {
+       //   localStorage[id] = state;
+       // } else {
+       //   localStorage.removeItem(id);
+       // }
       });
     }
   });

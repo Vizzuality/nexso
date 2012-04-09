@@ -29,7 +29,7 @@ $(function() {
     e.stopPropagation();
     $(this).parent().find("li").each(function() {
       var id = $(this).attr('id');
-      localStorage.removeItem(id);
+    //  localStorage.removeItem(id);
     });
 
     $(this).parent().find("li").removeClass("selected");
@@ -37,7 +37,7 @@ $(function() {
 
     // Store the state of the element
     var id = $(this).attr('id');
-    localStorage[id] = true;
+    //localStorage[id] = true;
   });
 
   $("nav .filter").on("click", function(e) {
