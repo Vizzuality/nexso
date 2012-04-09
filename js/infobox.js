@@ -91,9 +91,10 @@ InfoWindow.prototype.draw = function() {
   panes.floatPane.appendChild(div);
   div.style.opacity = 0;
   }
+  this.setPosition();
 };
 
-InfoWindow.prototype.setPosition = function() {
+InfoWindow.prototype.setPosition = function(callback) {
   if (this.div_) { 
     var div = this.div_;
     var pixPosition = this.getProjection().fromLatLngToDivPixel(this.latlng_);
@@ -103,7 +104,7 @@ InfoWindow.prototype.setPosition = function() {
       var actual_height = - $(div).find('.box').height();
       div.style.top = (pixPosition.y + actual_height - 10) + 'px';
     }
-    this.show();
+    callback && callback();
   }
 }
 
@@ -132,11 +133,13 @@ InfoWindow.prototype.setCallback = function(callback){
 
 InfoWindow.prototype.open = function(latlng){
   var that = this;
-  that.latlng_ = latlng;
-  that.moveMaptoOpen();
-  that.setPosition();     
-} 
+  this.latlng_ = latlng;
+  this.moveMaptoOpen();
+  this.setPosition(function() {
+    that.show();
+  });     
 
+} 
 
 InfoWindow.prototype.hide = function() {
   if (this.div_) {

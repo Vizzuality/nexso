@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=News+Cycle);
+//@import url(http://fonts.googleapis.com/css?family=News+Cycle);
 
 @import "compass/reset";
 @import "compass/css3";
@@ -98,6 +98,7 @@ nav {
 // Infowindows
 .infowindow {
   position:absolute;
+  opacity:0;
   .box { top:0;}
 }
 
