@@ -277,7 +277,7 @@ $(function() {
             that.overlays[name] = new GeoJSON(data, name, style || null);
 
             if (that.overlays[name].type && that.overlays[name].type == "Error"){
-              console.log(that.overlays[name].message);
+              //console.log(that.overlays[name].message);
               return;
             }
 
