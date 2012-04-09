@@ -589,6 +589,16 @@ aside {
 
 #map { top: -1*$navHeight; height: 100%; z-index:7; }
 
+#zoom_controls { position:absolute; top: 92px; left: 12px; z-index:1000; }
+#zoom_controls .zoom_in, #zoom_controls.zoom_out { position:relative;}
+#zoom_controls .zoom_in { cursor: pointer; background: transparent url(../img/zoom.png) no-repeat 0 0; width: 44px; height: 37px; }
+#zoom_controls .zoom_in:hover { background: transparent url(../img/zoom.png) no-repeat -60px 0; }
+#zoom_controls .zoom_in:active { background: transparent url(../img/zoom.png) no-repeat -120px 0; }
+
+#zoom_controls .zoom_out { cursor: pointer; background: transparent url(../img/zoom.png) no-repeat 0 -37px; width: 44px; height: 36px; }
+#zoom_controls .zoom_out:hover { background: transparent url(../img/zoom.png) no-repeat -60px -37px; }
+#zoom_controls .zoom_out:active { background: transparent url(../img/zoom.png) no-repeat -120px -37px; }
+
 $markerSize: 102px;
 $markerInnerSize: 70px;
 $markerRadiusSize: 102px;
