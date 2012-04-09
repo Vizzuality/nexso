@@ -56,6 +56,7 @@ $(function() {
   $(document).keyup(function(e) {
     if (e.keyCode == 27) {  // esc
       infowindow.hide();
+      $("nav .filter").fadeOut(150);
     } 
   });
 
