@@ -640,7 +640,9 @@ $markerRadiusSize: 102px;
   $height: 80px;
 
   position:absolute;
-  bottom: 19px;
+  bottom: -19px;
+  opacity:0;
+
   height:$height;
   width:$width;
   @include backgrounds-sprite(bkg_timeline);

@@ -20,22 +20,35 @@ $(function() {
   $(".aside .close").on('click', function(e) {
     e.preventDefault();
     hideAside();
+    showTimeline();
     map.setZoom(previousZoom);
     map.panTo(previousCenter);
   });
 
+  function showTimeline(delay) {
+    $("#timeline").delay(delay).animate({bottom:19, opacity:1}, 300);
+  }
+
+  function hideTimeline(callback) {
+    $("#timeline").animate({bottom:-19, opacity:0}, 250, function() {
+      callback && callback();
+    });
+  }
   function showAside() {
-    $(".aside").animate({right:0}, 250);
+    $(".aside").animate({right:0}, 250, function() {
+    $(this).removeClass("hidden");
+    });
   }
 
   function hideAside(callback) {
     $(".aside").animate({right:'-400px'}, 250, function() {
+      $(this).addClass("hidden");
       callback && callback();
     });
   }
 
   // Slider
-  $( "#timeline .slider" ).slider({ range: true, min: 0, max: 500, step: 5, values: [ 75, 300 ], slide: function( event, ui ) { } });
+  //$( "#timeline .slider" ).slider({ range: true, min: 0, max: 500, step: 5, values: [ 75, 300 ], slide: function( event, ui ) { } });
 
   // Map
   var mapOptions = {
@@ -48,6 +61,11 @@ $(function() {
   };
 
   var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+  google.maps.event.addDomListener(map, 'tilesloaded', function() {
+    if ($(".aside").hasClass("hidden"))
+      showTimeline(700);
+  });
 
   function zoomIn(controlDiv, map) {
     controlDiv.setAttribute('class', 'zoom_in');
@@ -327,6 +345,7 @@ $(function() {
 
                       function onInfowindowClick(e) {
                         e.preventDefault();
+                        hideTimeline();
                         hideAside(onHiddenAside);
                       }
 
