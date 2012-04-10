@@ -56,11 +56,11 @@ $(function() {
   $(document).keyup(function(e) {
     if (e.keyCode == 27) {  // esc
       infowindow.hide();
-      $("nav .filter").fadeOut(150);
+      $(".nav .filter").fadeOut(150);
     } 
   });
 
-  $("aside .close").on('click', function(e) {
+  $(".aside .close").on('click', function(e) {
     e.preventDefault();
     hideAside();
     map.setZoom(previousZoom);
@@ -68,11 +68,11 @@ $(function() {
   });
 
   function showAside() {
-    $("aside").animate({right:0}, 250);
+    $(".aside").animate({right:0}, 250);
   }
 
   function hideAside(callback) {
-    $("aside").animate({right:'-400px'}, 250, function() {
+    $(".aside").animate({right:'-400px'}, 250, function() {
       callback && callback();
     });
   }
@@ -322,22 +322,23 @@ $(function() {
                         var prettyApprovalDate = prettifyDate(approvalDate);
 
                         hideAside(function() {
-                          $("aside .content .header h2").html(title);
+                          var $asideContent = $(".aside .content");
+                          $asideContent.find(".header h2").html(title);
 
                           if (prettyApprovalDate) {
-                            $("aside .content ul li.approvalDate").show();
-                            $("aside .content ul li.approvalDate span").text(prettyApprovalDate);
+                            $asideContent.find("ul li.approvalDate").show();
+                            $asideContent.find("ul li.approvalDate span").text(prettyApprovalDate);
                           }
-                          else $("aside .content ul li.approvalDate").hide();
+                          else $asideContent.find("ul li.approvalDate").hide();
 
-                          if (location) $("aside .content ul li.location span").text(location);
-                          if (budget)   $("aside .content ul li.budget span").text(accounting.formatMoney(budget));
+                          if (location) $asideContent.find("ul li.location span").text(location);
+                          if (budget)   $asideContent.find("ul li.budget span").text(accounting.formatMoney(budget));
 
                           if (moreURL) {
-                            $("aside .content ul li.more").show();
-                            $("aside .content ul li.more a").attr("href", moreURL);
+                            $asideContent.find("ul li.more").show();
+                            $asideContent.find("ul li.more a").attr("href", moreURL);
                           }
-                          else $("aside .content ul li.more").hide();
+                          else $asideContent.find("ul li.more").hide();
 
                           showAside();
                           infowindow.hide();
@@ -432,6 +433,6 @@ $(function() {
   });
 
   var filterView = new FilterView({
-    el:$('nav .content')
+    el:$('.nav .content')
   });
 });

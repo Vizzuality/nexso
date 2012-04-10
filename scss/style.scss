@@ -62,7 +62,7 @@ h4 { font-size: 11px; font-weight:bold; }
 .content { width:980px; margin: auto; }
 
 /* Navigation */
-nav {
+.nav {
   height: $navHeight;
   background:url(../img/backgrounds/bkg_navigation.png) repeat-x;
   position:relative;
@@ -209,7 +209,7 @@ nav {
 }
 
 // Navigation 
-nav ul li {
+.nav ul li {
   position:relative;
 
   // Filter horizontal position
@@ -218,7 +218,7 @@ nav ul li {
   &:nth-child(3) .filter { right: -14px; }
 }
 
-nav ul li .filter {
+.nav ul li .filter {
 
   $width: 236px;
   $pT: 13px;
@@ -300,7 +300,7 @@ nav ul li .filter {
 
 } // filter
 
-nav ul li .filter.iati {
+.nav ul li .filter.iati {
   .content {
 
     div.legend { position:relative; left: 10px; width:100px; float:left; }
@@ -345,7 +345,7 @@ nav ul li .filter.iati {
 
 
 // Filter components
-nav ul li .filter.view { 
+.nav ul li .filter.view { 
   div.content {
 
     ul { 
@@ -418,7 +418,7 @@ nav ul li .filter.view {
     } // ul
   }
 }
-nav ul li .filter.filters { 
+.nav ul li .filter.filters { 
   div.content {
 
     h3 {
@@ -477,7 +477,7 @@ nav ul li .filter.filters {
   }
 } // filter.filters
 
-nav ul li .filter {
+.nav ul li .filter {
   .content {
     h3 { margin: 0 0 19px 0; font-family: 'NewsCycle', sans-serif; font-size:14px; color: $subtle_gray; text-transform:uppercase; }
 
@@ -531,7 +531,7 @@ nav ul li .filter {
 } // filter
 
 // Aside 
-aside {
+.aside {
   $width: 358px;
   $pT: 31px;
   $pB: 27px;
