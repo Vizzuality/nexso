@@ -232,26 +232,32 @@ $(function() {
       }
     },
     addAshokas: function() {
+
       var query = "SELECT the_geom, ashoka_url AS url, topic_id AS topic, name " 
       + "FROM v1_ashoka " 
       + "WHERE the_geom IS NOT NULL AND topic_id IS NOT NULL";
 
       this.addOverlay("ashokas", query);
+
     },
     addAgencies: function() {
+
       var query = "SELECT the_geom, external_url AS url, name "
       + "FROM v1_agencies "
       + "WHERE the_geom IS NOT NULL";
 
       this.addOverlay("agencies", query);
+
     },
     addProjects: function() {
-      // P = Projects | WA = Working Areas | PWA = Project Working Areas
-      var query = "SELECT P.title, P.approval_date, P.external_project_url, P.location_verbatim, P.budget, WA.the_geom "
-      + "FROM v1_projects AS P, working_areas as WA, v1_project_work_areas as PWA "
+
+      // P = Projects | WA = Working Areas | PWA = Project Working Areas | S = Solutions
+      var query = "SELECT P.title, P.approval_date, P.external_project_url, P.location_verbatim, P.budget, WA.the_geom, S.name AS solution_name, S.nexso_url AS solution_url "
+      + "FROM v1_projects AS P LEFT JOIN v1_solutions AS S ON S.cartodb_id = P.solution_id, working_areas AS WA, v1_project_work_areas AS PWA "
       + "WHERE P.cartodb_id = PWA.project_id AND WA.cartodb_id = PWA.id";
 
       this.addOverlay("projects", query);
+
     },
     addOverlay: function(name, query) {
       var that = this;
@@ -262,13 +268,13 @@ $(function() {
         dataType: 'jsonp',
         success: function(data) {
 
-
           function showFeature(geojson, style){
             try {
               var data = JSON.parse(geojson);
             } catch ( e ) {
               var data = geojson;
             }
+
             that.overlays[name] = new GeoJSON(data, name, style || null);
 
             if (that.overlays[name].type && that.overlays[name].type == "Error"){
@@ -303,8 +309,12 @@ $(function() {
                       title        = properties.title,
                       approvalDate = properties.approval_date,
                       moreURL      = properties.external_project_url,
+                      solutionName = properties.solution_name,
+                      solutionURL  = properties.solution_url,
                       location     = properties.location_verbatim,
                       budget       = properties.budget;
+
+                      console.log(solutionName, solutionURL);
 
                       infowindow.setContent(title, "project");
                       infowindow.setSolutionURL(title, moreURL);
@@ -313,7 +323,7 @@ $(function() {
 
                         var prettyApprovalDate = prettifyDate(approvalDate);
 
-                        hideAside(function() {
+                        function onHiddenAside() {
                           var 
                           $asideContent = $(".aside .content"),
                           $asideItems = $asideContent.find("ul");
@@ -328,6 +338,11 @@ $(function() {
 
                           if (location) $asideItems.find("li.location span").text(location);
                           if (budget)   $asideItems.find("li.budget span").text(accounting.formatMoney(budget));
+
+                          if (solutionName && solutionURL) {
+                            $asideItems.find("li.solution").show();
+                            $asideItems.find("li.solution a").text(solutionName).attr("href", solutionURL);
+                          } else $asideItems.find("li.solution").show();
 
                           if (moreURL) {
                             $asideItems.find("li.more").show();
@@ -344,8 +359,9 @@ $(function() {
                           var bounds = new google.maps.LatLngBounds();
                           that.getPath().forEach( function(latlng) { bounds.extend(latlng); } ); 
                           map.fitBounds(bounds)
+                        }
 
-                        });
+                        hideAside(onHiddenAside);
                       });
                       infowindow.open(event.latLng);
                     });
