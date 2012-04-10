@@ -121,7 +121,7 @@ h4 { font-size: 11px; font-weight:bold; }
     background:url(../img/backgrounds/bkg_box.png) repeat-y (-1*$width - 1) top;
 
     .header {
-      hgroup { // header titles
+      .hgroup { // header titles
         width: 230px;
 
         h2 { padding: 0 0 19px 0; margin: 0 0 19px 0; font-family: 'NewsCycle', sans-serif; color:$dark_gray; border-bottom: 2px solid $dark_gray; line-height:1.1;}
@@ -185,7 +185,7 @@ h4 { font-size: 11px; font-weight:bold; }
 
 // Agencies box
 .box.agencies {
-  .header hgroup { // header titles
+  .header .hgroup { // header titles
     h2 { border-color:$gold; }
     h4 { color:$gold; }
   }
@@ -193,7 +193,7 @@ h4 { font-size: 11px; font-weight:bold; }
 
 // Ashoka box 
 .box.ashokas {
-  .header hgroup { // header titles
+  .header .hgroup { // header titles
 
     h2 { border-color:$green; }
     h4 { color:$green; }
@@ -202,7 +202,7 @@ h4 { font-size: 11px; font-weight:bold; }
 
 // Project box 
 .box.project {
-  .header hgroup { // header titles
+  .header .hgroup { // header titles
     h2 { border-color:$blue; }
     h4 { color:$blue; }
   }
@@ -575,7 +575,7 @@ h4 { font-size: 11px; font-weight:bold; }
     ul li a { border-bottom: 1px dashed #ccc; }
 
     .header {
-      hgroup { // header titles
+      .hgroup { // header titles
         width: 283px;
 
         h2 { padding: 0 0 30px 0; font-family: 'NewsCycle', sans-serif; color:$dark_gray; border-bottom: 2px solid $light_blue; line-height:22px;}

@@ -29,7 +29,7 @@ InfoWindow.prototype.draw = function() {
     this.template = _.template('<div class="box <%= c %>">\
       <div class="content">\
       <div class="header">\
-      <hgroup>\
+      <div class="hgroup">\
       <% if (c == "project") { %>\
       <h4>Nexso project</h4>\
       <% } else if (c == "ashokas") { %>\
@@ -38,7 +38,7 @@ InfoWindow.prototype.draw = function() {
       <h4>Executing agency</h4>\
       <% } %>\
       <h2><%= name %></h2>\
-      </hgroup>\
+      </div>\
       </div>\
       <% if (c == "project") { %>\
       <a href="#" class="btn">View project details</a>\
