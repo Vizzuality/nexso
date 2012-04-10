@@ -19,14 +19,14 @@ $(function() {
 
   $(".aside .close").on('click', function(e) {
     e.preventDefault();
-    hideAside();
-    showTimeline();
+    hideAside(showTimeline);
     map.setZoom(previousZoom);
     map.panTo(previousCenter);
   });
 
-  function showTimeline(delay) {
-    $("#timeline").delay(delay).animate({bottom:19, opacity:1}, 300);
+  function showTimeline() {
+    if ($(".aside").hasClass("hidden"))
+      $("#timeline").animate({bottom:19, opacity:1}, 300);
   }
 
   function hideTimeline(callback) {
@@ -63,8 +63,7 @@ $(function() {
   var map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
   google.maps.event.addDomListener(map, 'tilesloaded', function() {
-    if ($(".aside").hasClass("hidden"))
-      showTimeline(700);
+    setTimeout(function() { if ($(".aside").hasClass("hidden")) showTimeline(); }, 700);
   });
 
   function zoomIn(controlDiv, map) {
