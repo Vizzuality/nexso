@@ -46,7 +46,7 @@ body {
 a { color:#000; text-decoration: none; }
 
 h1 {
-  font-family: 'News Cycle', sans-serif;
+  font-family: 'NewsCycle', sans-serif;
   color: $title_blue;
   font-weight:normal;
   font-size:42px;
@@ -85,7 +85,7 @@ nav {
 
         position:relative;
         padding-right:10px;
-        font: 19px 'News Cycle', sans-serif;
+        font: 19px 'NewsCycle', sans-serif;
         color: #000000;
         text-transform: uppercase;
         background:url(../img/icons/arrows.png) no-repeat right 15px;
@@ -124,7 +124,7 @@ nav {
       hgroup { // header titles
         width: 230px;
 
-        h2 { padding: 0 0 19px 0; margin: 0 0 19px 0; font-family: 'News Cycle', sans-serif; color:$dark_gray; border-bottom: 2px solid $dark_gray; line-height:1.1;}
+        h2 { padding: 0 0 19px 0; margin: 0 0 19px 0; font-family: 'NewsCycle', sans-serif; color:$dark_gray; border-bottom: 2px solid $dark_gray; line-height:1.1;}
         h2.no_border { border:none; padding: 0; }
         h4 { margin: 0 0 6px 0; color:$gold; opacity:.6; text-transform:uppercase; }
       }
@@ -479,7 +479,7 @@ nav ul li .filter.filters {
 
 nav ul li .filter {
   .content {
-    h3 { margin: 0 0 19px 0; font-family: 'News Cycle', sans-serif; font-size:14px; color: $subtle_gray; text-transform:uppercase; }
+    h3 { margin: 0 0 19px 0; font-family: 'NewsCycle', sans-serif; font-size:14px; color: $subtle_gray; text-transform:uppercase; }
 
     // reset nav ul inherited styles 
     ul { position:none; top: 0; float:none; }
@@ -578,7 +578,7 @@ aside {
       hgroup { // header titles
         width: 283px;
 
-        h2 { padding: 0 0 30px 0; font-family: 'News Cycle', sans-serif; color:$dark_gray; border-bottom: 2px solid $light_blue; line-height:22px;}
+        h2 { padding: 0 0 30px 0; font-family: 'NewsCycle', sans-serif; color:$dark_gray; border-bottom: 2px solid $light_blue; line-height:22px;}
         h2.no_border { border:none; padding: 0; }
         h4 { margin: 0 0 6px 0; color:$blue; opacity:.6; text-transform:uppercase; }
       }

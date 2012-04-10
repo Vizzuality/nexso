@@ -8,6 +8,7 @@ previousZoom = 3,
 previousCenter;
 var monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
+
 String.prototype.splice = function( idx, rem, s ) {
     return (this.slice(0,idx) + s + this.slice(idx + Math.abs(rem)));
 };
@@ -54,6 +55,7 @@ var nexsoStyle = new google.maps.StyledMapType(mapSyles, {name: "Nexso Style"});
 
 var projectsStyle      = { strokeColor: "#E79626", strokeOpacity: .5, strokeWeight: 1, fillColor: "#E79626", fillOpacity: .3 };
 var projectsHoverStyle = { strokeColor: "#E79626", strokeOpacity: 1, strokeWeight: 2, fillColor: "#E79626", fillOpacity: .6 };
+
 
 $(function() {
 
@@ -254,142 +256,142 @@ $(function() {
       this.addOverlay("projects", url);
     },
     addOverlay: function(name, url) {
-    console.log("Adding overlay:", name, url);
 
-      var that = this;
-      $.ajax({
-        url: url,
-        success: function(data) {
+    $.support.cors = true;
 
-          console.log(data);
+    var that = this;
+    $.ajax({
+      url: url,
+      dataType: 'jsonp',
+      success: function(data) {
 
-          function setInfoWindow(overlay) {
-            google.maps.event.addListener(overlay, 'click', function(event) {
+        function setInfoWindow(overlay) {
+          google.maps.event.addListener(overlay, 'click', function(event) {
 
-              var 
-              title   = overlay.geojsonProperties.name,
-              moreURL = overlay.geojsonProperties.url;
+            var 
+            title   = overlay.geojsonProperties.name,
+            moreURL = overlay.geojsonProperties.url;
 
-              infowindow.setContent(title, name);
-              infowindow.open(event.latLng);
+            infowindow.setContent(title, name);
+            infowindow.open(event.latLng);
 
-            });
+          });
+        }
+
+        function showFeature(geojson, style){
+          try {
+            var data = JSON.parse(geojson);
+          } catch ( e ) {
+            var data = geojson;
+          }
+          that.overlays[name] = new GeoJSON(data, name, style || null);
+
+          if (that.overlays[name].type && that.overlays[name].type == "Error"){
+            //console.log(that.overlays[name].message);
+            return;
           }
 
-          function showFeature(geojson, style){
-            try {
-              var data = JSON.parse(geojson);
-            } catch ( e ) {
-              var data = geojson;
-            }
-            that.overlays[name] = new GeoJSON(data, name, style || null);
+          for (var i = 0; i < that.overlays[name].length; i++){
+            if (that.overlays[name][i].length){
 
-            if (that.overlays[name].type && that.overlays[name].type == "Error"){
-              //console.log(that.overlays[name].message);
-              return;
+              // Circle Drawing
+              var o = that.overlays[name][i][0];
+              var cLatLng = new google.maps.LatLng(o.geojsonProperties.centroid_lat, o.geojsonProperties.centroid_lon);
+              var rLatLng = new google.maps.LatLng(o.geojsonProperties.radius_point_lat, o.geojsonProperties.radius_point_lon);
+              var distanceWidget = new DistanceWidget(map, cLatLng, rLatLng);
             }
+          }
 
+          if (that.overlays[name].length){
             for (var i = 0; i < that.overlays[name].length; i++){
               if (that.overlays[name][i].length){
 
-                // Circle Drawing
-                var o = that.overlays[name][i][0];
-                var cLatLng = new google.maps.LatLng(o.geojsonProperties.centroid_lat, o.geojsonProperties.centroid_lon);
-                var rLatLng = new google.maps.LatLng(o.geojsonProperties.radius_point_lat, o.geojsonProperties.radius_point_lon);
-                var distanceWidget = new DistanceWidget(map, cLatLng, rLatLng);
-              }
-              }
+                for (var j = 0; j < that.overlays[name][i].length; j++){
+                  var overlay = that.overlays[name][i][j];
+                  overlay.setMap(map);
 
-            if (that.overlays[name].length){
-              for (var i = 0; i < that.overlays[name].length; i++){
-                if (that.overlays[name][i].length){
+                  // Overlay events
+                  google.maps.event.addListener(overlay, 'click', function(event) {
 
-                  for (var j = 0; j < that.overlays[name][i].length; j++){
-                    var overlay = that.overlays[name][i][j];
-                    overlay.setMap(map);
+                    var 
+                    that         = this,
+                    properties   = this.geojsonProperties,
+                    title        = properties.title,
+                    approvalDate = properties.approval_date,
+                    moreURL      = properties.external_project_url,
+                    location     = properties.location_verbatim,
+                    budget       = properties.budget;
 
-                    // Overlay events
-                    google.maps.event.addListener(overlay, 'click', function(event) {
+                    infowindow.setContent(title, "project");
+                    infowindow.setSolutionURL(title, moreURL);
+                    infowindow.setCallback(function(e) {
+                      e.preventDefault();
 
-                      var 
-                      that         = this,
-                      properties   = this.geojsonProperties,
-                      title        = properties.title,
-                      approvalDate = properties.approval_date,
-                      moreURL      = properties.external_project_url,
-                      location     = properties.location_verbatim,
-                      budget       = properties.budget;
+                      console.log(approvalDate);
 
-                      infowindow.setContent(title, "project");
-                      infowindow.setSolutionURL(title, moreURL);
-                      infowindow.setCallback(function(e) {
-                        e.preventDefault();
+                      approvalDate = approvalDate.splice(4, 0, "-" );
+                      approvalDate = approvalDate.splice(7, 0, "-" );
+                      var date = Date.parseExact(approvalDate, "yyyy-MM-dd");
 
-                        console.log(approvalDate);
+                      console.log(date);
 
-                        approvalDate = approvalDate.splice(4, 0, "-" );
-                        approvalDate = approvalDate.splice(7, 0, "-" );
-                        var date = Date.parseExact(approvalDate, "yyyy-MM-dd");
+                      if (date) {
+                        console.log(date.getMonth());
 
-                        console.log(date);
+                        var d = monthNames[date.getMonth()] + " " + date.getDate() + "st" + ", " + date.getFullYear();
+                        console.log(d);
+                      }
 
-                        if (date) {
-                          console.log(date.getMonth());
+                      hideAside(function() {
+                        $("aside .content .header h2").html(title);
+                        $("aside .content ul li.approvalDate span").text(approvalDate);
+                        $("aside .content ul li.location span").text(location);
+                        $("aside .content ul li.budget span").text(accounting.formatMoney(budget));
+                        // $("aside .content ul li.agency span").text(approvalDate);
+                        // $("aside .content ul li.solution span").text(approvalDate);
+                        $("aside .content ul li.more a").attr("href", moreURL);
+                        showAside();
+                        infowindow.hide();
 
-                          var d = monthNames[date.getMont()] + " " + date.getDate() + "st" + ", " + date.getFullYear();
-                          console.log(d);
-                        }
+                        previousZoom = map.getZoom();
+                        previousCenter = map.getCenter();
 
-                        hideAside(function() {
-                          $("aside .content .header h2").html(title);
-                          $("aside .content ul li.approvalDate span").text(approvalDate);
-                          $("aside .content ul li.location span").text(location);
-                          $("aside .content ul li.budget span").text(accounting.formatMoney(budget));
-                          // $("aside .content ul li.agency span").text(approvalDate);
-                          // $("aside .content ul li.solution span").text(approvalDate);
-                          $("aside .content ul li.more a").attr("href", moreURL);
-                          showAside();
-                          infowindow.hide();
+                        var bounds = new google.maps.LatLngBounds();
+                        that.getPath().forEach( function(latlng) { bounds.extend(latlng); } ); 
+                        map.fitBounds(bounds)
 
-                          previousZoom = map.getZoom();
-                          previousCenter = map.getCenter();
-
-                          var bounds = new google.maps.LatLngBounds();
-                          that.getPath().forEach( function(latlng) { bounds.extend(latlng); } ); 
-                          map.fitBounds(bounds)
-
-                        });
                       });
-                      infowindow.open(event.latLng);
                     });
+                    infowindow.open(event.latLng);
+                  });
 
-                    google.maps.event.addListener(overlay, 'mouseover', function(event) {
-                      this.setOptions(projectsHoverStyle);
-                    });
+                  google.maps.event.addListener(overlay, 'mouseover', function(event) {
+                    this.setOptions(projectsHoverStyle);
+                  });
 
-                    google.maps.event.addListener(overlay, 'mouseout', function(event) {
-                      var projectsStyle      = { strokeColor: "#E79626", strokeOpacity: .5, strokeWeight: 1, fillColor: "#E79626", fillOpacity: .3 };
-                      this.setOptions(projectsStyle);
-                    });
-                  }
-                } else{
-                  that.overlays[name][i].setMap(map);
+                  google.maps.event.addListener(overlay, 'mouseout', function(event) {
+                    var projectsStyle      = { strokeColor: "#E79626", strokeOpacity: .5, strokeWeight: 1, fillColor: "#E79626", fillOpacity: .3 };
+                    this.setOptions(projectsStyle);
+                  });
                 }
-                if (that.overlays[name][i].geojsonProperties) {
-                  setInfoWindow(that.overlays[name][i]);
-                }
+              } else{
+                that.overlays[name][i].setMap(map);
               }
-            } else{
-              that.overlays[name].setMap(map)
-              if (that.overlays[name].geojsonProperties) {
-                setInfoWindow(that.overlays[name]);
+              if (that.overlays[name][i].geojsonProperties) {
+                setInfoWindow(that.overlays[name][i]);
               }
             }
-
+          } else{
+            that.overlays[name].setMap(map)
+            if (that.overlays[name].geojsonProperties) {
+              setInfoWindow(that.overlays[name]);
+            }
           }
-          showFeature(data, projectsStyle);
+
         }
-      });
+        showFeature(data, projectsStyle);
+      }
+    });
     }
   });
 
@@ -431,11 +433,11 @@ $(function() {
         // Store the state of the element
         var id    = $(this).attr('id');
         var state = $(this).hasClass('selected');
-       // if (state) {
-       //   localStorage[id] = state;
-       // } else {
-       //   localStorage.removeItem(id);
-       // }
+        // if (state) {
+        //   localStorage[id] = state;
+        // } else {
+        //   localStorage.removeItem(id);
+        // }
       });
     }
   });
