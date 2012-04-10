@@ -6,6 +6,11 @@ minZoom = 3,
 maxZoom = 16,
 previousZoom = 3,
 previousCenter;
+var monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+String.prototype.splice = function( idx, rem, s ) {
+    return (this.slice(0,idx) + s + this.slice(idx + Math.abs(rem)));
+};
 
 var mapSyles = [
  {
@@ -249,11 +254,14 @@ $(function() {
       this.addOverlay("projects", url);
     },
     addOverlay: function(name, url) {
+    console.log("Adding overlay:", name, url);
+
       var that = this;
       $.ajax({
         url: url,
         success: function(data) {
 
+          console.log(data);
 
           function setInfoWindow(overlay) {
             google.maps.event.addListener(overlay, 'click', function(event) {
@@ -317,6 +325,21 @@ $(function() {
                       infowindow.setCallback(function(e) {
                         e.preventDefault();
 
+                        console.log(approvalDate);
+
+                        approvalDate = approvalDate.splice(4, 0, "-" );
+                        approvalDate = approvalDate.splice(7, 0, "-" );
+                        var date = Date.parseExact(approvalDate, "yyyy-MM-dd");
+
+                        console.log(date);
+
+                        if (date) {
+                          console.log(date.getMonth());
+
+                          var d = monthNames[date.getMont()] + " " + date.getDate() + "st" + ", " + date.getFullYear();
+                          console.log(d);
+                        }
+
                         hideAside(function() {
                           $("aside .content .header h2").html(title);
                           $("aside .content ul li.approvalDate span").text(approvalDate);
@@ -367,12 +390,6 @@ $(function() {
           showFeature(data, projectsStyle);
         }
       });
-    },
-    renderAgencies: function() {
-      this.addMarkerOverlay(this.agencies.models, 'agencies');
-    },
-    renderAshoka: function() {
-      this.addMarkerOverlay(this.ashoka.models, 'ashoka');
     }
   });
 
