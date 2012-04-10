@@ -44,11 +44,11 @@ var mapSyles = [
  },{
  }
 ];
+
 var nexsoStyle = new google.maps.StyledMapType(mapSyles, {name: "Nexso Style"});
 
 var projectsStyle      = { strokeColor: "#E79626", strokeOpacity: .5, strokeWeight: 1, fillColor: "#E79626", fillOpacity: .3 };
 var projectsHoverStyle = { strokeColor: "#E79626", strokeOpacity: 1, strokeWeight: 2, fillColor: "#E79626", fillOpacity: .6 };
-
 
 $(function() {
 
@@ -88,7 +88,6 @@ $(function() {
     center: new google.maps.LatLng(lat, lng),
     mapTypeId: google.maps.MapTypeId.ROADMAP,
     disableDefaultUI: true
-
   };
 
   var map = new google.maps.Map(document.getElementById('map'), mapOptions);
@@ -324,14 +323,22 @@ $(function() {
 
                         hideAside(function() {
                           $("aside .content .header h2").html(title);
+
                           if (prettyApprovalDate) {
+                            $("aside .content ul li.approvalDate").show();
                             $("aside .content ul li.approvalDate span").text(prettyApprovalDate);
                           }
-                          $("aside .content ul li.location span").text(location);
-                          $("aside .content ul li.budget span").text(accounting.formatMoney(budget));
-                          // $("aside .content ul li.agency span").text(approvalDate);
-                          // $("aside .content ul li.solution span").text(approvalDate);
-                          $("aside .content ul li.more a").attr("href", moreURL);
+                          else $("aside .content ul li.approvalDate").hide();
+
+                          if (location) $("aside .content ul li.location span").text(location);
+                          if (budget)   $("aside .content ul li.budget span").text(accounting.formatMoney(budget));
+
+                          if (moreURL) {
+                            $("aside .content ul li.more").show();
+                            $("aside .content ul li.more a").attr("href", moreURL);
+                          }
+                          else $("aside .content ul li.more").hide();
+
                           showAside();
                           infowindow.hide();
 

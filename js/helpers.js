@@ -4,9 +4,8 @@ String.prototype.splice = function( idx, rem, s ) {
   return (this.slice(0,idx) + s + this.slice(idx + Math.abs(rem)));
 };
 
+// Transform YYYYMMDD date into something similar to: July 14th, 2006
 function prettifyDate(date) {
-  console.log("Parsing", date);
-
   var parsedDate = Date.parseExact(date.splice(4, 0, "-" ).splice(7, 0, "-" ), "yyyy-MM-dd");
 
   if (parsedDate) {
