@@ -35,7 +35,7 @@ $(function() {
   }
 
   // Slider
-  // $( "#timeline .slider" ).slider({ range: true, min: 0, max: 500, step: 5, values: [ 75, 300 ], slide: function( event, ui ) { } });
+  $( "#timeline .slider" ).slider({ range: true, min: 0, max: 500, step: 5, values: [ 75, 300 ], slide: function( event, ui ) { } });
 
   // Map
   var mapOptions = {
