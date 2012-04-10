@@ -5,7 +5,6 @@ String.prototype.splice = function( idx, rem, s ) {
 };
 
 // Map styles
-var nexsoStyle         = new google.maps.StyledMapType(mapStyles, {name: "Nexso Style"});
 var projectsStyle      = { strokeColor: "#E79626", strokeOpacity: .5, strokeWeight: 1, fillColor: "#E79626", fillOpacity: .3 };
 var projectsHoverStyle = { strokeColor: "#E79626", strokeOpacity: 1, strokeWeight: 2, fillColor: "#E79626", fillOpacity: .6 };
 var mapStyles = [
@@ -46,6 +45,8 @@ var mapStyles = [
  },{
  }
 ];
+
+var nexsoStyle = new google.maps.StyledMapType(mapStyles, {name: "Nexso Style"});
 
 // Transform YYYYMMDD date into something similar to: July 14th, 2006
 function prettifyDate(date) {
