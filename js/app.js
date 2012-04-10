@@ -210,7 +210,7 @@ $(function() {
 
       // P = Projects | WA = Working Areas | PWA = Project Working Areas | S = Solutions
       var query = "SELECT P.title, P.approval_date, P.external_project_url, P.location_verbatim, P.budget, WA.the_geom, S.name AS solution_name, S.nexso_url AS solution_url "
-      + "FROM v1_projects AS P LEFT JOIN v1_solutions AS S ON S.cartodb_id = P.solution_id, working_areas AS WA, v1_project_work_areas AS PWA "
+      + "FROM v1_projects AS P LEFT JOIN v1_solutions AS S ON S.cartodb_id = P.solution_id LEFT JOIN v1_agencies AS A ON A.cartodb_id = P.agency_id, working_areas AS WA, v1_project_work_areas AS PWA "
       + "WHERE P.cartodb_id = PWA.project_id AND WA.cartodb_id = PWA.id";
 
       this.addOverlay("projects", query);
