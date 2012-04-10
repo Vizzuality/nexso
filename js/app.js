@@ -233,17 +233,29 @@ $(function() {
     },
     addAshokas: function() {
       var that = this;
-      var query = "SELECT the_geom, ashoka_url AS url, topic_id AS topic, name FROM v1_ashoka WHERE the_geom IS NOT NULL AND topic_id IS NOT NULL";
+
+      var query = "SELECT the_geom, ashoka_url AS url, topic_id AS topic, name " 
+      + "FROM v1_ashoka " 
+      + "WHERE the_geom IS NOT NULL AND topic_id IS NOT NULL";
+
       this.addOverlay("ashokas", query);
     },
     addAgencies: function() {
       var that = this;
-      var query = "SELECT the_geom, external_url AS url, name FROM v1_agencies WHERE the_geom IS NOT NULL";
+
+      var query = "SELECT the_geom, external_url AS url, name "
+      + "FROM v1_agencies "
+      + "WHERE the_geom IS NOT NULL";
+
       this.addOverlay("agencies", query);
     },
     addProjects: function() {
       var that = this;
-      var query = "SELECT v1_projects.title, v1_projects.approval_date, v1_projects.external_project_url, v1_projects.location_verbatim, v1_projects.budget, working_areas.the_geom FROM v1_projects, working_areas, v1_project_work_areas WHERE v1_projects.cartodb_id = v1_project_work_areas.project_id AND working_areas.cartodb_id = v1_project_work_areas.id";
+
+      var query = "SELECT P.title, P.approval_date, P.external_project_url, P.location_verbatim, P.budget, WA.the_geom "
+      + "FROM v1_projects AS P, working_areas as WA, v1_project_work_areas as PWA "
+      + "WHERE P.cartodb_id = PWA.project_id AND WA.cartodb_id = PWA.id";
+
       this.addOverlay("projects", query);
     },
     addOverlay: function(name, query) {
