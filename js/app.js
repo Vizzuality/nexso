@@ -233,27 +233,25 @@ $(function() {
     },
     addAshokas: function() {
       var that = this;
-      var url = "https://nexso2.cartodb.com/api/v2/sql?q=SELECT the_geom, ashoka_url AS url, topic_id AS topic, name FROM v1_ashoka WHERE the_geom IS NOT NULL AND topic_id IS NOT NULL&format=geojson";
-      this.addOverlay("ashokas", url);
+      var query = "SELECT the_geom, ashoka_url AS url, topic_id AS topic, name FROM v1_ashoka WHERE the_geom IS NOT NULL AND topic_id IS NOT NULL";
+      this.addOverlay("ashokas", query);
     },
     addAgencies: function() {
       var that = this;
-      var url = "https://nexso2.cartodb.com/api/v2/sql?q=SELECT the_geom, external_url AS url, name FROM v1_agencies WHERE the_geom IS NOT NULL&format=geojson";
-      this.addOverlay("agencies", url);
+      var query = "SELECT the_geom, external_url AS url, name FROM v1_agencies WHERE the_geom IS NOT NULL";
+      this.addOverlay("agencies", query);
     },
     addProjects: function() {
       var that = this;
-      var url = "https://nexso2.cartodb.com/api/v2/sql/?q=SELECT v1_projects.title, v1_projects.approval_date, v1_projects.external_project_url, v1_projects.location_verbatim, v1_projects.budget, working_areas.the_geom FROM v1_projects, working_areas, v1_project_work_areas WHERE v1_projects.cartodb_id = v1_project_work_areas.project_id AND working_areas.cartodb_id = v1_project_work_areas.id&format=geojson";
-      // var url = "http://nexso2.cartodb.com/api/v2/sql/?q=WITH qu as (WITH hull as (SELECT v1_projects.title, v1_projects.approval_date, v1_projects.external_project_url, v1_projects.location_verbatim, v1_projects.budget, ST_MemUnion(ST_Simplify(working_areas.the_geom,0.0001)) as the_geom FROM v1_projects, working_areas, v1_project_work_areas WHERE v1_projects.cartodb_id = v1_project_work_areas.project_id AND working_areas.cartodb_id = v1_project_work_areas.id group by title,approval_date,external_project_url,location_verbatim,budget) SELECT *,ST_ConvexHull(ST_Envelope(the_geom)) as hull_geom FROM hull) SELECT title,approval_date,external_project_url,location_verbatim,budget,the_geom,ST_X(ST_Centroid(hull_geom)) as centroid_lon,ST_Y(ST_Centroid(hull_geom)) as centroid_lat, ST_X(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom),hull_geom))) as radius_point_lon,ST_Y(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom),hull_geom))) as radius_point_lat FROM qu&format=geojson";
-      this.addOverlay("projects", url);
+      var query = "SELECT v1_projects.title, v1_projects.approval_date, v1_projects.external_project_url, v1_projects.location_verbatim, v1_projects.budget, working_areas.the_geom FROM v1_projects, working_areas, v1_project_work_areas WHERE v1_projects.cartodb_id = v1_project_work_areas.project_id AND working_areas.cartodb_id = v1_project_work_areas.id";
+      this.addOverlay("projects", query);
     },
-    addOverlay: function(name, url) {
-
-      $.support.cors = true;
-
+    addOverlay: function(name, query) {
       var that = this;
+
       $.ajax({
-        url: url,
+        url: "https://nexso2.cartodb.com/api/v2/sql",
+        data: { q: query, format:"geojson" },
         dataType: 'jsonp',
         success: function(data) {
 
