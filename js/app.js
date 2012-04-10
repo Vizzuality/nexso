@@ -6,49 +6,6 @@ minZoom = 3,
 maxZoom = 16,
 previousZoom = 3,
 previousCenter;
-var mapSyles = [
- {
-   featureType: "water",
-   stylers: [
-     { saturation: -11 },
-     { lightness: 25 }
-   ]
- },{
-   featureType: "poi",
-   stylers: [
-     { saturation: -95 },
-     { lightness: 61 }
-   ]
- },{
-   featureType: "administrative",
-   stylers: [
-     { saturation: -99 },
-     { gamma: 3.51 }
-   ]
- },{
-   featureType: "road",
-   stylers: [
-     { visibility: "off" }
-   ]
- },{
-   featureType: "road",
-   stylers: [
-     { visibility: "off" }
-   ]
- },{
-   featureType: "landscape",
-   stylers: [
-     { saturation: -85 },
-     { lightness: 53 }
-   ]
- },{
- }
-];
-
-var nexsoStyle = new google.maps.StyledMapType(mapSyles, {name: "Nexso Style"});
-
-var projectsStyle      = { strokeColor: "#E79626", strokeOpacity: .5, strokeWeight: 1, fillColor: "#E79626", fillOpacity: .3 };
-var projectsHoverStyle = { strokeColor: "#E79626", strokeOpacity: 1, strokeWeight: 2, fillColor: "#E79626", fillOpacity: .6 };
 
 $(function() {
 
@@ -275,7 +232,10 @@ $(function() {
               var data = geojson;
             }
 
-            that.overlays[name] = new GeoJSON(data, name, style || null);
+            // Clone style hash so 'style' is not overwritten
+            var overlayStyle = $.extend({}, style);
+
+            that.overlays[name] = new GeoJSON(data, name, overlayStyle || null);
 
             if (that.overlays[name].type && that.overlays[name].type == "Error"){
               return;
@@ -301,6 +261,13 @@ $(function() {
                     overlay.setMap(map);
 
                     // Overlay events
+                    google.maps.event.addListener(overlay, 'mouseover', function(event) {
+                      this.setOptions(projectsHoverStyle);
+                    });
+
+                    google.maps.event.addListener(overlay, 'mouseout', function(event) {
+                      this.setOptions(projectsStyle);
+                    });
                     google.maps.event.addListener(overlay, 'click', function(event) {
 
                       var 
@@ -314,66 +281,58 @@ $(function() {
                       location     = properties.location_verbatim,
                       budget       = properties.budget;
 
-                      console.log(solutionName, solutionURL);
+                      function onHiddenAside() {
+                        var 
+                        $asideContent = $(".aside .content"),
+                        $asideItems = $asideContent.find("ul");
 
-                      infowindow.setContent(title, "project");
-                      infowindow.setSolutionURL(title, moreURL);
-                      infowindow.setCallback(function(e) {
-                        e.preventDefault();
+                        $asideContent.find(".header h2").html(title);
 
                         var prettyApprovalDate = prettifyDate(approvalDate);
-
-                        function onHiddenAside() {
-                          var 
-                          $asideContent = $(".aside .content"),
-                          $asideItems = $asideContent.find("ul");
-
-                          $asideContent.find(".header h2").html(title);
-
-                          if (prettyApprovalDate) {
-                            $asideItems.find("li.approvalDate").show();
-                            $asideItems.find("li.approvalDate span").text(prettyApprovalDate);
-                          }
-                          else $asideItems.find("li.approvalDate").hide();
-
-                          if (location) $asideItems.find("li.location span").text(location);
-                          if (budget)   $asideItems.find("li.budget span").text(accounting.formatMoney(budget));
-
-                          if (solutionName && solutionURL) {
-                            $asideItems.find("li.solution").show();
-                            $asideItems.find("li.solution a").text(solutionName).attr("href", solutionURL);
-                          } else $asideItems.find("li.solution").show();
-
-                          if (moreURL) {
-                            $asideItems.find("li.more").show();
-                            $asideItems.find("li.more a").attr("href", moreURL);
-                          }
-                          else $asideItems.find("li.more").hide();
-
-                          showAside();
-                          infowindow.hide();
-
-                          previousZoom = map.getZoom();
-                          previousCenter = map.getCenter();
-
-                          var bounds = new google.maps.LatLngBounds();
-                          that.getPath().forEach( function(latlng) { bounds.extend(latlng); } ); 
-                          map.fitBounds(bounds)
+                        if (prettyApprovalDate) {
+                          $asideItems.find("li.approvalDate").show();
+                          $asideItems.find("li.approvalDate span").text(prettyApprovalDate);
                         }
+                        else $asideItems.find("li.approvalDate").hide();
 
+                        if (location) $asideItems.find("li.location span").text(location);
+                        if (budget)   $asideItems.find("li.budget span").text(accounting.formatMoney(budget));
+
+                        if (solutionName && solutionURL) {
+                          $asideItems.find("li.solution").show();
+                          $asideItems.find("li.solution a").text(solutionName).attr("href", solutionURL);
+                        } else $asideItems.find("li.solution").show();
+
+                        if (moreURL) {
+                          $asideItems.find("li.more").show();
+                          $asideItems.find("li.more a").attr("href", moreURL);
+                        }
+                        else $asideItems.find("li.more").hide();
+
+                        showAside();
+                        infowindow.hide();
+
+                        previousZoom = map.getZoom();
+                        previousCenter = map.getCenter();
+
+                        // Focus on the overlay
+                        var bounds = new google.maps.LatLngBounds();
+                        that.getPath().forEach( function(latlng) { bounds.extend(latlng); } ); 
+                        map.fitBounds(bounds)
+                      }
+
+                      function onInfowindowClick(e) {
+                        e.preventDefault();
                         hideAside(onHiddenAside);
-                      });
+                      }
+
+                      // Infowindow setup
+                      infowindow.setContent(title, "project");
+                      infowindow.setSolutionURL(title, moreURL);
+                      infowindow.setCallback(onInfowindowClick);
                       infowindow.open(event.latLng);
                     });
 
-                    google.maps.event.addListener(overlay, 'mouseover', function(event) {
-                      this.setOptions(projectsHoverStyle);
-                    });
-
-                    google.maps.event.addListener(overlay, 'mouseout', function(event) {
-                      var projectsStyle      = { strokeColor: "#E79626", strokeOpacity: .5, strokeWeight: 1, fillColor: "#E79626", fillOpacity: .3 };
-                      this.setOptions(projectsStyle);
-                    });
                   }
                 } else{
                   that.overlays[name][i].setMap(map);
