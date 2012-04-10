@@ -6,13 +6,6 @@ minZoom = 3,
 maxZoom = 16,
 previousZoom = 3,
 previousCenter;
-var monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-
-
-String.prototype.splice = function( idx, rem, s ) {
-    return (this.slice(0,idx) + s + this.slice(idx + Math.abs(rem)));
-};
-
 var mapSyles = [
  {
    featureType: "water",
@@ -95,46 +88,46 @@ $(function() {
     center: new google.maps.LatLng(lat, lng),
     mapTypeId: google.maps.MapTypeId.ROADMAP,
     disableDefaultUI: true
-    
+
   };
 
   var map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
-    function zoomIn(controlDiv, map) {
-      controlDiv.setAttribute('class', 'zoom_in');
+  function zoomIn(controlDiv, map) {
+    controlDiv.setAttribute('class', 'zoom_in');
 
-      google.maps.event.addDomListener(controlDiv, 'mousedown', function() {
-        var zoom = map.getZoom() + 1;
-        if (zoom<20) {
-          map.setZoom(zoom);
-        }
-      });
-    }
+    google.maps.event.addDomListener(controlDiv, 'mousedown', function() {
+      var zoom = map.getZoom() + 1;
+      if (zoom<20) {
+        map.setZoom(zoom);
+      }
+    });
+  }
 
-    function zoomOut(controlDiv, map) {
-      controlDiv.setAttribute('class', 'zoom_out');
+  function zoomOut(controlDiv, map) {
+    controlDiv.setAttribute('class', 'zoom_out');
 
-      google.maps.event.addDomListener(controlDiv, 'mousedown', function() {
-        var zoom = map.getZoom() - 1;
-        if (zoom>2) {
-          map.setZoom(zoom);
-        }
-      });
-    }
+    google.maps.event.addDomListener(controlDiv, 'mousedown', function() {
+      var zoom = map.getZoom() - 1;
+      if (zoom>2) {
+        map.setZoom(zoom);
+      }
+    });
+  }
 
-      var overlayID =  document.getElementById("zoom_controls");
+  var overlayID =  document.getElementById("zoom_controls");
 
-      // zoomIn
-      var zoomInControlDiv = document.createElement('DIV');
-      overlayID.appendChild(zoomInControlDiv);
-      var zoomInControl = new zoomIn(zoomInControlDiv, map);
-      zoomInControlDiv.index = 1;
+  // zoomIn
+  var zoomInControlDiv = document.createElement('DIV');
+  overlayID.appendChild(zoomInControlDiv);
+  var zoomInControl = new zoomIn(zoomInControlDiv, map);
+  zoomInControlDiv.index = 1;
 
-      // zoomOut
-      var zoomOutControlDiv = document.createElement('DIV');
-      overlayID.appendChild(zoomOutControlDiv);
-      var zoomOutControl = new zoomOut(zoomOutControlDiv, map);
-      zoomOutControlDiv.index = 2;
+  // zoomOut
+  var zoomOutControlDiv = document.createElement('DIV');
+  overlayID.appendChild(zoomOutControlDiv);
+  var zoomOutControl = new zoomOut(zoomOutControlDiv, map);
+  zoomOutControlDiv.index = 2;
 
 
 
@@ -257,141 +250,130 @@ $(function() {
     },
     addOverlay: function(name, url) {
 
-    $.support.cors = true;
+      $.support.cors = true;
 
-    var that = this;
-    $.ajax({
-      url: url,
-      dataType: 'jsonp',
-      success: function(data) {
+      var that = this;
+      $.ajax({
+        url: url,
+        dataType: 'jsonp',
+        success: function(data) {
 
-        function setInfoWindow(overlay) {
-          google.maps.event.addListener(overlay, 'click', function(event) {
+          function setInfoWindow(overlay) {
+            google.maps.event.addListener(overlay, 'click', function(event) {
 
-            var 
-            title   = overlay.geojsonProperties.name,
-            moreURL = overlay.geojsonProperties.url;
+              var 
+              title   = overlay.geojsonProperties.name,
+              moreURL = overlay.geojsonProperties.url;
 
-            infowindow.setContent(title, name);
-            infowindow.open(event.latLng);
+              infowindow.setContent(title, name);
+              infowindow.open(event.latLng);
 
-          });
-        }
-
-        function showFeature(geojson, style){
-          try {
-            var data = JSON.parse(geojson);
-          } catch ( e ) {
-            var data = geojson;
-          }
-          that.overlays[name] = new GeoJSON(data, name, style || null);
-
-          if (that.overlays[name].type && that.overlays[name].type == "Error"){
-            //console.log(that.overlays[name].message);
-            return;
+            });
           }
 
-          for (var i = 0; i < that.overlays[name].length; i++){
-            if (that.overlays[name][i].length){
-
-              // Circle Drawing
-              var o = that.overlays[name][i][0];
-              var cLatLng = new google.maps.LatLng(o.geojsonProperties.centroid_lat, o.geojsonProperties.centroid_lon);
-              var rLatLng = new google.maps.LatLng(o.geojsonProperties.radius_point_lat, o.geojsonProperties.radius_point_lon);
-              var distanceWidget = new DistanceWidget(map, cLatLng, rLatLng);
+          function showFeature(geojson, style){
+            try {
+              var data = JSON.parse(geojson);
+            } catch ( e ) {
+              var data = geojson;
             }
-          }
+            that.overlays[name] = new GeoJSON(data, name, style || null);
 
-          if (that.overlays[name].length){
+            if (that.overlays[name].type && that.overlays[name].type == "Error"){
+              //console.log(that.overlays[name].message);
+              return;
+            }
+
             for (var i = 0; i < that.overlays[name].length; i++){
               if (that.overlays[name][i].length){
 
-                for (var j = 0; j < that.overlays[name][i].length; j++){
-                  var overlay = that.overlays[name][i][j];
-                  overlay.setMap(map);
+                // Circle Drawing
+                var o = that.overlays[name][i][0];
+                var cLatLng = new google.maps.LatLng(o.geojsonProperties.centroid_lat, o.geojsonProperties.centroid_lon);
+                var rLatLng = new google.maps.LatLng(o.geojsonProperties.radius_point_lat, o.geojsonProperties.radius_point_lon);
+                var distanceWidget = new DistanceWidget(map, cLatLng, rLatLng);
+              }
+            }
 
-                  // Overlay events
-                  google.maps.event.addListener(overlay, 'click', function(event) {
+            if (that.overlays[name].length){
+              for (var i = 0; i < that.overlays[name].length; i++){
+                if (that.overlays[name][i].length){
 
-                    var 
-                    that         = this,
-                    properties   = this.geojsonProperties,
-                    title        = properties.title,
-                    approvalDate = properties.approval_date,
-                    moreURL      = properties.external_project_url,
-                    location     = properties.location_verbatim,
-                    budget       = properties.budget;
+                  for (var j = 0; j < that.overlays[name][i].length; j++){
+                    var overlay = that.overlays[name][i][j];
+                    overlay.setMap(map);
 
-                    infowindow.setContent(title, "project");
-                    infowindow.setSolutionURL(title, moreURL);
-                    infowindow.setCallback(function(e) {
-                      e.preventDefault();
+                    // Overlay events
+                    google.maps.event.addListener(overlay, 'click', function(event) {
 
-                      console.log(approvalDate);
+                      var 
+                      that         = this,
+                      properties   = this.geojsonProperties,
+                      title        = properties.title,
+                      approvalDate = properties.approval_date,
+                      moreURL      = properties.external_project_url,
+                      location     = properties.location_verbatim,
+                      budget       = properties.budget;
 
-                      approvalDate = approvalDate.splice(4, 0, "-" );
-                      approvalDate = approvalDate.splice(7, 0, "-" );
-                      var date = Date.parseExact(approvalDate, "yyyy-MM-dd");
+                      infowindow.setContent(title, "project");
+                      infowindow.setSolutionURL(title, moreURL);
+                      infowindow.setCallback(function(e) {
+                        e.preventDefault();
 
-                      console.log(date);
+                        var prettyApprovalDate = prettifyDate(approvalDate);
 
-                      if (date) {
-                        console.log(date.getMonth());
+                        hideAside(function() {
+                          $("aside .content .header h2").html(title);
+                          if (prettyApprovalDate) {
+                            $("aside .content ul li.approvalDate span").text(prettyApprovalDate);
+                          }
+                          $("aside .content ul li.location span").text(location);
+                          $("aside .content ul li.budget span").text(accounting.formatMoney(budget));
+                          // $("aside .content ul li.agency span").text(approvalDate);
+                          // $("aside .content ul li.solution span").text(approvalDate);
+                          $("aside .content ul li.more a").attr("href", moreURL);
+                          showAside();
+                          infowindow.hide();
 
-                        var d = monthNames[date.getMonth()] + " " + date.getDate() + "st" + ", " + date.getFullYear();
-                        console.log(d);
-                      }
+                          previousZoom = map.getZoom();
+                          previousCenter = map.getCenter();
 
-                      hideAside(function() {
-                        $("aside .content .header h2").html(title);
-                        $("aside .content ul li.approvalDate span").text(approvalDate);
-                        $("aside .content ul li.location span").text(location);
-                        $("aside .content ul li.budget span").text(accounting.formatMoney(budget));
-                        // $("aside .content ul li.agency span").text(approvalDate);
-                        // $("aside .content ul li.solution span").text(approvalDate);
-                        $("aside .content ul li.more a").attr("href", moreURL);
-                        showAside();
-                        infowindow.hide();
+                          var bounds = new google.maps.LatLngBounds();
+                          that.getPath().forEach( function(latlng) { bounds.extend(latlng); } ); 
+                          map.fitBounds(bounds)
 
-                        previousZoom = map.getZoom();
-                        previousCenter = map.getCenter();
-
-                        var bounds = new google.maps.LatLngBounds();
-                        that.getPath().forEach( function(latlng) { bounds.extend(latlng); } ); 
-                        map.fitBounds(bounds)
-
+                        });
                       });
+                      infowindow.open(event.latLng);
                     });
-                    infowindow.open(event.latLng);
-                  });
 
-                  google.maps.event.addListener(overlay, 'mouseover', function(event) {
-                    this.setOptions(projectsHoverStyle);
-                  });
+                    google.maps.event.addListener(overlay, 'mouseover', function(event) {
+                      this.setOptions(projectsHoverStyle);
+                    });
 
-                  google.maps.event.addListener(overlay, 'mouseout', function(event) {
-                    var projectsStyle      = { strokeColor: "#E79626", strokeOpacity: .5, strokeWeight: 1, fillColor: "#E79626", fillOpacity: .3 };
-                    this.setOptions(projectsStyle);
-                  });
+                    google.maps.event.addListener(overlay, 'mouseout', function(event) {
+                      var projectsStyle      = { strokeColor: "#E79626", strokeOpacity: .5, strokeWeight: 1, fillColor: "#E79626", fillOpacity: .3 };
+                      this.setOptions(projectsStyle);
+                    });
+                  }
+                } else{
+                  that.overlays[name][i].setMap(map);
                 }
-              } else{
-                that.overlays[name][i].setMap(map);
+                if (that.overlays[name][i].geojsonProperties) {
+                  setInfoWindow(that.overlays[name][i]);
+                }
               }
-              if (that.overlays[name][i].geojsonProperties) {
-                setInfoWindow(that.overlays[name][i]);
+            } else{
+              that.overlays[name].setMap(map)
+              if (that.overlays[name].geojsonProperties) {
+                setInfoWindow(that.overlays[name]);
               }
             }
-          } else{
-            that.overlays[name].setMap(map)
-            if (that.overlays[name].geojsonProperties) {
-              setInfoWindow(that.overlays[name]);
-            }
-          }
 
+          }
+          showFeature(data, projectsStyle);
         }
-        showFeature(data, projectsStyle);
-      }
-    });
+      });
     }
   });
 
