@@ -246,6 +246,7 @@ $(function() {
       this.addOverlay("agencies", query);
     },
     addProjects: function() {
+      // P = Projects | WA = Working Areas | PWA = Project Working Areas
       var query = "SELECT P.title, P.approval_date, P.external_project_url, P.location_verbatim, P.budget, WA.the_geom "
       + "FROM v1_projects AS P, working_areas as WA, v1_project_work_areas as PWA "
       + "WHERE P.cartodb_id = PWA.project_id AND WA.cartodb_id = PWA.id";
@@ -261,18 +262,6 @@ $(function() {
         dataType: 'jsonp',
         success: function(data) {
 
-          function setInfoWindow(overlay) {
-            google.maps.event.addListener(overlay, 'click', function(event) {
-
-              var 
-              title   = overlay.geojsonProperties.name,
-              moreURL = overlay.geojsonProperties.url;
-
-              infowindow.setContent(title, name);
-              infowindow.open(event.latLng);
-
-            });
-          }
 
           function showFeature(geojson, style){
             try {
@@ -283,7 +272,6 @@ $(function() {
             that.overlays[name] = new GeoJSON(data, name, style || null);
 
             if (that.overlays[name].type && that.overlays[name].type == "Error"){
-              //console.log(that.overlays[name].message);
               return;
             }
 
@@ -326,23 +314,26 @@ $(function() {
                         var prettyApprovalDate = prettifyDate(approvalDate);
 
                         hideAside(function() {
-                          var $asideContent = $(".aside .content");
+                          var 
+                          $asideContent = $(".aside .content"),
+                          $asideItems = $asideContent.find("ul");
+
                           $asideContent.find(".header h2").html(title);
 
                           if (prettyApprovalDate) {
-                            $asideContent.find("ul li.approvalDate").show();
-                            $asideContent.find("ul li.approvalDate span").text(prettyApprovalDate);
+                            $asideItems.find("li.approvalDate").show();
+                            $asideItems.find("li.approvalDate span").text(prettyApprovalDate);
                           }
-                          else $asideContent.find("ul li.approvalDate").hide();
+                          else $asideItems.find("li.approvalDate").hide();
 
-                          if (location) $asideContent.find("ul li.location span").text(location);
-                          if (budget)   $asideContent.find("ul li.budget span").text(accounting.formatMoney(budget));
+                          if (location) $asideItems.find("li.location span").text(location);
+                          if (budget)   $asideItems.find("li.budget span").text(accounting.formatMoney(budget));
 
                           if (moreURL) {
-                            $asideContent.find("ul li.more").show();
-                            $asideContent.find("ul li.more a").attr("href", moreURL);
+                            $asideItems.find("li.more").show();
+                            $asideItems.find("li.more a").attr("href", moreURL);
                           }
-                          else $asideContent.find("ul li.more").hide();
+                          else $asideItems.find("li.more").hide();
 
                           showAside();
                           infowindow.hide();
@@ -372,16 +363,15 @@ $(function() {
                   that.overlays[name][i].setMap(map);
                 }
                 if (that.overlays[name][i].geojsonProperties) {
-                  setInfoWindow(that.overlays[name][i]);
+                  infowindow.setup(that.overlays[name][i]);
                 }
               }
             } else{
               that.overlays[name].setMap(map)
               if (that.overlays[name].geojsonProperties) {
-                setInfoWindow(that.overlays[name]);
+                infowindow.setup(that.overlays[name]);
               }
             }
-
           }
           showFeature(data, projectsStyle);
         }
