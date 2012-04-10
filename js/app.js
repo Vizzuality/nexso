@@ -1,6 +1,6 @@
 var // DEFAULTS
-lat = 37.76487,
-lng = -122.41948,
+lat = 3.162456,
+lng = -73.476563,
 zoom = 3,
 minZoom = 3,
 maxZoom = 16,
@@ -208,8 +208,10 @@ $(function() {
     },
     addProjects: function() {
 
-      // P = Projects | WA = Working Areas | PWA = Project Working Areas | S = Solutions
-      var query = "SELECT P.title, P.approval_date, P.external_project_url, P.location_verbatim, P.budget, WA.the_geom, S.name AS solution_name, S.nexso_url AS solution_url "
+      // P = Projects | WA = Working Areas | PWA = Project Working Areas | S = Solutions | A = Agencies
+      var query = "SELECT P.title, P.approval_date, P.external_project_url, P.location_verbatim, P.budget, "
+      + "WA.the_geom, S.name AS solution_name, S.nexso_url AS solution_url, "
+      + "A.agency_code, A.external_url AS agency_url, A.name as agency_name "
       + "FROM v1_projects AS P LEFT JOIN v1_solutions AS S ON S.cartodb_id = P.solution_id LEFT JOIN v1_agencies AS A ON A.cartodb_id = P.agency_id, working_areas AS WA, v1_project_work_areas AS PWA "
       + "WHERE P.cartodb_id = PWA.project_id AND WA.cartodb_id = PWA.id";
 
@@ -278,6 +280,8 @@ $(function() {
                       moreURL      = properties.external_project_url,
                       solutionName = properties.solution_name,
                       solutionURL  = properties.solution_url,
+                      // agencyName   = properties.agency_name,
+                      // agencyURL    = properties.agency_url,
                       location     = properties.location_verbatim,
                       budget       = properties.budget;
 
