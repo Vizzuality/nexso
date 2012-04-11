@@ -711,8 +711,8 @@ $markerRadiusSize: 102px;
 /* Component containers
 ----------------------------------*/
 .ui-widget-header { background: url(../img/backgrounds/bkg_timeline_selected.png) 50% 50% repeat-x; color: #ffffff; font-weight: bold; }
-.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { display:block; width:17px; height:18px; @include icons-sprite(handle); ountline:none; cursor: pointer; }
-.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus { display:block; cursor:pointer; width:17px; height:18px; @include icons-sprite(handle); outline:none;}
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { display:block; width:17px; height:18px; @include icons-sprite(handle); ountline:none; cursor: col-resize; }
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus { display:block; cursor:col-resize; width:17px; height:18px; @include icons-sprite(handle); outline:none;}
 .ui-state-hover a, .ui-state-hover a:hover { color: #c77405; text-decoration: none; outline:none;}
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active { width:17px; height:18px; @include icons-sprite(handle); outline:none; }
 .ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited { color: #eb8f00; text-decoration: none; outline:none; }
@@ -725,7 +725,8 @@ $markerRadiusSize: 102px;
 .ui-priority-secondary, .ui-widget-content .ui-priority-secondary,  .ui-widget-header .ui-priority-secondary { opacity: .7; filter:Alpha(Opacity=70); font-weight: normal; }
 .ui-state-disabled, .ui-widget-content .ui-state-disabled, .ui-widget-header .ui-state-disabled { opacity: .35; filter:Alpha(Opacity=35); background-image: none; }
 .ui-slider { position: relative; text-align: left; }
-.ui-slider .ui-slider-handle { position: absolute; z-index: 2; width: 1.2em; height: 1.2em; cursor: default; }
+.ui-slider-handle.ui-state-default.ui-corner-all { z-index:1000; }
+.ui-slider .ui-slider-handle { position: absolute; z-index: 2; width: 1.2em; height: 1.2em; cursor: col-resize; }
 .ui-slider .ui-slider-range { position: absolute; z-index: 1; font-size: .7em; display: block; border: 0; background-position: 0 0; }
 
 .ui-slider-horizontal { height: .8em; }
