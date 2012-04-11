@@ -651,21 +651,33 @@ $markerRadiusSize: 102px;
   z-index:10000;
 
   .slider {
-
     position:absolute;
     width:$width - 11;
     height:$height ;
     left:6px;
   }
+  .slider .years { 
+    position:relative;
+    top: 25px;
+    li { @include inline-block(); width:67px; padding: 10px 0; color:#666666; text-shadow: 1px 1px 1px #fff; border-right: 1px solid rgba(0,0,0,.1); text-align:center; }
+    li.selected { color:#fff; text-shadow:1px 1px 1px #000;}
+    li:nth-child(1) { width:71px;}
+    li:nth-child(2) { width:68px;}
+    li:nth-child(4) { width:68px;}
+    li:nth-child(6) { width:68px;}
+    li:nth-child(8) { width:68px;}
+    li:nth-child(10) { width:68px;}
+    li:nth-child(12) { width:68px;}
+    li:last-child { border:none; }
+    z-index:1000;
+  }
+
   .handle {
     position:absolute;
     width:17px;
     height:18px;
     @include icons-sprite(handle);
-
-    top: $height/2 - 18px/2; 
-    &.min { left: 100px;}
-    &.max { left: 700px; }
+    top: $height/2 - 18px/2 ; 
   }
 }
 

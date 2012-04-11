@@ -48,7 +48,15 @@ $(function() {
   }
 
   // Slider
-  //$( "#timeline .slider" ).slider({ range: true, min: 0, max: 500, step: 5, values: [ 75, 300 ], slide: function( event, ui ) { } });
+  $( "#timeline .slider" ).slider({ range: true, min: 0, max: 13*30, step: 30, values: [ 100, 300 ], slide: function( event, ui ) {
+    console.log(event, ui, ui.value / 30);
+    $('#timeline li').removeClass("selected");
+    var min = (ui.values[0]/30) + 1;
+    var max = (ui.values[1]/30);
+    for (var i = min; i<=max; i++) {
+    $('#timeline li:nth-child('+i+')').addClass("selected");
+    }
+  }});
 
   // Map
   var mapOptions = {
