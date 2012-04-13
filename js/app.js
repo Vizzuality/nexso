@@ -25,15 +25,16 @@ $(function() {
   });
 
   function showTimeline() {
-    if ($(".aside").hasClass("hidden"))
-      $("#timeline").animate({bottom:19, opacity:1}, 300);
+    //if ($(".aside").hasClass("hidden"))
+    //  $("#timeline").animate({bottom:19, opacity:1}, 300);
   }
 
   function hideTimeline(callback) {
-    $("#timeline").animate({bottom:-19, opacity:0}, 250, function() {
-      callback && callback();
-    });
+    //$("#timeline").animate({bottom:-19, opacity:0}, 250, function() {
+    //  callback && callback();
+    //});
   }
+
   function showAside() {
     $(".aside").animate({right:0}, 250, function() {
     $(this).removeClass("hidden");
@@ -48,14 +49,14 @@ $(function() {
   }
 
   // Slider
-  $( "#timeline .slider" ).slider({ range: true, min: 0, max: 13*30, step: 30, values: [ 100, 300 ], slide: function( event, ui ) {
-    $('#timeline li').removeClass("selected");
-    var min = (ui.values[0]/30) + 1;
-    var max = (ui.values[1]/30);
-    for (var i = min; i<=max; i++) {
-      $('#timeline li:nth-child('+i+')').addClass("selected");
-    }
-  }});
+  //$( "#timeline .slider" ).slider({ range: true, min: 0, max: 13*30, step: 30, values: [ 100, 300 ], slide: function( event, ui ) {
+  //  $('#timeline li').removeClass("selected");
+  //  var min = (ui.values[0]/30) + 1;
+  //  var max = (ui.values[1]/30);
+  //  for (var i = min; i<=max; i++) {
+  //    $('#timeline li:nth-child('+i+')').addClass("selected");
+  //  }
+  //}});
 
   // Map
   var mapOptions = {
@@ -70,7 +71,7 @@ $(function() {
   var map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
   google.maps.event.addDomListener(map, 'tilesloaded', function() {
-    setTimeout(function() { if ($(".aside").hasClass("hidden")) showTimeline(); }, 700);
+    // setTimeout(function() { if ($(".aside").hasClass("hidden")) showTimeline(); }, 700);
   });
 
   function zoomIn(controlDiv, map) {
