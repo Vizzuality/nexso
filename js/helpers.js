@@ -7,6 +7,8 @@ String.prototype.splice = function( idx, rem, s ) {
 // Map styles
 var projectsStyle      = { strokeColor: "#E79626", strokeOpacity: .5, strokeWeight: 1, fillColor: "#E79626", fillOpacity: .3 };
 var projectsHoverStyle = { strokeColor: "#E79626", strokeOpacity: 1, strokeWeight: 2, fillColor: "#E79626", fillOpacity: .6 };
+var circleStyleHover = { strokeColor: "#1872A1", strokeOpacity: 1, strokeWeight: 2, fillColor: "#1872A1", fillOpacity: .3 };
+var circleStyle = { strokeColor: "#E79626", strokeOpacity: 1, strokeWeight: 1, fillColor: "#E79626", fillOpacity: 0 };
 var mapStyles = [{
    featureType: "water",
    stylers: [
