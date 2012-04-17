@@ -56,8 +56,10 @@ $(function() {
   stop: function(event, ui) {
     var beginYear = years[(ui.values[0]/30)];
     var endYear = years[(ui.values[1]/30) - 1];
+    mapView.beginYear = beginYear;
+    mapView.endYear   = endYear;
     mapView.removeOverlay("projects");
-    mapView.addProjects(beginYear, endYear);
+    mapView.addProjects();
   },
   slide: function( event, ui ) {
     $('#timeline li').removeClass("selected");
@@ -188,6 +190,8 @@ $(function() {
       this.addAgencies();
       this.addAshokas();
       this.addProjects();
+      this.beginYear = 2002;
+      this.endYear   = 2014;
     },
     showOverlay: function(name, topic) {
       if (this.overlays[name]) {
@@ -241,29 +245,20 @@ $(function() {
       this.addOverlay("agencies", query);
 
     },
-    addProjects: function(beginYear, endYear) {
-    console.log(beginYear, endYear);
-      if (beginYear && endYear) {
-        // P = Projects | WA = Working Areas | PWA = Project Working Areas | S = Solutions | A = Agencies
-        var query = "SELECT P.title, P.fixed_approval_date, P.approval_date, P.external_project_url, P.location_verbatim, P.budget, "
-        + "ST_Simplify(WA.the_geom, 0.2) AS the_geom, S.name AS solution_name, S.nexso_url AS solution_url, "
-        + "A.agency_code, A.external_url AS agency_url, A.name as agency_name "
-        + "FROM v1_projects AS P LEFT JOIN v1_solutions AS S ON S.cartodb_id = P.solution_id LEFT JOIN v1_agencies AS A ON A.cartodb_id = P.agency_id, working_areas AS WA, v1_project_work_areas AS PWA "
-        + "WHERE P.cartodb_id = PWA.project_id AND WA.cartodb_id = PWA.id "
-        + "AND EXTRACT(YEAR FROM P.fixed_approval_date) >= " + beginYear + " AND EXTRACT(YEAR FROM P.fixed_approval_date) <= " + endYear;
-        console.log(query);
-      } else {
+    addProjects: function() {
 
-        // P = Projects | WA = Working Areas | PWA = Project Working Areas | S = Solutions | A = Agencies
-        var query = "SELECT P.title, P.fixed_approval_date, P.approval_date, P.external_project_url, P.location_verbatim, P.budget, "
-        + "ST_Simplify(WA.the_geom, 0.2) AS the_geom, S.name AS solution_name, S.nexso_url AS solution_url, "
-        + "A.agency_code, A.external_url AS agency_url, A.name as agency_name "
-        + "FROM v1_projects AS P LEFT JOIN v1_solutions AS S ON S.cartodb_id = P.solution_id LEFT JOIN v1_agencies AS A ON A.cartodb_id = P.agency_id, working_areas AS WA, v1_project_work_areas AS PWA "
-        + "WHERE P.cartodb_id = PWA.project_id AND WA.cartodb_id = PWA.id";
-      }
+      if (!this.beginYear) this.beginYear = 2002;
+      if (!this.endYear)   this.endYear   = 2014;
+
+      // P = Projects | WA = Working Areas | PWA = Project Working Areas | S = Solutions | A = Agencies
+      var query = "SELECT P.title, P.fixed_approval_date, P.approval_date, P.external_project_url, P.location_verbatim, P.budget, "
+      + "ST_Simplify(WA.the_geom, 0.2) AS the_geom, S.name AS solution_name, S.nexso_url AS solution_url, "
+      + "A.agency_code, A.external_url AS agency_url, A.name as agency_name "
+      + "FROM v1_projects AS P LEFT JOIN v1_solutions AS S ON S.cartodb_id = P.solution_id LEFT JOIN v1_agencies AS A ON A.cartodb_id = P.agency_id, working_areas AS WA, v1_project_work_areas AS PWA "
+      + "WHERE P.cartodb_id = PWA.project_id AND WA.cartodb_id = PWA.id "
+      + " AND EXTRACT(YEAR FROM P.fixed_approval_date) >= " + this.beginYear + " AND EXTRACT(YEAR FROM P.fixed_approval_date) <= " + this.endYear;
 
       this.addOverlay("projects", query);
-
     },
     addOverlay: function(name, query) {
       var that = this;
