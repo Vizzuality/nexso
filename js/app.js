@@ -5,7 +5,8 @@ zoom = 3,
 minZoom = 3,
 maxZoom = 16,
 previousZoom = 3,
-previousCenter;
+previousCenter,
+mapView;
 
 $(function() {
 
@@ -48,8 +49,17 @@ $(function() {
     });
   }
 
+  var years = [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014];
+
   // Slider
-  $( "#timeline .slider" ).slider({ range: true, min: 0, max: 13*30, step: 30, values: [ 100, 300 ], slide: function( event, ui ) {
+  $( "#timeline .slider" ).slider({ range: true, min: 0, max: 13*30, step: 30, values: [ 0, 500 ], 
+  stop: function(event, ui) {
+    var beginYear = years[(ui.values[0]/30)];
+    var endYear = years[(ui.values[1]/30) - 1];
+    mapView.removeOverlay("projects");
+    mapView.addProjects(beginYear, endYear);
+  },
+  slide: function( event, ui ) {
     $('#timeline li').removeClass("selected");
     var min = (ui.values[0]/30) + 1;
     var max = (ui.values[1]/30);
@@ -231,14 +241,26 @@ $(function() {
       this.addOverlay("agencies", query);
 
     },
-    addProjects: function() {
+    addProjects: function(beginYear, endYear) {
+    console.log(beginYear, endYear);
+      if (beginYear && endYear) {
+        // P = Projects | WA = Working Areas | PWA = Project Working Areas | S = Solutions | A = Agencies
+        var query = "SELECT P.title, P.fixed_approval_date, P.approval_date, P.external_project_url, P.location_verbatim, P.budget, "
+        + "ST_Simplify(WA.the_geom, 0.2) AS the_geom, S.name AS solution_name, S.nexso_url AS solution_url, "
+        + "A.agency_code, A.external_url AS agency_url, A.name as agency_name "
+        + "FROM v1_projects AS P LEFT JOIN v1_solutions AS S ON S.cartodb_id = P.solution_id LEFT JOIN v1_agencies AS A ON A.cartodb_id = P.agency_id, working_areas AS WA, v1_project_work_areas AS PWA "
+        + "WHERE P.cartodb_id = PWA.project_id AND WA.cartodb_id = PWA.id "
+        + "AND EXTRACT(YEAR FROM P.fixed_approval_date) >= " + beginYear + " AND EXTRACT(YEAR FROM P.fixed_approval_date) <= " + endYear;
+        console.log(query);
+      } else {
 
-      // P = Projects | WA = Working Areas | PWA = Project Working Areas | S = Solutions | A = Agencies
-      var query = "SELECT P.title, P.approval_date, P.external_project_url, P.location_verbatim, P.budget, "
-      + "WA.the_geom, S.name AS solution_name, S.nexso_url AS solution_url, "
-      + "A.agency_code, A.external_url AS agency_url, A.name as agency_name "
-      + "FROM v1_projects AS P LEFT JOIN v1_solutions AS S ON S.cartodb_id = P.solution_id LEFT JOIN v1_agencies AS A ON A.cartodb_id = P.agency_id, working_areas AS WA, v1_project_work_areas AS PWA "
-      + "WHERE P.cartodb_id = PWA.project_id AND WA.cartodb_id = PWA.id";
+        // P = Projects | WA = Working Areas | PWA = Project Working Areas | S = Solutions | A = Agencies
+        var query = "SELECT P.title, P.fixed_approval_date, P.approval_date, P.external_project_url, P.location_verbatim, P.budget, "
+        + "ST_Simplify(WA.the_geom, 0.2) AS the_geom, S.name AS solution_name, S.nexso_url AS solution_url, "
+        + "A.agency_code, A.external_url AS agency_url, A.name as agency_name "
+        + "FROM v1_projects AS P LEFT JOIN v1_solutions AS S ON S.cartodb_id = P.solution_id LEFT JOIN v1_agencies AS A ON A.cartodb_id = P.agency_id, working_areas AS WA, v1_project_work_areas AS PWA "
+        + "WHERE P.cartodb_id = PWA.project_id AND WA.cartodb_id = PWA.id";
+      }
 
       this.addOverlay("projects", query);
 
@@ -251,6 +273,8 @@ $(function() {
         data: { q: query, format:"geojson" },
         dataType: 'jsonp',
         success: function(data) {
+
+          if (data.features.length <= 0) return; 
 
           function showFeature(geojson, style){
             try {
@@ -302,6 +326,7 @@ $(function() {
                       properties   = this.geojsonProperties,
                       title        = properties.title,
                       approvalDate = properties.approval_date,
+                      fixedApprovalDate = properties.approval_date,
                       moreURL      = properties.external_project_url,
                       solutionName = properties.solution_name,
                       solutionURL  = properties.solution_url,
@@ -387,7 +412,7 @@ $(function() {
   var agencies = new Agencies();
   var ashoka   = new Ashoka();
 
-  var mapView = new MapView({
+  mapView = new MapView({
     el:$('#map'),
     ashoka: ashoka,
     agencies: agencies
