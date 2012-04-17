@@ -6,60 +6,98 @@
 *
 * @constructor
 */
-function DistanceWidget(map, centroidCenter, radiusCenter) {
-  this.set('map', map);
-  this.set('position', centroidCenter);
-  this.set('zIndex', 0);
+// function DistanceWidget(map, centroidCenter, radiusCenter, polygons) {
+//   this.set('map', map);
+//   this.set('position', centroidCenter);
+//   this.set('zIndex', 0);
 
-  // Create a new radius widget
-  var radiusWidget = new RadiusWidget(centroidCenter, radiusCenter);
+//   // Create a new radius widget
+//   var radiusWidget = new RadiusWidget(centroidCenter, radiusCenter);
 
-  // Bind the radiusWidget map to the DistanceWidget map
-  radiusWidget.bindTo('map', this);
+//   // Bind the radiusWidget map to the DistanceWidget map
+//   radiusWidget.bindTo('map', this);
 
-  // Bind the radiusWidget center to the DistanceWidget position
-  radiusWidget.bindTo('center', this, 'position');
+//   // Bind the radiusWidget center to the DistanceWidget position
+//   //radiusWidget.bindTo('center', this, 'position');
 
-  // Bind to the radiusWidgets' distance property
-  this.bindTo('distance', radiusWidget);
+//   // Bind to the radiusWidgets' distance property
+//   //this.bindTo('distance', radiusWidget);
 
-  // Bind to the radiusWidgets' bounds property
-  this.bindTo('bounds', radiusWidget);
-}
+//   // Bind to the radiusWidgets' bounds property
+//   //this.bindTo('bounds', radiusWidget);
+// }
 
-DistanceWidget.prototype = new google.maps.MVCObject();
+//DistanceWidget.prototype = new google.maps.MVCObject();
 
 /**
 * A radius widget that add a circle to a map and centers on a marker.
 *
 * @constructor
 */
-function RadiusWidget(centroidCenter, radiusCenter) {
+function RadiusWidget(map, centroidCenter, radiusCenter, polygons) {
+
+  var distance = this.distanceBetweenPoints_(centroidCenter, radiusCenter);
+
+  console.log(distance);
+
   var circle = new google.maps.Circle({
     strokeColor: "#E79626",
     strokeOpacity: .5,
     strokeWeight: 1,
     fillColor: "#E79626",
     fillOpacity: 0,
-    strokeWeight: 1
+    strokeWeight: 1,
+    center: centroidCenter,
+    radius: distance * 1000,
+    geodesic: true,
+    polygons: polygons
   });
 
-  var distance = this.distanceBetweenPoints_(centroidCenter, radiusCenter);
 
-  // Set the distance property value, default to 50km.
-  this.set('distance', distance);
+  // circle.setCenter(centroidCenter);
 
-  // Bind the RadiusWidget bounds property to the circle bounds property.
-  this.bindTo('bounds', circle);
+  // circle.setOptions({radius: distance});
 
-  // Bind the circle center to the RadiusWidget center property
-  circle.bindTo('center', this);
 
-  // Bind the circle map to the RadiusWidget map
-  circle.bindTo('map', this);
+  google.maps.event.addListener(circle, 'mouseover', function(ev) {
+    
+    for (var i = 0, length_ = this.polygons.length; i<length_; i++) {
+      var polygon_ = this.polygons[i];
+      polygon_.setOptions(projectsHoverStyle);
+    }
 
-  // Bind the circle radius property to the RadiusWidget radius property
-  circle.bindTo('radius', this);
+    this.setOptions(circleStyleHover);
+
+  });
+
+  google.maps.event.addListener(circle, 'mouseout', function(ev) {
+    
+    for (var i = 0, length_ = this.polygons.length; i<length_; i++) {
+      var polygon_ = this.polygons[i];
+      polygon_.setOptions(projectsStyle);
+    }
+
+    this.setOptions(circleStyle);
+
+  });
+
+
+  circle.setMap(map);
+
+  // // Set the distance property value, default to 50km.
+  // this.set('distance', distance);
+
+  // // Bind the RadiusWidget bounds property to the circle bounds property.
+  // this.bindTo('bounds', circle);
+
+  // // Bind the circle center to the RadiusWidget center property
+  // circle.bindTo('center', this);
+
+  // // Bind the circle map to the RadiusWidget map
+  // circle.bindTo('map', this);
+
+  // // Bind the circle radius property to the RadiusWidget radius property
+  // circle.bindTo('radius', this);
 }
 
 RadiusWidget.prototype = new google.maps.MVCObject();

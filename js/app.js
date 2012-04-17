@@ -233,11 +233,13 @@ $(function() {
     addProjects: function() {
 
       // P = Projects | WA = Working Areas | PWA = Project Working Areas | S = Solutions | A = Agencies
-      var query = "SELECT P.title, P.approval_date, P.external_project_url, P.location_verbatim, P.budget, "
-      + "WA.the_geom, S.name AS solution_name, S.nexso_url AS solution_url, "
-      + "A.agency_code, A.external_url AS agency_url, A.name as agency_name "
-      + "FROM v1_projects AS P LEFT JOIN v1_solutions AS S ON S.cartodb_id = P.solution_id LEFT JOIN v1_agencies AS A ON A.cartodb_id = P.agency_id, working_areas AS WA, v1_project_work_areas AS PWA "
-      + "WHERE P.cartodb_id = PWA.project_id AND WA.cartodb_id = PWA.id";
+      // var query = "SELECT P.title, P.approval_date, P.external_project_url, P.location_verbatim, P.budget, "
+      // + "WA.the_geom, S.name AS solution_name, S.nexso_url AS solution_url, "
+      // + "A.agency_code, A.external_url AS agency_url, A.name as agency_name "
+      // + "FROM v1_projects AS P LEFT JOIN v1_solutions AS S ON S.cartodb_id = P.solution_id LEFT JOIN v1_agencies AS A ON A.cartodb_id = P.agency_id, working_areas AS WA, v1_project_work_areas AS PWA "
+      // + "WHERE P.cartodb_id = PWA.project_id AND WA.cartodb_id = PWA.id";
+
+      var query = "WITH qu as (WITH hull as (SELECT v1_projects.title, v1_projects.approval_date, v1_projects.external_project_url, v1_projects.location_verbatim, v1_projects.budget, ST_MemUnion(ST_Simplify(working_areas.the_geom,0.0001)) as the_geom FROM v1_projects, working_areas, v1_project_work_areas WHERE v1_projects.cartodb_id = v1_project_work_areas.project_id AND working_areas.cartodb_id = v1_project_work_areas.id group by title,approval_date,external_project_url,location_verbatim,budget) SELECT *,ST_ConvexHull(ST_Envelope(the_geom)) as hull_geom FROM hull) SELECT title,approval_date,external_project_url,location_verbatim,budget,the_geom,ST_X(ST_Centroid(hull_geom)) as centroid_lon,ST_Y(ST_Centroid(hull_geom)) as centroid_lat, ST_X(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom),hull_geom))) as radius_point_lon,ST_Y(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom),hull_geom))) as radius_point_lat FROM qu";
 
       this.addOverlay("projects", query);
 
@@ -267,33 +269,32 @@ $(function() {
               return;
             }
 
-            for (var i = 0; i < that.overlays[name].length; i++){
-              if (that.overlays[name][i].length){
+  
 
-                // Circle Drawing
-                var o = that.overlays[name][i][0];
-                var cLatLng = new google.maps.LatLng(o.geojsonProperties.centroid_lat, o.geojsonProperties.centroid_lon);
-                var rLatLng = new google.maps.LatLng(o.geojsonProperties.radius_point_lat, o.geojsonProperties.radius_point_lon);
-                var distanceWidget = new DistanceWidget(map, cLatLng, rLatLng);
-              }
-            }
+            var polygons_;
 
             if (that.overlays[name].length){
               for (var i = 0; i < that.overlays[name].length; i++){
                 if (that.overlays[name][i].length){
 
+                  polygons_ = [];
+
+                  // Draw polygons
+
                   for (var j = 0; j < that.overlays[name][i].length; j++){
                     var overlay = that.overlays[name][i][j];
                     overlay.setMap(map);
 
-                    // Overlay events
-                    google.maps.event.addListener(overlay, 'mouseover', function(event) {
-                      this.setOptions(projectsHoverStyle);
-                    });
+                    polygons_.push(overlay);
 
-                    google.maps.event.addListener(overlay, 'mouseout', function(event) {
-                      this.setOptions(projectsStyle);
-                    });
+                    // Overlay events
+                    // google.maps.event.addListener(overlay, 'mouseover', function(event) {
+                    //   this.setOptions(projectsHoverStyle);
+                    // });
+
+                    // google.maps.event.addListener(overlay, 'mouseout', function(event) {
+                    //   this.setOptions(projectsStyle);
+                    // });
                     google.maps.event.addListener(overlay, 'click', function(event) {
 
                       var 
@@ -361,8 +362,14 @@ $(function() {
                       infowindow.setCallback(onInfowindowClick);
                       infowindow.open(event.latLng);
                     });
-
                   }
+
+                  // Draw circles
+                  var o = that.overlays[name][i][0]
+                    , cLatLng = new google.maps.LatLng(o.geojsonProperties.centroid_lat, o.geojsonProperties.centroid_lon)
+                    , rLatLng = new google.maps.LatLng(o.geojsonProperties.radius_point_lat, o.geojsonProperties.radius_point_lon)
+                    , distanceWidget = new RadiusWidget(map, cLatLng, rLatLng, that.overlays[name][i]);
+
                 } else{
                   that.overlays[name][i].setMap(map);
                 }
