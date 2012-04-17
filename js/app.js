@@ -1,12 +1,16 @@
 var // DEFAULTS
-lat = 3.162456,
-lng = -73.476563,
-zoom = 3,
-minZoom = 3,
-maxZoom = 16,
+lat          = 3.162456,
+lng          = -73.476563,
+zoom         = 3,
+minZoom      = 3,
+maxZoom      = 16,
 previousZoom = 3,
 previousCenter,
 mapView;
+
+var years = [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014];
+var beginYear = years[0];
+var endYear   = years[years.length - 1];
 
 $(function() {
 
@@ -49,22 +53,26 @@ $(function() {
     });
   }
 
-  var years = [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014];
 
   // Slider
-  $( "#timeline .slider" ).slider({ range: true, min: 0, max: 13*30, step: 30, values: [ 0, 500 ], 
+  $( "#timeline .slider" ).slider({ range: true, min: 0, max: 13*30, step: 30, values: [0, 500], 
   stop: function(event, ui) {
-    var beginYear = years[(ui.values[0]/30)];
-    var endYear = years[(ui.values[1]/30) - 1];
+
     mapView.beginYear = beginYear;
     mapView.endYear   = endYear;
+
     mapView.removeOverlay("projects");
     mapView.addProjects();
   },
   slide: function( event, ui ) {
     $('#timeline li').removeClass("selected");
+
     var min = (ui.values[0]/30) + 1;
     var max = (ui.values[1]/30);
+
+    beginYear = years[min - 1];
+    endYear   = years[max - 1];
+
     for (var i = min; i<=max; i++) {
       $('#timeline li:nth-child('+i+')').addClass("selected");
     }
@@ -83,7 +91,7 @@ $(function() {
   var map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
   google.maps.event.addDomListener(map, 'tilesloaded', function() {
-     setTimeout(function() { if ($(".aside").hasClass("hidden")) showTimeline(); }, 700);
+     // setTimeout(function() { if ($(".aside").hasClass("hidden")) showTimeline(); }, 700);
   });
 
   function zoomIn(controlDiv, map) {
@@ -121,8 +129,6 @@ $(function() {
   overlayID.appendChild(zoomOutControlDiv);
   var zoomOutControl = new zoomOut(zoomOutControlDiv, map);
   zoomOutControlDiv.index = 2;
-
-
 
   map.mapTypes.set('nexsoStyle', nexsoStyle);
   map.setMapTypeId('nexsoStyle');
@@ -187,11 +193,10 @@ $(function() {
     initialize: function() {
       this.state = 1;
       this.overlays = [];
+      this.circles = [];
       this.addAgencies();
       this.addAshokas();
       this.addProjects();
-      this.beginYear = 2002;
-      this.endYear   = 2014;
     },
     showOverlay: function(name, topic) {
       if (this.overlays[name]) {
@@ -214,17 +219,26 @@ $(function() {
         for (var i = 0; i < this.overlays[name].length; i++){
           this.overlays[name][i].setMap(null);
         }
-      } else {
+      } else if (name == 'projects') {
 
+        // Remove circles
+        if (this.circles.length > 0) {
+          for (var i = 0; i < this.circles.length; i++){
+            this.circles[i].circle.setMap(null);
+          }
+        }
+
+        // Remove projects
         if (this.overlays[name].length){
           for (var i = 0; i < this.overlays[name].length; i++){
-            if(this.overlays[name][i].length){
-              for(var j = 0; j < this.overlays[name][i].length; j++){
+            if (this.overlays[name][i].length){
+              for (var j = 0; j < this.overlays[name][i].length; j++){
                 this.overlays[name][i][j].setMap(null);
               }
             }
           }
         }
+
       }
     },
     addAshokas: function() {
@@ -250,8 +264,6 @@ $(function() {
       if (!this.beginYear) this.beginYear = 2002;
       if (!this.endYear)   this.endYear   = 2014;
 
-      // P = Projects | WA = Working Areas | PWA = Project Working Areas | S = Solutions | A = Agencies
-
       // var query = "SELECT P.title, P.fixed_approval_date, P.approval_date, P.external_project_url, P.location_verbatim, P.budget, "
       //  "ST_Simplify(WA.the_geom, 0.2) AS the_geom, S.name AS solution_name, S.nexso_url AS solution_url, "
       //  "A.agency_code, A.external_url AS agency_url, A.name as agency_name "
@@ -259,12 +271,21 @@ $(function() {
       //  "WHERE P.cartodb_id = PWA.project_id AND WA.cartodb_id = PWA.id "
       //  " AND EXTRACT(YEAR FROM P.fixed_approval_date) >= " + this.beginYear + " AND EXTRACT(YEAR FROM P.fixed_approval_date) <= " + this.endYear;
 
+      var yearQuery = "AND EXTRACT(YEAR FROM P.fixed_approval_date) >= " + this.beginYear + " AND EXTRACT(YEAR FROM P.fixed_approval_date) <= " + this.endYear + " "
+      if (beginYear == endYear) yearQuery = "AND EXTRACT(YEAR FROM P.fixed_approval_date) = " + this.beginYear + " ";
 
-      var query = "WITH qu as (WITH hull as (SELECT v1_projects.title, v1_projects.approval_date, v1_projects.external_project_url, v1_projects.location_verbatim, v1_projects.budget, ST_MemUnion(ST_Simplify(working_areas.the_geom,0.0001)) as the_geom FROM v1_projects, working_areas, v1_project_work_areas WHERE v1_projects.cartodb_id = v1_project_work_areas.project_id AND working_areas.cartodb_id = v1_project_work_areas.id group by title,approval_date,external_project_url,location_verbatim,budget) SELECT *,ST_ConvexHull(ST_Envelope(the_geom)) as hull_geom FROM hull) SELECT title,approval_date,external_project_url,location_verbatim,budget,the_geom,ST_X(ST_Centroid(hull_geom)) as centroid_lon,ST_Y(ST_Centroid(hull_geom)) as centroid_lat, ST_X(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom),hull_geom))) as radius_point_lon,ST_Y(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom),hull_geom))) as radius_point_lat FROM qu";
+      // P = Projects | WA = Working Areas | PWA = Project Working Areas | S = Solutions | A = Agencies
+      var query = "WITH qu AS (WITH hull as (SELECT P.title, P.approval_date, P.fixed_approval_date, P.external_project_url, P.location_verbatim, P.budget, ST_MemUnion(ST_Simplify(WA.the_geom,0.0001)) AS the_geom "
+      + "FROM v1_projects AS P, working_areas AS WA, v1_project_work_areas AS PWA "
+      + "WHERE P.cartodb_id = PWA.project_id AND WA.cartodb_id = PWA.id "
+      + yearQuery
+      + "GROUP BY title, approval_date, fixed_approval_date, external_project_url, location_verbatim, budget) "
+      + "SELECT *, ST_ConvexHull(ST_Envelope(the_geom)) AS hull_geom FROM hull) "
+      + "SELECT title, approval_date, fixed_approval_date, external_project_url, location_verbatim, budget, the_geom, ST_X(ST_Centroid(hull_geom)) AS centroid_lon, ST_Y(ST_Centroid(hull_geom)) AS centroid_lat, ST_X(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom),hull_geom))) AS radius_point_lon,ST_Y(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom), hull_geom))) AS radius_point_lat FROM qu ";
 
-      this.addOverlay("projects", query);
+      this.addOverlay("projects", query, function() { showTimeline(); });
     },
-    addOverlay: function(name, query) {
+    addOverlay: function(name, query, callback) {
       var that = this;
 
       $.ajax({
@@ -393,6 +414,8 @@ $(function() {
                     , rLatLng = new google.maps.LatLng(o.geojsonProperties.radius_point_lat, o.geojsonProperties.radius_point_lon)
                     , distanceWidget = new RadiusWidget(map, cLatLng, rLatLng, that.overlays[name][i]);
 
+                    that.circles.push(distanceWidget);
+
                 } else{
                   that.overlays[name][i].setMap(map);
                 }
@@ -408,6 +431,7 @@ $(function() {
             }
           }
           showFeature(data, projectsStyle);
+          callback && callback();
         }
       });
     }
@@ -442,6 +466,7 @@ $(function() {
           }
         } else {
           if (id == "projects" || id == "agencies" || id == "ashokas") {
+            if (id == 'projects') hideTimeline();
             mapView.removeOverlay(id);
           } else if (c){
             mapView.hideOverlay("ashokas", c);
