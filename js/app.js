@@ -29,32 +29,24 @@ $(function() {
     map.panTo(previousCenter);
   });
 
-  var Aside = Backbone.View.extend({
-    tagName: "div",
-    className: "aside",
-    events: {
-      "click .close":          "close"
-    },
-    render: function() {
-
-    },
-    close: function() {
-
-    },
-    hide: function(callback) {
-      this.$el.animate({right:'-400px'}, 250, function() {
-        $(this).addClass("hidden");
-        callback && callback();
-      });
-    },
-    show: function() {
-      this.$el.animate({ right: 0 }, 250, function() {
+  aside = (function() {
+    _show = function() {
+      $(".aside").animate({ right: 0 }, 250, function() {
         $(this).removeClass("hidden");
         console.log($(this));
       });
-    },
-  });
-
+    }
+    _hide = function(callback) {
+      $(".aside").animate({right:'-400px'}, 250, function() {
+        $(this).addClass("hidden");
+        callback && callback();
+      });
+    }
+    return {
+      hide: _hide,
+      show: _show
+    };
+  })();
   Timeline = (function() {
     _show = function() {
       if ($(".aside").hasClass("hidden"))
@@ -380,7 +372,6 @@ $(function() {
 
     var agencies = new Agencies();
     var ashoka   = new Ashoka();
-    aside    = new Aside();
 
     mapView = new MapView({
       el:$('#map'),
