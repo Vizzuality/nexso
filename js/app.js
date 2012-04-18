@@ -17,6 +17,15 @@ var endYear   = years[years.length - 1];
 
 $(function() {
 
+  //TODO: DO THIS VISIBLE ONLY WHEN LOADING
+  var minispinner_target = document.getElementById('minispinner_wrapper');
+  var spinner = new Spinner(minispnner_opts).spin(minispinner_target);
+  
+  $(document).mousemove( function(e) {
+    $('#minispinner_wrapper').css('top',e.pageY + 10);
+    $('#minispinner_wrapper').css('left',e.pageX +10); 
+  });
+
   // Key binding
   $(document).keyup(function(e) {
     if (e.keyCode == 27) {  // esc

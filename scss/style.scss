@@ -693,6 +693,15 @@ $markerRadiusSize: 102px;
   }
 }
 
+#minispinner_wrapper{
+  position: absolute;
+  z-index: 1001;
+  top: 100px;
+  left: 100px;
+  width: 10px;
+  height: 10px;
+}
+
 .ui-helper-hidden { display: none; }
 .ui-helper-hidden-accessible { position: absolute !important; clip: rect(1px 1px 1px 1px); clip: rect(1px,1px,1px,1px); }
 .ui-helper-reset { margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none; }
