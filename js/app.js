@@ -241,7 +241,7 @@ $(function() {
             for (var i = 0; i < this.overlays[name].length; i++){
               if (this.overlays[name][i].length){
                 for (var j = 0; j < this.overlays[name][i].length; j++){
-                  this.overlays[name][i][j].setMap(null);
+                  this.overlays[name][i][j][0].setMap(null);
                 }
               }
             }
@@ -401,18 +401,21 @@ var query = "WITH qu AS ( "
           var id = $(this).attr('id').trim();
           var c  = $(this).attr('class').replace(/selected/, "").trim();
 
-          if ($(this).hasClass('selected')) {
-            if (id == "agencies") mapView.addAgencies();
-            else if (id == "ashokas") mapView.addAshokas();
-            else if (id == "projects") mapView.addProjects();
-            else if (c) {
-              mapView.showOverlay("ashokas", c);
-            }
-          } else {
+          if ($(this).hasClass('selected')) { // Shows the desired overlay
+
+            if (id == "agencies")       mapView.addAgencies();
+            else if (id == "ashokas")   mapView.addAshokas();
+            else if (id == "projects")  mapView.addProjects();
+            else if (c)                 mapView.showOverlay("ashokas", c);
+
+          } else { // Removes the desired overlay
+
             if (id == "projects" || id == "agencies" || id == "ashokas") {
-              if (id == 'projects') Timeline.hide();
+
+              if (id == 'projects') { Timeline.hide(); Infowindow.hide(); }
               mapView.removeOverlay(id);
-            } else if (c){
+
+            } else if (c) {
               mapView.hideOverlay("ashokas", c);
             }
           }

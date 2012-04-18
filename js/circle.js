@@ -20,8 +20,6 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons) {
     polygons: polygons
   });
 
-
-
   google.maps.event.addListener(this.circle, 'click', function(event) {
 
     var 
@@ -90,19 +88,10 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons) {
     Infowindow.open(event.latLng);
   });
 
-
-
-
-
-
-
   google.maps.event.addListener(this.circle, 'mouseover', function(ev) {
     for (var i = 0, length_ = this.polygons.length; i<length_; i++) {
       var polygon_ = this.polygons[i][0];
       polygon_.setOptions(projectsHoverStyle);
-
-
-
     }
     this.setOptions(circleStyleHover);
   });
