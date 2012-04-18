@@ -9,11 +9,10 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons) {
 
   this.circle = new google.maps.Circle({
     strokeColor: "#E79626",
-    strokeOpacity: .5,
+    strokeOpacity: 1,
     strokeWeight: 1,
     fillColor: "#E79626",
     fillOpacity: 0,
-    strokeWeight: 1,
     center: centroidCenter,
     radius: distance * 1000,
     geodesic: true,
