@@ -1,3 +1,5 @@
+var debug = true;
+
 var // DEFAULTS
 lat          = 3.162456,
 lng          = -73.476563,
@@ -5,6 +7,7 @@ zoom         = 3,
 minZoom      = 3,
 maxZoom      = 16,
 previousZoom = 3,
+topics      = [1,2,3,4,5,6],
 previousCenter,
 mapView;
 
@@ -46,6 +49,7 @@ $(function() {
       show: _show
     };
   })();
+
   Timeline = (function() {
     _show = function() {
       if ($(".aside").hasClass("hidden"))
@@ -272,31 +276,35 @@ $(function() {
         if (!this.beginYear) this.beginYear = 2002;
         if (!this.endYear)   this.endYear   = 2014;
 
+        var topicsCondition = (topics.length > 0) ? " P.topic_id  IN ("+topics.join(',')+") AND " : "";
 
 var query = "WITH qu AS ( "
 +"    WITH hull as ( "
 +"        SELECT  "
 +"            P.title, P.approval_date, P.fixed_approval_date, P.external_project_url,  "
-+"            P.location_verbatim, P.budget,  "
++"            P.location_verbatim, P.topic_id, P.budget,  "
 +"            ST_Collect(WA.the_geom) AS the_geom  "
 +"        FROM  "
 +"            v1_projects AS P,  "
 +"            working_areas AS WA,  "
-+"            v1_project_work_areas AS PWA  "
++"            v1_project_work_areas AS PWA, "
++"            v1_topics AS T  "
 +"        WHERE  "
-+"            P.cartodb_id = PWA.project_id AND  "
-+"            WA.cartodb_id = PWA.id AND  "
++"            P.cartodb_id  = PWA.project_id AND "
++"            WA.cartodb_id = PWA.id AND "
++"            T.cartodb_id  = P.topic_id AND "
++ topicsCondition
 +"            EXTRACT(YEAR FROM P.fixed_approval_date) >= " + this.beginYear + " AND  "
 +"            EXTRACT(YEAR FROM P.fixed_approval_date) <= " + this.endYear + "  "
 +"        GROUP BY  "
 +"            title, approval_date, fixed_approval_date,  "
-+"            external_project_url, location_verbatim, budget "
++"            external_project_url, location_verbatim, topic_id, budget "
 +"    )  "
 +"    SELECT *, ST_ConvexHull(ST_Envelope(the_geom)) AS hull_geom FROM hull "
 +")  "
 +"SELECT  "
 +"    title, approval_date, fixed_approval_date, external_project_url,  "
-+"    location_verbatim, budget, the_geom,  "
++"    location_verbatim, topic_id, budget, the_geom,  "
 +"    ST_X(ST_Centroid(hull_geom)) AS centroid_lon,  "
 +"    ST_Y(ST_Centroid(hull_geom)) AS centroid_lat,  "
 +"    ST_X(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom),hull_geom))) AS radius_point_lon,  "
@@ -305,7 +313,9 @@ var query = "WITH qu AS ( "
 +"ORDER BY "
 +"    ST_Area(hull_geom) desc";
 
-        this.addOverlay("projects", query, function() { Timeline.show(); });
+console.log(query);
+
+this.addOverlay("projects", query, function() { Timeline.show(); });
       },
       addOverlay: function(name, query, callback) {
         var that = this;
@@ -393,7 +403,30 @@ var query = "WITH qu AS ( "
     // some helper view to show how to use the model
     var FilterView = Backbone.View.extend({
       initialize: function() {
-        this.$(".filter ul.ticks li").on("click", function(e) {
+
+        this.$(".filter.filters ul.ticks li").on("click", function(e) {
+          e.stopPropagation();
+          $(this).toggleClass("selected");
+          var id = $(this).attr('id').trim();
+          var c  = parseInt($(this).attr('class').replace(/selected/, "").replace("t", "").trim());
+
+          if ($(this).hasClass('selected')) { // Shows the desired overlay
+            topics.push(c);
+          } else {
+            topics = _.without(topics, c);
+          }
+
+          if (topics.length > 0) {
+            $(".filter.view ul.ticks li#projects").addClass("selected"); // in case it was turned off
+            mapView.removeOverlay("projects");
+            mapView.addProjects();
+          } else {
+            mapView.removeOverlay("projects");
+          }
+
+        });
+
+        this.$(".filter.view ul.ticks li").on("click", function(e) {
           e.stopPropagation();
 
           $(this).toggleClass("selected");

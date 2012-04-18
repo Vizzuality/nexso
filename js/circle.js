@@ -31,10 +31,13 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons) {
     moreURL      = properties.external_project_url,
     solutionName = properties.solution_name,
     solutionURL  = properties.solution_url,
-    // agencyName   = properties.agency_name,
-    // agencyURL    = properties.agency_url,
+    topic_id     = properties.topic_id,
     location     = properties.location_verbatim,
     budget       = properties.budget;
+    // agencyName   = properties.agency_name,
+    // agencyURL    = properties.agency_url,
+
+    console.log(properties);
 
     function onHiddenAside() {
       var 
@@ -90,16 +93,16 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons) {
 
   google.maps.event.addListener(this.circle, 'mouseover', function(ev) {
     for (var i = 0, length_ = this.polygons.length; i<length_; i++) {
-      var polygon_ = this.polygons[i][0];
-      polygon_.setOptions(projectsHoverStyle);
+      var polygon = this.polygons[i][0];
+      polygon.setOptions(projectsHoverStyle);
     }
     this.setOptions(circleStyleHover);
   });
 
   google.maps.event.addListener(this.circle, 'mouseout', function(ev) {
     for (var i = 0, length_ = this.polygons.length; i<length_; i++) {
-      var polygon_ = this.polygons[i][0];
-      polygon_.setOptions(projectsStyle);
+      var polygon = this.polygons[i][0];
+      polygon.setOptions(projectsStyle);
     }
     this.setOptions(circleStyle);
   });
