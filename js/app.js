@@ -33,7 +33,6 @@ $(function() {
     _show = function() {
       $(".aside").animate({ right: 0 }, 250, function() {
         $(this).removeClass("hidden");
-        console.log($(this));
       });
     }
     _hide = function(callback) {
@@ -273,28 +272,40 @@ $(function() {
         if (!this.beginYear) this.beginYear = 2002;
         if (!this.endYear)   this.endYear   = 2014;
 
-        // Old query (without circles)
 
-        // var query = "SELECT P.title, P.fixed_approval_date, P.approval_date, P.external_project_url, P.location_verbatim, P.budget, "
-        //  "ST_Simplify(WA.the_geom, 0.2) AS the_geom, S.name AS solution_name, S.nexso_url AS solution_url, "
-        //  "A.agency_code, A.external_url AS agency_url, A.name as agency_name "
-        //  "FROM v1_projects AS P LEFT JOIN v1_solutions AS S ON S.cartodb_id = P.solution_id LEFT JOIN v1_agencies AS A ON A.cartodb_id = P.agency_id, working_areas AS WA, v1_project_work_areas AS PWA "
-        //  "WHERE P.cartodb_id = PWA.project_id AND WA.cartodb_id = PWA.id "
-        //  " AND EXTRACT(YEAR FROM P.fixed_approval_date) >= " + this.beginYear + " AND EXTRACT(YEAR FROM P.fixed_approval_date) <= " + this.endYear;
+var query = "WITH qu AS ( "
++"    WITH hull as ( "
++"        SELECT  "
++"            P.title, P.approval_date, P.fixed_approval_date, P.external_project_url,  "
++"            P.location_verbatim, P.budget,  "
++"            ST_Collect(WA.the_geom) AS the_geom  "
++"        FROM  "
++"            v1_projects AS P,  "
++"            working_areas AS WA,  "
++"            v1_project_work_areas AS PWA  "
++"        WHERE  "
++"            P.cartodb_id = PWA.project_id AND  "
++"            WA.cartodb_id = PWA.id AND  "
++"            EXTRACT(YEAR FROM P.fixed_approval_date) >= " + this.beginYear + " AND  "
++"            EXTRACT(YEAR FROM P.fixed_approval_date) <= " + this.endYear + "  "
++"        GROUP BY  "
++"            title, approval_date, fixed_approval_date,  "
++"            external_project_url, location_verbatim, budget "
++"    )  "
++"    SELECT *, ST_ConvexHull(ST_Envelope(the_geom)) AS hull_geom FROM hull "
++")  "
++"SELECT  "
++"    title, approval_date, fixed_approval_date, external_project_url,  "
++"    location_verbatim, budget, the_geom,  "
++"    ST_X(ST_Centroid(hull_geom)) AS centroid_lon,  "
++"    ST_Y(ST_Centroid(hull_geom)) AS centroid_lat,  "
++"    ST_X(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom),hull_geom))) AS radius_point_lon,  "
++"    ST_Y(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom), hull_geom))) AS radius_point_lat "
++"FROM qu  "
++"ORDER BY "
++"    ST_Area(hull_geom) desc";
 
-        var yearQuery = "AND EXTRACT(YEAR FROM P.fixed_approval_date) >= " + this.beginYear + " AND EXTRACT(YEAR FROM P.fixed_approval_date) <= " + this.endYear + " "
-        if (beginYear == endYear) yearQuery = "AND EXTRACT(YEAR FROM P.fixed_approval_date) = " + this.beginYear + " ";
-
-        // P = Projects | WA = Working Areas | PWA = Project Working Areas | S = Solutions | A = Agencies
-        var query = "WITH qu AS (WITH hull as (SELECT P.title, P.approval_date, P.fixed_approval_date, P.external_project_url, P.location_verbatim, P.budget, ST_MemUnion(ST_Simplify(WA.the_geom,0.0001)) AS the_geom "
-        + "FROM v1_projects AS P, working_areas AS WA, v1_project_work_areas AS PWA "
-        + "WHERE P.cartodb_id = PWA.project_id AND WA.cartodb_id = PWA.id "
-        + yearQuery
-    + "GROUP BY title, approval_date, fixed_approval_date, external_project_url, location_verbatim, budget) "
-    + "SELECT *, ST_ConvexHull(ST_Envelope(the_geom)) AS hull_geom FROM hull) "
-    + "SELECT title, approval_date, fixed_approval_date, external_project_url, location_verbatim, budget, the_geom, ST_X(ST_Centroid(hull_geom)) AS centroid_lon, ST_Y(ST_Centroid(hull_geom)) AS centroid_lat, ST_X(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom),hull_geom))) AS radius_point_lon,ST_Y(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom), hull_geom))) AS radius_point_lat FROM qu ";
-
-    this.addOverlay("projects", query, function() { Timeline.show(); });
+        this.addOverlay("projects", query, function() { Timeline.show(); });
       },
       addOverlay: function(name, query, callback) {
         var that = this;
@@ -334,7 +345,7 @@ $(function() {
                     // Draw polygons
 
                     for (var j = 0; j < that.overlays[name][i].length; j++){
-                      var overlay = that.overlays[name][i][j];
+                      var overlay = that.overlays[name][i][j][0];
                       overlay.setMap(map);
 
                       polygons.push(overlay);
@@ -342,7 +353,7 @@ $(function() {
                     }
 
                     // Draw circles
-                    var o = that.overlays[name][i][0]
+                    var o = that.overlays[name][i][0][0]
                     , cLatLng = new google.maps.LatLng(o.geojsonProperties.centroid_lat, o.geojsonProperties.centroid_lon)
                     , rLatLng = new google.maps.LatLng(o.geojsonProperties.radius_point_lat, o.geojsonProperties.radius_point_lon)
                     , distanceWidget = new RadiusWidget(map, cLatLng, rLatLng, that.overlays[name][i]);

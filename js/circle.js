@@ -26,7 +26,7 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons) {
 
     var 
     that         = this,
-    properties   = this.polygons[0].geojsonProperties,
+    properties   = this.polygons[0][0].geojsonProperties,
     title        = properties.title,
     approvalDate = properties.approval_date,
     fixedApprovalDate = properties.approval_date,
@@ -98,7 +98,7 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons) {
 
   google.maps.event.addListener(this.circle, 'mouseover', function(ev) {
     for (var i = 0, length_ = this.polygons.length; i<length_; i++) {
-      var polygon_ = this.polygons[i];
+      var polygon_ = this.polygons[i][0];
       polygon_.setOptions(projectsHoverStyle);
 
 
@@ -109,7 +109,7 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons) {
 
   google.maps.event.addListener(this.circle, 'mouseout', function(ev) {
     for (var i = 0, length_ = this.polygons.length; i<length_; i++) {
-      var polygon_ = this.polygons[i];
+      var polygon_ = this.polygons[i][0];
       polygon_.setOptions(projectsStyle);
     }
     this.setOptions(circleStyle);
