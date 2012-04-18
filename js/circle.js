@@ -20,10 +20,89 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons) {
     polygons: polygons
   });
 
+
+
+  google.maps.event.addListener(this.circle, 'click', function(event) {
+
+    var 
+    that         = this,
+    properties   = this.polygons[0].geojsonProperties,
+    title        = properties.title,
+    approvalDate = properties.approval_date,
+    fixedApprovalDate = properties.approval_date,
+    moreURL      = properties.external_project_url,
+    solutionName = properties.solution_name,
+    solutionURL  = properties.solution_url,
+    // agencyName   = properties.agency_name,
+    // agencyURL    = properties.agency_url,
+    location     = properties.location_verbatim,
+    budget       = properties.budget;
+
+    function onHiddenAside() {
+      var 
+      $asideContent = $(".aside .content"),
+      $asideItems = $asideContent.find("ul");
+
+      $asideContent.find(".header h2").html(title);
+
+      var prettyApprovalDate = prettifyDate(approvalDate);
+      if (prettyApprovalDate) {
+        $asideItems.find("li.approvalDate").show();
+        $asideItems.find("li.approvalDate span").text(prettyApprovalDate);
+      }
+      else $asideItems.find("li.approvalDate").hide();
+
+      if (location) $asideItems.find("li.location span").text(location);
+      if (budget)   $asideItems.find("li.budget span").text(accounting.formatMoney(budget));
+
+      if (solutionName && solutionURL) {
+        $asideItems.find("li.solution").show();
+        $asideItems.find("li.solution a").text(solutionName).attr("href", solutionURL);
+      } else $asideItems.find("li.solution").show();
+
+      if (moreURL) {
+        $asideItems.find("li.more").show();
+        $asideItems.find("li.more a").attr("href", moreURL);
+      }
+      else $asideItems.find("li.more").hide();
+
+      aside.show();
+      Infowindow.hide();
+
+      previousZoom = map.getZoom();
+      previousCenter = map.getCenter();
+
+      // Focus on the overlay
+      var bounds = that.getBounds();
+      map.fitBounds(bounds)
+    }
+
+    function onInfowindowClick(e) {
+      e.preventDefault();
+      Timeline.hide();
+      aside.hide(onHiddenAside);
+    }
+
+    // Infowindow setup
+    Infowindow.setContent(title, "project");
+    Infowindow.setSolutionURL(title, moreURL);
+    Infowindow.setCallback(onInfowindowClick);
+    Infowindow.open(event.latLng);
+  });
+
+
+
+
+
+
+
   google.maps.event.addListener(this.circle, 'mouseover', function(ev) {
     for (var i = 0, length_ = this.polygons.length; i<length_; i++) {
       var polygon_ = this.polygons[i];
       polygon_.setOptions(projectsHoverStyle);
+
+
+
     }
     this.setOptions(circleStyleHover);
   });
