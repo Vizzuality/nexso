@@ -349,9 +349,16 @@ $(function() {
             el.show();
           });
         } else { // Load the agencies
-          var query = "SELECT the_geom, external_url AS url, name "
+
+          /*var query = "SELECT the_geom, external_url AS url, name "
           + "FROM v1_agencies "
-          + "WHERE the_geom IS NOT NULL";
+          + "WHERE the_geom IS NOT NULL";*/
+
+          var query = "SELECT A.the_geom, A.external_url AS url, A.name, "
+          + "array_to_string(array(SELECT P.cartodb_id FROM v1_projects AS P WHERE P.agency_id = a.cartodb_id), '|') as projects_ids, "
+          + "array_to_string(array(SELECT P.title FROM v1_projects AS P WHERE P.agency_id = a.cartodb_id), '|') as projects_titles "
+          + "FROM v1_agencies AS A"
+
           this.addOverlay("agencies", query);
         }
       },
@@ -367,10 +374,10 @@ $(function() {
           +"    WITH hull as ( "
             +"        SELECT  "
             +"            P.title, P.approval_date, P.fixed_approval_date, P.external_project_url,  "
-            +"            P.location_verbatim, P.topic_id, P.budget,  "
+            +"            P.location_verbatim, P.topic_id, P.budget, S.name AS solution_name, S.nexso_url AS solution_url,  "
             +"            ST_Collect(PWA.the_geom) AS the_geom  "
             +"        FROM  "
-            +"            v1_projects AS P,  "
+            +"            v1_projects P LEFT JOIN v1_solutions S ON (P.solution_id = S.cartodb_id),  "
             +"            v1_project_work_areas AS PWA  "
             +"        WHERE  "
             +"            P.cartodb_id = PWA.project_id AND  "
@@ -379,14 +386,15 @@ $(function() {
             +"            EXTRACT(YEAR FROM P.fixed_approval_date) <= " + this.endYear + "  "
             +"        GROUP BY  "
             +"            title, approval_date, fixed_approval_date,  "
-            +"            external_project_url, location_verbatim, topic_id, budget "
+            +"            external_project_url, location_verbatim, topic_id, budget, "
+            +"            solution_name, solution_url"
     +"    )  "
     +"    SELECT *, ST_ConvexHull(the_geom) AS hull_geom FROM hull "
     +" "
     +")  "
     +"SELECT  "
     +"    title, approval_date, fixed_approval_date, external_project_url,  "
-    +"    location_verbatim, topic_id, budget, the_geom,  "
+    +"    location_verbatim, topic_id, budget, the_geom, solution_name, solution_url,  "
     +"    ST_X(ST_Centroid(hull_geom)) AS centroid_lon,  "
     +"    ST_Y(ST_Centroid(hull_geom)) AS centroid_lat,  "
     +"    ST_X(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom),hull_geom))) AS radius_point_lon,  "
@@ -395,6 +403,7 @@ $(function() {
     +"ORDER BY "
     +"    ST_Area(hull_geom) desc";
 
+    console.log(query);
 
     this.addOverlay("projects", query, function() { Timeline.show(); });
 

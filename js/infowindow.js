@@ -63,6 +63,10 @@ InfoWindow.prototype.draw = function() {
       </ul>\
       <% } %>\
       <% } else { %>\
+      <% if (projects) { %>\
+      <h4>Projects</h4>\
+      <ul><%= projects %></ul>\
+      <% } %>\
       <h4>More info</h4>\
       <ul>\
       <li><a href="#">Agency profile at FOMIN</a> </li>\
@@ -130,14 +134,22 @@ InfoWindow.prototype.bindClose = function(){
   });
 }
 
-InfoWindow.prototype.setContent = function(propierties){
-  var name = propierties.name;
-  if (propierties.overlayType == 'ashokas') {
-  console.log(propierties, propierties.name);
-    this.div_.innerHTML = this.template(propierties);
-  } else {
-    this.div_.innerHTML = this.template({name:name, overlayType:propierties.overlayType});
+InfoWindow.prototype.setContent = function(properties){
+  var name = properties.name;
+
+  if (properties.overlayType == 'agencies') {
+    var ids    = _.compact(properties.projects_ids.split("|"));
+    var titles = _.compact(properties.projects_titles.split("|"));
+
+    var projects = _.uniq(titles); //_.zip(ids, titles);
+
+    if (projects) {
+      var projects = _.map(projects, function(project) { return "<li>" + project + "</li>" });
+      properties.projects = projects.join("");
+    }
   }
+
+  this.div_.innerHTML = this.template(properties);
 
   this.bindClose();
 } 
