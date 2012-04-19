@@ -38,8 +38,6 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons) {
     // agencyName   = properties.agency_name,
     // agencyURL    = properties.agency_url,
 
-    console.log(properties);
-
     function onHiddenAside() {
       var 
       $asideContent = $(".aside .content"),

@@ -272,7 +272,8 @@ $(function() {
         if (!this.beginYear) this.beginYear = 2002;
         if (!this.endYear)   this.endYear   = 2014;
 
-        var topicsCondition = (topics.length > 0) ? " P.topic_id  IN ("+topics.join(',')+") AND " : "";
+        // Filters by topic
+        var topicsCondition = (topics.length > 0) ? " P.topic_id  IN (" + topics.join(',') + ") AND " : "";
 
         var query = "WITH qu AS ( "
           +"    WITH hull as ( "
@@ -339,22 +340,20 @@ $(function() {
               var polygons;
 
               if (that.overlays[name].length){
-                for (var i = 0; i < that.overlays[name].length; i++){
+                for (var i = 0; i < that.overlays[name].length; i++) {
                   if (that.overlays[name][i].length){
 
                     polygons = [];
 
-                    // Draw polygons
-
-                    for (var j = 0; j < that.overlays[name][i].length; j++){
+                    // Draws polygons
+                    for (var j = 0; j < that.overlays[name][i].length; j++) {
                       var overlay = that.overlays[name][i][j][0];
                       overlay.setMap(map);
 
                       polygons.push(overlay);
-
                     }
 
-                    // Draw circles
+                    // Draws circles
                     var o = that.overlays[name][i][0][0]
                     , cLatLng = new google.maps.LatLng(o.geojsonProperties.centroid_lat, o.geojsonProperties.centroid_lon)
                     , rLatLng = new google.maps.LatLng(o.geojsonProperties.radius_point_lat, o.geojsonProperties.radius_point_lon)
@@ -362,7 +361,7 @@ $(function() {
 
                     that.circles.push(distanceWidget);
 
-                  } else{
+                  } else {
                     that.overlays[name][i].setMap(map);
                   }
 

@@ -18,15 +18,29 @@ function InfoWindow(params) {
 
 InfoWindow.prototype = new google.maps.OverlayView();
 
-InfoWindow.prototype.setup = function(overlay, name) {
+InfoWindow.prototype.setup = function(overlay, kind) {
   var that = this;
   google.maps.event.addListener(overlay, 'click', function(event) {
 
-    var 
-    title   = overlay.geojsonProperties.name;
-    //moreURL = overlay.geojsonProperties.url;
+    console.log(kind);
 
-    that.setContent(title, name);
+    var 
+    properties   = overlay.geojsonProperties,
+    title        = properties.name,
+    approvalDate = properties.approval_date,
+    fixedApprovalDate = properties.approval_date,
+    moreURL      = properties.external_project_url,
+
+    solutionName = properties.solution_name,
+    solutionURL  = properties.solution_url,
+
+    topic_id     = properties.topic_id,
+    location     = properties.location_verbatim,
+    budget       = properties.budget;
+    // agencyName   = properties.agency_name,
+    // agencyURL    = properties.agency_url,
+
+    that.setContent(title, kind);
     that.open(event.latLng);
 
   });
@@ -41,7 +55,7 @@ InfoWindow.prototype.draw = function() {
     div = this.div_ = document.createElement('DIV');
     div.className = "infowindow";
 
-    this.template = _.template('<div class="box <%= c %>">\
+    this.template = _.template('<div class="box <%= kind %>">\
       <div class="content">\
       <div class="header">\
       <div class="hgroup">\
@@ -77,7 +91,7 @@ InfoWindow.prototype.draw = function() {
       <div class="t"></div><div class="b"></div>\
     </div>');
 
-  div.innerHTML = this.template({name:'Loading…', c:''});
+  div.innerHTML = this.template({name:'Loading…', kind:''});
 
   this.bindClose();
 
@@ -132,8 +146,8 @@ InfoWindow.prototype.bindClose = function(){
   });
 }
 
-InfoWindow.prototype.setContent = function(name, c){
-  this.div_.innerHTML = this.template({name:name, c:c});
+InfoWindow.prototype.setContent = function(name, kind){
+  this.div_.innerHTML = this.template({name:name, kind:kind});
   this.bindClose();
 } 
 
