@@ -9,7 +9,8 @@ maxZoom      = 16,
 previousZoom = 3,
 topics      = [1,2,3,4,5,6],
 previousCenter,
-mapView;
+mapView
+globalZindex = 300;
 
 var years = [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014];
 var beginYear = years[0];
@@ -326,8 +327,13 @@ $(function() {
         + "FROM v1_ashoka " 
         + "WHERE the_geom IS NOT NULL AND topic_id IS NOT NULL";
 
-        this.addOverlay("ashokas", query);
-
+        if (this.overlays["ashokas"]) {
+          _.each(this.overlays["ashokas"], function(el,i) {
+            el.show();
+          });
+        } else {
+          this.addOverlay("ashokas", query);
+        }
       },
       addAgencies: function() {
 
@@ -439,10 +445,6 @@ $(function() {
 
                   } else{
                     that.overlays[name][i].setMap(map);
-                  }
-
-                  if (that.overlays[name][i].geojsonProperties) {
-                    Infowindow.setup(that.overlays[name][i], name);
                   }
                 }
               }
