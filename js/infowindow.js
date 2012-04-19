@@ -48,21 +48,20 @@ InfoWindow.prototype.draw = function() {
       <li><a href="#" target="_blank">…</a> </li>\
       </ul>\
       <% } else if (overlayType == "ashokas") { %>\
-      <% if (solution1_name || solution2_name) { %>\
+      <% if (solution_name) { %>\
       <h4>Solutions</h4>\
       <ul>\
-      <% if (solution1_name) { %>\
-      <li><a href="<%= solution1_url %>" target="_blank"><%= solution1_name %></a> </li>\
-      <% } %>\
-      <% if (solution2_name) { %>\
-      <li><a href="<%= solution2_url %>" target="_blank"><%= solution2_name %></a> </li>\
+      <% if (solution_name) { %>\
+      <li><a href="<%= solution_url %>" target="_blank"><%= solution_name %></a> </li>\
       <% } %>\
       </ul>\
       <% } %>\
+      <% if (ashoka_url) {  %>\
       <h4>More info</h4>\
       <ul>\
-      <li><a href="#">Agency profile at FOMIN</a> </li>\
+      <li><a href="<%= ashoka_url %>">Agency profile at FOMIN</a> </li>\
       </ul>\
+      <% } %>\
       <% } else { %>\
       <h4>More info</h4>\
       <ul>\

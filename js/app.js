@@ -328,12 +328,10 @@ $(function() {
             el.show();
           });
         } else { // Load the ashokas
-          var query = "SELECT A.the_geom, A.ashoka_url AS url, A.topic_id AS topic, A.name, " 
-          + "S1.name solution1_name, S2.name solution2_name, "
-          + "S1.nexso_url solution1_url, S2.nexso_url solution2_url "
+          var query = "SELECT A.the_geom, A.ashoka_url AS ashoka_url, A.topic_id AS topic, A.name, " 
+          + "S1.name solution_name, S1.nexso_url solution_url "
           + "FROM v1_ashoka AS A " 
           + "LEFT JOIN v1_solutions S1 ON (S1.cartodb_id = A.solution_id)"
-          + "LEFT JOIN v1_solutions S2 ON (S2.cartodb_id = A.solution1_id)"
           + "WHERE A.the_geom IS NOT NULL AND topic_id IS NOT NULL";
           this.addOverlay("ashokas", query);
         }
