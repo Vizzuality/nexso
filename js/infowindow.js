@@ -18,7 +18,7 @@ function InfoWindow(params) {
 
 InfoWindow.prototype = new google.maps.OverlayView();
 
-InfoWindow.prototype.setup = function(overlay, kind) {
+InfoWindow.prototype.setup = function(overlay, c) {
   var that = this;
   google.maps.event.addListener(overlay, 'click', function(event) {
 
@@ -26,7 +26,7 @@ InfoWindow.prototype.setup = function(overlay, kind) {
     properties = overlay.geojsonProperties,
     title      = properties.name;
 
-    that.setContent(title, kind);
+    that.setContent(title, c);
     that.open(event.latLng);
 
   });
@@ -40,7 +40,7 @@ InfoWindow.prototype.draw = function() {
     div = this.div_ = document.createElement('DIV');
     div.className = "infowindow";
 
-    this.template = _.template('<div class="box <%= kind %>">\
+    this.template = _.template('<div class="box <%= c %>">\
       <div class="content">\
       <div class="header">\
       <div class="hgroup">\
@@ -76,7 +76,7 @@ InfoWindow.prototype.draw = function() {
       <div class="t"></div><div class="b"></div>\
     </div>');
 
-  div.innerHTML = this.template({name:'Loading…', kind:''});
+  div.innerHTML = this.template({name:'Loading…', c:''});
 
   this.bindClose();
 
@@ -131,8 +131,8 @@ InfoWindow.prototype.bindClose = function(){
   });
 }
 
-InfoWindow.prototype.setContent = function(name, kind){
-  this.div_.innerHTML = this.template({name:name, kind:kind});
+InfoWindow.prototype.setContent = function(name, c){
+  this.div_.innerHTML = this.template({name:name, c:c});
   this.bindClose();
 } 
 
