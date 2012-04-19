@@ -69,7 +69,7 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons) {
       aside.show();
       Infowindow.hide();
 
-      previousZoom = map.getZoom();
+      previousZoom   = map.getZoom();
       previousCenter = map.getCenter();
 
       // Focus on the overlay

@@ -27,13 +27,13 @@ InfoWindow.prototype.draw = function() {
     div = this.div_ = document.createElement('DIV');
     div.className = "infowindow";
 
-    this.template = _.template('<div class="box <%= type %>">\
+    var template = '<div class="box <%= overlayType %>">\
       <div class="content">\
       <div class="header">\
       <div class="hgroup">\
-      <% if (type == "project") { %>\
+      <% if (overlayType == "project") { %>\
       <h4>Nexso project</h4>\
-      <% } else if (type == "ashokas") { %>\
+      <% } else if (overlayType == "ashokas") { %>\
       <h4>Ashoka fellow</h4>\
       <% } else { %>\
       <h4>Executing agency</h4>\
@@ -41,18 +41,29 @@ InfoWindow.prototype.draw = function() {
       <h2><%= name %></h2>\
       </div>\
       </div>\
-      <% if (type == "project") { %>\
+      <% if (overlayType == "project") { %>\
       <a href="#" class="btn">View project details</a>\
       <h4>Solution</h4>\
       <ul class="solutions">\
       <li><a href="#" target="_blank">…</a> </li>\
       </ul>\
-      <% } else { %>\
+      <% } else if (overlayType == "ashokas") { %>\
+      <% if (solution1_name || solution2_name) { %>\
       <h4>Solutions</h4>\
       <ul>\
-      <li><a href="#">Irrigation in extreme unfertile terrain</a> </li>\
-      <li><a href="#">Other solution name</a> </li>\
+      <% if (solution1_name) { %>\
+      <li><a href="<%= solution1_url %>" target="_blank"><%= solution1_name %></a> </li>\
+      <% } %>\
+      <% if (solution2_name) { %>\
+      <li><a href="<%= solution2_url %>" target="_blank"><%= solution2_name %></a> </li>\
+      <% } %>\
       </ul>\
+      <% } %>\
+      <h4>More info</h4>\
+      <ul>\
+      <li><a href="#">Agency profile at FOMIN</a> </li>\
+      </ul>\
+      <% } else { %>\
       <h4>More info</h4>\
       <ul>\
       <li><a href="#">Agency profile at FOMIN</a> </li>\
@@ -61,9 +72,11 @@ InfoWindow.prototype.draw = function() {
       </div>\
       <a href="#" class="close"></a>\
       <div class="t"></div><div class="b"></div>\
-    </div>');
+    </div>';
 
-  div.innerHTML = this.template({name:'Loading…', type:''});
+  this.template = _.template(template);
+
+  div.innerHTML = this.template({name:'Loading…', overlayType:''});
 
   this.bindClose();
 
@@ -120,7 +133,13 @@ InfoWindow.prototype.bindClose = function(){
 
 InfoWindow.prototype.setContent = function(propierties){
   var name = propierties.name;
-  this.div_.innerHTML = this.template({name:name, type:propierties.overlayType});
+  if (propierties.overlayType == 'ashokas') {
+  console.log(propierties, propierties.name);
+    this.div_.innerHTML = this.template(propierties);
+  } else {
+    this.div_.innerHTML = this.template({name:name, overlayType:propierties.overlayType});
+  }
+
   this.bindClose();
 } 
 

@@ -1,5 +1,6 @@
 
-  function NexsoMarker(overlayType, opts, map) {
+  function NexsoMarker(overlayType, opts, geojsonProperties) {
+    this.properties = geojsonProperties;
     this.latlng_ = opts.position;
     this.opts = opts;
     this.offsetVertical_ = -7;
@@ -11,7 +12,6 @@
   }
 
   NexsoMarker.prototype = new google.maps.OverlayView();
-
 
   NexsoMarker.prototype.draw = function() {
     var that = this
@@ -26,11 +26,9 @@
         ev.preventDefault ? ev.preventDefault() : ev.returnValue = false;
         ev.stopPropagation ? ev.stopPropagation() : window.event.cancelBubble = true;
 
-        var 
-          title   = that.opts.geojsonProperties.name,
-          moreURL = that.opts.geojsonProperties.url;
+        that.properties.overlayType = that.overlayType_;
 
-        Infowindow.setContent({name: title, overlayType:that.overlayType_});
+        Infowindow.setContent(that.properties);
         Infowindow.open(that.latlng_);
       });
 

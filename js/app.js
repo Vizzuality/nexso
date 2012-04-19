@@ -19,27 +19,27 @@ var endYear   = years[years.length - 1];
 $(function() {
 
   /*
-   * SPINNER
-   */
+  * SPINNER
+  */
   var spinner = (function() {
     var options = {
-          lines: 7, // The number of lines to draw
-          length: 0, // The length of each line
-          width: 3, // The line thickness
-          radius: 4, // The radius of the inner circle
-          rotate: 0, // The rotation offset
-          color: '#000', // #rgb or #rrggbb
-          speed: 1, // Rounds per second
-          trail: 55, // Afterglow percentage
-          shadow: false, // Whether to render a shadow
-          hwaccel: false, // Whether to use hardware acceleration
-          className: 'spinner', // The CSS class to assign to the spinner
-          zIndex: 2e9, // The z-index (defaults to 2000000000)
-          top: 'auto', // Top position relative to parent in px
-          left: 'auto' // Left position relative to parent in px
-        }
-      , el
-      , spin;
+      lines: 7, // The number of lines to draw
+      length: 0, // The length of each line
+      width: 3, // The line thickness
+      radius: 4, // The radius of the inner circle
+      rotate: 0, // The rotation offset
+      color: '#000', // #rgb or #rrggbb
+      speed: 1, // Rounds per second
+      trail: 55, // Afterglow percentage
+      shadow: false, // Whether to render a shadow
+      hwaccel: false, // Whether to use hardware acceleration
+      className: 'spinner', // The CSS class to assign to the spinner
+      zIndex: 2e9, // The z-index (defaults to 2000000000)
+      top: 'auto', // Top position relative to parent in px
+      left: 'auto' // Left position relative to parent in px
+    }
+    , el
+    , spin;
 
     function _initialize() {
       el = document.getElementById('minispinner_wrapper');
@@ -94,8 +94,8 @@ $(function() {
     }
   }());
 
-  
-  
+
+
   // Key binding
   $(document).keyup(function(e) {
     if (e.keyCode == 27) {  // esc
@@ -323,37 +323,31 @@ $(function() {
       },
       addAshokas: function() {
 
-        var query = "SELECT A.the_geom, A.ashoka_url AS url, A.topic_id AS topic, A.name, " 
-        + "S1.name name1, S2.name name2, S3.name name3, "
-        + "S1.nexso_url url1, S2.nexso_url url2, S3.nexso_url url3 "
-        + "FROM v1_ashoka AS A " 
-        + "LEFT JOIN "
-        + "    v1_solutions S1 ON (S1.cartodb_id = A.solution_id)"
-        + "LEFT JOIN"
-        + "    v1_solutions S2 ON (S2.cartodb_id = A.solution1_id)"
-        + "LEFT JOIN"
-        + "    v1_solutions S3 ON (S3.cartodb_id = A.solution2_id)"
-        + "WHERE A.the_geom IS NOT NULL AND topic_id IS NOT NULL";
-
-        if (this.overlays["ashokas"]) {
+        if (this.overlays["ashokas"]) { // If we load the ashokas before, just show them
           _.each(this.overlays["ashokas"], function(el,i) {
             el.show();
           });
-        } else {
+        } else { // Load the ashokas
+          var query = "SELECT A.the_geom, A.ashoka_url AS url, A.topic_id AS topic, A.name, " 
+          + "S1.name solution1_name, S2.name solution2_name, "
+          + "S1.nexso_url solution1_url, S2.nexso_url solution2_url "
+          + "FROM v1_ashoka AS A " 
+          + "LEFT JOIN v1_solutions S1 ON (S1.cartodb_id = A.solution_id)"
+          + "LEFT JOIN v1_solutions S2 ON (S2.cartodb_id = A.solution1_id)"
+          + "WHERE A.the_geom IS NOT NULL AND topic_id IS NOT NULL";
           this.addOverlay("ashokas", query);
         }
       },
       addAgencies: function() {
 
-        var query = "SELECT the_geom, external_url AS url, name "
-        + "FROM v1_agencies "
-        + "WHERE the_geom IS NOT NULL";
-
-        if (this.overlays["agencies"]) {
+        if (this.overlays["agencies"]) { // If we load the agencies before, just show them
           _.each(this.overlays["agencies"], function(el,i) {
             el.show();
           });
-        } else {
+        } else { // Load the agencies
+          var query = "SELECT the_geom, external_url AS url, name "
+          + "FROM v1_agencies "
+          + "WHERE the_geom IS NOT NULL";
           this.addOverlay("agencies", query);
         }
       },
