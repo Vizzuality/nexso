@@ -23,7 +23,7 @@ InfoWindow.prototype.setup = function(overlay, name) {
   google.maps.event.addListener(overlay, 'click', function(event) {
 
     var 
-    title   = overlay.geojsonProperties.name,
+    title   = overlay.geojsonProperties.name;
     //moreURL = overlay.geojsonProperties.url;
 
     that.setContent(title, name);

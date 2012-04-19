@@ -182,6 +182,7 @@ h4 { font-size: 11px; font-weight:bold; }
 
   // Configuration of the elements for the different infowindows 
   &.project .content a.btn { background-color: #0D5FB2; }
+  &.project .content a.btn:hover { background-color: #06396D; }
 }
 
 // Agencies box
@@ -570,10 +571,14 @@ h4 { font-size: 11px; font-weight:bold; }
     ul {
       width: 283px;
       li {
+
+        display:none;
+
         padding: 19px 0 19px 30px;
         font-size:15px;
         color:$dark_gray;
         border-bottom: 1px solid #E5E5E5;
+        
         &.money { @include icons-sprite(money, $offset-y:28px); }
         &.calendar { @include icons-sprite(calendar, $offset-y:28px); }
         &.marker { @include icons-sprite(marker, $offset-y:28px); }

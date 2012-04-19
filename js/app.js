@@ -43,8 +43,12 @@ $(function() {
 
   aside = (function() {
     _show = function() {
+      $(".aside").find("li").css({opacity:0, marginLeft:150});
       $(".aside").animate({ right: 0 }, 250, function() {
         $(this).removeClass("hidden");
+        $(this).find("li").each(function(i, el) {
+          $(el).delay(i * 120).animate({marginLeft:0, opacity:1}, 200);
+        });
       });
     }
     _hide = function(callback) {
