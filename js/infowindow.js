@@ -18,13 +18,13 @@ function InfoWindow(params) {
 
 InfoWindow.prototype = new google.maps.OverlayView();
 
-InfoWindow.prototype.setup = function(overlay) {
+InfoWindow.prototype.setup = function(overlay, name) {
   var that = this;
   google.maps.event.addListener(overlay, 'click', function(event) {
 
     var 
     title   = overlay.geojsonProperties.name,
-    moreURL = overlay.geojsonProperties.url;
+    //moreURL = overlay.geojsonProperties.url;
 
     that.setContent(title, name);
     that.open(event.latLng);

@@ -318,8 +318,6 @@ $(function() {
     +"ORDER BY "
     +"    ST_Area(hull_geom) desc";
 
-    console.log(query);
-
     this.addOverlay("projects", query, function() { Timeline.show(); });
 
       },
