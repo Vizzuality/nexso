@@ -7,12 +7,6 @@ $(function() {
     }
   });
 
-  // Ticks initialization
-  // $("ul.radio li, ul.ticks li").each(function(i, e) {
-  //   var id = $(e).attr('id');
-  //   if (localStorage[id]) $(e).addClass('selected');
-  // });
-
   if ($("ul.radio li.selected").length <= 0) $("ul.radio li:first-child").addClass("selected");
 
   $(".nav a[data-toggle='filter']").on("click", function(e) {
@@ -29,15 +23,10 @@ $(function() {
     e.stopPropagation();
     $(this).parent().find("li").each(function() {
       var id = $(this).attr('id');
-    //  localStorage.removeItem(id);
     });
 
     $(this).parent().find("li").removeClass("selected");
     $(this).addClass("selected");
-
-    // Store the state of the element
-    var id = $(this).attr('id');
-    //localStorage[id] = true;
   });
 
   $(".nav .filter").on("click", function(e) {

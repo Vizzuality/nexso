@@ -20,7 +20,7 @@ $(function() {
   //TODO: DO THIS VISIBLE ONLY WHEN LOADING
   var minispinner_target = document.getElementById('minispinner_wrapper');
   var spinner = new Spinner(minispnner_opts).spin(minispinner_target);
-  
+
   $(document).mousemove( function(e) {
     $('#minispinner_wrapper').css('top',e.pageY + 10);
     $('#minispinner_wrapper').css('left',e.pageX +10); 
@@ -223,22 +223,6 @@ $(function() {
         this.addAshokas();
         this.addProjects();
       },
-      showOverlay: function(name, topic) {
-        if (this.overlays[name]) {
-          for (var i = 0; i < this.overlays[name].length; i++){
-            if (this.overlays[name][i].geojsonProperties.topic == topic.replace('t', ''))
-              this.overlays[name][i].setVisible(true);
-          }
-        }
-      },
-      hideOverlay: function(name, topic) {
-        if (this.overlays[name]) {
-          for (var i = 0; i < this.overlays[name].length; i++){
-            if (this.overlays[name][i].geojsonProperties.topic == topic.replace('t', ''))
-              this.overlays[name][i].setVisible(false);
-          }
-        }
-      },
       removeOverlay: function(name) {
         if (name == "ashokas" || name == "agencies") {
           for (var i = 0; i < this.overlays[name].length; i++){
@@ -381,16 +365,12 @@ $(function() {
                   } else{
                     that.overlays[name][i].setMap(map);
                   }
+
                   if (that.overlays[name][i].geojsonProperties) {
                     Infowindow.setup(that.overlays[name][i], name);
                   }
                 }
-              } else{
-                that.overlays[name].setMap(map)
-                if (that.overlays[name].geojsonProperties) {
-                  Infowindow.setup(that.overlays[name], name);
-                }
-              }
+              } 
             }
             showFeature(data, projectsStyle);
             callback && callback();
@@ -447,28 +427,16 @@ $(function() {
             if (id == "agencies")       mapView.addAgencies();
             else if (id == "ashokas")   mapView.addAshokas();
             else if (id == "projects")  mapView.addProjects();
-            else if (c)                 mapView.showOverlay("ashokas", c);
 
           } else { // Removes the desired overlay
 
             if (id == "projects" || id == "agencies" || id == "ashokas") {
 
-              if (id == 'projects') { Timeline.hide(); Infowindow.hide(); }
+              if (id == 'projects') Timeline.hide(); Infowindow.hide(); 
               mapView.removeOverlay(id);
 
-            } else if (c) {
-              mapView.hideOverlay("ashokas", c);
-            }
+            } 
           }
-
-          // Store the state of the element
-          var id    = $(this).attr('id');
-          var state = $(this).hasClass('selected');
-          // if (state) {
-          //   localStorage[id] = state;
-          // } else {
-          //   localStorage.removeItem(id);
-          // }
         });
       }
     });

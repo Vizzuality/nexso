@@ -28,8 +28,10 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons) {
     approvalDate = properties.approval_date,
     fixedApprovalDate = properties.approval_date,
     moreURL      = properties.external_project_url,
+
     solutionName = properties.solution_name,
     solutionURL  = properties.solution_url,
+
     topic_id     = properties.topic_id,
     location     = properties.location_verbatim,
     budget       = properties.budget;
