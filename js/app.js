@@ -292,16 +292,19 @@ $(function() {
       showOverlay: function(name, topic) {
         if (this.overlays[name]) {
           for (var i = 0; i < this.overlays[name].length; i++){
-            if (this.overlays[name][i].geojsonProperties.topic == topic.replace('t', ''))
+            if (this.overlays[name][i].geojsonProperties.topic == topic.replace('t', '')) {
               this.overlays[name][i].setVisible(true);
+            }
+              
           }
         }
       },
       hideOverlay: function(name, topic) {
         if (this.overlays[name]) {
           for (var i = 0; i < this.overlays[name].length; i++){
-            if (this.overlays[name][i].geojsonProperties.topic == topic.replace('t', ''))
+            if (this.overlays[name][i].geojsonProperties.topic == topic.replace('t', '')) {
               this.overlays[name][i].setVisible(false);
+            }              
           }
         }
       },
@@ -461,11 +464,11 @@ this.addOverlay("projects", query, function() { Timeline.show(); });
                   Infowindow.setup(that.overlays[name]);
                 }
               }
+
+              spinner.hide();
             }
             showFeature(data, projectsStyle);
             callback && callback();
-
-            spinner.hide();
           }
         });
       }
