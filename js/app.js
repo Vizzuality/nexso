@@ -17,15 +17,84 @@ var endYear   = years[years.length - 1];
 
 $(function() {
 
-  //TODO: DO THIS VISIBLE ONLY WHEN LOADING
-  var minispinner_target = document.getElementById('minispinner_wrapper');
-  var spinner = new Spinner(minispnner_opts).spin(minispinner_target);
+  /*
+   * SPINNER
+   */
+  var spinner = (function() {
+    var options = {
+          lines: 7, // The number of lines to draw
+          length: 0, // The length of each line
+          width: 3, // The line thickness
+          radius: 4, // The radius of the inner circle
+          rotate: 0, // The rotation offset
+          color: '#000', // #rgb or #rrggbb
+          speed: 1, // Rounds per second
+          trail: 55, // Afterglow percentage
+          shadow: false, // Whether to render a shadow
+          hwaccel: false, // Whether to use hardware acceleration
+          className: 'spinner', // The CSS class to assign to the spinner
+          zIndex: 2e9, // The z-index (defaults to 2000000000)
+          top: 'auto', // Top position relative to parent in px
+          left: 'auto' // Left position relative to parent in px
+        }
+      , el
+      , spin;
 
-  $(document).mousemove( function(e) {
-    $('#minispinner_wrapper').css('top',e.pageY + 10);
-    $('#minispinner_wrapper').css('left',e.pageX +10); 
-  });
+    function _initialize() {
+      el = document.getElementById('minispinner_wrapper');
+      spin = new Spinner(options).spin(el);
+    }
 
+    function _show() {
+      $(el).fadeIn();
+      _bindEvents();
+    }
+
+    function _hide() {
+      $(el).fadeOut(function(){
+        _unbindEvents();
+      });
+    }
+
+    function _disable() {
+      $(el).css('opacity',0)
+    }
+
+    function _enable() {
+      $(el).css('opacity',1)
+    }
+
+    function _bindEvents() {
+      $(document).mousemove( function(e) {
+        spinner.positionate(e.pageX + 10,e.pageY + 10);
+      });
+      $(document).mouseleave( function(e) {
+        _disable();
+      });
+      $(document).mouseenter( function(e) {
+        _enable();
+      });
+    }
+
+    function _unbindEvents() {
+      $(document).unbind('mousemove mouseleave mouseenter');
+    }
+
+    function _positionate(x,y) {
+      $(el).css({'top':y + 'px', 'left': x + 'px'});
+    }
+
+    _initialize(options);
+
+    return {
+      show: _show,
+      hide: _hide,
+      positionate: _positionate
+    }
+  }());
+
+  
+  
   // Key binding
   $(document).keyup(function(e) {
     if (e.keyCode == 27) {  // esc
@@ -223,6 +292,7 @@ $(function() {
         this.addAshokas();
         this.addProjects();
       },
+
       removeOverlay: function(name) {
         if (name == "ashokas" || name == "agencies") {
           for (var i = 0; i < this.overlays[name].length; i++){
@@ -306,11 +376,14 @@ $(function() {
     +"ORDER BY "
     +"    ST_Area(hull_geom) desc";
 
+
     this.addOverlay("projects", query, function() { Timeline.show(); });
 
       },
       addOverlay: function(name, query, callback) {
         var that = this;
+
+        spinner.show();
 
         $.ajax({
           url: "https://nexso2.cartodb.com/api/v2/sql",
@@ -370,7 +443,8 @@ $(function() {
                     Infowindow.setup(that.overlays[name][i], name);
                   }
                 }
-              } 
+              }
+              spinner.hide();
             }
             showFeature(data, projectsStyle);
             callback && callback();

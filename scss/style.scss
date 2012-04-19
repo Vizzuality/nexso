@@ -5,7 +5,7 @@
 @import "sprites.scss";
 @import "helpers.scss";
 
-$title_blue:    #0C5FB2;
+$title_blue:    #0C5FB2; 
 
 $blue:          #104C6B;
 $light_blue:    #1B93CF;
@@ -705,6 +705,7 @@ $markerRadiusSize: 102px;
   left: 100px;
   width: 10px;
   height: 10px;
+  display:none; 
 }
 
 .ui-helper-hidden { display: none; }
