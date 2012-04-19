@@ -9,7 +9,8 @@ maxZoom      = 16,
 previousZoom = 3,
 topics      = [1,2,3,4,5,6],
 previousCenter,
-mapView;
+mapView
+globalZindex = 300;
 
 var years = [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014];
 var beginYear = years[0];
@@ -295,8 +296,9 @@ $(function() {
 
       removeOverlay: function(name) {
         if (name == "ashokas" || name == "agencies") {
+          // Remove ashokas or agencies
           for (var i = 0; i < this.overlays[name].length; i++){
-            this.overlays[name][i].setMap(null);
+            this.overlays[name][i].hide();
           }
         } else if (name == 'projects') {
 
@@ -333,8 +335,13 @@ $(function() {
         + "    v1_solutions S3 ON (S3.cartodb_id = A.solution2_id)"
         + "WHERE A.the_geom IS NOT NULL AND topic_id IS NOT NULL";
 
-        this.addOverlay("ashokas", query);
-
+        if (this.overlays["ashokas"]) {
+          _.each(this.overlays["ashokas"], function(el,i) {
+            el.show();
+          });
+        } else {
+          this.addOverlay("ashokas", query);
+        }
       },
       addAgencies: function() {
 
@@ -342,8 +349,13 @@ $(function() {
         + "FROM v1_agencies "
         + "WHERE the_geom IS NOT NULL";
 
-        this.addOverlay("agencies", query);
-
+        if (this.overlays["agencies"]) {
+          _.each(this.overlays["agencies"], function(el,i) {
+            el.show();
+          });
+        } else {
+          this.addOverlay("agencies", query);
+        }
       },
       addProjects: function() {
 
@@ -429,8 +441,7 @@ $(function() {
                     // Draws polygons
                     for (var j = 0; j < that.overlays[name][i].length; j++) {
                       var overlay = that.overlays[name][i][j][0];
-                      overlay.setMap(map);
-
+                      //overlay.show(map);
                       polygons.push(overlay);
                     }
 
@@ -439,15 +450,10 @@ $(function() {
                     , cLatLng = new google.maps.LatLng(o.geojsonProperties.centroid_lat, o.geojsonProperties.centroid_lon)
                     , rLatLng = new google.maps.LatLng(o.geojsonProperties.radius_point_lat, o.geojsonProperties.radius_point_lon)
                     , distanceWidget = new RadiusWidget(map, cLatLng, rLatLng, that.overlays[name][i]);
-
                     that.circles.push(distanceWidget);
 
                   } else {
                     that.overlays[name][i].setMap(map);
-                  }
-
-                  if (that.overlays[name][i].geojsonProperties) {
-                    Infowindow.setup(that.overlays[name][i], name);
                   }
                 }
               }

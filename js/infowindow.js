@@ -18,18 +18,6 @@ function InfoWindow(params) {
 
 InfoWindow.prototype = new google.maps.OverlayView();
 
-InfoWindow.prototype.setup = function(overlay, overlayType) {
-  var that = this;
-  google.maps.event.addListener(overlay, 'click', function(event) {
-
-    var propierties = overlay.geojsonProperties;
-    propierties.overlayType = overlayType;
-
-    that.setContent(propierties);
-    that.open(event.latLng);
-
-  });
-};
 
 InfoWindow.prototype.draw = function() {
   var that = this;
