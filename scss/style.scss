@@ -181,7 +181,7 @@ h4 { font-size: 11px; font-weight:bold; }
   a.close { display:block; position:absolute; top: -18px; right: -7px; @include icons-sprite(close); z-index:1000; width:24px; height:24px; }
 
   // Configuration of the elements for the different infowindows 
-  &.project .content a.btn { background-color: #0D5FB2; }
+  &.project .content a.btn { background-color: #0D5FB2; @include single-transition(background, 0.2s, ease-in-out, 0); }
   &.project .content a.btn:hover { background-color: #06396D; }
 }
 
