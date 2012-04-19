@@ -11,24 +11,26 @@ var GeoJSON = function( geojson, kind, options ){
         if (kind == "agencies") opts.icon     = 'img/icons/agency.png';
         else if (kind == "ashokas") opts.icon = 'img/icons/ashoka.png';
 
-        googleObj = new google.maps.Marker(opts);
-
         if (geojsonProperties) {
-          googleObj.set("geojsonProperties", geojsonProperties);
+          opts.geojsonProperties = geojsonProperties;
         }
+
+        googleObj = new NexsoMarker(kind,opts);
+
         break;
 
       case "MultiPoint":
         googleObj = [];
         for (var i = 0; i < geojsonGeometry.coordinates.length; i++){
           opts.position = new google.maps.LatLng(geojsonGeometry.coordinates[i][1], geojsonGeometry.coordinates[i][0]);
-          googleObj.push(new google.maps.Marker(opts));
-        }
-        if (geojsonProperties) {
-          for (var k = 0; k < googleObj.length; k++){
-            googleObj[k].set("geojsonProperties", geojsonProperties);
+
+          if (geojsonProperties) {
+            googleObj[k].opts.geojsonProperties =  geojsonProperties;
           }
+
+          googleObj.push(new NexsoMarker(kind,opts));
         }
+
         break;
 
       case "LineString":

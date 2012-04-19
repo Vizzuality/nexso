@@ -295,8 +295,9 @@ $(function() {
 
       removeOverlay: function(name) {
         if (name == "ashokas" || name == "agencies") {
+          // Remove ashokas or agencies
           for (var i = 0; i < this.overlays[name].length; i++){
-            this.overlays[name][i].setMap(null);
+            this.overlays[name][i].hide();
           }
         } else if (name == 'projects') {
 
@@ -334,8 +335,13 @@ $(function() {
         + "FROM v1_agencies "
         + "WHERE the_geom IS NOT NULL";
 
-        this.addOverlay("agencies", query);
-
+        if (this.overlays["agencies"]) {
+          _.each(this.overlays["agencies"], function(el,i) {
+            el.show();
+          });
+        } else {
+          this.addOverlay("agencies", query);
+        }
       },
       addProjects: function() {
 
@@ -418,13 +424,10 @@ $(function() {
                     polygons = [];
 
                     // Draw polygons
-
                     for (var j = 0; j < that.overlays[name][i].length; j++){
                       var overlay = that.overlays[name][i][j][0];
-                      overlay.setMap(map);
-
+                      //overlay.show(map);
                       polygons.push(overlay);
-
                     }
 
                     // Draw circles
@@ -432,7 +435,6 @@ $(function() {
                     , cLatLng = new google.maps.LatLng(o.geojsonProperties.centroid_lat, o.geojsonProperties.centroid_lon)
                     , rLatLng = new google.maps.LatLng(o.geojsonProperties.radius_point_lat, o.geojsonProperties.radius_point_lon)
                     , distanceWidget = new RadiusWidget(map, cLatLng, rLatLng, that.overlays[name][i]);
-
                     that.circles.push(distanceWidget);
 
                   } else{
