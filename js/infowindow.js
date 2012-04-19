@@ -18,15 +18,14 @@ function InfoWindow(params) {
 
 InfoWindow.prototype = new google.maps.OverlayView();
 
-InfoWindow.prototype.setup = function(overlay, c) {
+InfoWindow.prototype.setup = function(overlay, overlayType) {
   var that = this;
   google.maps.event.addListener(overlay, 'click', function(event) {
 
-    var 
-    properties = overlay.geojsonProperties,
-    title      = properties.name;
+    var propierties = overlay.geojsonProperties;
+    propierties.overlayType = overlayType;
 
-    that.setContent(title, c);
+    that.setContent(propierties);
     that.open(event.latLng);
 
   });
@@ -40,13 +39,13 @@ InfoWindow.prototype.draw = function() {
     div = this.div_ = document.createElement('DIV');
     div.className = "infowindow";
 
-    this.template = _.template('<div class="box <%= c %>">\
+    this.template = _.template('<div class="box <%= type %>">\
       <div class="content">\
       <div class="header">\
       <div class="hgroup">\
-      <% if (c == "project") { %>\
+      <% if (type == "project") { %>\
       <h4>Nexso project</h4>\
-      <% } else if (c == "ashokas") { %>\
+      <% } else if (type == "ashokas") { %>\
       <h4>Ashoka fellow</h4>\
       <% } else { %>\
       <h4>Executing agency</h4>\
@@ -54,7 +53,7 @@ InfoWindow.prototype.draw = function() {
       <h2><%= name %></h2>\
       </div>\
       </div>\
-      <% if (c == "project") { %>\
+      <% if (type == "project") { %>\
       <a href="#" class="btn">View project details</a>\
       <h4>Solution</h4>\
       <ul class="solutions">\
@@ -76,7 +75,7 @@ InfoWindow.prototype.draw = function() {
       <div class="t"></div><div class="b"></div>\
     </div>');
 
-  div.innerHTML = this.template({name:'Loading…', c:''});
+  div.innerHTML = this.template({name:'Loading…', type:''});
 
   this.bindClose();
 
@@ -131,8 +130,9 @@ InfoWindow.prototype.bindClose = function(){
   });
 }
 
-InfoWindow.prototype.setContent = function(name, c){
-  this.div_.innerHTML = this.template({name:name, c:c});
+InfoWindow.prototype.setContent = function(propierties){
+  var name = propierties.name;
+  this.div_.innerHTML = this.template({name:name, type:propierties.overlayType});
   this.bindClose();
 } 
 

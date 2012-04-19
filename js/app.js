@@ -321,9 +321,17 @@ $(function() {
       },
       addAshokas: function() {
 
-        var query = "SELECT the_geom, ashoka_url AS url, topic_id AS topic, name " 
-        + "FROM v1_ashoka " 
-        + "WHERE the_geom IS NOT NULL AND topic_id IS NOT NULL";
+        var query = "SELECT A.the_geom, A.ashoka_url AS url, A.topic_id AS topic, A.name, " 
+        + "S1.name name1, S2.name name2, S3.name name3, "
+        + "S1.nexso_url url1, S2.nexso_url url2, S3.nexso_url url3 "
+        + "FROM v1_ashoka AS A " 
+        + "LEFT JOIN "
+        + "    v1_solutions S1 ON (S1.cartodb_id = A.solution_id)"
+        + "LEFT JOIN"
+        + "    v1_solutions S2 ON (S2.cartodb_id = A.solution1_id)"
+        + "LEFT JOIN"
+        + "    v1_solutions S3 ON (S3.cartodb_id = A.solution2_id)"
+        + "WHERE A.the_geom IS NOT NULL AND topic_id IS NOT NULL";
 
         this.addOverlay("ashokas", query);
 

@@ -84,7 +84,7 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons) {
     }
 
     // Infowindow setup
-    Infowindow.setContent(title, "project");
+    Infowindow.setContent({name:title, overlayType: "project"});
     Infowindow.setSolutionURL(title, moreURL);
     Infowindow.setCallback(onInfowindowClick);
     Infowindow.open(event.latLng);
