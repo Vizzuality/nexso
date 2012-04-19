@@ -24,7 +24,7 @@ InfoWindow.prototype.setup = function(overlay, kind) {
 
     var 
     properties = overlay.geojsonProperties,
-    title      = properties.name,
+    title      = properties.name;
 
     that.setContent(title, kind);
     that.open(event.latLng);
