@@ -22,30 +22,15 @@ InfoWindow.prototype.setup = function(overlay, kind) {
   var that = this;
   google.maps.event.addListener(overlay, 'click', function(event) {
 
-    console.log(kind);
-
     var 
-    properties   = overlay.geojsonProperties,
-    title        = properties.name,
-    approvalDate = properties.approval_date,
-    fixedApprovalDate = properties.approval_date,
-    moreURL      = properties.external_project_url,
-
-    solutionName = properties.solution_name,
-    solutionURL  = properties.solution_url,
-
-    topic_id     = properties.topic_id,
-    location     = properties.location_verbatim,
-    budget       = properties.budget;
-    // agencyName   = properties.agency_name,
-    // agencyURL    = properties.agency_url,
+    properties = overlay.geojsonProperties,
+    title      = properties.name,
 
     that.setContent(title, kind);
     that.open(event.latLng);
 
   });
 };
-
 
 InfoWindow.prototype.draw = function() {
   var that = this;
