@@ -15,7 +15,7 @@ var GeoJSON = function( geojson, kind, options ){
           opts.geojsonProperties = geojsonProperties;
         }
         
-        googleObj = new NexsoMarker(kind, opts);
+        googleObj = new NexsoMarker(kind, opts, geojsonProperties);
 
         break;
 
