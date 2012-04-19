@@ -278,41 +278,41 @@ $(function() {
 
         var topicsCondition = (topics.length > 0) ? " P.topic_id  IN ("+topics.join(',')+") AND " : "";
 
-var query = "WITH qu AS ( "
-+"    WITH hull as ( "
-+"        SELECT  "
-+"            P.title, P.approval_date, P.fixed_approval_date, P.external_project_url,  "
-+"            P.location_verbatim, P.topic_id, P.budget,  "
-+"            ST_Collect(PWA.the_geom) AS the_geom  "
-+"        FROM  "
-+"            v1_projects AS P,  "
-+"            v1_project_work_areas AS PWA  "
-+"        WHERE  "
-+"            P.cartodb_id = PWA.project_id AND  "
-+             topicsCondition
-+"            EXTRACT(YEAR FROM P.fixed_approval_date) >= " + this.beginYear + " AND  "
-+"            EXTRACT(YEAR FROM P.fixed_approval_date) <= " + this.endYear + "  "
-+"        GROUP BY  "
-+"            title, approval_date, fixed_approval_date,  "
-+"            external_project_url, location_verbatim, topic_id, budget "
-+"    )  "
-+"    SELECT *, ST_ConvexHull(the_geom) AS hull_geom FROM hull "
-+" "
-+")  "
-+"SELECT  "
-+"    title, approval_date, fixed_approval_date, external_project_url,  "
-+"    location_verbatim, topic_id, budget, the_geom,  "
-+"    ST_X(ST_Centroid(hull_geom)) AS centroid_lon,  "
-+"    ST_Y(ST_Centroid(hull_geom)) AS centroid_lat,  "
-+"    ST_X(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom),hull_geom))) AS radius_point_lon,  "
-+"    ST_Y(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom), hull_geom))) AS radius_point_lat "
-+"FROM qu  "
-+"ORDER BY "
-+"    ST_Area(hull_geom) desc";
+        var query = "WITH qu AS ( "
+          +"    WITH hull as ( "
+            +"        SELECT  "
+            +"            P.title, P.approval_date, P.fixed_approval_date, P.external_project_url,  "
+            +"            P.location_verbatim, P.topic_id, P.budget,  "
+            +"            ST_Collect(PWA.the_geom) AS the_geom  "
+            +"        FROM  "
+            +"            v1_projects AS P,  "
+            +"            v1_project_work_areas AS PWA  "
+            +"        WHERE  "
+            +"            P.cartodb_id = PWA.project_id AND  "
+            +             topicsCondition
+            +"            EXTRACT(YEAR FROM P.fixed_approval_date) >= " + this.beginYear + " AND  "
+            +"            EXTRACT(YEAR FROM P.fixed_approval_date) <= " + this.endYear + "  "
+            +"        GROUP BY  "
+            +"            title, approval_date, fixed_approval_date,  "
+            +"            external_project_url, location_verbatim, topic_id, budget "
+    +"    )  "
+    +"    SELECT *, ST_ConvexHull(the_geom) AS hull_geom FROM hull "
+    +" "
+    +")  "
+    +"SELECT  "
+    +"    title, approval_date, fixed_approval_date, external_project_url,  "
+    +"    location_verbatim, topic_id, budget, the_geom,  "
+    +"    ST_X(ST_Centroid(hull_geom)) AS centroid_lon,  "
+    +"    ST_Y(ST_Centroid(hull_geom)) AS centroid_lat,  "
+    +"    ST_X(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom),hull_geom))) AS radius_point_lon,  "
+    +"    ST_Y(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom), hull_geom))) AS radius_point_lat "
+    +"FROM qu  "
+    +"ORDER BY "
+    +"    ST_Area(hull_geom) desc";
 
-console.log(query);
+    console.log(query);
 
-this.addOverlay("projects", query, function() { Timeline.show(); });
+    this.addOverlay("projects", query, function() { Timeline.show(); });
       },
       addOverlay: function(name, query, callback) {
         var that = this;
@@ -371,13 +371,13 @@ this.addOverlay("projects", query, function() { Timeline.show(); });
                     that.overlays[name][i].setMap(map);
                   }
                   if (that.overlays[name][i].geojsonProperties) {
-                    Infowindow.setup(that.overlays[name][i]);
+                    Infowindow.setup(that.overlays[name][i], name);
                   }
                 }
               } else{
                 that.overlays[name].setMap(map)
                 if (that.overlays[name].geojsonProperties) {
-                  Infowindow.setup(that.overlays[name]);
+                  Infowindow.setup(that.overlays[name], name);
                 }
               }
             }
