@@ -66,19 +66,19 @@ $(function() {
     }
 
     function _bindEvents() {
-      $(document).mousemove( function(e) {
+      $(window).mousemove( function(e) {
         spinner.positionate(e.pageX + 10,e.pageY + 10);
       });
-      $(document).mouseleave( function(e) {
+      $(window).mouseleave( function(e) {
         _disable();
       });
-      $(document).mouseenter( function(e) {
+      $(window).mouseenter( function(e) {
         _enable();
       });
     }
 
     function _unbindEvents() {
-      $(document).unbind('mousemove mouseleave mouseenter');
+      $(window).unbind('mousemove mouseleave mouseenter');
     }
 
     function _positionate(x,y) {
@@ -106,6 +106,12 @@ $(function() {
 
   $(".aside .close").on('click', function(e) {
     e.preventDefault();
+
+    // Unselect the project
+    var project = $(this).data('project');
+    project.unMarkSelected();
+    $(this).removeData('project')
+    
     aside.hide(Timeline.show);
     map.setZoom(previousZoom);
     map.panTo(previousCenter);
@@ -441,7 +447,7 @@ $(function() {
                     // Draws polygons
                     for (var j = 0; j < that.overlays[name][i].length; j++) {
                       var overlay = that.overlays[name][i][j][0];
-                      //overlay.show(map);
+                      overlay.setMap(map);
                       polygons.push(overlay);
                     }
 

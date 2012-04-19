@@ -5,7 +5,9 @@
 */
 function RadiusWidget(map, centroidCenter, radiusCenter, polygons) {
 
-  var distance = this.distanceBetweenPoints(centroidCenter, radiusCenter);
+  var distance = this.distanceBetweenPoints(centroidCenter, radiusCenter)
+    , self = this;
+
 
   this.circle = new google.maps.Circle({
     strokeColor: "#E79626",
@@ -75,7 +77,12 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons) {
       // Focus on the overlay
       var bounds = that.getBounds();
       map.fitBounds(bounds)
+
+      // Make it "selected"
+      $('.aside a.close').data('project',self);
+      self.markSelected();
     }
+
 
     function onInfowindowClick(e) {
       e.preventDefault();
@@ -90,28 +97,56 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons) {
     Infowindow.open(event.latLng);
   });
 
-  google.maps.event.addListener(this.circle, 'mouseover', function(ev) {
-    for (var i = 0, length_ = this.polygons.length; i<length_; i++) {
-      var polygon = this.polygons[i][0];
-      polygon.setOptions(projectsHoverStyle);
-    }
-    this.setOptions(circleStyleHover);
-  });
+  google.maps.event.addListener(this.circle, 'mouseover', this.onMouseOver);
 
-  google.maps.event.addListener(this.circle, 'mouseout', function(ev) {
-    for (var i = 0, length_ = this.polygons.length; i<length_; i++) {
-      var polygon = this.polygons[i][0];
-      polygon.setOptions(projectsStyle);
-    }
-    this.setOptions(circleStyle);
-  });
+  google.maps.event.addListener(this.circle, 'mouseout', this.onMouseOut);
 
   this.circle.setMap(map);
 
   return this;
 }
 
+
 RadiusWidget.prototype = new google.maps.MVCObject();
+
+
+RadiusWidget.prototype.onMouseOver = function(ev) {
+  _.each(this.polygons,function(polygon,i) {
+    polygon[0].setOptions(projectsHoverStyle);
+  });
+  this.setOptions(circleStyleHover);
+}
+
+
+RadiusWidget.prototype.onMouseOut = function(ev) {
+  _.each(this.polygons,function(polygon,i) {
+    polygon[0].setOptions(projectsStyle);
+  });
+  this.setOptions(circleStyle);  
+}
+
+
+RadiusWidget.prototype.markSelected = function() {
+  google.maps.event.clearListeners(this.circle, 'mouseover');
+  google.maps.event.clearListeners(this.circle, 'mouseout');
+
+  _.each(this.circle.polygons,function(polygon,i) {
+    polygon[0].setOptions(projectsHoverStyle);
+  });
+  this.circle.setOptions(circleStyleHover);
+}
+
+
+RadiusWidget.prototype.unMarkSelected = function() {
+  google.maps.event.addListener(this.circle, 'mouseover', this.onMouseOver);
+  google.maps.event.addListener(this.circle, 'mouseout', this.onMouseOut);
+
+  _.each(this.circle.polygons,function(polygon,i) {
+    polygon[0].setOptions(projectsStyle);
+  });
+  this.circle.setOptions(circleStyle);
+}
+
 
 /**
 * Update the radius when the distance has changed.
