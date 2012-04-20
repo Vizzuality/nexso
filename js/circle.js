@@ -213,6 +213,7 @@ RadiusWidget.prototype.markSelected = function() {
 
   // Hide rest
   this.hideAll();
+  filterView.disable();
 }
 
 
@@ -233,6 +234,7 @@ RadiusWidget.prototype.unMarkSelected = function() {
 
   // Show rest
   this.showAll();
+  filterView.enable();
 }
 
 

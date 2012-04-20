@@ -10,7 +10,8 @@ previousZoom     = 3,
 topics           = [1,2,3,4,5,6],
 solutionFilter   = "all",
 previousCenter,
-mapView
+mapView,
+filterView,
 globalZindex = 300;
 
 var years = [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014];
@@ -507,6 +508,7 @@ $(function() {
         // Filter by solution & topic
         this.$(".filter.filters ul.radio li").on("click", function(e) {
           e.stopPropagation();
+
           solutionFilter = $(this).attr('id').trim();
 
           mapView.removeOverlay("projects");
@@ -582,15 +584,21 @@ $(function() {
       },
 
       disable: function(){
+        $(".cancel").on("click", function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+        });
 
+        $("ul.filters").addClass("disabled");
+        $(".cancel").show();
       },
-
       enable: function () {
-
+        $("ul.filters").removeClass("disabled");
+        $(".cancel").hide();
       }
     });
 
-    var filterView = new FilterView({
+    filterView = new FilterView({
       el:$('.nav .content')
     });
 });

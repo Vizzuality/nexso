@@ -224,7 +224,11 @@ h4 { font-size: 11px; font-weight:bold; }
 }
 
 // Navigation 
-.nav ul li {
+.nav ul.filters {
+  &.disabled > li > a { color:#ccc; background:url(../img/icons/arrows.png) no-repeat right -78px; }
+}
+
+.nav ul.filters li {
   position:relative;
 
   // Filter horizontal position
@@ -233,7 +237,7 @@ h4 { font-size: 11px; font-weight:bold; }
   &:nth-child(3) .filter { right: -14px; }
 }
 
-.nav ul li .filter {
+.nav ul.filters li .filter {
 
   $width: 236px;
   $pT: 13px;
@@ -781,3 +785,4 @@ $markerRadiusSize: 102px;
 .ui-slider-vertical .ui-slider-range-min { bottom: 0; }
 .ui-slider-vertical .ui-slider-range-max { top: 0; }
 
+.cancel { display:none; width: 227px; height: 40px; position: absolute; top: 30px; right: -4px; z-index: 10000; }
