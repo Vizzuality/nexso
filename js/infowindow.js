@@ -59,18 +59,11 @@ InfoWindow.prototype.draw = function() {
       <% if (ashoka_url) {  %>\
       <h4>More info</h4>\
       <ul>\
-      <li><a href="<%= ashoka_url %>">Agency profile at FOMIN</a> </li>\
+      <li><a href="<%= ashoka_url %>" target="_blank">Agency profile at FOMIN</a> </li>\
       </ul>\
       <% } %>\
       <% } else { %>\
-      <% if (projects) { %>\
-      <h4>Projects</h4>\
-      <ul><%= projects %></ul>\
-      <% } %>\
-      <h4>More info</h4>\
-      <ul>\
-      <li><a href="#">Agency profile at FOMIN</a> </li>\
-      </ul>\
+      <%   if (projects) { %><h4>Projects</h4><ul><%= projects %></ul><% } %>\
       <% } %>\
       </div>\
       <a href="#" class="close"></a>\
