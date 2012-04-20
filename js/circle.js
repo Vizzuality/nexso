@@ -191,6 +191,9 @@ RadiusWidget.prototype.markSelected = function() {
   _.each(this.circle.lines,function(line,i) {
     line.setOptions({"visible": true});
   });
+
+  // Hide rest
+  this.hideAll();
 }
 
 
@@ -207,6 +210,71 @@ RadiusWidget.prototype.unMarkSelected = function() {
   // Lines
   _.each(this.circle.lines,function(line,i) {
     line.setOptions({"visible": false});
+  });
+
+  // Show rest
+  this.showAll();
+}
+
+
+RadiusWidget.prototype.hideAll = function() {
+  var that = this;
+
+  // Agencies
+  _.each(mapView.overlays["agencies"], function(agency,i) {
+    if (agency.getPosition().lat() != that.circle.lines[0].getPath().getAt(1).lat() &&
+        agency.getPosition().lng() != that.circle.lines[0].getPath().getAt(1).lng()) {
+      agency.hide();  
+    }
+  });
+
+  // Ashokas
+  _.each(mapView.overlays["ashokas"], function(ashoka,i) {
+    ashoka.hide();
+  });
+
+  // Projects
+  _.each(mapView.circles, function(radiuswidget,i) {
+
+    if (that != radiuswidget) {
+      // Polygons
+      _.each(radiuswidget.circle.polygons,function(polygon,i) {
+        polygon[0].setVisible(false);
+      });
+
+      radiuswidget.circle.setVisible(false);
+    }
+  });
+}
+
+
+RadiusWidget.prototype.showAll = function() {
+  var that = this;
+
+  // Agencies
+  _.each(mapView.overlays["agencies"], function(agency,i) {
+    if (agency.getPosition().lat() != that.circle.lines[0].getPath().getAt(1).lat() &&
+        agency.getPosition().lng() != that.circle.lines[0].getPath().getAt(1).lng()) {
+      agency.show();  
+    }
+  });
+
+  // Ashokas
+  _.each(mapView.overlays["ashokas"], function(ashoka,i) {
+    ashoka.show();
+  });
+
+  // Projects
+  _.each(mapView.circles, function(radiuswidget,i) {
+
+    if (that != radiuswidget) {
+      // Polygons
+      _.each(radiuswidget.circle.polygons,function(polygon,i) {
+        polygon[0].setVisible(true);
+      });
+
+      radiuswidget.circle.setVisible(true);
+    }
   });
 }
 

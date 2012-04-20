@@ -314,7 +314,7 @@ $(function() {
         if (name == "ashokas" || name == "agencies") {
           // Remove ashokas or agencies
           for (var i = 0; i < this.overlays[name].length; i++){
-            this.overlays[name][i].hide();
+            this.overlays[name][i].fadeOut();
           }
 
           callback && setTimeout(function() {
@@ -347,7 +347,7 @@ $(function() {
         if (this.overlays["ashokas"]) { // If we load the ashokas before, just show them
           _.each(this.overlays["ashokas"], function(el,i) {
             if (((solutionFilter == "solutions" && el.properties.solution_id) || solutionFilter == "all") 
-              && (_.include(topics, el.properties.topic_id))) el.show();
+              && (_.include(topics, el.properties.topic_id))) el.fadeIn();
           });
         } else { // Load the ashokas
           var query = "SELECT A.the_geom, A.ashoka_url AS ashoka_url, A.topic_id AS topic_id, A.name, " 
@@ -363,7 +363,7 @@ $(function() {
         if (this.overlays["agencies"]) { // If we load the agencies before, just show them
           _.each(this.overlays["agencies"], function(el,i) {
             if (((solutionFilter == "solutions" && el.properties.solution_id) || solutionFilter == "all") 
-              && (_.include(topics, el.properties.topic_id))) el.show();
+              && (_.include(topics, el.properties.topic_id))) el.fadeIn();
           });
         } else { // Load the agencies
 
@@ -583,6 +583,14 @@ $(function() {
             } 
           }
         });
+      },
+
+      disable: function(){
+
+      },
+
+      enable: function () {
+
       }
     });
 

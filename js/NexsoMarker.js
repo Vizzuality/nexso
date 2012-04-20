@@ -72,7 +72,7 @@ NexsoMarker.prototype.setPosition = function() {
   }
 }
 
-NexsoMarker.prototype.hide = function() {
+NexsoMarker.prototype.fadeIn = function() {
   if (this.div_) {
     var div = this.div_;
     $(div).animate({
@@ -83,7 +83,7 @@ NexsoMarker.prototype.hide = function() {
   }
 }
 
-NexsoMarker.prototype.show = function() {
+NexsoMarker.prototype.fadeOut = function() {
   if (this.div_) {
     var div = this.div_;
     div.style.display = "block";
@@ -93,4 +93,24 @@ NexsoMarker.prototype.show = function() {
       opacity: 0.99
     }, {queue: true, duration:500});
   }
+}
+
+
+NexsoMarker.prototype.hide = function() {
+  if (this.div_) {
+    var div = this.div_;
+    $(div).css({opacity: 0, display: 'none'});
+  }
+}
+
+NexsoMarker.prototype.show = function() {
+  if (this.div_) {
+    var div = this.div_;
+    $(div).css({opacity: 0.99, display: 'block'});
+  }  
+}
+
+
+NexsoMarker.prototype.getPosition = function() {
+  return this.latlng_;
 }
