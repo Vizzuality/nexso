@@ -100,12 +100,12 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
       if (agencyURL != null) {
         $asideItems.find("li.agency").show();
         $asideItems.find("li.agency a").text(agencyName).attr("href", agencyURL);
-      } else $asideItems.find("li.agency").show();
+      } else $asideItems.find("li.agency").hide();
 
       if (solutionURL != null) {
         $asideItems.find("li.solution").show();
         $asideItems.find("li.solution a").text(solutionName).attr("href", solutionURL);
-      } else $asideItems.find("li.solution").show();
+      } else $asideItems.find("li.solution").hide();
 
       if (moreURL) {
         $asideItems.find("li.more").show();
