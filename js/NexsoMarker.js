@@ -80,9 +80,9 @@
       var div = this.div_;
       $(div).animate({
         opacity: 0
-      }, {queue: true, duration:500}, function(ev){
+      }, {queue: true, duration:500, complete:function(ev){
         div.style.display = "none";
-      });
+      }});
     }
   }
 
