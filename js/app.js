@@ -1,13 +1,14 @@
 var debug = true;
 
 var // DEFAULTS
-lat          = 3.162456,
-lng          = -73.476563,
-zoom         = 3,
-minZoom      = 3,
-maxZoom      = 16,
-previousZoom = 3,
-topics      = [1,2,3,4,5,6],
+lat              = 3.162456,
+lng              = -73.476563,
+zoom             = 3,
+minZoom          = 3,
+maxZoom          = 16,
+previousZoom     = 3,
+topics           = [1,2,3,4,5,6],
+solutionFilter   = "all",
 previousCenter,
 mapView
 globalZindex = 300;
@@ -383,12 +384,13 @@ $(function() {
 
         // Filters by topic
         var topicsCondition = (topics.length > 0) ? " P.topic_id  IN (" + topics.join(',') + ") AND " : "";
+        var solutionCondition = (solutionFilter == 'solutions') ? " P.solution_id IS NOT NULL AND " : "";
 
         var query = "WITH qu AS ( "
           +"    WITH hull as ( "
             +"        SELECT  "
             +"            P.title, P.approval_date, P.fixed_approval_date, P.external_project_url,  "
-            +"            P.location_verbatim, P.topic_id, P.budget, S.name AS solution_name, S.nexso_url AS solution_url,  "
+            +"            P.location_verbatim, P.topic_id, P.solution_id AS solution_id, P.budget, S.name AS solution_name, S.nexso_url AS solution_url,  "
             +"            A.external_url AS agency_url, A.name AS agency_name, ST_AsGeoJSON(A.the_geom) AS agency_position, "
             +"            ST_Collect(PWA.the_geom) AS the_geom  "
             +"        FROM  "
@@ -398,11 +400,12 @@ $(function() {
             +"        WHERE  "
             +"            P.cartodb_id = PWA.project_id AND  "
             +             topicsCondition
+            +             solutionCondition
             +"            EXTRACT(YEAR FROM P.fixed_approval_date) >= " + this.beginYear + " AND  "
             +"            EXTRACT(YEAR FROM P.fixed_approval_date) <= " + this.endYear + "  "
             +"        GROUP BY  "
             +"            title, approval_date, fixed_approval_date,  "
-            +"            external_project_url, location_verbatim, topic_id, budget, A.external_url, A.name, "
+            +"            external_project_url, location_verbatim, topic_id, solution_id, budget, A.external_url, A.name, "
             +"            solution_name, solution_url, agency_position"
     +"    )  "
     +"    SELECT *, ST_ConvexHull(the_geom) AS hull_geom FROM hull "
@@ -410,7 +413,7 @@ $(function() {
     +")  "
     +"SELECT  "
     +"    title, approval_date, fixed_approval_date, external_project_url,  "
-    +"    location_verbatim, topic_id, budget, agency_name, agency_url, the_geom, agency_position, solution_name, solution_url,  "
+    +"    location_verbatim, topic_id, budget, agency_name, agency_url, the_geom, agency_position, solution_id, solution_name, solution_url,  "
     +"    ST_X(ST_Centroid(hull_geom)) AS centroid_lon,  "
     +"    ST_Y(ST_Centroid(hull_geom)) AS centroid_lat,  "
     +"    ST_X(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom),hull_geom))) AS radius_point_lon,  "
@@ -504,6 +507,23 @@ $(function() {
       initialize: function() {
 
         // Filter by solution & topic
+        this.$(".filter.filters ul.radio li").on("click", function(e) {
+          e.stopPropagation();
+          solutionFilter = $(this).attr('id').trim();
+
+          mapView.removeOverlay("projects");
+          mapView.addProjects();
+
+          mapView.removeOverlay("agencies", function() {
+            mapView.addAgencies();
+          });
+
+          mapView.removeOverlay("ashokas", function() {
+            mapView.addAshokas();
+          });
+
+        });
+
         this.$(".filter.filters ul.ticks li").on("click", function(e) {
           e.stopPropagation();
           $(this).toggleClass("selected");
