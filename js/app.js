@@ -346,7 +346,8 @@ $(function() {
 
         if (this.overlays["ashokas"]) { // If we load the ashokas before, just show them
           _.each(this.overlays["ashokas"], function(el,i) {
-            if (_.include(topics, el.properties.topic_id)) el.show();
+            if (((solutionFilter == "solutions" && el.properties.solution_id) || solutionFilter == "all") 
+              && (_.include(topics, el.properties.topic_id))) el.show();
           });
         } else { // Load the ashokas
           var query = "SELECT A.the_geom, A.ashoka_url AS ashoka_url, A.topic_id AS topic_id, A.name, " 
