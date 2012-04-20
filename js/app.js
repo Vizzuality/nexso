@@ -345,10 +345,10 @@ $(function() {
 
         if (this.overlays["ashokas"]) { // If we load the ashokas before, just show them
           _.each(this.overlays["ashokas"], function(el,i) {
-            el.show();
+            if (_.include(topics, el.properties.topic_id)) el.show();
           });
         } else { // Load the ashokas
-          var query = "SELECT A.the_geom, A.ashoka_url AS ashoka_url, A.topic_id AS topic, A.name, " 
+          var query = "SELECT A.the_geom, A.ashoka_url AS ashoka_url, A.topic_id AS topic_id, A.name, " 
           + "S1.name solution_name, S1.nexso_url solution_url "
           + "FROM v1_ashoka AS A " 
           + "LEFT JOIN v1_solutions S1 ON (S1.cartodb_id = A.solution_id)"
@@ -524,9 +524,15 @@ $(function() {
             mapView.removeOverlay("agencies", function() {
               mapView.addAgencies();
             });
+
+            mapView.removeOverlay("ashokas", function() {
+              mapView.addAshokas();
+            });
+
           } else {
             mapView.removeOverlay("projects");
-            //mapView.removeOverlay("agencies");
+            mapView.removeOverlay("agencies");
+            mapView.removeOverlay("ashokas");
           }
 
         });
