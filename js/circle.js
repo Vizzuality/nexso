@@ -55,10 +55,10 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons) {
       if (location) $asideItems.find("li.location span").text(location);
 
       if (budget > 0) {
-        $asideItems.find("li.budget").hide();
+        $asideItems.find("li.budget").show();
         $asideItems.find("li.budget span").text(accounting.formatMoney(budget));
       } else {
-        $asideItems.find("li.budget").show();
+        $asideItems.find("li.budget").hide();
       }
 
       if (solutionName && solutionURL) {
