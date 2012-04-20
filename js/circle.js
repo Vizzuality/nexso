@@ -34,6 +34,9 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons) {
     solutionName = properties.solution_name,
     solutionURL  = properties.solution_url,
 
+    agencyName = properties.agency_name,
+    agencyURL  = properties.agency_url,
+
     topic_id     = properties.topic_id,
     location     = properties.location_verbatim,
     budget       = properties.budget;
@@ -46,22 +49,30 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons) {
       $asideContent.find(".header h2").html(title);
 
       var prettyApprovalDate = prettifyDate(approvalDate);
+
       if (prettyApprovalDate) {
         $asideItems.find("li.approvalDate").show();
         $asideItems.find("li.approvalDate span").text(prettyApprovalDate);
       }
       else $asideItems.find("li.approvalDate").hide();
 
-      if (location) $asideItems.find("li.location span").text(location);
+      /*if (location) {
+        $asideItems.find("li.location").show();
+        $asideItems.find("li.location span").text(location);
+      } else $asideItems.find("li.location").hide();
+      */
 
       if (budget > 0) {
         $asideItems.find("li.budget").show();
         $asideItems.find("li.budget span").text(accounting.formatMoney(budget));
-      } else {
-        $asideItems.find("li.budget").hide();
-      }
+      } else $asideItems.find("li.budget").hide();
 
-      if (solutionName && solutionURL) {
+      if (agencyURL != null) {
+        $asideItems.find("li.agency").show();
+        $asideItems.find("li.agency a").text(agencyName).attr("href", agencyURL);
+      } else $asideItems.find("li.agency").show();
+
+      if (solutionURL != null) {
         $asideItems.find("li.solution").show();
         $asideItems.find("li.solution a").text(solutionName).attr("href", solutionURL);
       } else $asideItems.find("li.solution").show();
