@@ -140,7 +140,6 @@ RadiusWidget.prototype.onMouseOut = function(ev) {
 
 
 RadiusWidget.prototype.markSelected = function() {
-  console.log('marking');
   google.maps.event.clearListeners(this.circle, 'mouseover');
   google.maps.event.clearListeners(this.circle, 'mouseout');
 
