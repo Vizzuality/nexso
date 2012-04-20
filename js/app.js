@@ -17,7 +17,6 @@ var beginYear = years[0];
 var endYear   = years[years.length - 1];
 
 $(function() {
-
   /*
   * SPINNER
   */
@@ -114,12 +113,21 @@ $(function() {
     
     aside.hide(Timeline.show);
     map.setZoom(previousZoom);
-    map.panTo(previousCenter);
+    //map.panTo(previousCenter);
   });
 
   aside = (function() {
     _show = function() {
+
+      var projectBefore = $('.aside a.close').data('project');
+      if (projectBefore) {
+        projectBefore.unMarkSelected();
+      }
+
       $(".aside").find("li").css({opacity:0, marginLeft:150});
+
+      $("#map").animate({ right: '352px' }, 250);
+
       $(".aside").animate({ right: 0 }, 250, function() {
         $(this).removeClass("hidden");
         $(this).find("li").each(function(i, el) {
@@ -128,6 +136,7 @@ $(function() {
       });
     }
     _hide = function(callback) {
+      $("#map").animate({ right: '0' }, 250);
       $(".aside").animate({right:'-400px'}, 250, function() {
         $(this).addClass("hidden");
         callback && callback();
@@ -367,10 +376,10 @@ $(function() {
           +"    WITH hull as ( "
             +"        SELECT  "
             +"            P.title, P.approval_date, P.fixed_approval_date, P.external_project_url,  "
-            +"            P.location_verbatim, P.topic_id, P.budget,  "
+            +"            P.location_verbatim, P.topic_id, P.budget, ST_AsGeoJSON(A.the_geom) AS agency_position,  "
             +"            ST_Collect(PWA.the_geom) AS the_geom  "
             +"        FROM  "
-            +"            v1_projects AS P,  "
+            +"            v1_projects AS P LEFT JOIN v1_agencies A ON A.cartodb_id = P.agency_id,  "
             +"            v1_project_work_areas AS PWA  "
             +"        WHERE  "
             +"            P.cartodb_id = PWA.project_id AND  "
@@ -379,14 +388,14 @@ $(function() {
             +"            EXTRACT(YEAR FROM P.fixed_approval_date) <= " + this.endYear + "  "
             +"        GROUP BY  "
             +"            title, approval_date, fixed_approval_date,  "
-            +"            external_project_url, location_verbatim, topic_id, budget "
+            +"            external_project_url, location_verbatim, topic_id, budget, agency_position "
     +"    )  "
     +"    SELECT *, ST_ConvexHull(the_geom) AS hull_geom FROM hull "
     +" "
     +")  "
     +"SELECT  "
     +"    title, approval_date, fixed_approval_date, external_project_url,  "
-    +"    location_verbatim, topic_id, budget, the_geom,  "
+    +"    location_verbatim, topic_id, budget, the_geom, agency_position,  "
     +"    ST_X(ST_Centroid(hull_geom)) AS centroid_lon,  "
     +"    ST_Y(ST_Centroid(hull_geom)) AS centroid_lat,  "
     +"    ST_X(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom),hull_geom))) AS radius_point_lon,  "
@@ -428,26 +437,28 @@ $(function() {
                 return;
               }
 
-              var polygons;
+              var polygons
+                , agencies;
 
               if (that.overlays[name].length){
                 for (var i = 0; i < that.overlays[name].length; i++) {
                   if (that.overlays[name][i].length){
 
                     polygons = [];
+                    agencies = [];
 
                     // Draws polygons
                     for (var j = 0; j < that.overlays[name][i].length; j++) {
                       var overlay = that.overlays[name][i][j][0];
                       overlay.setMap(map);
                       polygons.push(overlay);
-                    }
+                    }                    
 
                     // Draws circles
                     var o = that.overlays[name][i][0][0]
                     , cLatLng = new google.maps.LatLng(o.geojsonProperties.centroid_lat, o.geojsonProperties.centroid_lon)
                     , rLatLng = new google.maps.LatLng(o.geojsonProperties.radius_point_lat, o.geojsonProperties.radius_point_lon)
-                    , distanceWidget = new RadiusWidget(map, cLatLng, rLatLng, that.overlays[name][i]);
+                    , distanceWidget = new RadiusWidget(map, cLatLng, rLatLng, that.overlays[name][i], [o.geojsonProperties.agency_position]);
                     that.circles.push(distanceWidget);
 
                   } else {

@@ -3,12 +3,12 @@
 *
 * @constructor
 */
-function RadiusWidget(map, centroidCenter, radiusCenter, polygons) {
+function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
 
   var distance = this.distanceBetweenPoints(centroidCenter, radiusCenter)
     , self = this;
 
-
+  // Draw circle
   this.circle = new google.maps.Circle({
     strokeColor: "#E79626",
     strokeOpacity: 1,
@@ -21,8 +21,38 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons) {
     polygons: polygons
   });
 
-  google.maps.event.addListener(this.circle, 'click', function(event) {
 
+  // Draw line
+  var agency_lines = [];
+  _.each(lines, function(line,i) {
+    
+    if (!line) return false;
+
+    var coordinates = $.parseJSON(line).coordinates
+      , agency_center = new google.maps.LatLng(coordinates[1], coordinates[0]);
+
+
+    _.each(polygons, function(polygon, i) {
+      var agency_line = new google.maps.Polyline({
+        path: [polygon[0].getBounds().getCenter(), agency_center],
+        strokeColor: "#1872A1",
+        strokeOpacity: 1,
+        strokeWeight: 1,
+        visible: false
+      });
+
+      agency_line.setMap(map);
+      agency_lines.push(agency_line);
+    });
+
+  });
+
+
+
+  // Append lines
+  this.circle.setOptions({"lines": agency_lines});
+
+  google.maps.event.addListener(this.circle, 'click', function(event) {
     var 
     that         = this,
     properties   = this.polygons[0][0].geojsonProperties,
@@ -68,15 +98,23 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons) {
       }
       else $asideItems.find("li.more").hide();
 
-      aside.show();
-      Infowindow.hide();
 
       previousZoom   = map.getZoom();
       previousCenter = map.getCenter();
 
-      // Focus on the overlay
+      aside.show();
+      Infowindow.hide();
+
+      // Focus on the overlay with the related agency/ies
       var bounds = that.getBounds();
-      map.fitBounds(bounds)
+
+      _.each(self.circle.lines, function(line,i) {
+        bounds.extend(line.getPath().getAt(1))
+      });
+
+      map.fitBounds(bounds);
+      map.panBy(176,0);
+
 
       // Make it "selected"
       $('.aside a.close').data('project',self);
@@ -130,10 +168,16 @@ RadiusWidget.prototype.markSelected = function() {
   google.maps.event.clearListeners(this.circle, 'mouseover');
   google.maps.event.clearListeners(this.circle, 'mouseout');
 
+  // Polygons
   _.each(this.circle.polygons,function(polygon,i) {
     polygon[0].setOptions(projectsHoverStyle);
   });
   this.circle.setOptions(circleStyleHover);
+
+  // Lines
+  _.each(this.circle.lines,function(line,i) {
+    line.setOptions({"visible": true});
+  });
 }
 
 
@@ -141,10 +185,16 @@ RadiusWidget.prototype.unMarkSelected = function() {
   google.maps.event.addListener(this.circle, 'mouseover', this.onMouseOver);
   google.maps.event.addListener(this.circle, 'mouseout', this.onMouseOut);
 
+  // Polygons
   _.each(this.circle.polygons,function(polygon,i) {
     polygon[0].setOptions(projectsStyle);
   });
   this.circle.setOptions(circleStyle);
+
+  // Lines
+  _.each(this.circle.lines,function(line,i) {
+    line.setOptions({"visible": false});
+  });
 }
 
 
