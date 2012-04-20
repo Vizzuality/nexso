@@ -106,13 +106,16 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
             if (self.circle.lines.length > 0) {
               var latLng = self.circle.lines[0].getPath().getAt(1);
 
-              _.each(mapView.overlays["agencies"], function(agency,i) {
-                if (agency.getPosition().lat() == latLng.lat() &&
-                  agency.getPosition().lng() == latLng.lng()) {
-                  agency.showContent(); 
-                  return;
-                }
-              });
+              map.panTo(latLng);
+              map.setZoom(12);
+
+             // _.each(mapView.overlays["agencies"], function(agency,i) {
+             //   if (agency.getPosition().lat() == latLng.lat() &&
+             //     agency.getPosition().lng() == latLng.lng()) {
+             //     agency.showContent(); 
+             //     return;
+             //   }
+             // });
             }
           });
 
