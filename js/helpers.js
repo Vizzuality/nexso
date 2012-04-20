@@ -5,8 +5,8 @@ String.prototype.splice = function( idx, rem, s ) {
 };
 
 // Map styles
-var projectsStyle      = { strokeColor: "#E79626", strokeOpacity: .5, strokeWeight: 1, fillColor: "#E79626", fillOpacity: .3 };
-var projectsHoverStyle = { strokeColor: "#E79626", strokeOpacity: 1, strokeWeight: 2, fillColor: "#E79626", fillOpacity: .6 };
+var projectsStyle      = { strokeColor: "#E79626", strokeOpacity: .4, strokeWeight: 1, fillColor: "#E79626", fillOpacity: .2 };
+var projectsHoverStyle = { strokeColor: "#E79626", strokeOpacity: 1, strokeWeight: 2, fillColor: "#E79626", fillOpacity: .7 };
 var circleStyleHover = { strokeColor: "#1872A1", strokeOpacity: 1, strokeWeight: 2, fillColor: "#1872A1", fillOpacity: .3 };
 var circleStyle = { strokeColor: "#E79626", strokeOpacity: 1, strokeWeight: 1, fillColor: "#E79626", fillOpacity: 0 };
 var mapStyles = [{
@@ -64,4 +64,18 @@ function prettifyDate(date) {
     return monthNames[month] + " " + day + prefix + ", " + year;
   }
   return null;
+}
+
+
+google.maps.Polygon.prototype.getBounds = function() {
+  var bounds = new google.maps.LatLngBounds();
+  var paths = this.getPaths();
+  var path;        
+  for (var i = 0; i < paths.getLength(); i++) {
+    path = paths.getAt(i);
+    for (var ii = 0; ii < path.getLength(); ii++) {
+      bounds.extend(path.getAt(ii));
+    }
+  }
+  return bounds;
 }

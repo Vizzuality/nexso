@@ -617,7 +617,7 @@ h4 { font-size: 11px; font-weight:bold; }
   a.close { display:block; position:absolute; top: 47px; left: -10px; @include icons-sprite(close_big); z-index:1000; width:32px; height:32px; }
 }
 
-#map { top: -1*$navHeight; height: 100%; z-index:7; }
+#map {position:absolute; display:block; left:0; top: $navHeight; bottom:0; right:0; z-index:7; }
 
 #zoom_controls { position:absolute; top: 92px; left: 12px; z-index:1000; }
 #zoom_controls .zoom_in, #zoom_controls.zoom_out { position:relative;}
