@@ -241,7 +241,8 @@ RadiusWidget.prototype.hideAll = function() {
 
   // Agencies
   _.each(mapView.overlays["agencies"], function(agency,i) {
-    if (agency.getPosition().lat() != that.circle.lines[0].getPath().getAt(1).lat() &&
+    if (that.circle.lines.length > 0 &&
+        agency.getPosition().lat() != that.circle.lines[0].getPath().getAt(1).lat() &&
         agency.getPosition().lng() != that.circle.lines[0].getPath().getAt(1).lng()) {
       agency.hide();  
     }
@@ -272,7 +273,8 @@ RadiusWidget.prototype.showAll = function() {
 
   // Agencies
   _.each(mapView.overlays["agencies"], function(agency,i) {
-    if (agency.getPosition().lat() != that.circle.lines[0].getPath().getAt(1).lat() &&
+    if (that.circle.lines.length > 0 &&
+        agency.getPosition().lat() != that.circle.lines[0].getPath().getAt(1).lat() &&
         agency.getPosition().lng() != that.circle.lines[0].getPath().getAt(1).lng()) {
       agency.show();  
     }
