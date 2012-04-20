@@ -350,7 +350,7 @@ $(function() {
           });
         } else { // Load the ashokas
           var query = "SELECT A.the_geom, A.ashoka_url AS ashoka_url, A.topic_id AS topic_id, A.name, " 
-          + "S1.name solution_name, S1.nexso_url solution_url "
+          + "A.solution_id, S1.name solution_name, S1.nexso_url solution_url "
           + "FROM v1_ashoka AS A " 
           + "LEFT JOIN v1_solutions S1 ON (S1.cartodb_id = A.solution_id)"
           + "WHERE A.the_geom IS NOT NULL AND topic_id IS NOT NULL";
@@ -361,7 +361,8 @@ $(function() {
 
         if (this.overlays["agencies"]) { // If we load the agencies before, just show them
           _.each(this.overlays["agencies"], function(el,i) {
-            if (_.include(topics, el.properties.topic_id)) el.show();
+            if (((solutionFilter == "solutions" && el.properties.solution_id) || solutionFilter == "all") 
+              && (_.include(topics, el.properties.topic_id))) el.show();
           });
         } else { // Load the agencies
 
@@ -369,10 +370,10 @@ $(function() {
           + "FROM v1_agencies "
           + "WHERE the_geom IS NOT NULL";*/
 
-          var query = "SELECT A.the_geom, A.external_url AS url, A.name, P.topic_id, "
+          var query = "SELECT A.the_geom, A.external_url AS url, A.name, P.solution_id, P.topic_id, "
           + "array_to_string(array(SELECT P.cartodb_id FROM v1_projects AS P WHERE P.agency_id = a.cartodb_id), '|') as projects_ids, "
           + "array_to_string(array(SELECT P.title FROM v1_projects AS P WHERE P.agency_id = a.cartodb_id), '|') as projects_titles "
-          + "FROM v1_agencies AS A LEFT JOIN v1_projects AS P ON (A.cartodb_id = P.agency_id)"
+          + "FROM v1_agencies AS A LEFT JOIN v1_projects AS P ON (A.cartodb_id = P.agency_id) LEFT JOIN v1_projects ON (A.cartodb_id = P.solution_id)"
 
           this.addOverlay("agencies", query);
         }
