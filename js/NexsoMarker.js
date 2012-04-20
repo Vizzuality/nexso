@@ -22,8 +22,10 @@ NexsoMarker.prototype.draw = function() {
     div.innerHTML = '<img src="' + this.opts.icon + '" alt="" title="" />';
 
     google.maps.event.addDomListener(div, 'click', function (ev) {
-      ev.preventDefault ? ev.preventDefault() : ev.returnValue = false;
-      ev.stopPropagation ? ev.stopPropagation() : window.event.cancelBubble = true;
+      if (ev) {
+        ev.preventDefault ? ev.preventDefault() : ev.returnValue = false;
+        ev.stopPropagation ? ev.stopPropagation() : window.event.cancelBubble = true;
+      }
 
       that.properties.overlayType = that.overlayType_;
 
@@ -72,42 +74,46 @@ NexsoMarker.prototype.setPosition = function() {
   }
 }
 
-NexsoMarker.prototype.fadeIn = function() {
+
+
+
+NexsoMarker.prototype.hide = function(animate) {
   if (this.div_) {
     var div = this.div_;
-    $(div).animate({
-      opacity: 0
-    }, {queue: true, duration:500, complete:function(ev){
-      div.style.display = "none";
-    }});
-  }
-}
-
-NexsoMarker.prototype.fadeOut = function() {
-  if (this.div_) {
-    var div = this.div_;
-    div.style.display = "block";
-    div.style.opacity = 0;
-
-    $(div).animate({
-      opacity: 0.99
-    }, {queue: true, duration:500});
+    if (animate) {
+      $(div).animate({
+        opacity: 0
+      }, {queue: true, duration:500, complete:function(ev){
+        div.style.display = "none";
+      }});
+    } else {
+      $(div).css({opacity: 0, display: 'none'});
+    }
   }
 }
 
 
-NexsoMarker.prototype.hide = function() {
+NexsoMarker.prototype.show = function(animate) {
   if (this.div_) {
     var div = this.div_;
-    $(div).css({opacity: 0, display: 'none'});
-  }
-}
+    if (animate) {
+      div.style.display = "block";
+      div.style.opacity = 0;
 
-NexsoMarker.prototype.show = function() {
-  if (this.div_) {
-    var div = this.div_;
-    $(div).css({opacity: 0.99, display: 'block'});
+      $(div).animate({
+        opacity: 0.99
+      }, {queue: true, duration:500});
+    } else {
+      $(div).css({opacity: 0.99, display: 'block'});
+    }
   }  
+}
+
+
+NexsoMarker.prototype.showContent = function() {
+  if (this.div_) {
+    google.maps.event.trigger(this.div_, 'click');
+  }
 }
 
 
