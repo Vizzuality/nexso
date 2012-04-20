@@ -22,8 +22,10 @@ NexsoMarker.prototype.draw = function() {
     div.innerHTML = '<img src="' + this.opts.icon + '" alt="" title="" />';
 
     google.maps.event.addDomListener(div, 'click', function (ev) {
-      ev.preventDefault ? ev.preventDefault() : ev.returnValue = false;
-      ev.stopPropagation ? ev.stopPropagation() : window.event.cancelBubble = true;
+      if (ev) {
+        ev.preventDefault ? ev.preventDefault() : ev.returnValue = false;
+        ev.stopPropagation ? ev.stopPropagation() : window.event.cancelBubble = true;
+      }
 
       that.properties.overlayType = that.overlayType_;
 
@@ -103,11 +105,19 @@ NexsoMarker.prototype.hide = function() {
   }
 }
 
+
 NexsoMarker.prototype.show = function() {
   if (this.div_) {
     var div = this.div_;
     $(div).css({opacity: 0.99, display: 'block'});
   }  
+}
+
+
+NexsoMarker.prototype.showContent = function() {
+  if (this.div_) {
+    google.maps.event.trigger(this.div_, 'click');
+  }
 }
 
 
