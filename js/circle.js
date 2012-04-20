@@ -37,8 +37,6 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons) {
     topic_id     = properties.topic_id,
     location     = properties.location_verbatim,
     budget       = properties.budget;
-    // agencyName   = properties.agency_name,
-    // agencyURL    = properties.agency_url,
 
     function onHiddenAside() {
       var 
@@ -55,7 +53,13 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons) {
       else $asideItems.find("li.approvalDate").hide();
 
       if (location) $asideItems.find("li.location span").text(location);
-      if (budget)   $asideItems.find("li.budget span").text(accounting.formatMoney(budget));
+
+      if (budget > 0) {
+        $asideItems.find("li.budget").hide();
+        $asideItems.find("li.budget span").text(accounting.formatMoney(budget));
+      } else {
+        $asideItems.find("li.budget").show();
+      }
 
       if (solutionName && solutionURL) {
         $asideItems.find("li.solution").show();
@@ -83,7 +87,6 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons) {
       self.markSelected();
     }
 
-
     function onInfowindowClick(e) {
       e.preventDefault();
       Timeline.hide();
@@ -98,7 +101,6 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons) {
   });
 
   google.maps.event.addListener(this.circle, 'mouseover', this.onMouseOver);
-
   google.maps.event.addListener(this.circle, 'mouseout', this.onMouseOut);
 
   this.circle.setMap(map);
@@ -127,6 +129,7 @@ RadiusWidget.prototype.onMouseOut = function(ev) {
 
 
 RadiusWidget.prototype.markSelected = function() {
+  console.log('marking');
   google.maps.event.clearListeners(this.circle, 'mouseover');
   google.maps.event.clearListeners(this.circle, 'mouseout');
 
