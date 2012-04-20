@@ -64,8 +64,8 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
     solutionName = properties.solution_name,
     solutionURL  = properties.solution_url,
 
-    agencyName = properties.agency_name,
-    agencyURL  = properties.agency_url,
+    agencyName   = properties.agency_name,
+    agencyURL    = properties.agency_url,
 
     topic_id     = properties.topic_id,
     location     = properties.location_verbatim,
@@ -97,10 +97,10 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
         $asideItems.find("li.budget span").text(accounting.formatMoney(budget));
       } else $asideItems.find("li.budget").hide();
 
-      if (agencyURL != null) {
         $asideItems.find("li.agency").show();
-        $asideItems.find("li.agency a").text(agencyName).attr("href", agencyURL);
-      } else $asideItems.find("li.agency").hide();
+        $asideItems.find("li.agency a").text(agencyName);//.attr("href", agencyURL);
+
+        if (self.circle.lines > 0) console.log(self.circle.lines[0].getPath().getAt(1));
 
       if (solutionURL != null) {
         $asideItems.find("li.solution").show();

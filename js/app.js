@@ -350,7 +350,7 @@ $(function() {
               && (_.include(topics, el.properties.topic_id))) el.show();
           });
         } else { // Load the ashokas
-          var query = "SELECT A.the_geom, A.ashoka_url AS ashoka_url, A.topic_id AS topic_id, A.name, " 
+          var query = "SELECT A.the_geom, A.ashoka_url AS agency_url, A.topic_id AS topic_id, A.name, " 
           + "A.solution_id, S1.name solution_name, S1.nexso_url solution_url "
           + "FROM v1_ashoka AS A " 
           + "LEFT JOIN v1_solutions S1 ON (S1.cartodb_id = A.solution_id)"
@@ -367,11 +367,7 @@ $(function() {
           });
         } else { // Load the agencies
 
-          /*var query = "SELECT the_geom, external_url AS url, name "
-          + "FROM v1_agencies "
-          + "WHERE the_geom IS NOT NULL";*/
-
-          var query = "SELECT A.the_geom, A.external_url AS url, A.name, P.solution_id, P.topic_id, "
+          var query = "SELECT A.the_geom, A.external_url AS agency_url, A.name, P.solution_id, P.topic_id, "
           + "array_to_string(array(SELECT P.cartodb_id FROM v1_projects AS P WHERE P.agency_id = a.cartodb_id), '|') as projects_ids, "
           + "array_to_string(array(SELECT P.title FROM v1_projects AS P WHERE P.agency_id = a.cartodb_id), '|') as projects_titles "
           + "FROM v1_agencies AS A LEFT JOIN v1_projects AS P ON (A.cartodb_id = P.agency_id) LEFT JOIN v1_projects ON (A.cartodb_id = P.solution_id)"

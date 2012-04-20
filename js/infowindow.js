@@ -56,13 +56,19 @@ InfoWindow.prototype.draw = function() {
       <% } %>\
       </ul>\
       <% } %>\
-      <% if (ashoka_url) {  %>\
+      <% if (agency_url) {  %>\
       <h4>More info</h4>\
       <ul>\
-      <li><a href="<%= ashoka_url %>" target="_blank">Agency profile at FOMIN</a> </li>\
+      <li><a href="<%= agency_url %>" target="_blank">Agency profile at FOMIN</a> </li>\
       </ul>\
       <% } %>\
       <% } else { %>\
+      <% if (agency_url) {  %>\
+      <h4>More info</h4>\
+      <ul>\
+      <li><a href="<%= agency_url %>" target="_blank">Agency profile at FOMIN</a> </li>\
+      </ul>\
+      <% } %>\
       <%   if (projects) { %><h4>Projects</h4><ul><%= projects %></ul><% } %>\
       <% } %>\
       </div>\
@@ -72,7 +78,7 @@ InfoWindow.prototype.draw = function() {
 
   this.template = _.template(template);
 
-  div.innerHTML = this.template({name:'Loading…', overlayType:''});
+  div.innerHTML = this.template({name:'Loading…', agency_url: '', overlayType:''});
 
   this.bindClose();
 
