@@ -97,10 +97,29 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
         $asideItems.find("li.budget span").text(accounting.formatMoney(budget));
       } else $asideItems.find("li.budget").hide();
 
-        $asideItems.find("li.agency").show();
-        $asideItems.find("li.agency a").text(agencyName);//.attr("href", agencyURL);
+        if (agencyName) {
+          $asideItems.find("li.agency").show();
+          $asideItems.find("li.agency a").text(agencyName);
+          $asideItems.find("li.agency a").on("click", function(e) {
+            e.preventDefault();
 
-        if (self.circle.lines > 0) console.log(self.circle.lines[0].getPath().getAt(1));
+            if (self.circle.lines.length > 0) {
+              var latLng = self.circle.lines[0].getPath().getAt(1);
+              map.panTo(latLng);
+              map.setZoom(12);
+
+              // _.each(mapView.overlays["agencies"], function(agency,i) {
+              //   if (agency.getPosition().lat() != latLng.lat() &&
+              //   agency.getPosition().lng() != latLng.lng()) {
+              //     agency.show();  
+              //   }
+              // });
+
+
+            }
+          });
+
+        } else $asideItems.find("li.agency").hide();
 
       if (solutionURL != null) {
         $asideItems.find("li.solution").show();

@@ -33,12 +33,14 @@ InfoWindow.prototype.draw = function() {
       <div class="hgroup">\
       <% if (overlayType == "project") { %>\
       <h4>Nexso project</h4>\
+      <h2><%= name %></h2>\
       <% } else if (overlayType == "ashokas") { %>\
       <h4>Ashoka fellow</h4>\
-      <% } else { %>\
-      <h4>Executing agency</h4>\
-      <% } %>\
       <h2><%= name %></h2>\
+      <% } else if (overlayType == "agencies") { %>\
+      <h4>Executing agency</h4>\
+      <h2><%= agency_name %></h2>\
+      <% } %>\
       </div>\
       </div>\
       <% if (overlayType == "project") { %>\
@@ -78,7 +80,7 @@ InfoWindow.prototype.draw = function() {
 
   this.template = _.template(template);
 
-  div.innerHTML = this.template({name:'Loading…', agency_url: '', overlayType:''});
+  div.innerHTML = this.template({name:'Loading…', agency_name: '', agency_url: '', overlayType:''});
 
   this.bindClose();
 
