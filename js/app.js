@@ -154,7 +154,7 @@ $(function() {
         $("#timeline").animate({bottom:19, opacity:1}, 300);
     }
     _hide = function(callback) {
-      $("#timeline").animate({bottom:-19, opacity:0}, 250, function() {
+      $("#timeline").animate({bottom:-90, opacity:0}, 250, function() {
         callback && callback();
       });
     }
