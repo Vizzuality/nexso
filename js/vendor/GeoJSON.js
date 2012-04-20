@@ -11,10 +11,9 @@ var GeoJSON = function( geojson, kind, options ){
         if (kind == "agencies") opts.icon     = 'img/icons/agency.png';
         else if (kind == "ashokas") opts.icon = 'img/icons/ashoka.png';
 
-        if (geojsonProperties) {
-          opts.geojsonProperties = geojsonProperties;
-        }
-        
+        if (kind == 'agencies')
+          opts.topic_id = geojsonProperties.topic_id;
+
         googleObj = new NexsoMarker(kind, opts, geojsonProperties);
 
         break;

@@ -309,12 +309,17 @@ $(function() {
         this.addProjects();
       },
 
-      removeOverlay: function(name) {
+      removeOverlay: function(name, callback) {
         if (name == "ashokas" || name == "agencies") {
           // Remove ashokas or agencies
           for (var i = 0; i < this.overlays[name].length; i++){
             this.overlays[name][i].hide();
           }
+
+          callback && setTimeout(function() {
+            callback();
+          }, 500);
+
         } else if (name == 'projects') {
 
           // Remove circles
@@ -355,7 +360,7 @@ $(function() {
 
         if (this.overlays["agencies"]) { // If we load the agencies before, just show them
           _.each(this.overlays["agencies"], function(el,i) {
-            el.show();
+            if (_.include(topics, el.properties.topic_id)) el.show();
           });
         } else { // Load the agencies
 
@@ -363,10 +368,10 @@ $(function() {
           + "FROM v1_agencies "
           + "WHERE the_geom IS NOT NULL";*/
 
-          var query = "SELECT A.the_geom, A.external_url AS url, A.name, "
+          var query = "SELECT A.the_geom, A.external_url AS url, A.name, P.topic_id, "
           + "array_to_string(array(SELECT P.cartodb_id FROM v1_projects AS P WHERE P.agency_id = a.cartodb_id), '|') as projects_ids, "
           + "array_to_string(array(SELECT P.title FROM v1_projects AS P WHERE P.agency_id = a.cartodb_id), '|') as projects_titles "
-          + "FROM v1_agencies AS A"
+          + "FROM v1_agencies AS A LEFT JOIN v1_projects AS P ON (A.cartodb_id = P.agency_id)"
 
           this.addOverlay("agencies", query);
         }
@@ -498,6 +503,7 @@ $(function() {
     var FilterView = Backbone.View.extend({
       initialize: function() {
 
+        // Filter by solution & topic
         this.$(".filter.filters ul.ticks li").on("click", function(e) {
           e.stopPropagation();
           $(this).toggleClass("selected");
@@ -514,8 +520,13 @@ $(function() {
             $(".filter.view ul.ticks li#projects").addClass("selected"); // in case it was turned off
             mapView.removeOverlay("projects");
             mapView.addProjects();
+
+            mapView.removeOverlay("agencies", function() {
+              mapView.addAgencies();
+            });
           } else {
             mapView.removeOverlay("projects");
+            //mapView.removeOverlay("agencies");
           }
 
         });
