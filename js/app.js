@@ -202,7 +202,7 @@ $(function() {
 
       var projectBefore = $('.aside a.close').data('project');
       if (projectBefore) {
-        projectBefore.unMarkSelected(false);
+        projectBefore.unMarkSelected(true);
       }
 
       $(".aside").find("li").css({opacity:0, marginLeft:150});

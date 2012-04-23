@@ -131,6 +131,7 @@ InfoWindow.prototype.bindProjects = function(){
   $(this.div_).find('.project').click(function(ev){
     ev.preventDefault();
     ev.stopPropagation();
+
     var lat = parseFloat($(this).attr('data-lat'));
     var lng = parseFloat($(this).attr('data-lng'));
 
@@ -140,15 +141,13 @@ InfoWindow.prototype.bindProjects = function(){
 
       if (rw.circle.center.lat() == latLng.lat() &&
       rw.circle.center.lng() == latLng.lng()) {
-        //that.map_.fitBounds(rw.circle.getBounds());
         setTimeout(function() { google.maps.event.trigger(rw.circle, 'click', {latLng:latLng});}, 500);
         return;
       }
     });
-
-
   });
 }
+
 InfoWindow.prototype.bindClose = function(){
   var that = this;
   $(this.div_).find('.close').click(function(ev){
