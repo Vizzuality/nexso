@@ -251,9 +251,7 @@ RadiusWidget.prototype.hideAll = function() {
   });
 
   // Ashokas
-  _.each(mapView.overlays["ashokas"], function(ashoka,i) {
-    ashoka.hide();
-  });
+  mapView.hideOverlay('ashokas');
 
   // Projects
   _.each(mapView.circles, function(radiuswidget,i) {
@@ -274,18 +272,10 @@ RadiusWidget.prototype.showAll = function() {
   var that = this;
 
   // Agencies
-  _.each(mapView.overlays["agencies"], function(agency,i) {
-    if (that.circle.lines.length > 0 &&
-        agency.getPosition().lat() != that.circle.lines[0].getPath().getAt(1).lat() &&
-        agency.getPosition().lng() != that.circle.lines[0].getPath().getAt(1).lng()) {
-      agency.show();  
-    }
-  });
+  mapView.addAgencies();
 
   // Ashokas
-  _.each(mapView.overlays["ashokas"], function(ashoka,i) {
-    ashoka.show();
-  });
+  mapView.addAshokas();
 
   // Projects
   _.each(mapView.circles, function(radiuswidget,i) {

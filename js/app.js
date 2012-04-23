@@ -429,6 +429,11 @@ $(function() {
 
         this.enableFilters();
       },
+      hideOverlay: function(name) {
+        _.each(mapView.overlays[name], function(el) {
+          el.hide();
+        });
+      },
       addAshokas: function() {
         this.disableFilters();
 

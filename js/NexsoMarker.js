@@ -8,7 +8,6 @@ function NexsoMarker(overlayType, opts, geojsonProperties) {
   this.width_ = 14;
   this.height_ = 14;
   this.div_ = null;
-  this.animationDuration = 300;
 }
 
 NexsoMarker.prototype = new google.maps.OverlayView();
@@ -79,54 +78,49 @@ NexsoMarker.prototype.setPosition = function() {
 
 
 NexsoMarker.prototype.hide = function(animate) {
-  if (this.div_ && !$(this.div_).hasClass("hidden")) {
-
-    var 
-    div  = this.div_,
-    that = this;
-   
+  if (this.div_ && !$(this.div_).hasClass('h')) {
+    var div = this.div_;
     if (animate) {
       $(div).animate({
         opacity: 0
-      }, { queue: true, duration:that.animationDuration, complete:function(ev){
+      }, {queue: true, duration:500, complete:function(ev){
         div.style.display = "none";
-        $(this).addClass("hidden");
+        $(this).addClass('h');
       }});
     } else {
       $(div).css({opacity: 0, display: 'none'});
-      $(this).addClass("hidden");
+      $(div).addClass('h');
     }
   }
 }
 
+
 NexsoMarker.prototype.show = function(animate) {
-  if (this.div_ && $(this.div_).hasClass("hidden")) {
-
-    var 
-    div = this.div_,
-    that = this;
-
+  if (this.div_ && $(this.div_).hasClass('h')) {
+    var div = this.div_;
     if (animate) {
       div.style.display = "block";
       div.style.opacity = 0;
 
-      $(div).animate({ 
-      opacity: 0.99 
-      }, { queue: true, duration:that.animationDuration, complete:function(ev) {
-        $(this).removeClass("hidden");
+      $(div).animate({
+        opacity: 0.99
+      }, {queue: true, duration:500, complete:function() {
+      $(this).removeClass('h');
       }});
     } else {
       $(div).css({opacity: 0.99, display: 'block'});
-      $(div).removeClass("hidden");
+      $(div).removeClass('h');
     }
   }  
 }
+
 
 NexsoMarker.prototype.showContent = function() {
   if (this.div_) {
     google.maps.event.trigger(this.div_, 'click');
   }
 }
+
 
 NexsoMarker.prototype.getPosition = function() {
   return this.latlng_;
