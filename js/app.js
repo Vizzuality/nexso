@@ -577,7 +577,7 @@ $(function() {
 
           setupSpinner($(this));
 
-          solutionFilter = $(this).attr('id').trim();
+          solutionFilter = $.trim($(this).attr('id'));
 
           mapView.removeOverlay("projects");
           mapView.addProjects();
@@ -595,8 +595,8 @@ $(function() {
           setupSpinner($(this));
 
           $(this).toggleClass("selected");
-          var id = $(this).attr('id').trim();
-          var c  = parseInt($(this).attr('class').replace(/selected/, "").replace("t", "").trim());
+          var id = $.trim($(this).attr('id'));
+          var c  = $.trim(parseInt($(this).attr('class').replace(/selected/, "").replace("t", "")));
 
           if ($(this).hasClass('selected')) { // Shows the desired overlay
             topics.push(c);
@@ -629,8 +629,8 @@ $(function() {
 
           $(this).toggleClass("selected");
 
-          var id = $(this).attr('id').trim();
-          var c  = $(this).attr('class').replace(/selected/, "").trim();
+          var id = $.trim($(this).attr('id'));
+          var c  = $.trim($(this).attr('class').replace(/selected/, ""));
 
           if ($(this).hasClass('selected')) { // Shows the desired overlay
 
