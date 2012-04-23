@@ -387,7 +387,7 @@ $(function() {
       },
       enableFilters: function() {
       if (!disabledFilters) return; 
-        console.log('enablign filters');
+        // console.log('enablign filters');
         disabledFilters = false;
         $(".spinner").fadeOut(250, function() { 
           $(this).parent().removeClass("loading");
@@ -397,7 +397,7 @@ $(function() {
       },
       disableFilters: function() {
         if (disabledFilters) return; 
-        console.log('disabling filters');
+        // console.log('disabling filters');
         disabledFilters = true;
       },
       removeOverlay: function(name) {
