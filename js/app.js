@@ -185,7 +185,7 @@ $(function() {
 
     // Unselect the project
     var project = $(this).data('project');
-    project.unMarkSelected();
+    project.unMarkSelected(true);
     $(this).removeData('project')
 
     aside.hide(Timeline.show);
@@ -198,7 +198,7 @@ $(function() {
 
       var projectBefore = $('.aside a.close').data('project');
       if (projectBefore) {
-        projectBefore.unMarkSelected();
+        projectBefore.unMarkSelected(false);
       }
 
       $(".aside").find("li").css({opacity:0, marginLeft:150});
@@ -429,9 +429,14 @@ $(function() {
 
         this.enableFilters();
       },
+      changeOpacity: function(name, opacity) {
+        _.each(mapView.overlays[name], function(el) {
+          el.changeOpacity(opacity);
+        });
+      },
       hideOverlay: function(name) {
         _.each(mapView.overlays[name], function(el) {
-          el.hide();
+          el.hide(true);
         });
       },
       addAshokas: function() {

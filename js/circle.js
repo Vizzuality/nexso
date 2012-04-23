@@ -182,17 +182,22 @@ RadiusWidget.prototype = new google.maps.MVCObject();
 
 RadiusWidget.prototype.onMouseOver = function(ev) {
   _.each(this.polygons,function(polygon,i) {
-    polygon[0].setOptions(projectsHoverStyle);
+    if (polygon[0].disabled) polygon[0].setOptions(projectsDisabledHoverStyle);
+    else polygon[0].setOptions(projectsHoverStyle);
   });
-  this.setOptions(circleStyleHover);
+  if (this.disabled) this.setOptions(circleDisabledHoverStyle);
+  else this.setOptions(circleStyleHover);
 }
 
 
 RadiusWidget.prototype.onMouseOut = function(ev) {
   _.each(this.polygons,function(polygon,i) {
-    polygon[0].setOptions(projectsStyle);
+    if (polygon[0].disabled) polygon[0].setOptions(projectsDisabledStyle);
+    else polygon[0].setOptions(projectsStyle);
   });
-  this.setOptions(circleStyle);  
+
+  if (this.disabled) this.setOptions(circleDisabledStyle);  
+  else this.setOptions(circleStyle);
 }
 
 
@@ -217,7 +222,7 @@ RadiusWidget.prototype.markSelected = function() {
 }
 
 
-RadiusWidget.prototype.unMarkSelected = function() {
+RadiusWidget.prototype.unMarkSelected = function(showAll) {
   google.maps.event.addListener(this.circle, 'mouseover', this.onMouseOver);
   google.maps.event.addListener(this.circle, 'mouseout', this.onMouseOut);
 
@@ -233,7 +238,7 @@ RadiusWidget.prototype.unMarkSelected = function() {
   });
 
   // Show rest
-  this.showAll();
+  if (showAll) this.showAll();
   filterView.enable();
 }
 
@@ -244,10 +249,10 @@ RadiusWidget.prototype.hideAll = function() {
   // Agencies
   _.each(mapView.overlays["agencies"], function(agency,i) {
     if (that.circle.lines.length > 0 &&
-        agency.getPosition().lat() != that.circle.lines[0].getPath().getAt(1).lat() &&
-        agency.getPosition().lng() != that.circle.lines[0].getPath().getAt(1).lng()) {
-      agency.hide();  
-    }
+      agency.getPosition().lat() != that.circle.lines[0].getPath().getAt(1).lat() &&
+      agency.getPosition().lng() != that.circle.lines[0].getPath().getAt(1).lng()) {
+        agency.hide();  
+      }
   });
 
   // Ashokas
@@ -259,10 +264,13 @@ RadiusWidget.prototype.hideAll = function() {
     if (that != radiuswidget) {
       // Polygons
       _.each(radiuswidget.circle.polygons,function(polygon,i) {
-        polygon[0].setVisible(false);
+        polygon[0].setOptions(projectsDisabledStyle);
+        polygon[0].disabled = true;
       });
 
-      radiuswidget.circle.setVisible(false);
+      radiuswidget.circle.setOptions(circleDisabledStyle);
+      radiuswidget.circle.disabled = true;
+
     }
   });
 }
@@ -283,10 +291,13 @@ RadiusWidget.prototype.showAll = function() {
     if (that != radiuswidget) {
       // Polygons
       _.each(radiuswidget.circle.polygons,function(polygon,i) {
-        polygon[0].setVisible(true);
+        polygon[0].setOptions(projectsStyle);
+        polygon[0].disabled = false;
       });
 
-      radiuswidget.circle.setVisible(true);
+      radiuswidget.circle.setOptions(circleStyle);
+      radiuswidget.circle.disabled = false;
+
     }
   });
 }
