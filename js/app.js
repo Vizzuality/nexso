@@ -12,6 +12,7 @@ solutionFilter   = "all",
 previousCenter,
 mapView,
 filterView,
+disabledFilters = false,
 globalZindex = 300;
 
 var years     = [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014];
@@ -96,6 +97,56 @@ $(function() {
   }());
 
 
+  // Shows the circle, marker or polygon
+  function showFeature(view, name, geojson, style){
+    try {
+      var data = JSON.parse(geojson);
+    } catch ( e ) {
+      var data = geojson;
+    }
+
+    // Clone style hash so 'style' is not overwritten
+    var overlayStyle = $.extend({}, style);
+
+    view.overlays[name] = new GeoJSON(data, name, overlayStyle || null);
+
+    if (view.overlays[name].type && view.overlays[name].type == "Error"){
+      view.enableFilters();
+      return;
+    }
+
+    var polygons
+    , agencies;
+
+    if (view.overlays[name].length){
+      for (var i = 0; i < view.overlays[name].length; i++) {
+        if (view.overlays[name][i].length){
+
+          polygons = [];
+          agencies = [];
+
+          // Draws polygons
+          for (var j = 0; j < view.overlays[name][i].length; j++) {
+            var overlay = view.overlays[name][i][j][0];
+            overlay.setMap(map);
+            polygons.push(overlay);
+          }                    
+
+          // Draws circles
+          var o = view.overlays[name][i][0][0]
+          , cLatLng = new google.maps.LatLng(o.geojsonProperties.centroid_lat, o.geojsonProperties.centroid_lon)
+          , rLatLng = new google.maps.LatLng(o.geojsonProperties.radius_point_lat, o.geojsonProperties.radius_point_lon)
+          , distanceWidget = new RadiusWidget(map, cLatLng, rLatLng, view.overlays[name][i], [o.geojsonProperties.agency_position]);
+          view.circles.push(distanceWidget);
+
+        } else {
+          view.overlays[name][i].setMap(map);
+        }
+      }
+    }
+    //spinner.hide();
+    view.enableFilters();
+  }
 
   // Key binding
   $(document).keyup(function(e) {
@@ -105,6 +156,30 @@ $(function() {
     } 
   });
 
+
+  function setupSpinner($el) {
+    var options = {
+      lines: 7, // The number of lines to draw
+      length: 0, // The length of each line
+      width: 3, // The line thickness
+      radius: 4, // The radius of the inner circle
+      rotate: 0, // The rotation offset
+      color: '#000', // #rgb or #rrggbb
+      speed: 1, // Rounds per second
+      trail: 55, // Afterglow percentage
+      shadow: false, // Whether to render a shadow
+      hwaccel: false, // Whether to use hardware acceleration
+      zIndex: 2e9, // The z-index (defaults to 2000000000)
+      left: -22, 
+      top:0
+    };
+
+    $el.addClass("loading");
+    el = document.getElementById($el.attr('id'));
+    var spinner = new Spinner(options).spin(el);
+    $(spinner.el).fadeIn(250);
+  }
+
   $(".aside .close").on('click', function(e) {
     e.preventDefault();
 
@@ -112,7 +187,7 @@ $(function() {
     var project = $(this).data('project');
     project.unMarkSelected();
     $(this).removeData('project')
-    
+
     aside.hide(Timeline.show);
     map.setZoom(previousZoom);
     //map.panTo(previousCenter);
@@ -310,46 +385,61 @@ $(function() {
         this.addAshokas();
         this.addProjects();
       },
+      enableFilters: function() {
+      if (!disabledFilters) return; 
+        console.log('enablign filters');
+        disabledFilters = false;
+        $(".spinner").fadeOut(250, function() { 
+          $(this).parent().removeClass("loading");
+          $(this).remove();
+        });
 
-      removeOverlay: function(name, callback) {
-        if (name == "ashokas" || name == "agencies") {
-          // Remove ashokas or agencies
+      },
+      disableFilters: function() {
+        if (disabledFilters) return; 
+        console.log('disabling filters');
+        disabledFilters = true;
+      },
+      removeOverlay: function(name) {
+        if (name == "ashokas" || name == "agencies") this.removeMarkers(name);
+        else if (name == 'projects') this.removeProjects(name);
+      },
+      removeMarkers:function(name) {
+        for (var i = 0; i < this.overlays[name].length; i++){
+          this.overlays[name][i].hide(true);
+        }
+        this.enableFilters();
+      },
+      removeProjects: function(name) {
+        if (this.circles.length > 0) { // Remove circles
+          for (var i = 0; i < this.circles.length; i++){
+            this.circles[i].circle.setMap(null);
+          }
+        }
+
+        if (this.overlays[name].length){ // Remove projects
           for (var i = 0; i < this.overlays[name].length; i++){
-            this.overlays[name][i].hide(true);
-          }
-
-          callback && setTimeout(function() {
-            callback();
-          }, 500);
-
-        } else if (name == 'projects') {
-
-          // Remove circles
-          if (this.circles.length > 0) {
-            for (var i = 0; i < this.circles.length; i++){
-              this.circles[i].circle.setMap(null);
-            }
-          }
-
-          // Remove projects
-          if (this.overlays[name].length){
-            for (var i = 0; i < this.overlays[name].length; i++){
-              if (this.overlays[name][i].length){
-                for (var j = 0; j < this.overlays[name][i].length; j++){
-                  this.overlays[name][i][j][0].setMap(null);
-                }
+            if (this.overlays[name][i].length){
+              for (var j = 0; j < this.overlays[name][i].length; j++){
+                this.overlays[name][i][j][0].setMap(null);
               }
             }
           }
         }
+
+        this.enableFilters();
       },
       addAshokas: function() {
+        this.disableFilters();
 
         if (this.overlays["ashokas"]) { // If we load the ashokas before, just show them
           _.each(this.overlays["ashokas"], function(el,i) {
             if (((solutionFilter == "solutions" && el.properties.solution_id) || solutionFilter == "all") && (_.include(topics, el.properties.topic_id))) el.show(true);
             else el.hide(true);
           });
+
+          this.enableFilters();
+
         } else { // Load the ashokas
           var query = "SELECT A.the_geom, A.ashoka_url AS agency_url, A.topic_id AS topic_id, A.name, " 
           + "A.solution_id, S1.name solution_name, S1.nexso_url solution_url "
@@ -360,12 +450,16 @@ $(function() {
         }
       },
       addAgencies: function() {
+        this.disableFilters();
 
         if (this.overlays["agencies"]) { // If we load the agencies before, just show them
           _.each(this.overlays["agencies"], function(el,i) {
             if (((solutionFilter == "solutions" && el.properties.solution_id) || solutionFilter == "all") && (_.include(topics, el.properties.topic_id))) el.show(true);
             else el.hide(true);
           });
+
+          this.enableFilters();
+
         } else { // Load the agencies
 
           var query = "SELECT A.the_geom, A.external_url AS agency_url, A.name AS agency_name, P.solution_id, P.topic_id, "
@@ -377,6 +471,7 @@ $(function() {
         }
       },
       addProjects: function() {
+        this.disableFilters();
 
         if (!this.startYear) this.startYear = 2002;
         if (!this.endYear)   this.endYear   = 2014;
@@ -428,7 +523,8 @@ $(function() {
       addOverlay: function(name, query, callback) {
         var that = this;
 
-        spinner.show();
+        //spinner.show();
+        this.disableFilters();
 
         $.ajax({
           url: "https://nexso2.cartodb.com/api/v2/sql",
@@ -436,56 +532,12 @@ $(function() {
           dataType: 'jsonp',
           success: function(data) {
 
-            if (data.features.length <= 0) return; 
-
-            function showFeature(geojson, style){
-              try {
-                var data = JSON.parse(geojson);
-              } catch ( e ) {
-                var data = geojson;
-              }
-
-              // Clone style hash so 'style' is not overwritten
-              var overlayStyle = $.extend({}, style);
-
-              that.overlays[name] = new GeoJSON(data, name, overlayStyle || null);
-
-              if (that.overlays[name].type && that.overlays[name].type == "Error"){
-                return;
-              }
-
-              var polygons
-                , agencies;
-
-              if (that.overlays[name].length){
-                for (var i = 0; i < that.overlays[name].length; i++) {
-                  if (that.overlays[name][i].length){
-
-                    polygons = [];
-                    agencies = [];
-
-                    // Draws polygons
-                    for (var j = 0; j < that.overlays[name][i].length; j++) {
-                      var overlay = that.overlays[name][i][j][0];
-                      overlay.setMap(map);
-                      polygons.push(overlay);
-                    }                    
-
-                    // Draws circles
-                    var o = that.overlays[name][i][0][0]
-                    , cLatLng = new google.maps.LatLng(o.geojsonProperties.centroid_lat, o.geojsonProperties.centroid_lon)
-                    , rLatLng = new google.maps.LatLng(o.geojsonProperties.radius_point_lat, o.geojsonProperties.radius_point_lon)
-                    , distanceWidget = new RadiusWidget(map, cLatLng, rLatLng, that.overlays[name][i], [o.geojsonProperties.agency_position]);
-                    that.circles.push(distanceWidget);
-
-                  } else {
-                    that.overlays[name][i].setMap(map);
-                  }
-                }
-              }
-              spinner.hide();
+            if (data.features.length <= 0) {
+              that.enableFilters();
+              return; 
             }
-            showFeature(data, projectsStyle);
+
+            showFeature(that, name, data, projectsStyle);
             callback && callback();
           }
         });
@@ -509,6 +561,11 @@ $(function() {
         this.$(".filter.filters ul.radio li").on("click", function(e) {
           e.stopPropagation();
 
+          if (disabledFilters) return;
+          mapView.disableFilters();
+
+          setupSpinner($(this));
+
           solutionFilter = $(this).attr('id').trim();
 
           mapView.removeOverlay("projects");
@@ -520,6 +577,11 @@ $(function() {
 
         this.$(".filter.filters ul.ticks li").on("click", function(e) {
           e.stopPropagation();
+
+          if (disabledFilters) return;
+          mapView.disableFilters();
+          setupSpinner($(this));
+
           $(this).toggleClass("selected");
           var id = $(this).attr('id').trim();
           var c  = parseInt($(this).attr('class').replace(/selected/, "").replace("t", "").trim());
@@ -547,6 +609,10 @@ $(function() {
 
         this.$(".filter.view ul.ticks li").on("click", function(e) {
           e.stopPropagation();
+
+          if (disabledFilters) return;
+          mapView.disableFilters();
+          setupSpinner($(this));
 
           $(this).toggleClass("selected");
 

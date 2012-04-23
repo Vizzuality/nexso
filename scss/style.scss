@@ -234,6 +234,8 @@ h4 { font-size: 11px; font-weight:bold; }
 .nav ul.filters li {
   position:relative;
 
+  .spinner { display:none; }
+
   // Filter horizontal position
   &:nth-child(1) .filter { right: -8px; }
   &:nth-child(2) .filter { right: -10px; }
@@ -411,6 +413,8 @@ h4 { font-size: 11px; font-weight:bold; }
         li { 
           margin-bottom: 0;
 
+          &.loading { background:none; }
+
           &:first-child { 
             padding-top: 0;
             background-position: $liLeftMargin -86px;
@@ -467,6 +471,7 @@ h4 { font-size: 11px; font-weight:bold; }
 
       &.ticks li { 
         cursor:pointer;
+        &.loading { background:none; }
         &:last-child { 
           padding-bottom:0;
           border:none;
@@ -478,6 +483,7 @@ h4 { font-size: 11px; font-weight:bold; }
 
       &.radio li { 
         cursor:pointer;
+        &.loading { background:none; }
         &:first-child { 
           padding-top:0;
           background-position: $liLeftMargin -28px;
