@@ -14,8 +14,8 @@ mapView,
 filterView,
 globalZindex = 300;
 
-var years = [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014];
-var beginYear = years[0];
+var years     = [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014];
+var startYear = years[0];
 var endYear   = years[years.length - 1];
 
 $(function() {
@@ -170,7 +170,7 @@ $(function() {
   $( "#timeline .slider" ).slider({ range: true, min: 0, max: 13*30, step: 30, values: [0, 500], 
     stop: function(event, ui) {
 
-      mapView.beginYear = beginYear;
+      mapView.startYear = startYear;
       mapView.endYear   = endYear;
 
       mapView.removeOverlay("projects");
@@ -182,7 +182,7 @@ $(function() {
       var min = (ui.values[0]/30) + 1;
       var max = (ui.values[1]/30);
 
-      beginYear = years[min - 1];
+      startYear = years[min - 1];
       endYear   = years[max - 1];
 
       for (var i = min; i<=max; i++) {
@@ -347,8 +347,8 @@ $(function() {
 
         if (this.overlays["ashokas"]) { // If we load the ashokas before, just show them
           _.each(this.overlays["ashokas"], function(el,i) {
-            if (((solutionFilter == "solutions" && el.properties.solution_id) || solutionFilter == "all") 
-              && (_.include(topics, el.properties.topic_id))) el.show(true);
+            if (((solutionFilter == "solutions" && el.properties.solution_id) || solutionFilter == "all") && (_.include(topics, el.properties.topic_id))) el.show(true);
+            else el.hide(true);
           });
         } else { // Load the ashokas
           var query = "SELECT A.the_geom, A.ashoka_url AS agency_url, A.topic_id AS topic_id, A.name, " 
@@ -363,8 +363,8 @@ $(function() {
 
         if (this.overlays["agencies"]) { // If we load the agencies before, just show them
           _.each(this.overlays["agencies"], function(el,i) {
-            if (((solutionFilter == "solutions" && el.properties.solution_id) || solutionFilter == "all") 
-              && (_.include(topics, el.properties.topic_id))) el.show(true);
+            if (((solutionFilter == "solutions" && el.properties.solution_id) || solutionFilter == "all") && (_.include(topics, el.properties.topic_id))) el.show(true);
+            else el.hide(true);
           });
         } else { // Load the agencies
 
@@ -378,7 +378,7 @@ $(function() {
       },
       addProjects: function() {
 
-        if (!this.beginYear) this.beginYear = 2002;
+        if (!this.startYear) this.startYear = 2002;
         if (!this.endYear)   this.endYear   = 2014;
 
         // Filters by topic
@@ -400,7 +400,7 @@ $(function() {
             +"            P.cartodb_id = PWA.project_id AND  "
             +             topicsCondition
             +             solutionCondition
-            +"            EXTRACT(YEAR FROM P.fixed_approval_date) >= " + this.beginYear + " AND  "
+            +"            EXTRACT(YEAR FROM P.fixed_approval_date) >= " + this.startYear + " AND  "
             +"            EXTRACT(YEAR FROM P.fixed_approval_date) <= " + this.endYear + "  "
             +"        GROUP BY  "
             +"            title, approval_date, fixed_approval_date,  "
@@ -513,14 +513,8 @@ $(function() {
 
           mapView.removeOverlay("projects");
           mapView.addProjects();
-
-          mapView.removeOverlay("agencies", function() {
-            mapView.addAgencies();
-          });
-
-          mapView.removeOverlay("ashokas", function() {
-            mapView.addAshokas();
-          });
+          mapView.addAgencies();
+          mapView.addAshokas();
 
         });
 
@@ -540,14 +534,8 @@ $(function() {
             $(".filter.view ul.ticks li#projects").addClass("selected"); // in case it was turned off
             mapView.removeOverlay("projects");
             mapView.addProjects();
-
-            mapView.removeOverlay("agencies", function() {
-              mapView.addAgencies();
-            });
-
-            mapView.removeOverlay("ashokas", function() {
-              mapView.addAshokas();
-            });
+            mapView.addAgencies();
+            mapView.addAshokas();
 
           } else {
             mapView.removeOverlay("projects");
