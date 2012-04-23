@@ -95,6 +95,14 @@ NexsoMarker.prototype.hide = function(animate) {
 }
 
 
+NexsoMarker.prototype.changeOpacity = function(opacity) {
+    var div = this.div_;
+      $(div).animate({
+        opacity: opacity 
+      }, {queue: true, duration:500});
+}
+
+
 NexsoMarker.prototype.show = function(animate) {
   if (this.div_ && $(this.div_).hasClass('h')) {
     var div = this.div_;

@@ -5,10 +5,16 @@ String.prototype.splice = function( idx, rem, s ) {
 };
 
 // Map styles
-var projectsStyle      = { strokeColor: "#E79626", strokeOpacity: .4, strokeWeight: 1, fillColor: "#E79626", fillOpacity: .2 };
-var projectsHoverStyle = { strokeColor: "#E79626", strokeOpacity: 1, strokeWeight: 2, fillColor: "#E79626", fillOpacity: .7 };
-var circleStyleHover = { strokeColor: "#1872A1", strokeOpacity: 1, strokeWeight: 2, fillColor: "#1872A1", fillOpacity: .3 };
-var circleStyle = { strokeColor: "#E79626", strokeOpacity: 1, strokeWeight: 1, fillColor: "#E79626", fillOpacity: 0 };
+var 
+projectsStyle               = { strokeColor: "#E79626", strokeOpacity: 0.4, strokeWeight: 1, fillColor: "#E79626", fillOpacity: 0.2 },
+projectsHoverStyle          = { strokeColor: "#E79626", strokeOpacity: 1.0, strokeWeight: 2, fillColor: "#E79626", fillOpacity: 0.7 },
+projectsDisabledStyle       = { strokeColor: "#E79626", strokeOpacity: 0.2, strokeWeight: 1, fillColor: "#E79626", fillOpacity: 0.1 },
+projectsDisabledHoverStyle  = { strokeColor: "#E79626", strokeOpacity: 0.2, strokeWeight: 2, fillColor: "#E79626", fillOpacity: 0.2 },
+circleStyleHover            = { strokeColor: "#1872A1", strokeOpacity: 1.0, strokeWeight: 2, fillColor: "#1872A1", fillOpacity: 0.3 },
+circleStyle                 = { strokeColor: "#E79626", strokeOpacity: 1.0, strokeWeight: 1, fillColor: "#E79626", fillOpacity: 0.0 },
+circleDisabledStyle         = { strokeColor: "#E79626", strokeOpacity: 0.5, strokeWeight: 1, fillColor: "#E79626", fillOpacity: 0.0 },
+circleDisabledHoverStyle    = { strokeColor: "#1872A1", strokeOpacity: 0.5, strokeWeight: 2, fillColor: "#1872A1", fillOpacity: 0.2 };
+
 var mapStyles = [{
    featureType: "water",
    stylers: [
