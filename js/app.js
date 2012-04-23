@@ -474,6 +474,7 @@ $(function() {
 
           var query = "SELECT A.the_geom, A.external_url AS agency_url, A.name AS agency_name, P.solution_id, P.topic_id, "
           + "array_to_string(array(SELECT P.cartodb_id FROM v1_projects AS P WHERE P.agency_id = a.cartodb_id), '|') as projects_ids, "
+          + "array_to_string(array(SELECT ST_AsGeoJSON(P.the_geom) FROM v1_projects AS P WHERE P.agency_id = a.cartodb_id), '|') as projects_geom, "
           + "array_to_string(array(SELECT P.title FROM v1_projects AS P WHERE P.agency_id = a.cartodb_id), '|') as projects_titles "
           + "FROM v1_agencies AS A LEFT JOIN v1_projects AS P ON (A.cartodb_id = P.agency_id) LEFT JOIN v1_projects ON (A.cartodb_id = P.solution_id)"
 

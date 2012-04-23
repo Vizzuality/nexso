@@ -141,11 +141,12 @@ InfoWindow.prototype.setContent = function(properties){
   if (properties.overlayType == 'agencies') {
     var ids    = _.compact(properties.projects_ids.split("|"));
     var titles = _.compact(properties.projects_titles.split("|"));
+    var geom   = _.compact(properties.projects_geom.split("|"));
 
     var projects = _.uniq(titles); //_.zip(ids, titles);
 
     if (projects) {
-      var projects = _.map(projects, function(project) { return "<li>" + project + "</li>" });
+      var projects = _.map(projects, function(project) { return "<li><a href='#' class='project' data-lng='"+lng+"' data-lat='"+lat+"+'>" + project + "</a></li>" });
       properties.projects = projects.join("");
     }
   }
