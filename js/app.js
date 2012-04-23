@@ -559,6 +559,7 @@ $(function() {
 
         // Filter by solution & topic
         this.$(".filter.filters ul.radio li").on("click", function(e) {
+          e.preventDefault();
           e.stopPropagation();
 
           if (disabledFilters) return;
@@ -576,6 +577,7 @@ $(function() {
         });
 
         this.$(".filter.filters ul.ticks li").on("click", function(e) {
+          e.preventDefault();
           e.stopPropagation();
 
           if (disabledFilters) return;
@@ -608,6 +610,7 @@ $(function() {
         });
 
         this.$(".filter.view ul.ticks li").on("click", function(e) {
+          e.preventDefault();
           e.stopPropagation();
 
           if (disabledFilters) return;

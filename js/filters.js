@@ -10,6 +10,7 @@ $(function() {
   if ($("ul.radio li.selected").length <= 0) $("ul.radio li:first-child").addClass("selected");
 
   $(".nav a[data-toggle='filter']").on("click", function(e) {
+    e.preventDefault();
     e.stopPropagation();
 
     $(".nav a[data-toggle='filter'].selected").not(this).removeClass("selected");
@@ -20,6 +21,7 @@ $(function() {
   });
 
   $(".nav .filter ul.radio li").on("click", function(e) {
+    e.preventDefault();
     e.stopPropagation();
     $(this).parent().find("li").each(function() {
       var id = $(this).attr('id');
@@ -30,6 +32,7 @@ $(function() {
   });
 
   $(".nav .filter").on("click", function(e) {
+    e.preventDefault();
     e.stopPropagation();
   });
 });
