@@ -126,6 +126,29 @@ InfoWindow.prototype.setPosition = function(callback) {
   }
 }
 
+InfoWindow.prototype.bindProjects = function(){
+  var that = this;
+  $(this.div_).find('.project').click(function(ev){
+    ev.preventDefault();
+    ev.stopPropagation();
+    var lat = parseFloat($(this).attr('data-lat'));
+    var lng = parseFloat($(this).attr('data-lng'));
+
+    var latLng = new google.maps.LatLng(lat,lng);
+
+    _.each(mapView.circles, function(rw,i) {
+
+      if (rw.circle.center.lat() == latLng.lat() &&
+      rw.circle.center.lng() == latLng.lng()) {
+        //that.map_.fitBounds(rw.circle.getBounds());
+        setTimeout(function() { google.maps.event.trigger(rw.circle, 'click', {latLng:latLng});}, 500);
+        return;
+      }
+    });
+
+
+  });
+}
 InfoWindow.prototype.bindClose = function(){
   var that = this;
   $(this.div_).find('.close').click(function(ev){
@@ -141,18 +164,26 @@ InfoWindow.prototype.setContent = function(properties){
   if (properties.overlayType == 'agencies') {
     var ids    = _.compact(properties.projects_ids.split("|"));
     var titles = _.compact(properties.projects_titles.split("|"));
-    var geom   = _.compact(properties.projects_geom.split("|"));
 
     var projects = _.uniq(titles); //_.zip(ids, titles);
 
     if (projects) {
-      var projects = _.map(projects, function(project) { return "<li><a href='#' class='project' data-lng='"+lng+"' data-lat='"+lat+"+'>" + project + "</a></li>" });
-      properties.projects = projects.join("");
+      var projectID = ids[0];
+
+      if (mapView.coordinates[projectID]) {
+        var lat = mapView.coordinates[projectID][0];
+        var lng = mapView.coordinates[projectID][1];
+        var projects = _.map(projects, function(project) { return "<li><a href='#' class='project' data-lng='"+lng+"' data-lat='"+lat+"'>" + project + "</a></li>" });
+        properties.projects = projects.join("");
+      } else {
+        properties.projects = "";
+      }
     }
   }
 
   this.div_.innerHTML = this.template(properties);
 
+  if (projects) this.bindProjects();
   this.bindClose();
 } 
 

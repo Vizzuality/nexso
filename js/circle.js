@@ -31,7 +31,6 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
     var coordinates = $.parseJSON(line).coordinates
       , agency_center = new google.maps.LatLng(coordinates[1], coordinates[0]);
 
-
     _.each(polygons, function(polygon, i) {
       var agency_line = new google.maps.Polyline({
         path: [polygon[0].getBounds().getCenter(), agency_center],
