@@ -5,8 +5,9 @@
 */
 function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
 
-  var distance = this.distanceBetweenPoints(centroidCenter, radiusCenter)
-    , self = this;
+  var
+    distance = this.distanceBetweenPoints(centroidCenter, radiusCenter),
+    self = this;
 
   // Draw circle
   this.circle = new google.maps.Circle({
@@ -24,12 +25,14 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
 
   // Draw line
   var agency_lines = [];
+
   _.each(lines, function(line,i) {
     
     if (!line) return false;
 
-    var coordinates = $.parseJSON(line).coordinates
-      , agency_center = new google.maps.LatLng(coordinates[1], coordinates[0]);
+    var
+      coordinates = $.parseJSON(line).coordinates,
+      agency_center = new google.maps.LatLng(coordinates[1], coordinates[0]);
 
     _.each(polygons, function(polygon, i) {
       var agency_line = new google.maps.Polyline({
@@ -43,10 +46,8 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
       agency_line.setMap(map);
       agency_lines.push(agency_line);
     });
-
+    return true;
   });
-
-
 
   // Append lines
   this.circle.setOptions({"lines": agency_lines});
@@ -108,19 +109,12 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
               map.panTo(latLng);
               map.setZoom(12);
 
-             // _.each(mapView.overlays["agencies"], function(agency,i) {
-             //   if (agency.getPosition().lat() == latLng.lat() &&
-             //     agency.getPosition().lng() == latLng.lng()) {
-             //     agency.showContent(); 
-             //     return;
-             //   }
-             // });
             }
           });
 
         } else $asideItems.find("li.agency").hide();
 
-      if (solutionURL != null) {
+      if (solutionURL !== null) {
         $asideItems.find("li.solution").show();
         $asideItems.find("li.solution a").text(solutionName).attr("href", solutionURL);
       } else $asideItems.find("li.solution").hide();
@@ -142,7 +136,7 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
       var bounds = that.getBounds();
 
       _.each(self.circle.lines, function(line,i) {
-        bounds.extend(line.getPath().getAt(1))
+        bounds.extend(line.getPath().getAt(1));
       });
 
       map.fitBounds(bounds);
@@ -186,8 +180,7 @@ RadiusWidget.prototype.onMouseOver = function(ev) {
   });
   if (this.disabled) this.setOptions(circleDisabledHoverStyle);
   else this.setOptions(circleStyleHover);
-}
-
+};
 
 RadiusWidget.prototype.onMouseOut = function(ev) {
   _.each(this.polygons,function(polygon,i) {
@@ -197,8 +190,7 @@ RadiusWidget.prototype.onMouseOut = function(ev) {
 
   if (this.disabled) this.setOptions(circleDisabledStyle);  
   else this.setOptions(circleStyle);
-}
-
+};
 
 RadiusWidget.prototype.markSelected = function() {
   google.maps.event.clearListeners(this.circle, 'mouseover');
@@ -218,8 +210,7 @@ RadiusWidget.prototype.markSelected = function() {
   // Hide rest
   this.hideAll();
   filterView.disable();
-}
-
+};
 
 RadiusWidget.prototype.unMarkSelected = function(showAll) {
   google.maps.event.addListener(this.circle, 'mouseover', this.onMouseOver);
@@ -239,8 +230,7 @@ RadiusWidget.prototype.unMarkSelected = function(showAll) {
   // Show rest
   if (showAll) this.showAll();
   filterView.enable();
-}
-
+};
 
 RadiusWidget.prototype.hideAll = function() {
   var that = this;
@@ -272,8 +262,7 @@ RadiusWidget.prototype.hideAll = function() {
 
     }
   });
-}
-
+};
 
 RadiusWidget.prototype.showAll = function() {
   var that = this;
@@ -299,8 +288,7 @@ RadiusWidget.prototype.showAll = function() {
 
     }
   });
-}
-
+};
 
 /**
 * Update the radius when the distance has changed.

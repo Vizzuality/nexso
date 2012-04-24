@@ -1,30 +1,41 @@
-var config = {
-    CARTODB_USER:     "nexso2",
-    CARTODB_ENDPOINT: "https://nexso2.cartodb.com/api/v2/sql"
-};
-
-var // DEFAULTS
-    debug            = true,
-    lat              = 3.162456,
-    lng              = -73.476563,
-    zoom             = 3,
-    minZoom          = 3,
-    maxZoom          = 16,
-    previousZoom     = 3,
-    topics           = [1, 2, 3, 4, 5, 6],
-    solutionFilter   = "all",
-    previousCenter,
-    mapView,
-    filterView,
-    disabledFilters = false,
-    globalZindex = 300;
-
-var
-    years     = [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014],
-    startYear = years[0],
-    endYear   = years[years.length - 1];
-
 $(function () {
+
+  $(document).on("click", function() {
+    if ($(".nav a[data-toggle='filter']").hasClass('selected')){
+      $(".nav a[data-toggle='filter']").removeClass('selected');
+      $(".nav .filter").fadeOut(150);
+    }
+  });
+
+  if ($("ul.radio li.selected").length <= 0) $("ul.radio li:first-child").addClass("selected");
+
+  $(".nav a[data-toggle='filter']").on("click", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    $(".nav a[data-toggle='filter'].selected").not(this).removeClass("selected");
+    $(this).toggleClass("selected");
+
+    $(".nav a[data-toggle='filter']").not(this).parent().find(".filter").fadeOut(250);
+    $(this).parent().find(".filter").fadeToggle(150);
+  });
+
+  $(".nav .filter ul.radio li").on("click", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    $(this).parent().find("li").each(function() {
+      var id = $(this).attr('id');
+    });
+
+    $(this).parent().find("li").removeClass("selected");
+    $(this).addClass("selected");
+  });
+
+  $(".nav .filter").on("click", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  });
+
   /*
   * SPINNER
   */
@@ -300,10 +311,6 @@ $(function () {
     };
 
     var map = new google.maps.Map(document.getElementById('map'), mapOptions);
-
-    google.maps.event.addDomListener(map, 'tilesloaded', function() {
-      // setTimeout(function() { if ($(".aside").hasClass("hidden")) showTimeline(); }, 700);
-    });
 
     function ZoomIn(controlDiv, map) {
       controlDiv.setAttribute('class', 'zoom_in');
