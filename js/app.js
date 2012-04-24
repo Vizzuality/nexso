@@ -7,7 +7,9 @@ $(function () {
     }
   });
 
-  if ($("ul.radio li.selected").length <= 0) $("ul.radio li:first-child").addClass("selected");
+  if ($("ul.radio li.selected").length <= 0) {
+    $("ul.radio li:first-child").addClass("selected");
+  }
 
   $(".nav a[data-toggle='filter']").on("click", function(e) {
     e.preventDefault();
@@ -154,7 +156,7 @@ $(function () {
           }
 
           // Draws circles
-          var 
+          var
           o = view.overlays[name][i][0][0],
           cLatLng = new google.maps.LatLng(o.geojsonProperties.centroid_lat, o.geojsonProperties.centroid_lon),
           rLatLng = new google.maps.LatLng(o.geojsonProperties.radius_point_lat, o.geojsonProperties.radius_point_lon),
@@ -176,7 +178,7 @@ $(function () {
     if (e.keyCode === 27) {  // esc
       Infowindow.hide();
       $(".nav .filter").fadeOut(150);
-    } 
+    }
   });
 
   function setupSpinner($el) {
@@ -192,7 +194,7 @@ $(function () {
       shadow: false, // Whether to render a shadow
       hwaccel: false, // Whether to use hardware acceleration
       zIndex: 2e9, // The z-index (defaults to 2000000000)
-      left: -22, 
+      left: -22,
       top:0
     };
 
@@ -250,7 +252,7 @@ $(function () {
       hide: _hide,
       show: _show
     };
-  })();
+  }());
 
   Timeline = (function() {
     _show = function() {
@@ -274,10 +276,10 @@ $(function () {
       hide: _hide,
       show: _show
     };
-  })();
+  }());
 
   // Slider
-  $( "#timeline .slider" ).slider({ range: true, min: 0, max: 13*30, step: 30, values: [0, 500], 
+  $( "#timeline .slider" ).slider({ range: true, min: 0, max: 13*30, step: 30, values: [0, 500],
     stop: function(event, ui) {
 
       mapView.startYear = startYear;
@@ -357,12 +359,12 @@ $(function () {
       $(".stations").css({width:$(document).width(), height:$(document).height(), top:0, left:0});
     });
 
-    // We reuse the same Infowindow 
+    // We reuse the same Infowindow
     Infowindow = new InfoWindow({map:map});
 
     // generate CartoDB object linked to examples account.
     var CartoDB = Backbone.CartoDB({
-      user: config.CARTODB_USER 
+      user: config.CARTODB_USER
     });
 
     var Point = CartoDB.CartoDBModel.extend({
@@ -372,14 +374,16 @@ $(function () {
       name: function() {
         return this.get('name');
       },
-
       lat: function() {
-        if (!this.get('location')) return 0;
+        if (!this.get('location')) {
+          return 0;
+        }
         return this.get('location').coordinates[1];
       },
-
       lng: function() {
-        if (!this.get('location')) return 0;
+        if (!this.get('location')) {
+          return 0;
+        }
         return this.get('location').coordinates[0];
       }
     });
@@ -419,12 +423,12 @@ $(function () {
       },
       enableFilters: function() {
         if (!disabledFilters) {
-          return; 
+          return;
         }
 
         disabledFilters = false;
 
-        $(".spinner").fadeOut(250, function() { 
+        $(".spinner").fadeOut(250, function() {
           $(this).parent().removeClass("loading");
           $(this).remove();
         });
@@ -432,7 +436,7 @@ $(function () {
       },
       disableFilters: function() {
         if (disabledFilters) {
-          return; 
+          return;
         }
         disabledFilters = true;
       },
@@ -490,7 +494,7 @@ $(function () {
           _.each(this.overlays.ashokas, function(el,i) {
             if (((solutionFilter === "solutions" && el.properties.solution_id) || solutionFilter === "all") && (_.include(topics, el.properties.topic_id))) {
               el.show(true);
-            } 
+            }
             else {
               el.hide(true);
             }
@@ -525,8 +529,8 @@ $(function () {
         } else { // Load the agencies
 
           var query = "SELECT A.the_geom, A.external_url AS agency_url, A.name AS agency_name, P.solution_id, P.topic_id, " +
-          "array_to_string(array(SELECT P.cartodb_id FROM v1_projects AS P WHERE P.agency_id = a.cartodb_id), '|') as projects_ids, " + 
-          "array_to_string(array(SELECT P.title FROM v1_projects AS P WHERE P.agency_id = a.cartodb_id), '|') as projects_titles " + 
+          "array_to_string(array(SELECT P.cartodb_id FROM v1_projects AS P WHERE P.agency_id = a.cartodb_id), '|') as projects_ids, " +
+          "array_to_string(array(SELECT P.title FROM v1_projects AS P WHERE P.agency_id = a.cartodb_id), '|') as projects_titles " +
           "FROM v1_agencies AS A LEFT JOIN v1_projects AS P ON (A.cartodb_id = P.agency_id) LEFT JOIN v1_projects ON (A.cartodb_id = P.solution_id)";
 
           this.addOverlay("agencies", query);
@@ -535,8 +539,8 @@ $(function () {
       addProjects: function() {
         this.disableFilters();
 
-        if (!this.startYear) this.startYear = 2002;
-        if (!this.endYear)   this.endYear   = 2014;
+        if (!this.startYear) { this.startYear = startYear; }
+        if (!this.endYear)   { this.endYear   = endYear; }
 
         // Filters by topic
         var topicsCondition = (topics.length > 0) ? " P.topic_id  IN (" + topics.join(',') + ") AND " : "";
@@ -564,19 +568,19 @@ $(function () {
           "            external_project_url, location_verbatim, topic_id, solution_id, budget, A.external_url, A.name, " +
           "            solution_name, solution_url, agency_position" +
     "    )  " +
-    "    SELECT *, ST_ConvexHull(the_geom) AS hull_geom FROM hull " + 
-    " " + 
-    ")  " + 
-    "SELECT  " + 
-    "    project_id, title, approval_date, fixed_approval_date, external_project_url,  " + 
-    "    location_verbatim, topic_id, budget, agency_name, agency_url, the_geom, agency_position, solution_id, solution_name, solution_url,  " + 
-    "    ST_X(ST_Centroid(hull_geom)) AS centroid_lon,  " + 
-    "    ST_Y(ST_Centroid(hull_geom)) AS centroid_lat,  " + 
-    "    ST_X(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom),hull_geom))) AS radius_point_lon,  " + 
-    "    ST_Y(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom), hull_geom))) AS radius_point_lat " + 
-    "FROM qu  " + 
-    "ORDER BY " + 
-    "    ST_Area(hull_geom) desc";  
+    "    SELECT *, ST_ConvexHull(the_geom) AS hull_geom FROM hull " +
+    " " +
+    ")  " +
+    "SELECT  " +
+    "    project_id, title, approval_date, fixed_approval_date, external_project_url,  " +
+    "    location_verbatim, topic_id, budget, agency_name, agency_url, the_geom, agency_position, solution_id, solution_name, solution_url,  " +
+    "    ST_X(ST_Centroid(hull_geom)) AS centroid_lon,  " +
+    "    ST_Y(ST_Centroid(hull_geom)) AS centroid_lat,  " +
+    "    ST_X(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom),hull_geom))) AS radius_point_lon,  " +
+    "    ST_Y(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom), hull_geom))) AS radius_point_lat " +
+    "FROM qu  " +
+    "ORDER BY " +
+    "    ST_Area(hull_geom) desc";
 
 
     this.addOverlay("projects", query, function() { Timeline.show(); });
@@ -596,7 +600,7 @@ $(function () {
 
             if (data.features.length <= 0) {
               that.enableFilters();
-              return; 
+              return;
             }
 
             showFeature(that, name, data, projectsStyle);
@@ -628,7 +632,10 @@ $(function () {
           e.preventDefault();
           e.stopPropagation();
 
-          if (disabledFilters) return;
+          if (disabledFilters) {
+            return;
+          }
+
           mapView.disableFilters();
 
           setupSpinner($(this));
@@ -646,7 +653,10 @@ $(function () {
           e.preventDefault();
           e.stopPropagation();
 
-          if (disabledFilters) return;
+          if (disabledFilters) {
+            return;
+          }
+
           mapView.disableFilters();
           setupSpinner($(this));
 
@@ -679,7 +689,10 @@ $(function () {
           e.preventDefault();
           e.stopPropagation();
 
-          if (disabledFilters) return;
+          if (disabledFilters) {
+            return;
+          }
+
           mapView.disableFilters();
           setupSpinner($(this));
 
@@ -696,7 +709,7 @@ $(function () {
             else if (id === "ashokas") {
               mapView.addAshokas();
             }
-            else if (id === "projects") {  
+            else if (id === "projects") {
               mapView.addProjects();
             }
 
@@ -704,10 +717,14 @@ $(function () {
 
             if (id === "projects" || id === "agencies" || id === "ashokas") {
 
-              if (id === 'projects') Timeline.hide(); Infowindow.hide(); 
+              if (id === 'projects') {
+                Timeline.hide();
+              }
+
+              Infowindow.hide();
               mapView.removeOverlay(id);
 
-            } 
+            }
           }
         });
       },
