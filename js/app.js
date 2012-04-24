@@ -290,8 +290,8 @@ $(function () {
     values: [0, 500],
     stop: function(event, ui) {
 
-      mapView.startYear = startYear;
-      mapView.endYear   = endYear;
+      mapView.startYear = config.START_YEAR;
+      mapView.endYear   = config.END_YEAR;
 
       mapView.removeOverlay("projects");
       mapView.addProjects();
@@ -303,8 +303,8 @@ $(function () {
       var min = (ui.values[0]/30) + 1;
       var max = (ui.values[1]/30);
 
-      startYear = years[min - 1];
-      endYear   = years[max - 1];
+      startYear = config.YEARS[min - 1];
+      endYear   = config.YEARS[max - 1];
 
       for (var i = min; i<=max; i++) {
         $('#timeline li:nth-child('+i+')').addClass("selected");
@@ -517,7 +517,7 @@ $(function () {
             "FROM v1_ashoka AS A "  +
             "LEFT JOIN v1_solutions S1 ON (S1.cartodb_id = A.solution_id)" +
             "WHERE A.the_geom IS NOT NULL AND topic_id IS NOT NULL";
-          this.addOverlay("ashokas", query);
+          this.addOverlay("ashokas", queries.GET_ASHOKAS);
         }
       },
       addAgencies: function() {
@@ -536,64 +536,28 @@ $(function () {
           this.enableFilters();
 
         } else { // Load the agencies
-
-          var query = "SELECT A.the_geom, A.external_url AS agency_url, A.name AS agency_name, P.solution_id, P.topic_id, " +
-            "array_to_string(array(SELECT P.cartodb_id FROM v1_projects AS P WHERE P.agency_id = a.cartodb_id), '|') as projects_ids, " +
-            "array_to_string(array(SELECT P.title FROM v1_projects AS P WHERE P.agency_id = a.cartodb_id), '|') as projects_titles " +
-            "FROM v1_agencies AS A LEFT JOIN v1_projects AS P ON (A.cartodb_id = P.agency_id) LEFT JOIN v1_projects ON (A.cartodb_id = P.solution_id)";
-
-          this.addOverlay("agencies", query);
+          this.addOverlay("agencies", queries.GET_AGENCIES);
         }
       },
       addProjects: function() {
         this.disableFilters();
 
-        if (!this.startYear) { this.startYear = startYear; }
-        if (!this.endYear)   { this.endYear   = endYear; }
+        if (!this.startYear) {
+          this.startYear = config.START_YEAR;
+        }
 
-        // Filters by topic
-        var topicsCondition = (topics.length > 0) ? " P.topic_id  IN (" + topics.join(',') + ") AND " : "";
+        if (!this.endYear) {
+          this.endYear = config.END_YEAR;
+        }
+
+        // Build filters by topic & solution
+        var topicsCondition   = (topics.length > 0) ? " P.topic_id  IN (" + topics.join(',') + ") AND " : "";
         var solutionCondition = (solutionFilter === 'solutions') ? " P.solution_id IS NOT NULL AND " : "";
 
-        var query = "WITH qu AS ( " +
-          "    WITH hull as ( " +
-          "        SELECT  " +
-          "            P.cartodb_id AS project_id, P.title, P.approval_date, P.fixed_approval_date, P.external_project_url,  " +
-          "            P.location_verbatim, P.topic_id, P.solution_id AS solution_id, P.budget, S.name AS solution_name, S.nexso_url AS solution_url,  " +
-          "            A.external_url AS agency_url, A.name AS agency_name, ST_AsGeoJSON(A.the_geom) AS agency_position, " +
-          "            ST_Collect(PWA.the_geom) AS the_geom  " +
-          "        FROM  " +
-          "            v1_projects P LEFT JOIN v1_solutions S ON (P.solution_id = S.cartodb_id) " +
-          "            LEFT JOIN v1_agencies A ON (P.agency_id = A.cartodb_id),  " +
-          "            v1_project_work_areas AS PWA  " +
-          "        WHERE  " +
-          "            P.cartodb_id = PWA.project_id AND  " +
-          topicsCondition +
-          solutionCondition +
-          "            EXTRACT(YEAR FROM P.fixed_approval_date) >= " + this.startYear + " AND  " +
-          "            EXTRACT(YEAR FROM P.fixed_approval_date) <= " + this.endYear + "  " +
-          "        GROUP BY  " +
-          "            P.cartodb_id, title, approval_date, fixed_approval_date,  " +
-          "            external_project_url, location_verbatim, topic_id, solution_id, budget, A.external_url, A.name, " +
-          "            solution_name, solution_url, agency_position" +
-          "    )  " +
-          "    SELECT *, ST_ConvexHull(the_geom) AS hull_geom FROM hull " +
-          " " +
-          ")  " +
-          "SELECT  " +
-          "    project_id, title, approval_date, fixed_approval_date, external_project_url,  " +
-          "    location_verbatim, topic_id, budget, agency_name, agency_url, the_geom, agency_position, solution_id, solution_name, solution_url,  " +
-          "    ST_X(ST_Centroid(hull_geom)) AS centroid_lon,  " +
-          "    ST_Y(ST_Centroid(hull_geom)) AS centroid_lat,  " +
-          "    ST_X(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom),hull_geom))) AS radius_point_lon,  " +
-          "    ST_Y(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom), hull_geom))) AS radius_point_lat " +
-          "FROM qu  " +
-          "ORDER BY " +
-          "    ST_Area(hull_geom) desc";
-
+        var template = _.template(queries.GET_PROJECTS_QUERY_TEMPLATE);
+        var query    = template({ startYear: this.startYear, endYear: this.endYear, topicsCondition: topicsCondition, solutionCondition: solutionCondition });
 
         this.addOverlay("projects", query, function() { Timeline.show(); });
-
       },
       addOverlay: function(name, query, callback) {
         var that = this;
@@ -691,7 +655,7 @@ $(function () {
         }
 
         if (topics.length > 0) {
-          $(".filter.view ul.ticks li#projects").addClass("selected"); // in case it was turned off
+          $("#projects").addClass("selected"); // in case it was turned off
           mapView.removeOverlay("projects");
           mapView.addProjects();
           mapView.addAgencies();
