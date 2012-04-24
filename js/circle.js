@@ -27,7 +27,7 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
   var agency_lines = [];
 
   _.each(lines, function(line,i) {
-    
+
     if (!line) return false;
 
     var
@@ -53,7 +53,7 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
   this.circle.setOptions({"lines": agency_lines});
 
   google.maps.event.addListener(this.circle, 'click', function(event) {
-    var 
+    var
     that         = this,
     properties   = this.polygons[0][0].geojsonProperties,
     title        = properties.title,
@@ -72,7 +72,7 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
     budget       = properties.budget;
 
     function onHiddenAside() {
-      var 
+      var
       $asideContent = $(".aside .content"),
       $asideItems = $asideContent.find("ul");
 
@@ -129,7 +129,7 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
       previousZoom   = map.getZoom();
       previousCenter = map.getCenter();
 
-      aside.show();
+      Aside.show();
       Infowindow.hide();
 
       // Focus on the overlay with the related agency/ies
@@ -151,7 +151,7 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
     function onInfowindowClick(e) {
       e.preventDefault();
       Timeline.hide();
-      aside.hide(onHiddenAside);
+      Aside.hide(onHiddenAside);
     }
 
     // Infowindow setup
@@ -188,7 +188,7 @@ RadiusWidget.prototype.onMouseOut = function(ev) {
     else polygon[0].setOptions(projectsStyle);
   });
 
-  if (this.disabled) this.setOptions(circleDisabledStyle);  
+  if (this.disabled) this.setOptions(circleDisabledStyle);
   else this.setOptions(circleStyle);
 };
 
@@ -240,7 +240,7 @@ RadiusWidget.prototype.hideAll = function() {
     if (that.circle.lines.length > 0 &&
       agency.getPosition().lat() != that.circle.lines[0].getPath().getAt(1).lat() &&
       agency.getPosition().lng() != that.circle.lines[0].getPath().getAt(1).lng()) {
-        agency.hide();  
+        agency.hide();
       }
   });
 

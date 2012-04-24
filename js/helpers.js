@@ -1,30 +1,30 @@
-var // Globals
-Infowindow, Timeline, aside;
-
 var config = {
     CARTODB_USER:     "nexso2",
-    CARTODB_ENDPOINT: "https://nexso2.cartodb.com/api/v2/sql"
+    CARTODB_ENDPOINT: "https://nexso2.cartodb.com/api/v2/sql",
+    ZOOM:             3,
+    MINZOOM:          3,
+    MAXZOOM:          16,
+    LAT:              3.162456,
+    LNG:              -73.476563,
+    MONTHNAMES:       ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+    YEARS:            [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014]
 };
 
 var // DEFAULTS
+    Infowindow,
+    Timeline,
+    Aside,
+    mapView,
+    filterView,
     debug            = true,
-    lat              = 3.162456,
-    lng              = -73.476563,
-    zoom             = 3,
-    minZoom          = 3,
-    maxZoom          = 16,
     previousZoom     = 3,
     topics           = [1, 2, 3, 4, 5, 6],
     solutionFilter   = "all",
     previousCenter,
-    mapView,
-    filterView,
-    disabledFilters = false,
-    globalZindex = 300,
-    monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-    years      = [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014],
-    startYear  = years[0],
-    endYear    = years[years.length - 1];
+    disabledFilters  = false,
+    globalZindex     = 300,
+    startYear        = config.YEARS[0],
+    endYear          = config.YEARS[config.YEARS.length - 1];
 
 var // Map styles
     projectsStyle               = { strokeColor: "#E79626", strokeOpacity: 0.4, strokeWeight: 1, fillColor: "#E79626", fillOpacity: 0.2 },
@@ -98,7 +98,7 @@ function prettifyDate(date) {
     var prefixes = ["th", "st", "nd", "rd"];
     var prefix = day > 3 ? prefixes[0] : prefixes[day];
 
-    return monthNames[month] + " " + day + prefix + ", " + year;
+    return config.MONTHNAMES[month] + " " + day + prefix + ", " + year;
   }
   return null;
 }

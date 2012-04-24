@@ -39,85 +39,84 @@ $(function () {
   });
 
   /*
-  * SPINNER
-  */
+   * SPINNER
+   */
+  var spinner = (function () {
+    var options = {
+      lines: 7, // The number of lines to draw
+      length: 0, // The length of each line
+      width: 3, // The line thickness
+      radius: 4, // The radius of the inner circle
+      rotate: 0, // The rotation offset
+      color: '#000', // #rgb or #rrggbb
+      speed: 1, // Rounds per second
+      trail: 55, // Afterglow percentage
+      shadow: false, // Whether to render a shadow
+      hwaccel: false, // Whether to use hardware acceleration
+      className: 'spinner', // The CSS class to assign to the spinner
+      zIndex: 2e9, // The z-index (defaults to 2000000000)
+      top: 'auto', // Top position relative to parent in px
+      left: 'auto' // Left position relative to parent in px
+    },
+    el,
+    spin;
 
-    var spinner = (function () {
-        var options = {
-            lines: 7, // The number of lines to draw
-            length: 0, // The length of each line
-            width: 3, // The line thickness
-            radius: 4, // The radius of the inner circle
-            rotate: 0, // The rotation offset
-            color: '#000', // #rgb or #rrggbb
-            speed: 1, // Rounds per second
-            trail: 55, // Afterglow percentage
-            shadow: false, // Whether to render a shadow
-            hwaccel: false, // Whether to use hardware acceleration
-            className: 'spinner', // The CSS class to assign to the spinner
-            zIndex: 2e9, // The z-index (defaults to 2000000000)
-            top: 'auto', // Top position relative to parent in px
-            left: 'auto' // Left position relative to parent in px
-        },
-        el,
-        spin;
+    function _initialize() {
+      el = document.getElementById('minispinner_wrapper');
+      spin = new Spinner(options).spin(el);
+    }
 
-        function _initialize() {
-          el = document.getElementById('minispinner_wrapper');
-          spin = new Spinner(options).spin(el);
-        }
+    function _show() {
+      $(el).fadeIn();
+      _bindEvents();
+    }
 
-        function _show() {
-          $(el).fadeIn();
-          _bindEvents();
-        }
+    function _hide() {
+      $(el).fadeOut(function(){
+        _unbindEvents();
+      });
+    }
 
-        function _hide() {
-          $(el).fadeOut(function(){
-            _unbindEvents();
-          });
-        }
+    function _disable() {
+      $(el).css('opacity', 0);
+    }
 
-        function _disable() {
-          $(el).css('opacity', 0);
-        }
+    function _enable() {
+      $(el).css('opacity', 1);
+    }
 
-        function _enable() {
-          $(el).css('opacity', 1);
-        }
+    function _bindEvents() {
+      $(window).mousemove( function(e) {
+        spinner.positionate(e.pageX + 10,e.pageY + 10);
+      });
+      $(window).mouseleave( function(e) {
+        _disable();
+      });
+      $(window).mouseenter( function(e) {
+        _enable();
+      });
+    }
 
-        function _bindEvents() {
-          $(window).mousemove( function(e) {
-            spinner.positionate(e.pageX + 10,e.pageY + 10);
-          });
-          $(window).mouseleave( function(e) {
-            _disable();
-          });
-          $(window).mouseenter( function(e) {
-            _enable();
-          });
-        }
+    function _unbindEvents() {
+      $(window).unbind('mousemove mouseleave mouseenter');
+    }
 
-        function _unbindEvents() {
-          $(window).unbind('mousemove mouseleave mouseenter');
-        }
+    function _positionate(x,y) {
+      $(el).css({'top':y + 'px', 'left': x + 'px'});
+    }
 
-        function _positionate(x,y) {
-          $(el).css({'top':y + 'px', 'left': x + 'px'});
-        }
+    _initialize(options);
 
-        _initialize(options);
-
-      return {
-        show: _show,
-        hide: _hide,
-        positionate: _positionate
+    return {
+      show: _show,
+      hide: _hide,
+      positionate: _positionate
     };
   }());
 
   // Shows the circle, marker or polygon
   function showFeature(view, name, geojson, style){
-  var data = null;
+    var data = null;
     try {
       data = JSON.parse(geojson);
     } catch ( e ) {
@@ -135,8 +134,8 @@ $(function () {
     }
 
     var
-    polygons,
-    agencies;
+    polygons = [];
+    agencies = [];
 
     if (view.overlays[name].length){
       for (var i = 0; i < view.overlays[name].length; i++) {
@@ -199,8 +198,11 @@ $(function () {
     };
 
     $el.addClass("loading");
-    el = document.getElementById($el.attr('id'));
-    var spinner = new Spinner(options).spin(el);
+
+    var
+    el      = document.getElementById($el.attr('id')),
+    spinner = new Spinner(options).spin(el);
+
     $(spinner.el).fadeIn(250);
   }
 
@@ -212,13 +214,14 @@ $(function () {
     project.unMarkSelected(true);
     $(this).removeData('project');
 
-    aside.hide(Timeline.show);
+    Aside.hide(Timeline.show);
     map.setZoom(previousZoom);
   });
 
-  aside = (function() {
+  Aside = (function() {
     _show = function() {
       var projectBefore = $('.aside a.close').data('project');
+
       if (projectBefore) {
         projectBefore.unMarkSelected(true);
       }
@@ -279,7 +282,12 @@ $(function () {
   }());
 
   // Slider
-  $( "#timeline .slider" ).slider({ range: true, min: 0, max: 13*30, step: 30, values: [0, 500],
+  $( "#timeline .slider" ).slider({
+    range: true,
+    min: 0,
+    max: 13*30,
+    step: 30,
+    values: [0, 500],
     stop: function(event, ui) {
 
       mapView.startYear = startYear;
@@ -287,6 +295,7 @@ $(function () {
 
       mapView.removeOverlay("projects");
       mapView.addProjects();
+
     },
     slide: function( event, ui ) {
       $('#timeline li').removeClass("selected");
@@ -304,11 +313,11 @@ $(function () {
 
     // Map
     var mapOptions = {
-      zoom: zoom,
-      minZoom: minZoom,
-      maxZoom: maxZoom,
-      center: new google.maps.LatLng(lat, lng),
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      zoom:             config.ZOOM,
+      minZoom:          config.MINZOOM,
+      maxZoom:          config.MAXZOOM,
+      center:           new google.maps.LatLng(config.LAT, config.LNG),
+      mapTypeId:        google.maps.MapTypeId.ROADMAP,
       disableDefaultUI: true
     };
 
@@ -504,10 +513,10 @@ $(function () {
 
         } else { // Load the ashokas
           var query = "SELECT A.the_geom, A.ashoka_url AS agency_url, A.topic_id AS topic_id, A.name, "  +
-          "A.solution_id, S1.name solution_name, S1.nexso_url solution_url " +
-          "FROM v1_ashoka AS A "  +
-          "LEFT JOIN v1_solutions S1 ON (S1.cartodb_id = A.solution_id)" +
-          "WHERE A.the_geom IS NOT NULL AND topic_id IS NOT NULL";
+            "A.solution_id, S1.name solution_name, S1.nexso_url solution_url " +
+            "FROM v1_ashoka AS A "  +
+            "LEFT JOIN v1_solutions S1 ON (S1.cartodb_id = A.solution_id)" +
+            "WHERE A.the_geom IS NOT NULL AND topic_id IS NOT NULL";
           this.addOverlay("ashokas", query);
         }
       },
@@ -529,9 +538,9 @@ $(function () {
         } else { // Load the agencies
 
           var query = "SELECT A.the_geom, A.external_url AS agency_url, A.name AS agency_name, P.solution_id, P.topic_id, " +
-          "array_to_string(array(SELECT P.cartodb_id FROM v1_projects AS P WHERE P.agency_id = a.cartodb_id), '|') as projects_ids, " +
-          "array_to_string(array(SELECT P.title FROM v1_projects AS P WHERE P.agency_id = a.cartodb_id), '|') as projects_titles " +
-          "FROM v1_agencies AS A LEFT JOIN v1_projects AS P ON (A.cartodb_id = P.agency_id) LEFT JOIN v1_projects ON (A.cartodb_id = P.solution_id)";
+            "array_to_string(array(SELECT P.cartodb_id FROM v1_projects AS P WHERE P.agency_id = a.cartodb_id), '|') as projects_ids, " +
+            "array_to_string(array(SELECT P.title FROM v1_projects AS P WHERE P.agency_id = a.cartodb_id), '|') as projects_titles " +
+            "FROM v1_agencies AS A LEFT JOIN v1_projects AS P ON (A.cartodb_id = P.agency_id) LEFT JOIN v1_projects ON (A.cartodb_id = P.solution_id)";
 
           this.addOverlay("agencies", query);
         }
@@ -559,31 +568,31 @@ $(function () {
           "            v1_project_work_areas AS PWA  " +
           "        WHERE  " +
           "            P.cartodb_id = PWA.project_id AND  " +
-                       topicsCondition +
-                       solutionCondition +
+          topicsCondition +
+          solutionCondition +
           "            EXTRACT(YEAR FROM P.fixed_approval_date) >= " + this.startYear + " AND  " +
           "            EXTRACT(YEAR FROM P.fixed_approval_date) <= " + this.endYear + "  " +
           "        GROUP BY  " +
           "            P.cartodb_id, title, approval_date, fixed_approval_date,  " +
           "            external_project_url, location_verbatim, topic_id, solution_id, budget, A.external_url, A.name, " +
           "            solution_name, solution_url, agency_position" +
-    "    )  " +
-    "    SELECT *, ST_ConvexHull(the_geom) AS hull_geom FROM hull " +
-    " " +
-    ")  " +
-    "SELECT  " +
-    "    project_id, title, approval_date, fixed_approval_date, external_project_url,  " +
-    "    location_verbatim, topic_id, budget, agency_name, agency_url, the_geom, agency_position, solution_id, solution_name, solution_url,  " +
-    "    ST_X(ST_Centroid(hull_geom)) AS centroid_lon,  " +
-    "    ST_Y(ST_Centroid(hull_geom)) AS centroid_lat,  " +
-    "    ST_X(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom),hull_geom))) AS radius_point_lon,  " +
-    "    ST_Y(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom), hull_geom))) AS radius_point_lat " +
-    "FROM qu  " +
-    "ORDER BY " +
-    "    ST_Area(hull_geom) desc";
+          "    )  " +
+          "    SELECT *, ST_ConvexHull(the_geom) AS hull_geom FROM hull " +
+          " " +
+          ")  " +
+          "SELECT  " +
+          "    project_id, title, approval_date, fixed_approval_date, external_project_url,  " +
+          "    location_verbatim, topic_id, budget, agency_name, agency_url, the_geom, agency_position, solution_id, solution_name, solution_url,  " +
+          "    ST_X(ST_Centroid(hull_geom)) AS centroid_lon,  " +
+          "    ST_Y(ST_Centroid(hull_geom)) AS centroid_lat,  " +
+          "    ST_X(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom),hull_geom))) AS radius_point_lon,  " +
+          "    ST_Y(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom), hull_geom))) AS radius_point_lat " +
+          "FROM qu  " +
+          "ORDER BY " +
+          "    ST_Area(hull_geom) desc";
 
 
-    this.addOverlay("projects", query, function() { Timeline.show(); });
+        this.addOverlay("projects", query, function() { Timeline.show(); });
 
       },
       addOverlay: function(name, query, callback) {
@@ -626,109 +635,30 @@ $(function () {
     // some helper view to show how to use the model
     var FilterView = Backbone.View.extend({
       initialize: function() {
+        var that = this;
 
         // Filter by solution & topic
-        this.$(".filter.filters ul.radio li").on("click", function(e) {
+        this.$("#solution-filter li").on("click", function(e) {
           e.preventDefault();
           e.stopPropagation();
 
-          if (disabledFilters) {
-            return;
-          }
-
-          mapView.disableFilters();
-
-          setupSpinner($(this));
-
-          solutionFilter = $(this).attr('id').trim();
-
-          mapView.removeOverlay("projects");
-          mapView.addProjects();
-          mapView.addAgencies();
-          mapView.addAshokas();
-
+          that.filterBySolution($(this));
         });
 
-        this.$(".filter.filters ul.ticks li").on("click", function(e) {
+        this.$("#topic-filter li").on("click", function(e) {
           e.preventDefault();
           e.stopPropagation();
 
-          if (disabledFilters) {
-            return;
-          }
-
-          mapView.disableFilters();
-          setupSpinner($(this));
-
-          $(this).toggleClass("selected");
-          var id = $(this).attr('id').trim();
-          var c  = parseInt($(this).attr('class').replace(/selected/, "").replace("t", "").trim(), 10);
-
-          if ($(this).hasClass('selected')) { // Shows the desired overlay
-            topics.push(c);
-          } else {
-            topics = _.without(topics, c);
-          }
-
-          if (topics.length > 0) {
-            $(".filter.view ul.ticks li#projects").addClass("selected"); // in case it was turned off
-            mapView.removeOverlay("projects");
-            mapView.addProjects();
-            mapView.addAgencies();
-            mapView.addAshokas();
-
-          } else {
-            mapView.removeOverlay("projects");
-            mapView.removeOverlay("agencies");
-            mapView.removeOverlay("ashokas");
-          }
-
+          that.filterByTopic($(this));
         });
 
-        this.$(".filter.view ul.ticks li").on("click", function(e) {
+        this.$("#type-filter li").on("click", function(e) {
           e.preventDefault();
           e.stopPropagation();
 
-          if (disabledFilters) {
-            return;
-          }
-
-          mapView.disableFilters();
-          setupSpinner($(this));
-
-          $(this).toggleClass("selected");
-
-          var id = $(this).attr('id').trim();
-          var c  = $(this).attr('class').replace(/selected/, "").trim();
-
-          if ($(this).hasClass('selected')) { // Shows the desired overlay
-
-            if (id === "agencies") {
-              mapView.addAgencies();
-            }
-            else if (id === "ashokas") {
-              mapView.addAshokas();
-            }
-            else if (id === "projects") {
-              mapView.addProjects();
-            }
-
-          } else { // Removes the desired overlay
-
-            if (id === "projects" || id === "agencies" || id === "ashokas") {
-
-              if (id === 'projects') {
-                Timeline.hide();
-              }
-
-              Infowindow.hide();
-              mapView.removeOverlay(id);
-
-            }
-          }
+          that.filterByType($(this));
         });
       },
-
       disable: function(){
         $(".cancel").on("click", function(e) {
           e.preventDefault();
@@ -741,6 +671,93 @@ $(function () {
       enable: function () {
         $("ul.filters").removeClass("disabled");
         $(".cancel").hide();
+      },
+      filterByTopic: function($el) {
+        if (disabledFilters) {
+          return;
+        }
+
+        mapView.disableFilters();
+        setupSpinner($el);
+
+        $el.toggleClass("selected");
+        var id = $el.attr('id').trim();
+        var c  = parseInt($el.attr('class').replace(/selected/, "").replace("t", "").trim(), 10);
+
+        if ($el.hasClass('selected')) { // Shows the desired overlay
+          topics.push(c);
+        } else {
+          topics = _.without(topics, c);
+        }
+
+        if (topics.length > 0) {
+          $(".filter.view ul.ticks li#projects").addClass("selected"); // in case it was turned off
+          mapView.removeOverlay("projects");
+          mapView.addProjects();
+          mapView.addAgencies();
+          mapView.addAshokas();
+        } else {
+          mapView.removeOverlay("projects");
+          mapView.removeOverlay("agencies");
+          mapView.removeOverlay("ashokas");
+        }
+      },
+      filterBySolution: function($el) {
+
+        if (disabledFilters) {
+          return;
+        }
+
+        mapView.disableFilters();
+
+        setupSpinner($el);
+
+        solutionFilter = $el.attr('id').trim();
+
+        mapView.removeOverlay("projects");
+        mapView.addProjects();
+        mapView.addAgencies();
+        mapView.addAshokas();
+
+      },
+      filterByType: function($el) {
+        if (disabledFilters) {
+          return;
+        }
+
+        mapView.disableFilters();
+        setupSpinner($el);
+
+        $el.toggleClass("selected");
+
+        var id = $el.attr('id').trim();
+        var c  = $el.attr('class').replace(/selected/, "").trim();
+
+        if ($el.hasClass('selected')) { // Shows the desired overlay
+
+          if (id === "agencies") {
+            mapView.addAgencies();
+          }
+          else if (id === "ashokas") {
+            mapView.addAshokas();
+          }
+          else if (id === "projects") {
+            mapView.addProjects();
+          }
+
+        } else { // Removes the desired overlay
+
+          if (id === "projects" || id === "agencies" || id === "ashokas") {
+
+            if (id === 'projects') {
+              Timeline.hide();
+            }
+
+            Infowindow.hide();
+            mapView.removeOverlay(id);
+
+          }
+        }
       }
     });
 
