@@ -15,10 +15,10 @@ $(function () {
   $("a[data-click='visit']").on("click", function(e) {
     e.preventDefault();
 
-    if (isEmpty($("#addresspicker").val())) return;
-
     var lat = $(".input_field input#lat").val();
     var lng = $(".input_field input#lng").val();
+
+    if (!(lat && lng)) return;
 
     startExploring(function() {
       var latLng = new google.maps.LatLng(lat, lng);
