@@ -12,6 +12,15 @@ $(function () {
     startExploring();
   });
 
+  function updateCounter (name, count) {
+    if ($(".welcome").length > 0) {
+      $(".stats li." + name + " span").fadeOut(250, function() {
+        $(this).html(count);
+        $(this).fadeIn(250);
+      });
+    }
+  }
+
   function startExploring() {
 
     $(".timeline-cover").animate({opacity:0, bottom: -30}, 250, function() {
@@ -605,6 +614,7 @@ $(function () {
               return;
             }
 
+            updateCounter(name, data.features.length);
             showFeature(that, name, data, projectsStyle);
 
             if (callback) {
