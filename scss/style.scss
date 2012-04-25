@@ -198,7 +198,7 @@ h4 { font-size: 11px; font-weight:bold; }
       background-repeat: none;
 
       .magnifier { position:absolute; top: 12px; right: 10px; width:16px; height: 15px; @include icons-sprite(magnifier); }
-      .placeholder { position: absolute; top: 11px; left: 12px; font-size:15px; font-weight:200; color:#CCC; }
+      .placeholder { position: absolute; top: 10px; left: 12px; font-size:15px; font-weight:200; color:#CCC; line-height:normal; }
 
       input[type="text"] {
         height:41px;
