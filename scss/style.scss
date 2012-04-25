@@ -127,6 +127,30 @@ h4 { font-size: 11px; font-weight:bold; }
   background-color:rgba(255,255,255, 0.7);
 }
 
+.timeline-cover {
+  $width: 946px;
+  $height: 72px;
+
+  position:absolute;
+  bottom: 23px;
+
+  padding: 32px 0;
+
+  height:$height - 64;
+  width:$width;
+
+  @include backgrounds-sprite(bkg_timeline_cover);
+  left:50%;
+  margin-left:-1*$width/2;
+
+  text-align: center;
+  font-size: 11px;
+  font-weight: 200;
+  text-transform: uppercase;
+  color: $subtle_gray;
+  z-index:10600;
+}
+
 .welcome {
 
   $width: 980px;
