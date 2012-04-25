@@ -87,9 +87,11 @@ InfoWindow.prototype.bindProjects = function () {
 
     _.each(mapView.circles, function (rw, i) {
 
-      if (rw.circle.center.lat() === latLng.lat() &&
-          rw.circle.center.lng() === latLng.lng()) {
-        setTimeout(function () { google.maps.event.trigger(rw.circle, 'click', {latLng: latLng}); }, 500);
+      if (rw.circle.center.lat() === latLng.lat() && rw.circle.center.lng() === latLng.lng()) {
+        setTimeout(function () {
+          rw.circle.parent.markSelected();
+          google.maps.event.trigger(rw.circle, 'click', {latLng: latLng});
+        }, 500);
       return;
       }
     });

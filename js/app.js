@@ -20,6 +20,12 @@ $(function () {
     visitPlace();
   });
 
+  $("#addresspicker").addresspicker({
+    elements: {
+      lat:      "#lat",
+      lng:      "#lng"
+    }
+  });
 
   $("ul.stats li").each(function(i, li) {
     var
@@ -56,10 +62,11 @@ $(function () {
     startExploring(function() {
       var latLng = new google.maps.LatLng(lat, lng);
 
-      map.fitBounds(searchCircle.getBounds());
-
-      searchCircle.parent.markSelected();
-      setTimeout(function () { google.maps.event.trigger(searchCircle, 'click', {latLng: latLng}); }, 500);
+      map.panTo(latLng);
+      map.setZoom(7);
+      //map.fitBounds(searchCircle.getBounds());
+      //searchCircle.parent.markSelected();
+      //setTimeout(function () { google.maps.event.trigger(searchCircle, 'click', {latLng: latLng}); }, 500);
     });
   }
 
@@ -256,8 +263,7 @@ $(function () {
           distanceWidget = new RadiusWidget(map, cLatLng, rLatLng, view.overlays[name][i], [properties.agency_position]);
 
           if (name == 'projects') {
-            console.log(properties);
-            autocompleteSource.push({circle:distanceWidget.circle, more:properties,value: properties.title, lat: properties.centroid_lat, lng: properties.centroid_lon});
+            autocompleteSource.push({ circle: distanceWidget.circle, more: properties, value: properties.title, lat: properties.centroid_lat, lng: properties.centroid_lon});
           }
 
           view.circles.push(distanceWidget);
@@ -272,23 +278,24 @@ $(function () {
       }
     }
     //spinner.hide();
-    if (name == 'projects') updateCounter("solutions", solution_count);
-    if (name == 'projects') $("#addresspicker").autocomplete({
-      source: autocompleteSource,
-      focus: function( event, ui ) {
-        $( "#addresspicker" ).val( ui.item.value );
-        return false;
-      },
-      select: function( event, ui ) {
-				$( "#addresspicker" ).val( ui.item.value );
-				console.log(ui);
-				$( "#lat" ).val(ui.item.lat);
-				$( "#lng" ).val(ui.item.lng);
-				searchCircle = ui.item.circle;
 
-				return false;
-			}
-    });
+    //if (name == 'projects') updateCounter("solutions", solution_count);
+    //if (name == 'projects') $("#addresspicker").autocomplete({
+      //minLength: 3,
+      //source: autocompleteSource,
+      //focus: function( event, ui ) {
+        //$( "#addresspicker" ).val( ui.item.value );
+        //return false;
+      //},
+      //select: function( event, ui ) {
+				//$( "#addresspicker" ).val( ui.item.value );
+				//$( "#lat" ).val(ui.item.lat);
+				//$( "#lng" ).val(ui.item.lng);
+				//searchCircle = ui.item.circle;
+
+				//return false;
+			//}
+    //});
 
     view.enableFilters();
   }
