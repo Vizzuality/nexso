@@ -151,6 +151,45 @@ h4 { font-size: 11px; font-weight:bold; }
   z-index:10600;
 }
 
+.filter-help {
+  position: relative;
+  width:980px;
+  margin:auto;
+  z-index: 10501;
+
+  .help {
+    position: relative;
+    float: right;
+    height:100px;
+    width:330px;
+    color:$subtle_gray;
+    font-size:11px;
+    font-weight:500;
+    text-transform: uppercase;
+
+    .download {
+      position:absolute;
+      top: 12px;
+      left: 0px;
+      padding-right: 18px;
+      padding-top:8px;
+      background:url(/img/icons/l_arrow.png) no-repeat right top;
+
+    }
+
+    .filter {
+      position:absolute;
+      top: 12px;
+      left: 185px;
+
+      padding-right: 10px;
+      padding-top:30px;
+      background:url(/img/icons/double_arrow.png) no-repeat right top;
+    }
+
+  }
+}
+
 .welcome {
 
   $width: 980px;
@@ -161,7 +200,7 @@ h4 { font-size: 11px; font-weight:bold; }
   top:50%;
   width:$width;
   height:230px;
-  margin-top:-1*($height - 10) / 2;
+  margin-top:-1*($height + 10) / 2;
   margin-left:-1*$width/2;
   z-index: 10501;
 

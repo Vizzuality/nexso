@@ -26,18 +26,21 @@ $(function () {
     $(".timeline-cover").animate({opacity:0, bottom: -30}, 250, function() {
       $(this).remove();
 
-    $(".left-side").animate({ left:"-200px", opacity:0 }, 400, function() {
-      $(this).remove();
-    });
-
-    $(".right-side").animate({ left:"200px", opacity:0 }, 400, function() {
-      $(this).remove();
-
-      $(".welcome, .backdrop").fadeOut(250, function() {
+      $(".filter-help").animate({ top:"-100px", opacity:0 }, 250, function() {
+        $(this).remove();
+      });
+      $(".left-side").animate({ left:"-200px", opacity:0 }, 400, function() {
         $(this).remove();
       });
 
-    });
+      $(".right-side").animate({ left:"200px", opacity:0 }, 400, function() {
+        $(this).remove();
+
+        $(".welcome, .backdrop").fadeOut(250, function() {
+          $(this).remove();
+        });
+
+      });
 
     });
 
