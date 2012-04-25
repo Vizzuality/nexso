@@ -204,6 +204,7 @@ $(function () {
     var
     polygons = [];
     agencies = [];
+    solution_count = 0;
 
     if (view.overlays[name].length){
       for (var i = 0; i < view.overlays[name].length; i++) {
@@ -224,12 +225,17 @@ $(function () {
 
           // Draws circles
           var
-          o = view.overlays[name][i][0][0],
-          cLatLng = new google.maps.LatLng(o.geojsonProperties.centroid_lat, o.geojsonProperties.centroid_lon),
-          rLatLng = new google.maps.LatLng(o.geojsonProperties.radius_point_lat, o.geojsonProperties.radius_point_lon),
-          distanceWidget = new RadiusWidget(map, cLatLng, rLatLng, view.overlays[name][i], [o.geojsonProperties.agency_position]);
+          o              = view.overlays[name][i][0][0],
+          properties     = o.geojsonProperties,
+          cLatLng        = new google.maps.LatLng(properties.centroid_lat, properties.centroid_lon),
+          rLatLng        = new google.maps.LatLng(properties.radius_point_lat, properties.radius_point_lon),
+          distanceWidget = new RadiusWidget(map, cLatLng, rLatLng, view.overlays[name][i], [properties.agency_position]);
 
           view.circles.push(distanceWidget);
+
+            if (name == "projects") {
+              solution_count += properties.solution_count;
+            }
 
         } else {
           view.overlays[name][i].setMap(map);
@@ -237,6 +243,7 @@ $(function () {
       }
     }
     //spinner.hide();
+    if (name == 'projects') updateCounter("solutions", solution_count);
     view.enableFilters();
   }
 

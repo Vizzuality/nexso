@@ -92,7 +92,7 @@ var queries = {
  GET_PROJECTS_QUERY_TEMPLATE: "WITH qu AS ( " +
    "    WITH hull as ( " +
    "        SELECT  " +
-   "            P.cartodb_id AS project_id, P.title, P.approval_date, P.fixed_approval_date, P.external_project_url,  " +
+   "            COUNT(S.cartodb_id) AS solution_count, P.cartodb_id AS project_id, P.title, P.approval_date, P.fixed_approval_date, P.external_project_url,  " +
    "            P.location_verbatim, P.topic_id, P.solution_id AS solution_id, P.budget, S.name AS solution_name, S.nexso_url AS solution_url,  " +
    "            A.external_url AS agency_url, A.name AS agency_name, ST_AsGeoJSON(A.the_geom) AS agency_position, " +
    "            ST_Collect(PWA.the_geom) AS the_geom  " +
@@ -113,7 +113,7 @@ var queries = {
    " " +
    ")  " +
    "SELECT  " +
-   "    project_id, title, approval_date, fixed_approval_date, external_project_url,  " +
+   "    solution_count, project_id, title, approval_date, fixed_approval_date, external_project_url,  " +
    "    location_verbatim, topic_id, budget, agency_name, agency_url, the_geom, agency_position, solution_id, solution_name, solution_url,  " +
    "    ST_X(ST_Centroid(hull_geom)) AS centroid_lon,  " +
    "    ST_Y(ST_Centroid(hull_geom)) AS centroid_lat,  " +
