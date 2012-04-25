@@ -7,6 +7,8 @@ $(function () {
     }
   });
 
+  $(".input_field").smartPlaceholder();
+
   if ($("ul.radio li.selected").length <= 0) {
     $("ul.radio li:first-child").addClass("selected");
   }
