@@ -124,7 +124,7 @@ h4 { font-size: 11px; font-weight:bold; }
   left: 0;
   z-index: 10500;
   background-color: #fff;
-  background-color:rgba(255,255,255, 0.7);
+  background-color:rgba(255,255,255, 0.8);
 }
 
 .timeline-cover {
@@ -145,7 +145,7 @@ h4 { font-size: 11px; font-weight:bold; }
 
   text-align: center;
   font-size: 11px;
-  font-weight: 200;
+  font-weight: 500;
   text-transform: uppercase;
   color: $subtle_gray;
   z-index:10600;
@@ -161,15 +161,20 @@ h4 { font-size: 11px; font-weight:bold; }
   top:50%;
   width:$width;
   height:230px;
-  margin-top:-1*$height / 2;
+  margin-top:-1*($height - 10) / 2;
   margin-left:-1*$width/2;
   z-index: 10501;
 
   .left-side {
+    position:relative;
+    @include inline-block();
     width:524px;
-    float:left;
     padding-right:40px;
     margin-right:40px;
+
+    padding: 10px 40px 20px 0;
+
+    background:url(../img/icons/separator.png) repeat-y top right;
 
     h1 {
       font: 46px 'NewsCycle', sans-serif;
@@ -185,7 +190,10 @@ h4 { font-size: 11px; font-weight:bold; }
   }
 
   .right-side {
-    float:left;
+    @include inline-block();
+    position:relative;
+
+    padding: 10px 0px 20px 0;
 
     .btn { float:right; }
 
@@ -221,7 +229,7 @@ h4 { font-size: 11px; font-weight:bold; }
       margin: 0 0 32px 0;
 
       li {
-        display:inline-block;
+        @include inline-block();
         margin: 0 28px 0 0;
         font-size:11px;
         color: $subtle_gray;

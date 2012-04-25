@@ -27,7 +27,7 @@ InfoWindow.prototype.draw = function () {
 
     this.template = _.template(template);
 
-    div.innerHTML = this.template({ name: 'Loading…', agency_name: '', agency_url: '', overlayType: ''});
+    div.innerHTML = this.template({ projects: '', name: 'Loading…', agency_name: '', agency_url: '', overlayType: ''});
 
     this.bindClose();
 
