@@ -1,7 +1,7 @@
 $(function () {
 
   $(document).on("click", function() {
-    if ($(".nav a[data-toggle='filter']").hasClass('selected')){
+    if ($(".nav a[data-toggle='filter']").hasClass('selected')) {
       $(".nav a[data-toggle='filter']").removeClass('selected');
       $(".nav .filter").fadeOut(150);
     }
@@ -14,18 +14,7 @@ $(function () {
 
   $("a[data-click='visit']").on("click", function(e) {
     e.preventDefault();
-
-    var lat = $(".input_field input#lat").val();
-    var lng = $(".input_field input#lng").val();
-
-    if (!(lat && lng)) return;
-
-    startExploring(function() {
-      var latLng = new google.maps.LatLng(lat, lng);
-      map.panTo(latLng);
-      map.setZoom(8);
-    });
-
+    visitPlace();
   });
 
   var addresspickerMap = $("#addresspicker").addresspicker({
@@ -44,36 +33,58 @@ $(function () {
     }
   }
 
+  function visitPlace() {
+
+    var lat = $(".input_field input#lat").val();
+    var lng = $(".input_field input#lng").val();
+
+    if (!lat || !lng) {
+      return;
+    }
+
+    startExploring(function() {
+      var latLng = new google.maps.LatLng(lat, lng);
+
+      map.panTo(latLng);
+      map.setZoom(8);
+    });
+  }
+
   function startExploring(callback) {
 
-    $(".timeline-cover").animate({opacity:0, bottom: -30}, 250, function() {
+    var // animation callbacks
+    removeDiv = function() {
       $(this).remove();
+    },
+    afterHidingBackdrop = function() {
+      removeDiv();
 
-      $(".filter-help").animate({ top:"-100px", opacity:0 }, 250, function() {
-        $(this).remove();
-      });
-      $(".left-side").animate({ left:"-200px", opacity:0 }, 400, function() {
-        $(this).remove();
-      });
+      if (callback) {
+        callback();
+      }
+    },
+    afterHidingRightSide = function() {
+      removeDiv();
+      $(".welcome, .backdrop").fadeOut(250, afterHidingBackdrop);
+    },
+    afterHidingTimeline = function() {
+      removeDiv();
+      $(".filter-help").animate({ top: "-100px", opacity:0 }, 250, removeDiv);
+      $(".left-side").animate( { left: "-200px", opacity:0 }, 400, removeDiv);
+      $(".right-side").animate({ left: "200px",  opacity:0 }, 400, afterHidingRightSide);
+    };
 
-      $(".right-side").animate({ left:"200px", opacity:0 }, 400, function() {
-        $(this).remove();
-
-        $(".welcome, .backdrop").fadeOut(250, function() {
-          $(this).remove();
-
-          if (callback) {
-            callback();
-          }
-        });
-
-      });
-
-    });
-
+    $(".timeline-cover").animate({opacity:0, bottom: -30}, 250, afterHidingTimeline);
   }
 
   $(".input_field").smartPlaceholder();
+
+  $('#addresspicker').keydown(function (e) {
+    if (e.keyCode == 13){
+    e.preventDefault();
+      visitPlace();
+    }
+  })
 
   if ($("ul.radio li.selected").length <= 0) {
     $("ul.radio li:first-child").addClass("selected");
