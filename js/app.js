@@ -24,12 +24,40 @@ $(function () {
     }
   });
 
+  $("ul.stats li").each(function(i, el) {
+    var $el = $(el);
+    var options = {
+      lines: 7, // The number of lines to draw
+      length: 0, // The length of each line
+      width: 7, // The line thickness
+      radius: 8, // The radius of the inner circle
+      rotate: 0, // The rotation offset
+      color: '#000', // #rgb or #rrggbb
+      speed: 1, // Rounds per second
+      trail: 55, // Afterglow percentage
+      shadow: false, // Whether to render a shadow
+      hwaccel: false, // Whether to use hardware acceleration
+      zIndex: 2e9, // The z-index (defaults to 2000000000)
+      className: 'spin'
+    };
+
+    var id = 'spinner_' + $el.attr('class');
+    $el.append('<div id="' + id + '" class="spinner"></div>');
+    el = document.getElementById(id);
+    spin = new Spinner(options).spin(el);
+    $el.find('.spinner').fadeIn(250);
+  });
+
   function updateCounter (name, count) {
     if ($(".welcome").length > 0) {
-      $(".stats li." + name + " span").fadeOut(250, function() {
-        $(this).html(count);
-        $(this).fadeIn(250);
+
+      $(".stats li." + name + " span").html(count);
+
+      $(".stats li." + name + " .spinner ").fadeOut(250, function() {
+        $(this).remove();
+        $(".stats li." + name).removeClass("disabled");
       });
+
     }
   }
 
@@ -523,7 +551,7 @@ $(function () {
 
         disabledFilters = false;
 
-        $(".spinner").fadeOut(250, function() {
+        $(".nav .spinner").fadeOut(250, function() {
           $(this).parent().removeClass("loading");
           $(this).remove();
         });

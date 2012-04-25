@@ -271,13 +271,18 @@ h4 { font-size: 11px; font-weight:bold; }
 
       li {
         @include inline-block();
+        position:relative;
+
         margin: 0 28px 0 0;
         font-size:11px;
         color: $subtle_gray;
         font-weight:bold;
 
         strong { display:block; width:58px; line-height:13px; }
-        span { font: normal 46px 'NewsCycle', sans-serif; display:block; }
+        span   { font: normal 46px 'NewsCycle', sans-serif; display:block; }
+        &.disabled span { color: #eee!Important; }
+
+        & > .spinner { position:absolute; display:none; top: 40px; left: 27px; }
 
         &:last-child { margin: 0; }
 
