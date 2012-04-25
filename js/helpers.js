@@ -15,6 +15,21 @@ var config = {
 config.START_YEAR = config.YEARS[0];
 config.END_YEAR   =  config.YEARS[config.YEARS.length - 1];
 
+config.BIG_SPINNER_OPTIONS = {
+  lines: 7, // The number of lines to draw
+  length: 0, // The length of each line
+  width: 7, // The line thickness
+  radius: 8, // The radius of the inner circle
+  rotate: 0, // The rotation offset
+  color: '#000', // #rgb or #rrggbb
+  speed: 1, // Rounds per second
+  trail: 55, // Afterglow percentage
+  shadow: false, // Whether to render a shadow
+  hwaccel: false, // Whether to use hardware acceleration
+  zIndex: 2e9, // The z-index (defaults to 2000000000)
+  className: 'spin'
+};
+
 var // DEFAULTS
     Infowindow,
     Timeline,
