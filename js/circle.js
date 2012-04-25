@@ -11,6 +11,7 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
 
   // Draw circle
   this.circle = new google.maps.Circle({
+    parent: self,
     strokeColor: "#E79626",
     strokeOpacity: 1,
     strokeWeight: 1,
@@ -141,7 +142,6 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
 
       map.fitBounds(bounds);
       map.panBy(176,0);
-
 
       // Make it "selected"
       $('.aside a.close').data('project',self);
