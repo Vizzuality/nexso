@@ -279,7 +279,8 @@ $(function () {
     }
     //spinner.hide();
 
-    //if (name == 'projects') updateCounter("solutions", solution_count);
+    if (name == 'projects') updateCounter("solutions", solution_count);
+
     //if (name == 'projects') $("#addresspicker").autocomplete({
       //minLength: 3,
       //source: autocompleteSource,
