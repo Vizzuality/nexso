@@ -108,11 +108,11 @@ $(function () {
   $(".input_field").smartPlaceholder();
 
   $('#addresspicker').keydown(function (e) {
-    if (e.keyCode == 13){
-    e.preventDefault();
+    if (e.keyCode == 13) {
+      e.preventDefault();
       visitPlace();
     }
-  })
+  });
 
   if ($("ul.radio li.selected").length <= 0) {
     $("ul.radio li:first-child").addClass("selected");
