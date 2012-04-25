@@ -16,6 +16,7 @@
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3.8&amp;key=AIzaSyBjtJpHprawtS8OfQtC9Pb_urVpbZ8gTaM&amp;sensor=false"> </script>
     <script type="text/javascript" src="js/vendor/selectivizr-min.js"> </script>
     <script type="text/javascript" src="js/vendor/jquery-ui-1.8.18.custom.min.js"> </script>
+    <script type="text/javascript" src="js/vendor/jquery.ui.addresspicker.js"> </script>
     <script type="text/javascript" src="js/vendor/date.js"> </script>
     <script type="text/javascript" src="js/vendor/underscore.string.js"> </script>
     <script type="text/javascript" src="js/vendor/lodash.min.js"> </script>
@@ -127,9 +128,11 @@
         </ul>
         <form action="">
           <div class="input_field">
-            <input type="text" name="search" autocomplete="off" />
+            <input type="text" id="addresspicker" name="search" autocomplete="off" />
+            <input type="hidden" id="lat"/>
+            <input type="hidden" id="lng"/>
             <span class="placeholder">Search for an area...</span>
-            <div class="icon magnifier"></div>
+            <a href="#" class="icon magnifier" data-click="visit"></a>
           </div>
         </form>
         <a href="#" class="btn" data-click="explore">Start exploring</a>

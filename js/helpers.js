@@ -136,6 +136,10 @@ if (typeof String.prototype.trim !== 'function') {
 
 var nexsoStyle = new google.maps.StyledMapType(mapStyles, {name: "Nexso Style"});
 
+function isEmpty(str) {
+  return !str.match(/\S/g);
+}
+
 // Transform a date into something similar to: July 14th, 2006
 function prettifyDate(date) {
   var parsedDate = Date.parseExact(date.splice(4, 0, "-" ).splice(7, 0, "-" ), config.DATE_FORMAT);

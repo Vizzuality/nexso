@@ -12,6 +12,29 @@ $(function () {
     startExploring();
   });
 
+  $("a[data-click='visit']").on("click", function(e) {
+    e.preventDefault();
+
+    if (isEmpty($("#addresspicker").val())) return;
+
+    var lat = $(".input_field input#lat").val();
+    var lng = $(".input_field input#lng").val();
+
+    startExploring(function() {
+      var latLng = new google.maps.LatLng(lat, lng);
+      map.panTo(latLng);
+      map.setZoom(8);
+    });
+
+  });
+
+  var addresspickerMap = $("#addresspicker").addresspicker({
+    elements: {
+      lat:      "#lat",
+      lng:      "#lng"
+    }
+  });
+
   function updateCounter (name, count) {
     if ($(".welcome").length > 0) {
       $(".stats li." + name + " span").fadeOut(250, function() {
@@ -21,7 +44,7 @@ $(function () {
     }
   }
 
-  function startExploring() {
+  function startExploring(callback) {
 
     $(".timeline-cover").animate({opacity:0, bottom: -30}, 250, function() {
       $(this).remove();
@@ -38,6 +61,10 @@ $(function () {
 
         $(".welcome, .backdrop").fadeOut(250, function() {
           $(this).remove();
+
+          if (callback) {
+            callback();
+          }
         });
 
       });
