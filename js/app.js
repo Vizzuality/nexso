@@ -90,6 +90,7 @@ $(function () {
       $(".filter-help").animate({ top: "-100px", opacity:0 }, 250, removeDiv);
       $(".left-side").animate( { left: "-200px", opacity:0 }, 400, removeDiv);
       $(".right-side").animate({ left: "200px",  opacity:0 }, 400, afterHidingRightSide);
+      $(".pac-container").fadeOut(250, function() { $(this).remove(); });
     };
 
     $(".timeline-cover").animate({opacity:0, bottom: -30}, 250, afterHidingTimeline);
