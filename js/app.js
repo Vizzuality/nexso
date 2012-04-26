@@ -10,6 +10,11 @@ $(function () {
     }
   });
 
+  $("a[data-click='search']").on("click", function(e) {
+    e.preventDefault();
+    Aside.show("search");
+  });
+
   $("a[data-click='explore']").on("click", function(e) {
     e.preventDefault();
     startExploring();
@@ -38,8 +43,10 @@ $(function () {
 
   $("ul.stats li").each(function(i, li) {
     var
-    $li = $(li),
-    id = 'spinner_' + $li.attr('class');
+    el   = null,
+    spin = null,
+    $li  = $(li),
+    id   = 'spinner_' + $li.attr('class');
 
     $li.append('<div id="' + id + '" class="spinner"></div>');
     el = document.getElementById(id);
@@ -63,7 +70,11 @@ $(function () {
     $(".timeline-cover").animate({opacity:1, bottom: "23px"}, 250);
 
     $(".welcome, .backdrop").fadeIn(250, function() {
-      $(".filter-help").animate({ top: "0",  opacity:1 }, 250);
+
+      $(".nav .input_field").fadeOut(250, function() {
+        $(".filter-help").animate({ top: "0",  opacity:1 }, 250);
+      });
+
       $(".left-side").animate( { left: "0",  opacity:1 }, 400);
       $(".right-side").animate({ left: "0", opacity:1 }, 400);
     });
@@ -106,6 +117,7 @@ $(function () {
     afterHidingRightSide = function() {
       //removeDiv();
       $(".welcome, .backdrop").fadeOut(250, afterHidingBackdrop);
+      $(".nav .input_field").fadeIn(550);
     },
     afterHidingTimeline = function() {
       //removeDiv();
@@ -121,7 +133,7 @@ $(function () {
   $(".input_field").smartPlaceholder();
 
   $('#addresspicker').keydown(function (e) {
-    if (e.keyCode == 13) {
+    if (e.keyCode === 13) {
       e.preventDefault();
       visitPlace();
     }
@@ -283,13 +295,13 @@ $(function () {
           rLatLng        = new google.maps.LatLng(properties.radius_point_lat, properties.radius_point_lon),
           distanceWidget = new RadiusWidget(map, cLatLng, rLatLng, view.overlays[name][i], [properties.agency_position]);
 
-          if (name == 'projects') {
+          if (name === 'projects') {
             autocompleteSource.push({ circle: distanceWidget.circle, more: properties, value: properties.title, lat: properties.centroid_lat, lng: properties.centroid_lon});
           }
 
           view.circles.push(distanceWidget);
 
-            if (name == "projects") {
+            if (name === "projects") {
               solution_count += properties.solution_count;
             }
 
@@ -300,24 +312,9 @@ $(function () {
     }
     //spinner.hide();
 
-    if (name == 'projects') updateCounter("solutions", solution_count);
-
-    //if (name == 'projects') $("#addresspicker").autocomplete({
-      //minLength: 3,
-      //source: autocompleteSource,
-      //focus: function( event, ui ) {
-        //$( "#addresspicker" ).val( ui.item.value );
-        //return false;
-      //},
-      //select: function( event, ui ) {
-				//$( "#addresspicker" ).val( ui.item.value );
-				//$( "#lat" ).val(ui.item.lat);
-				//$( "#lng" ).val(ui.item.lng);
-				//searchCircle = ui.item.circle;
-
-				//return false;
-			//}
-    //});
+    if (name === 'projects') {
+      updateCounter("solutions", solution_count);
+    }
 
     view.enableFilters();
   }
@@ -356,31 +353,52 @@ $(function () {
     $(spinner.el).fadeIn(250);
   }
 
-  $(".aside .close").on('click', function(e) {
-    e.preventDefault();
-
-    // Unselect the project
-    var project = $(this).data('project');
-    project.unMarkSelected(true);
-    $(this).removeData('project');
-
-    Aside.hide(Timeline.show);
-    map.setZoom(previousZoom);
-  });
-
   Aside = (function() {
-    _show = function() {
-      var projectBefore = $('.aside a.close').data('project');
+    var
+      $el    = $(".aside"),
+      $close = $(".aside a.close"),
+      mode   = 0; // 0 = project; 1 = search
+
+      (function() {
+       $close.on('click', function(e) {
+         e.preventDefault();
+
+         if (mode === 0) { // project mode
+           // Unselect the project
+           var project = $(this).data('project');
+           project.unMarkSelected(true);
+           $(this).removeData('project');
+           map.setZoom(previousZoom);
+           Aside.hide(Timeline.show);
+         } else { // regular mode
+           Aside.hide();
+         }
+       });
+     })();
+
+    _show = function(what) {
+
+      if (what === "project") {
+        mode = 0;
+        $el.find(".search").hide();
+        $el.find(".project").show();
+      } else {
+        mode = 1;
+        $el.find(".project").hide();
+        $el.find(".search").show();
+      }
+
+      var projectBefore = $close.data('project');
 
       if (projectBefore) {
         projectBefore.unMarkSelected(true);
       }
 
-      $(".aside").find("li").css({opacity:0, marginLeft:150});
+      $el.find("li").css({opacity:0, marginLeft:150});
 
       $("#map").animate({ right: '352px' }, 250);
 
-      $(".aside").animate({ right: 0 }, 250, function() {
+      $el.animate({ right: 0 }, 250, function() {
         $(this).removeClass("hidden");
         $(this).find("li").each(function(i, el) {
           $(el).delay(i * 120).animate({marginLeft:0, opacity:1}, 200);
@@ -391,7 +409,7 @@ $(function () {
     _hide = function(callback) {
       $("#map").animate({ right: '0' }, 250);
 
-      $(".aside").animate({right:'-400px'}, 250, function() {
+      $el.animate({right:'-400px'}, 250, function() {
         $(this).addClass("hidden");
 
         if (callback) {
@@ -401,15 +419,20 @@ $(function () {
       });
     };
 
+    _isHidden = function() {
+      return $el.hasClass("hidden");
+    };
+
     return {
       hide: _hide,
-      show: _show
+      show: _show,
+      isHidden: _isHidden
     };
   }());
 
   Timeline = (function() {
     _show = function() {
-      if ($(".aside").hasClass("hidden")) {
+      if (Aside.isHidden()) {
         $("#timeline").animate({bottom:19, opacity:1}, 300);
       }
     };

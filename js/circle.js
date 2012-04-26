@@ -129,7 +129,7 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
       previousZoom   = map.getZoom();
       previousCenter = map.getCenter();
 
-      Aside.show();
+      Aside.show("project");
       Infowindow.hide();
 
       // Focus on the overlay with the related agency/ies
