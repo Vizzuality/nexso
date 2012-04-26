@@ -20,9 +20,20 @@ $(function () {
     visitPlace();
   });
 
+  $("a[data-click='welcome']").on("click", function(e) {
+    e.preventDefault();
+    showWelcome();
+  });
+
+  var latLngBounds = new google.maps.LatLngBounds(
+    new google.maps.LatLng(13.390290, -26.332470),
+    new google.maps.LatLng(-59.450451, -109.474930)
+  );
+
   $("#addresspicker").geocomplete({
     details: ".input_field",
-    detailsAttribute: "data-geo"
+    detailsAttribute: "data-geo",
+    bounds: latLngBounds
   });
 
   $("ul.stats li").each(function(i, li) {
@@ -48,6 +59,15 @@ $(function () {
     }
   }
 
+  function showWelcome() {
+    $(".timeline-cover").animate({opacity:1, bottom: "23px"}, 250);
+    $(".welcome, .backdrop").fadeIn(250, function() {
+      $(".filter-help").animate({ top: "0",  opacity:1 }, 250);
+      $(".left-side").animate( { left: "0",  opacity:1 }, 400);
+      $(".right-side").animate({ left: "0", opacity:1 }, 400);
+    });
+  }
+
   function visitPlace() {
 
     var lat = $(".input_field input#lat").val();
@@ -62,9 +82,10 @@ $(function () {
 
       map.panTo(latLng);
       map.setZoom(7);
-      //map.fitBounds(searchCircle.getBounds());
-      //searchCircle.parent.markSelected();
-      //setTimeout(function () { google.maps.event.trigger(searchCircle, 'click', {latLng: latLng}); }, 500);
+
+      $("#addresspicker").val("");
+      $(".input_field .placeholder").show();
+
     });
   }
 
@@ -75,22 +96,22 @@ $(function () {
       $(this).remove();
     },
     afterHidingBackdrop = function() {
-      removeDiv();
+      //removeDiv();
 
       if (callback) {
         callback();
       }
     },
     afterHidingRightSide = function() {
-      removeDiv();
+      //removeDiv();
       $(".welcome, .backdrop").fadeOut(250, afterHidingBackdrop);
     },
     afterHidingTimeline = function() {
-      removeDiv();
-      $(".filter-help").animate({ top: "-100px", opacity:0 }, 250, removeDiv);
-      $(".left-side").animate( { left: "-200px", opacity:0 }, 400, removeDiv);
+      //removeDiv();
+      $(".filter-help").animate({ top: "-100px", opacity:0 }, 250);
+      $(".left-side").animate( { left: "-200px", opacity:0 }, 400);
       $(".right-side").animate({ left: "200px",  opacity:0 }, 400, afterHidingRightSide);
-      $(".pac-container").fadeOut(250, function() { $(this).remove(); });
+      $(".pac-container").fadeOut(250);
     };
 
     $(".timeline-cover").animate({opacity:0, bottom: -30}, 250, afterHidingTimeline);
