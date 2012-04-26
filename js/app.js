@@ -20,11 +20,9 @@ $(function () {
     visitPlace();
   });
 
-  $("#addresspicker").addresspicker({
-    elements: {
-      lat:      "#lat",
-      lng:      "#lng"
-    }
+  $("#addresspicker").geocomplete({
+    details: ".input_field",
+    detailsAttribute: "data-geo"
   });
 
   $("ul.stats li").each(function(i, li) {
