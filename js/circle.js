@@ -126,6 +126,7 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
       }
       else $asideItems.find("li.more").hide();
 
+
       previousZoom   = map.getZoom();
       previousCenter = map.getCenter();
 

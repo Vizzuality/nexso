@@ -63,6 +63,7 @@ InfoWindow.prototype.setPosition = function (callback) {
   if (this.div_) {
     var div = this.div_;
     var pixPosition = this.getProjection().fromLatLngToDivPixel(this.latlng_);
+
     if (pixPosition) {
       div.style.width = this.width_ + 'px';
       div.style.left = (pixPosition.x - 38) + 'px';
@@ -90,7 +91,10 @@ InfoWindow.prototype.bindProjects = function () {
       if (rw.circle.center.lat() === latLng.lat() && rw.circle.center.lng() === latLng.lng()) {
         setTimeout(function () {
           rw.circle.parent.markSelected();
-          google.maps.event.trigger(rw.circle, 'click', {latLng: latLng});
+          google.maps.event.trigger(rw.circle, 'click', {autoopen:true, latLng: latLng});
+
+          //$(".infowindow .btn").click();
+
         }, 500);
       return;
       }

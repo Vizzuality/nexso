@@ -19,12 +19,12 @@ $(function () {
     e.preventDefault();
     visitPlace();
   });
+  var latLngBounds = new google.maps.LatLngBounds(
+    new google.maps.LatLng(74, -30),
+    new google.maps.LatLng(-60, -150));
 
-  $("#addresspicker").addresspicker({
-    elements: {
-      lat:      "#lat",
-      lng:      "#lng"
-    }
+  $("#addresspicker").geocomplete({
+    bounds: latLngBounds
   });
 
   $("ul.stats li").each(function(i, li) {
