@@ -38,8 +38,8 @@ $(function () {
 
   $("ul.stats li").each(function(i, li) {
     var
-      $li = $(li),
-      id = 'spinner_' + $li.attr('class');
+    $li = $(li),
+    id = 'spinner_' + $li.attr('class');
 
     $li.append('<div id="' + id + '" class="spinner"></div>');
     el = document.getElementById(id);
@@ -61,6 +61,7 @@ $(function () {
 
   function showWelcome() {
     $(".timeline-cover").animate({opacity:1, bottom: "23px"}, 250);
+
     $(".welcome, .backdrop").fadeIn(250, function() {
       $(".filter-help").animate({ top: "0",  opacity:1 }, 250);
       $(".left-side").animate( { left: "0",  opacity:1 }, 400);

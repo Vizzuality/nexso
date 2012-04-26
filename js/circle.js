@@ -126,7 +126,6 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
       }
       else $asideItems.find("li.more").hide();
 
-
       previousZoom   = map.getZoom();
       previousCenter = map.getCenter();
 
@@ -141,7 +140,7 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
       });
 
       map.fitBounds(bounds);
-      map.panBy(176,0);
+      map.panBy(176, 0);
 
       // Make it "selected"
       $('.aside a.close').data('project',self);
@@ -149,16 +148,23 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
     }
 
     function onInfowindowClick(e) {
-      e.preventDefault();
+      if (e) {
+        e.preventDefault();
+      }
       Timeline.hide();
       Aside.hide(onHiddenAside);
     }
 
-    // Infowindow setup
-    Infowindow.setContent({name:title, overlayType: "project"});
-    Infowindow.setSolutionURL(title, moreURL);
-    Infowindow.setCallback(onInfowindowClick);
-    Infowindow.open(event.latLng);
+    if (event.autoopen) {
+      onInfowindowClick();
+    } else {
+      // Infowindow setup
+      Infowindow.setContent({name:title, overlayType: "project"});
+      Infowindow.setSolutionURL(title, moreURL);
+      Infowindow.setCallback(onInfowindowClick);
+      Infowindow.open(event.latLng);
+    }
+
   });
 
   google.maps.event.addListener(this.circle, 'mouseover', this.onMouseOver);
@@ -169,10 +175,7 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
   return this;
 }
 
-
 RadiusWidget.prototype = new google.maps.MVCObject();
-
-
 RadiusWidget.prototype.onMouseOver = function(ev) {
   _.each(this.polygons,function(polygon,i) {
     if (polygon[0].disabled) polygon[0].setOptions(projectsDisabledHoverStyle);
@@ -259,7 +262,6 @@ RadiusWidget.prototype.hideAll = function() {
 
       radiuswidget.circle.setOptions(circleDisabledStyle);
       radiuswidget.circle.disabled = true;
-
     }
   });
 };
