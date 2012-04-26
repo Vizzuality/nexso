@@ -930,7 +930,6 @@ $markerRadiusSize: 102px;
 }
 
 .slider {
-
 position: relative; text-align: left;
 height: .8em;
 
@@ -942,25 +941,17 @@ height: .8em;
 .ui-helper-clearfix { zoom: 1; }
 .ui-helper-zfix { width: 100%; height: 100%; top: 0; left: 0; position: absolute; opacity: 0; filter:Alpha(Opacity=0); }
 
-
 /* Interaction Cues
 ----------------------------------*/
 .ui-state-disabled { cursor: default !important; }
-
-
 /* Icons
 ----------------------------------*/
-
 /* states and images */
 .ui-icon { display: block; text-indent: -99999px; overflow: hidden; background-repeat: no-repeat; }
-
-
 /* Misc visuals
 ----------------------------------*/
-
 /* Overlays */
 .ui-widget-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-
 /* Component containers
 ----------------------------------*/
 .ui-widget-header { background: url(../img/backgrounds/bkg_timeline_selected.png) 50% 50% repeat-x; color: #ffffff; font-weight: bold; }
@@ -987,27 +978,27 @@ height: .8em;
 .ui-slider-range-max { right: 0; }
 }
 
-.ui-autocomplete {
-  padding-top: 10px;
-  width:362px;
+.pac-container {
+  width:359px!important;
   background:rgba(255,255,255,.5);
-  padding-bottom: 7px;
+  margin-left:-5px;
+  z-index: 10600!important;
+  border-top: 0!important;
 
-  li { margin-bottom: 10px; padding: 5px 10px; cursor:pointer; outline:none; }
-
-  a {
-    font-size: 15px;
-    color:#666;
-    width:auto;
-    display:block;
-    cursor:pointer;
+  .pac-item {
+    margin-bottom: 10px;
+    padding: 5px 10px;
+    cursor:pointer; outline:none;
     @include single-transition(color, 0.2s, ease-in-out, 0);
 
-    &:hover {
-      width:auto;
-      color:#000;
-      cursor:pointer;
-      outline:none;
+    &:first-child { padding-top:10px; }
+    &:hover { color:#000; background:transparent;}
+    &:hover b { color:#000;}
+
+    b {
+      font-size: 15px;
+      color:#666;
+      font-weight:bold;
     }
   }
 }

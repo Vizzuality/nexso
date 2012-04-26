@@ -13,10 +13,10 @@
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">google.load("jquery", "1.7.1");</script>
 
-    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3.8&amp;key=AIzaSyBjtJpHprawtS8OfQtC9Pb_urVpbZ8gTaM&amp;sensor=false"> </script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3.8&amp;key=AIzaSyDsI63-LNuQsQ5wC2wP275SYtneXYUiUpg&amp;sensor=false&amp;libraries=places&amp;v=3.7"> </script>
     <script type="text/javascript" src="js/vendor/selectivizr-min.js"> </script>
     <script type="text/javascript" src="js/vendor/jquery-ui-1.8.18.custom.min.js"> </script>
-    <script type="text/javascript" src="js/vendor/jquery.ui.addresspicker.js"> </script>
+    <script type="text/javascript" src="js/vendor/jquery.geocomplete.js"> </script>
     <script type="text/javascript" src="js/vendor/date.js"> </script>
     <script type="text/javascript" src="js/vendor/underscore.string.js"> </script>
     <script type="text/javascript" src="js/vendor/lodash.min.js"> </script>
@@ -128,7 +128,7 @@
         </ul>
         <form action="">
           <div class="input_field">
-            <input type="text" id="addresspicker" name="search" autocomplete="off" />
+            <input type="text" id="addresspicker" name="search" placeholder="" autocomplete="off" />
             <input type="hidden" id="lat"/>
             <input type="hidden" id="lng"/>
             <span class="placeholder">Search for an area...</span>
