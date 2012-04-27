@@ -64,41 +64,6 @@ h4 { font-size: 11px; font-weight:bold; }
 
 .content { width:980px; margin: auto; }
 
-/* Navigation */
-.nav {
-  height: $navHeight;
-  background:url(../img/backgrounds/bkg_navigation.png) repeat-x;
-  position:relative;
-  z-index: 10600;
-
-  h1 { position:relative; top: 10px; float:left; }
-  h1 a { color: $title_blue; }
-
-  .shadow { position:absolute; left:0; bottom: -12px; background:url(../img/backgrounds/bkg_navigation_shadow.png) repeat-x; width:100%; height:12px; z-index:10;}
-
-  ul { // Main menu
-    position:relative;
-    top: 30px;
-    float:right;
-
-    & > li {
-      display:inline;
-      margin-left: 26px;
-      & > a {
-        &.selected { background:url(../img/icons/arrows.png) no-repeat right -45px; }
-
-        position:relative;
-        padding-right:10px;
-        font: 19px 'NewsCycle', sans-serif;
-        color: #000000;
-        text-transform: uppercase;
-        background:url(../img/icons/arrows.png) no-repeat right 15px;
-        z-index: 150;
-      } // a
-    } // li
-  } // ul
-} // nav
-
 // Infowindows
 .infowindow {
   position:absolute;
@@ -421,20 +386,57 @@ h4 { font-size: 11px; font-weight:bold; }
   }
 }
 
-.cancel { float:right; display:none; width: 227px; height: 40px; position: relative; right:-250px; top: 30px;  z-index: 10000; }
 
-// Navigation
-.nav ul.filters {
-  &.disabled > li > a { color:#ccc; background:url(../img/icons/arrows.png) no-repeat right -78px; }
+/* Navigation */
+.nav {
+  height: $navHeight;
+  background:url(../img/backgrounds/bkg_navigation.png) repeat-x;
+  position:relative;
+  z-index: 10600;
+
+  h1 { position:relative; top: 10px; float:left; }
+  h1 a { color: $title_blue; }
+
+  .shadow { position:absolute; left:0; bottom: -12px; background:url(../img/backgrounds/bkg_navigation_shadow.png) repeat-x; width:100%; height:12px; z-index:10;}
+  .cancel { float:right; display:none; width: 227px; height: 40px; position: relative; right:-250px; top: 30px;  z-index: 10000; }
+
+  ul.filters { // Filters' menu
+    position:absolute;
+    right:0;
+
+    &.disabled > li > a { color:#ccc; background:url(../img/icons/arrows.png) no-repeat right -78px; }
+
+    & > li {
+      display:inline;
+      margin-left: 26px;
+      & > a {
+        &.selected { background:url(../img/icons/arrows.png) no-repeat right -45px; }
+
+        position:relative;
+        padding-right:10px;
+        font: 19px 'NewsCycle', sans-serif;
+        color: #000000;
+        text-transform: uppercase;
+        background:url(../img/icons/arrows.png) no-repeat right 15px;
+        z-index: 150;
+      } // a
+    } // li
+  } // ul
+} // nav
+
+.nav .options {
+  background:red;
+  position:relative;
+  top:30px;
+  width:500px;
+  float:right;
 }
 
 .nav .input_field {
   display:none;
-
-  position:relative;
-  top:25px;
-  float:right;
-  margin-left: 20px;
+  position:absolute;
+  top: -5px;
+  right:0;
 
   input[type="text"] {
     width:213px - 40;

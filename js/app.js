@@ -116,9 +116,11 @@ $(function () {
 
     $(".welcome, .backdrop").fadeIn(250, function() {
 
-      $(".nav .input_field").fadeOut(250, function() {
+      $(".nav .input_field").fadeOut(300, function() {
         $(".filter-help").animate({ top: "0",  opacity:1 }, 250);
       });
+
+      $(".nav ul.filters").animate({ right:0 }, 250);
 
       $(".left-side").animate( { left: "0",  opacity:1 }, 400);
       $(".right-side").animate({ left: "0", opacity:1 }, 400);
@@ -162,11 +164,15 @@ $(function () {
     afterHidingRightSide = function() {
       //removeDiv();
       $(".welcome, .backdrop").fadeOut(250, afterHidingBackdrop);
-      $(".nav .input_field").fadeIn(550);
     },
     afterHidingTimeline = function() {
       //removeDiv();
       $(".filter-help").animate({ top: "-100px", opacity:0 }, 250);
+
+      $(".nav ul.filters").animate({ right: "240px" }, 300, function() {
+        $(".nav .input_field").fadeIn(250);
+      });
+
       $(".left-side").animate( { left: "-200px", opacity:0 }, 400);
       $(".right-side").animate({ left: "200px",  opacity:0 }, 400, afterHidingRightSide);
       $(".pac-container").fadeOut(250);
