@@ -1,0 +1,2 @@
+java -jar bin/compiler.jar \
+--js js/app.js --js_output_file js/all.js
