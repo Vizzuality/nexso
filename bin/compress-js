@@ -1,2 +1,19 @@
-java -jar bin/compiler.jar \
---js js/app.js --js_output_file js/all.js
+java -jar bin/compiler.jar --js \
+  js/vendor/selectivizr-min.js \
+  js/vendor/jquery-ui-1.8.18.custom.min.js \
+  js/vendor/jquery.geocomplete.js \
+  js/vendor/date.js \
+  js/vendor/underscore.string.js \
+  js/vendor/lodash.min.js \
+  js/vendor/backbone.js \
+  js/vendor/GeoJSON.js \
+  js/vendor/accounting.min.js \
+  js/vendor/spin.min.js \
+  js/backbone.cartodb.js \
+  js/plugins.js \
+  js/helpers.js \
+  js/infowindow.js \
+  js/NexsoMarker.js \
+  js/circle.js \
+  js/app.js \
+  --js_output_file js/all.js 
