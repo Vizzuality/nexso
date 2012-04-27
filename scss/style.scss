@@ -425,7 +425,6 @@ h4 { font-size: 11px; font-weight:bold; }
 } // nav
 
 .nav .options {
-  background:red;
   position:relative;
   top:30px;
   width:500px;
@@ -902,7 +901,6 @@ $markerRadiusSize: 102px;
 }
 
 .circle:before {
-  background:red;
   left:50%;
   top:50%;
   margin-left:-1*$markerInnerSize;
