@@ -424,9 +424,7 @@ $(function () {
         e.preventDefault();
 
         if (mode === 0) { // project mode
-          // Unselect the project
-          var project = $(this).data('project');
-          project.unMarkSelected(true);
+          $(this).data('project').unMarkSelected(true); // Unselect the project
           $(this).removeData('project');
           map.setZoom(previousZoom);
           Aside.hide(Timeline.show);
@@ -471,11 +469,15 @@ $(function () {
       $el.animate({ right: 0 }, 250, function() {
         $(this).removeClass("hidden");
 
+
         $el.delay(300).find("p").slideDown(350, function() {
           $el.find("ul.data li").each(function(i, li) {
             $(li).delay(i * 100).animate({marginLeft:0, opacity:1}, 200);
           });
         });
+
+          $('.scroll-pane_' + what ).jScrollPane();
+          scrollPane = true;
 
       });
     };
@@ -487,9 +489,8 @@ $(function () {
         $(this).addClass("hidden");
         $el.find("p").hide();
 
-
         if (callback) {
-          setTimeout(function() { callback(); }, 200);
+          callback();
         }
 
       });

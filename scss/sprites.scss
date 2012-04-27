@@ -2,14 +2,15 @@
 
 /* icons */
  $icons-bullet-spacing:90px;
- $icons-money-spacing:50px;
- $icons-calendar-spacing:50px;
- $icons-marker-spacing:50px;
- $icons-gear-spacing:50px;
- $icons-star-spacing:50px;
- $icons-plus-spacing:50px;
+ $icons-money-spacing:70px;
+ $icons-calendar-spacing:70px;
+ $icons-marker-spacing:70px;
+ $icons-gear-spacing:70px;
+ $icons-star-spacing:70px;
+ $icons-plus-spacing:70px;
  $icons-agency_mini-spacing:20px;
  $icons-ashoka-spacing:20px;
+ $icons-gear-spacing:70px;
 
 @import "icons/*.png";
 @include all-icons-sprites;

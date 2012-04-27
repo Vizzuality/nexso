@@ -19,6 +19,9 @@
     <script type="text/javascript" src="js/vendor/jquery-ui-1.8.18.custom.min.js"> </script>
     <script type="text/javascript" src="js/vendor/jquery.geocomplete.js"> </script>
     <script type="text/javascript" src="js/vendor/date.js"> </script>
+    <script type="text/javascript" src="js/vendor/jquery.jscrollpane.min.js"> </script>
+    <script type="text/javascript" src="js/vendor/jquery.mousewheel.js"> </script>
+    <script type="text/javascript" src="js/vendor/mwheelIntent.js"> </script>
     <script type="text/javascript" src="js/vendor/underscore.string.js"> </script>
     <script type="text/javascript" src="js/vendor/lodash.min.js"> </script>
     <script type="text/javascript" src="js/vendor/backbone.js"> </script>
@@ -178,7 +181,7 @@
           <li class="icon agency"><strong>Executing agencies</strong></li>
           <li class="icon ashoka"><strong>Ashoka fellows</strong></li>
         </ul>
-        <div class="results"></div>
+        <div class="results scroll-pane-search"></div>
       </div>
       <div class="content project">
         <div class="header">
@@ -188,14 +191,17 @@
           </div>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse rutrum semper auctor. Maecenas rhoncus auctor ligula, a luctus neque cursus et. Nam purus leo, dictum ac vulputate non, semper euismod sem... <a href="#">read more</a></p>
         </div>
-        <ul class="data">
-          <li class="icon budget money"><h4>Funded amount</h4><span>$000.000</span></li>
-          <li class="icon approvalDate calendar"><h4>Approval date</h4><span>Date not available</span></li>
-          <li class="icon agency gear"><h4>Executing agency</h4><a href="#" target="_blank">...</a></li>
-          <li class="icon solution star"><h4>Solutions</h4><a href="#" target="_blank">Solution not available</a></li>
-          <li class="icon topic star"><h4>Topic</h4><span>...</span></li>
-          <li class="icon more plus"><h4>More information</h4><a href="#" target="_blank">External link</a></li>
-        </ul>
+        <div class="scroll-pane-project">
+          <ul class="data">
+            <li class="icon budget money"><h4>Funded amount</h4><span>$000.000</span></li>
+            <li class="icon approvalDate calendar"><h4>Approval date</h4><span>Date not available</span></li>
+            <li class="icon agency gear"><h4>Executing agency</h4><a href="#" target="_blank">...</a></li>
+            <li class="icon location marker"><h4>Location</h4><span>...</span></li>
+            <li class="icon solution star"><h4>Solutions</h4><a href="#" target="_blank">Solution not available</a></li>
+            <li class="icon topic star"><h4>Topic</h4><span>...</span></li>
+            <li class="icon more plus"><h4>More information</h4><a href="#" target="_blank">External link</a></li>
+          </ul>
+        </div>
       </div>
       <a href="#" class="close"></a>
     </div>

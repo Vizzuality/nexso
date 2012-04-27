@@ -75,7 +75,7 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
     function onHiddenAside() {
       var
       $asideContent = $(".aside .content"),
-      $asideItems = $asideContent.find("ul");
+      $asideItems = $asideContent.find("ul.data");
 
       $asideContent.find(".header h2").html(title);
 
@@ -92,12 +92,10 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
         $asideItems.find("li.topic span").text(topic_name);
       } else $asideItems.find("li.topic").hide();
 
-
-      /*if (location) {
+      if (location) {
         $asideItems.find("li.location").show();
         $asideItems.find("li.location span").text(location);
       } else $asideItems.find("li.location").hide();
-      */
 
       if (budget > 0) {
         $asideItems.find("li.budget").show();
