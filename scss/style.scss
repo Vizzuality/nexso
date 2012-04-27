@@ -803,6 +803,8 @@ h4 { font-size: 11px; font-weight:bold; }
     margin-left:10px;
 
     &.search, &.project { display:none; }
+    &.search ul li { list-style:square; padding-left: 5px; }
+    .results li a { cursor:pointer; }
 
     h4 { margin: 0 0 5px 0; text-transform: uppercase; color:$light_gray; }
 
@@ -844,6 +846,22 @@ h4 { font-size: 11px; font-weight:bold; }
       }
 
     } // header
+
+    .legend {
+      li {
+        display: inline;
+        padding: 0;
+        border: none;
+
+        &:first-child { margin-right: 10px; }
+        &.agency strong { color: $gold; }
+        &.ashoka strong { color: $green; }
+
+        &.icon { padding-left: 15px; }
+        &.icon.agency { @include icons-sprite(agency_mini, $offset-y:4px); }
+        &.icon.ashoka { @include icons-sprite(ashoka_mini, $offset-y:4px); }
+      }
+    }
   }
   a.close { display:block; position:absolute; top: 47px; left: -10px; @include icons-sprite(close_big); z-index:1000; width:32px; height:32px; }
 }

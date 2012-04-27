@@ -1,7 +1,6 @@
 $(function () {
 
   var autocompleteSource = [];
-  var searchCircle = null;
 
   $(document).on("click", function() {
     if ($(".nav a[data-toggle='filter']").hasClass('selected')) {
@@ -314,6 +313,42 @@ $(function () {
 
     if (name === 'projects') {
       updateCounter("solutions", solution_count);
+
+      $( "#autocomplete" ).autocomplete({
+        minLength: 3,
+        source: autocompleteSource,
+
+         select: function( event, ui ) {
+           Aside.hide();
+           $("#autocomplete").val(" ");
+           return false;
+         },
+         close: function() {
+            if ($("#autocomplete").val().length === 0) {
+              Aside.hide();
+            }
+         },
+        open: function(event, ui) {
+
+          if (Aside.isHidden()) {
+            Aside.show('search');
+          }
+
+          $('ul.ui-autocomplete').removeAttr('style').hide().appendTo('.results').show();
+        }
+      }).data( "autocomplete" )._renderItem = function( ul, item ) {
+
+        var $a = $("<a>" + item.label + "</a>");
+        $a.on("click", function() { console.log(item); });
+
+        return $( "<li></li>" )
+        .data( "item.autocomplete", item )
+        .append($a).fadeIn(250)
+        .appendTo( ul );
+      };
+
+      $("#autocomplete").unbind('blur.autocomplete');
+
     }
 
     view.enableFilters();
@@ -395,7 +430,7 @@ $(function () {
         projectBefore.unMarkSelected(true);
       }
 
-      $el.find("li").css({opacity:0, marginLeft:150});
+      $el.find("ul.data li").css({opacity:0, marginLeft:150});
 
       $("#map").animate({ right: '352px' }, 250);
 
@@ -403,7 +438,7 @@ $(function () {
         $(this).removeClass("hidden");
 
         $el.delay(300).find("p").slideDown(350, function() {
-          $el.find("li").each(function(i, li) {
+          $el.find("ul.data li").each(function(i, li) {
             $(li).delay(i * 100).animate({marginLeft:0, opacity:1}, 200);
           });
         });
