@@ -31,14 +31,60 @@ $(function () {
 
   var latLngBounds = new google.maps.LatLngBounds(
     new google.maps.LatLng(13.390290, -26.332470),
-    new google.maps.LatLng(-59.450451, -109.474930)
-  );
+    new google.maps.LatLng(-59.450451, -109.474930));
 
   $("#addresspicker").geocomplete({
     details: ".input_field",
     detailsAttribute: "data-geo",
     bounds: latLngBounds
   });
+
+  function resetAutocomplete() {
+    $("#autocomplete").val('');
+    $(".nav .input_field .placeholder").fadeIn(250);
+  }
+
+  function bindAutocomplete() {
+    $( "#autocomplete" ).autocomplete({
+      minLength: 3,
+      source: autocompleteSource,
+
+      select: function( event, ui ) {
+        Aside.hide();
+
+        resetAutocomplete();
+
+        return false;
+      },
+      close: function() {
+        if ($("#autocomplete").val().length === 0) {
+          Aside.hide();
+        }
+      },
+      open: function(event, ui) {
+
+        if (Aside.isHidden()) {
+          Aside.show('search');
+        } else {
+          Aside.change("search");
+        }
+
+        $('ul.ui-autocomplete').removeAttr('style').hide().appendTo('.results').show();
+      }
+    }).data( "autocomplete" )._renderItem = function( ul, item ) {
+
+      var $a = $("<a>" + item.label + "</a>");
+      $a.on("click", function() { console.log(item); });
+
+      return $( "<li></li>" )
+      .data( "item.autocomplete", item )
+      .append($a).fadeIn(250)
+      .appendTo( ul );
+    };
+
+    $("#autocomplete").unbind('blur.autocomplete');
+  }
+
 
   $("ul.stats li").each(function(i, li) {
     var
@@ -300,9 +346,9 @@ $(function () {
 
           view.circles.push(distanceWidget);
 
-            if (name === "projects") {
-              solution_count += properties.solution_count;
-            }
+          if (name === "projects") {
+            solution_count += properties.solution_count;
+          }
 
         } else {
           view.overlays[name][i].setMap(map);
@@ -313,41 +359,7 @@ $(function () {
 
     if (name === 'projects') {
       updateCounter("solutions", solution_count);
-
-      $( "#autocomplete" ).autocomplete({
-        minLength: 3,
-        source: autocompleteSource,
-
-         select: function( event, ui ) {
-           Aside.hide();
-           $("#autocomplete").val(" ");
-           return false;
-         },
-         close: function() {
-            if ($("#autocomplete").val().length === 0) {
-              Aside.hide();
-            }
-         },
-        open: function(event, ui) {
-
-          if (Aside.isHidden()) {
-            Aside.show('search');
-          }
-
-          $('ul.ui-autocomplete').removeAttr('style').hide().appendTo('.results').show();
-        }
-      }).data( "autocomplete" )._renderItem = function( ul, item ) {
-
-        var $a = $("<a>" + item.label + "</a>");
-        $a.on("click", function() { console.log(item); });
-
-        return $( "<li></li>" )
-        .data( "item.autocomplete", item )
-        .append($a).fadeIn(250)
-        .appendTo( ul );
-      };
-
-      $("#autocomplete").unbind('blur.autocomplete');
+      bindAutocomplete();
 
     }
 
@@ -390,28 +402,37 @@ $(function () {
 
   Aside = (function() {
     var
-      $el    = $(".aside"),
-      $close = $(".aside a.close"),
-      mode   = 0; // 0 = project; 1 = search
+    $el    = $(".aside"),
+    $close = $(".aside a.close"),
+    mode   = 0; // 0 = project; 1 = search
 
-      (function() {
-       $close.on('click', function(e) {
-         e.preventDefault();
+    (function() {
+      $close.on('click', function(e) {
+        e.preventDefault();
 
-         if (mode === 0) { // project mode
-           // Unselect the project
-           var project = $(this).data('project');
-           project.unMarkSelected(true);
-           $(this).removeData('project');
-           map.setZoom(previousZoom);
-           Aside.hide(Timeline.show);
-         } else { // regular mode
-           Aside.hide();
-         }
+        if (mode === 0) { // project mode
+          // Unselect the project
+          var project = $(this).data('project');
+          project.unMarkSelected(true);
+          $(this).removeData('project');
+          map.setZoom(previousZoom);
+          Aside.hide(Timeline.show);
+        } else { // regular mode
+          Aside.hide();
+          resetAutocomplete();
+        }
 
-       });
-     })();
+      });
+    })();
 
+    _change = function(what) {
+
+      if (what === 'search' && mode === 0) {
+        var callback = function() { Aside.show(what); };
+        Aside.hide(callback);
+      }
+
+    },
     _show = function(what) {
 
       if (what === "project") {
@@ -453,8 +474,9 @@ $(function () {
         $(this).addClass("hidden");
         $el.find("p").hide();
 
+
         if (callback) {
-          callback();
+          setTimeout(function() { callback(); }, 200);
         }
 
       });
@@ -467,7 +489,8 @@ $(function () {
     return {
       hide: _hide,
       show: _show,
-      isHidden: _isHidden
+      isHidden: _isHidden,
+      change:_change
     };
   }());
 

@@ -803,8 +803,15 @@ h4 { font-size: 11px; font-weight:bold; }
     margin-left:10px;
 
     &.search, &.project { display:none; }
-    &.search ul li { list-style:square; padding-left: 5px; }
-    .results li a { cursor:pointer; }
+    &.search .results li {
+      a { cursor:pointer; }
+
+      margin: 0 0 10px 0;
+      padding: 0 0 0 10px;
+      @include icons-sprite(bullet, $offset-y: 27px);
+      line-height:20px;
+      border: none;
+    }
 
     h4 { margin: 0 0 5px 0; text-transform: uppercase; color:$light_gray; }
 
@@ -848,6 +855,8 @@ h4 { font-size: 11px; font-weight:bold; }
     } // header
 
     .legend {
+      margin: 0 0 20px 0;
+
       li {
         display: inline;
         padding: 0;
