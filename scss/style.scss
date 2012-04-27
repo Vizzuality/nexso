@@ -803,6 +803,7 @@ h4 { font-size: 11px; font-weight:bold; }
     margin-left:10px;
 
     &.search, &.project { display:none; }
+
     h4 { margin: 0 0 5px 0; text-transform: uppercase; color:$light_gray; }
 
     ul {
@@ -830,8 +831,12 @@ h4 { font-size: 11px; font-weight:bold; }
       padding: 0 0 30px 0;
       border-bottom: 2px solid $light_blue;
 
+      p { display: none; font-size:15px; line-height:17px; }
+      p a { padding: 0 0 1px 0; font-size:15px; line-height:17px; border-bottom: 1px dashed $subtle_gray; }
+
       .hgroup { // header titles
         width: 283px;
+
 
         h2 { padding: 0 0 15px 0; font-family: 'NewsCycle', sans-serif; color:$dark_gray;  line-height:22px;}
         h2.no_border { border:none; padding: 0; }

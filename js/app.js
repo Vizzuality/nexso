@@ -373,6 +373,7 @@ $(function () {
          } else { // regular mode
            Aside.hide();
          }
+
        });
      })();
 
@@ -400,9 +401,13 @@ $(function () {
 
       $el.animate({ right: 0 }, 250, function() {
         $(this).removeClass("hidden");
-        $(this).find("li").each(function(i, el) {
-          $(el).delay(i * 120).animate({marginLeft:0, opacity:1}, 200);
+
+        $el.delay(300).find("p").slideDown(350, function() {
+          $el.find("li").each(function(i, li) {
+            $(li).delay(i * 100).animate({marginLeft:0, opacity:1}, 200);
+          });
         });
+
       });
     };
 
@@ -411,6 +416,7 @@ $(function () {
 
       $el.animate({right:'-400px'}, 250, function() {
         $(this).addClass("hidden");
+        $el.find("p").hide();
 
         if (callback) {
           callback();
