@@ -198,6 +198,10 @@ $(function () {
     e.preventDefault();
     e.stopPropagation();
 
+    if ($(".nav ul.filters").hasClass('disabled')) {
+      return;
+    }
+
     $(".nav a[data-toggle='filter'].selected").not(this).removeClass("selected");
     $(this).toggleClass("selected");
 

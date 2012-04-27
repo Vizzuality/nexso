@@ -68,7 +68,7 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
     agencyName   = properties.agency_name,
     agencyURL    = properties.agency_url,
 
-    topic_id     = properties.topic_id,
+    topic_name   = properties.topic_name,
     location     = properties.location_verbatim,
     budget       = properties.budget;
 
@@ -86,6 +86,12 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
         $asideItems.find("li.approvalDate span").text(prettyApprovalDate);
       }
       else $asideItems.find("li.approvalDate").hide();
+
+      if (topic_name) {
+        $asideItems.find("li.topic").show();
+        $asideItems.find("li.topic span").text(topic_name);
+      } else $asideItems.find("li.topic").hide();
+
 
       /*if (location) {
         $asideItems.find("li.location").show();
