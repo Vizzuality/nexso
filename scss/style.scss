@@ -823,6 +823,9 @@ h4 { font-size: 11px; font-weight:bold; }
         font-size:15px;
         color:$dark_gray;
         border-bottom: 1px solid #E5E5E5;
+        line-height:20px;
+
+        a { border-bottom: 1px dashed #999; }
 
         &.money { @include icons-sprite(money, $offset-y:28px); }
         &.calendar { @include icons-sprite(calendar, $offset-y:28px); }
@@ -833,7 +836,7 @@ h4 { font-size: 11px; font-weight:bold; }
         &:last-child { border:none; }
       }
     }
-    ul li a { border-bottom: 1px dashed #999; line-height:17px; }
+
 
     .header {
 

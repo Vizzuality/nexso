@@ -112,6 +112,9 @@ $(function () {
   }
 
   function showWelcome() {
+    Aside.hide();
+    resetAutocomplete();
+
     $(".timeline-cover").animate({opacity:1, bottom: "23px"}, 250);
 
     $(".welcome, .backdrop").fadeIn(250, function() {
