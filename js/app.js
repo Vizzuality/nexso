@@ -451,8 +451,13 @@ $(function () {
     },
     _show = function(what) {
 
+      if (!Aside.isHidden()) {
+        Aside.hide();
+      }
+
       if (what === "project") {
         mode = 0;
+        resetAutocomplete();
         $el.find(".search").hide();
         $el.find(".project").show();
       } else {
@@ -473,7 +478,6 @@ $(function () {
 
       $el.animate({ right: 0 }, 250, function() {
         $(this).removeClass("hidden");
-
 
         $el.delay(300).find("p").slideDown(350, function() {
           $el.find("ul.data li").each(function(i, li) {
