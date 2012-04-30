@@ -52,7 +52,6 @@ $(function () {
 
       select: function( event, ui ) {
         Aside.hide();
-
         resetAutocomplete();
 
         return false;
@@ -70,9 +69,6 @@ $(function () {
           Aside.change("search");
         }
 
-        //var api = pane["search"].data('jsp');
-        //api.reinitialise();
-
         if ($('.results .jspContainer').length > 0) {
           $('ul.ui-autocomplete').removeAttr('style').hide().appendTo('.results .jspContainer').show();
         } else {
@@ -82,12 +78,13 @@ $(function () {
     }).data( "autocomplete" )._renderItem = function( ul, item ) {
 
       var $a = $("<a>" + item.label + "</a>");
-      $a.on("click", function() { console.log(item); });
 
-      return $( "<li></li>" )
-      .data( "item.autocomplete", item )
-      .append($a).fadeIn(250)
-      .appendTo( ul );
+      $a.on("click", function() {
+        google.maps.event.trigger(item.circle, 'click', {autoopen:true, latLng: null});
+        item.circle.parent.markSelected();
+      });
+
+      return $("<li></li>").data("item.autocomplete", item ).append($a).fadeIn(250).appendTo(ul);
     };
 
     $("#autocomplete").unbind('blur.autocomplete');
