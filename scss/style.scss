@@ -1054,6 +1054,9 @@ $markerRadiusSize: 102px;
   outline:none;
 }
 
+.aside .content.search .results li { list-style:none;}
+.aside .content.search .results li a { border-bottom: 1px dashed $subtle_gray; }
+
 .jspContainer { overflow: hidden; position: relative; }
 .jspPane { position: absolute; }
 .jspVerticalBar { position: absolute; top: 0; right: 0; width: 5px; height: 100%; }

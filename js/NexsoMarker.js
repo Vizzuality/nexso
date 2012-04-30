@@ -30,6 +30,7 @@ NexsoMarker.prototype.draw = function() {
 
             that.properties.overlayType = that.overlayType_;
 
+            console.log(that.properties);
             Infowindow.setContent(that.properties);
             Infowindow.open(that.latlng_);
         });
@@ -64,19 +65,16 @@ NexsoMarker.prototype.draw = function() {
 }
 
 NexsoMarker.prototype.setPosition = function() {
-    if (this.div_) { 
+    if (this.div_) {
         var div = this.div_;
         var pixPosition = this.getProjection().fromLatLngToDivPixel(this.latlng_);
         if (pixPosition) {
-            div.style.width = this.width_ + 'px';
-            div.style.left = (pixPosition.x + this.offsetHorizontal_) + 'px';
-            div.style.top = (pixPosition.y  + this.offsetVertical_) + 'px';
+          div.style.width = this.width_ + 'px';
+          div.style.left = (pixPosition.x + this.offsetHorizontal_) + 'px';
+          div.style.top = (pixPosition.y  + this.offsetVertical_) + 'px';
         }
     }
 }
-
-
-
 
 NexsoMarker.prototype.hide = function(animate) {
     if (this.div_ && !$(this.div_).hasClass('h')) {
@@ -99,7 +97,7 @@ NexsoMarker.prototype.hide = function(animate) {
 NexsoMarker.prototype.changeOpacity = function(opacity) {
     var div = this.div_;
     $(div).animate({
-        opacity: opacity 
+        opacity: opacity
     }, {queue: true, duration:500});
 }
 
@@ -120,7 +118,7 @@ NexsoMarker.prototype.show = function(animate) {
             $(div).css({opacity: 0.99, display: 'block'});
             $(div).removeClass('h');
         }
-    }  
+    }
 }
 
 

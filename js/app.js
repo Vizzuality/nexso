@@ -50,6 +50,10 @@ $(function () {
       minLength: 3,
       source: autocompleteSource,
 
+      search:function(event, ui) {
+
+        $(".results li").each(function(i, e) { $(e).remove(); });
+      },
       select: function( event, ui ) {
         Aside.hide();
         resetAutocomplete();
@@ -63,6 +67,8 @@ $(function () {
       },
       open: function(event, ui) {
 
+
+
         if (Aside.isHidden()) {
           Aside.show('search');
         } else {
@@ -74,22 +80,30 @@ $(function () {
         } else {
           $('ul.ui-autocomplete').removeAttr('style').hide().appendTo('.results').show();
         }
+
       }
     }).data( "autocomplete" )._renderItem = function( ul, item ) {
 
       var $a = $("<a>" + item.label + "</a>");
 
-      $a.on("click", function() {
-        google.maps.event.trigger(item.circle, 'click', {autoopen:true, latLng: null});
+      $a.on("click", function(e) {
+        e.preventDefault();
+
+        google.maps.event.trigger(item.circle, 'click', { autoopen:true, latLng: null });
         item.circle.parent.markSelected();
       });
 
-      return $("<li></li>").data("item.autocomplete", item ).append($a).fadeIn(250).appendTo(ul);
+      if (pane["search"]) {
+        pane['search'].data('jsp').reinitialise();
+        return pane["search"].data('jsp').getContentPane().append($("<li></li>").data("item.autocomplete", item ).append($a).fadeIn(250));
+      }
+      else {
+        return $("<li></li>").data("item.autocomplete", item ).append($a).fadeIn(250).appendTo(ul);
+      }
     };
 
     $("#autocomplete").unbind('blur.autocomplete');
   }
-
 
   $("ul.stats li").each(function(i, li) {
     var
@@ -333,6 +347,9 @@ $(function () {
     agencies = [];
     solution_count = 0;
 
+    // Everytime
+    autocompleteSource = [];
+
     if (view.overlays[name].length){
       for (var i = 0; i < view.overlays[name].length; i++) {
         if (view.overlays[name][i].length){
@@ -373,12 +390,12 @@ $(function () {
         }
       }
     }
+
     //spinner.hide();
 
     if (name === 'projects') {
       updateCounter("solutions", solution_count);
       bindAutocomplete();
-
     }
 
     view.enableFilters();

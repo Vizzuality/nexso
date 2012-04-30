@@ -1,6 +1,8 @@
 java -jar bin/compiler.jar --js \
   js/vendor/selectivizr-min.js \
   js/vendor/jquery-ui-1.8.18.custom.min.js \
+  js/vendor/jquery.jscrollpane.min.js \
+  js/vendor/jquery.mousewheel.js \
   js/vendor/jquery.geocomplete.js \
   js/vendor/date.js \
   js/vendor/underscore.string.js \

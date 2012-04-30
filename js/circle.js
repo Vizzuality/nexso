@@ -142,6 +142,7 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
       onInfowindowClick();
     } else {
       // Infowindow setup
+      console.log(properties);
       Infowindow.setContent({ name: title, overlayType: "project", agencyName: agencyName });
       Infowindow.setSolutionURL(title, moreURL);
       Infowindow.setCallback(onInfowindowClick);
