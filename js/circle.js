@@ -103,25 +103,9 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
       setItem("nexso_code", nexsoCode);
       setItem("location", location);
       setItem("budget", accounting.formatMoney(budget));
-      setItem("more", { url: moreURL, text: "External link"});
-      setItem("solution", { url: solutionURL, text: solutionName});
-
-      if (agencyName) {
-        $asideItems.find("li.agency").show();
-        $asideItems.find("li.agency a").text(agencyName);
-        $asideItems.find("li.agency a").on("click", function(e) {
-          e.preventDefault();
-
-          if (self.circle.lines.length > 0) {
-            var latLng = self.circle.lines[0].getPath().getAt(1);
-
-            map.panTo(latLng);
-            map.setZoom(12);
-
-          }
-        });
-
-      } else $asideItems.find("li.agency").hide();
+      setItem("more", { url: moreURL, text: "External link" });
+      setItem("solution", { url: solutionURL, text: solutionName });
+      setItem("agency", { url: agencyURL, text: agencyName });
 
       previousZoom   = map.getZoom();
       previousCenter = map.getCenter();
