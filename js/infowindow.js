@@ -1,121 +1,69 @@
-/**
-* CartoDB Infowindow
-* Needed:
-*  user_name, table_name, map_canvas, map_key??(no)
-**/
-
 function InfoWindow(params) {
-  this.latlng_ = new google.maps.LatLng(0,0);
-  this.template = params.template;
-  this.map_ = params.map;
-  this.columns_;
+  this.id                = "infowindow-template";
+  this.className         = "infowindow";
+  this.latlng_           = new google.maps.LatLng(0, 0);
+  this.template          = params.template;
+  this.map_              = params.map;
+  this.columns_          = null;
   this.offsetHorizontal_ = -107;
-  this.width_ = 304;
+  this.width_            = 304;
+  this.showDuration      = 250;
   this.setMap(params.map);
-  this.params_ = params;
-};
-
+  this.params_           = params;
+}
 
 InfoWindow.prototype = new google.maps.OverlayView();
 
+InfoWindow.prototype.draw = function () {
+  var
+  that = this,
+  div  = this.div_;
 
-InfoWindow.prototype.draw = function() {
-  var that = this;
-
-  var div = this.div_;
   if (!div) {
     div = this.div_ = document.createElement('DIV');
-    div.className = "infowindow";
+    div.className = this.className;
 
-    var template = '<div class="box <%= overlayType %>">\
-      <div class="content">\
-      <div class="header">\
-      <div class="hgroup">\
-      <% if (overlayType == "project") { %>\
-      <h4>Nexso project</h4>\
-      <h2><%= name %></h2>\
-      <% } else if (overlayType == "ashokas") { %>\
-      <h4>Ashoka fellow</h4>\
-      <h2><%= name %></h2>\
-      <% } else if (overlayType == "agencies") { %>\
-      <h4>Executing agency</h4>\
-      <h2><%= agency_name %></h2>\
-      <% } %>\
-      </div>\
-      </div>\
-      <% if (overlayType == "project") { %>\
-      <a href="#" class="btn">View project details</a>\
-      <h4>Solution</h4>\
-      <ul class="solutions">\
-      <li><a href="#" target="_blank">…</a> </li>\
-      </ul>\
-      <% } else if (overlayType == "ashokas") { %>\
-      <% if (solution_name) { %>\
-      <h4>Solutions</h4>\
-      <ul>\
-      <% if (solution_name) { %>\
-      <li><a href="<%= solution_url %>" target="_blank"><%= solution_name %></a> </li>\
-      <% } %>\
-      </ul>\
-      <% } %>\
-      <% if (agency_url) {  %>\
-      <h4>More info</h4>\
-      <ul>\
-      <li><a href="<%= agency_url %>" target="_blank">Agency profile at FOMIN</a> </li>\
-      </ul>\
-      <% } %>\
-      <% } else { %>\
-      <% if (agency_url) {  %>\
-      <h4>More info</h4>\
-      <ul>\
-      <li><a href="<%= agency_url %>" target="_blank">Agency profile at FOMIN</a> </li>\
-      </ul>\
-      <% } %>\
-      <%   if (projects) { %><h4>Projects</h4><ul><%= projects %></ul><% } %>\
-      <% } %>\
-      </div>\
-      <a href="#" class="close"></a>\
-      <div class="t"></div><div class="b"></div>\
-    </div>';
+    var template = $("#" + this.id).html();
 
-  this.template = _.template(template);
+    this.template = _.template(template);
 
-  div.innerHTML = this.template({name:'Loading…', agency_name: '', agency_url: '', overlayType:''});
+    div.innerHTML = this.template({ projects: '', name: 'Loading…', agency_name: '', agency_url: '', overlayType: ''});
 
-  this.bindClose();
+    this.bindClose();
 
-  google.maps.event.addDomListener(div, 'click', function (ev) {
-    //ev.preventDefault ? ev.preventDefault() : ev.returnValue = false;
-  });
+    google.maps.event.addDomListener(div, 'dblclick', function (ev) {
+      ev.preventDefault ? ev.preventDefault() : ev.returnValue = false;
+    });
 
-  google.maps.event.addDomListener(div, 'dblclick', function (ev) {
-    ev.preventDefault ? ev.preventDefault() : ev.returnValue = false;
-  });
-  google.maps.event.addDomListener(div, 'mousedown', function (ev) {
-    ev.preventDefault ? ev.preventDefault() : ev.returnValue = false;
-    ev.stopPropagation ? ev.stopPropagation() : window.event.cancelBubble = true;
-  });
-  google.maps.event.addDomListener(div, 'mouseup', function (ev) {
-    ev.preventDefault ? ev.preventDefault() : ev.returnValue = false;
-  });
-  google.maps.event.addDomListener(div, 'mousewheel', function (ev) {
-    ev.stopPropagation ? ev.stopPropagation() : window.event.cancelBubble = true;
-  });
-  google.maps.event.addDomListener(div, 'DOMMouseScroll', function (ev) {
-    ev.stopPropagation ? ev.stopPropagation() : window.event.cancelBubble = true;
-  });
+    google.maps.event.addDomListener(div, 'mousedown', function (ev) {
+      ev.preventDefault ? ev.preventDefault() : ev.returnValue = false;
+      ev.stopPropagation ? ev.stopPropagation() : window.event.cancelBubble = true;
+    });
 
-  var panes = this.getPanes();
-  panes.floatPane.appendChild(div);
-  div.style.opacity = 0;
+    google.maps.event.addDomListener(div, 'mouseup', function (ev) {
+      ev.preventDefault ? ev.preventDefault() : ev.returnValue = false;
+    });
+
+    google.maps.event.addDomListener(div, 'mousewheel', function (ev) {
+      ev.stopPropagation ? ev.stopPropagation() : window.event.cancelBubble = true;
+    });
+
+    google.maps.event.addDomListener(div, 'DOMMouseScroll', function (ev) {
+      ev.stopPropagation ? ev.stopPropagation() : window.event.cancelBubble = true;
+    });
+
+    var panes = this.getPanes();
+    panes.floatPane.appendChild(div);
+    div.style.opacity = 0;
   }
   this.setPosition();
 };
 
-InfoWindow.prototype.setPosition = function(callback) {
-  if (this.div_) { 
+InfoWindow.prototype.setPosition = function (callback) {
+  if (this.div_) {
     var div = this.div_;
     var pixPosition = this.getProjection().fromLatLngToDivPixel(this.latlng_);
+
     if (pixPosition) {
       div.style.width = this.width_ + 'px';
       div.style.left = (pixPosition.x - 38) + 'px';
@@ -124,47 +72,56 @@ InfoWindow.prototype.setPosition = function(callback) {
     }
     callback && callback();
   }
-}
+};
 
-InfoWindow.prototype.bindProjects = function(){
+InfoWindow.prototype.bindProjects = function () {
   var that = this;
-  $(this.div_).find('.project').click(function(ev){
+
+  $(this.div_).find('.project').click(function (ev) {
     ev.preventDefault();
     ev.stopPropagation();
 
     var lat = parseFloat($(this).attr('data-lat'));
     var lng = parseFloat($(this).attr('data-lng'));
 
-    var latLng = new google.maps.LatLng(lat,lng);
+    var latLng = new google.maps.LatLng(lat, lng);
 
-    _.each(mapView.circles, function(rw,i) {
+    _.each(mapView.circles, function (rw, i) {
 
-      if (rw.circle.center.lat() == latLng.lat() &&
-      rw.circle.center.lng() == latLng.lng()) {
-        setTimeout(function() { google.maps.event.trigger(rw.circle, 'click', {latLng:latLng});}, 500);
-        return;
+      if (rw.circle.center.lat() === latLng.lat() && rw.circle.center.lng() === latLng.lng()) {
+        setTimeout(function () {
+          rw.circle.parent.markSelected();
+          google.maps.event.trigger(rw.circle, 'click', {autoopen:true, latLng: latLng});
+
+          //$(".infowindow .btn").click();
+
+        }, 500);
+      return;
       }
     });
   });
-}
+};
 
-InfoWindow.prototype.bindClose = function(){
+InfoWindow.prototype.bindClose = function () {
   var that = this;
-  $(this.div_).find('.close').click(function(ev){
+
+  $(this.div_).find('.close').click(function (ev) {
     ev.preventDefault();
     ev.stopPropagation();
     that.hide();
   });
-}
+};
 
-InfoWindow.prototype.setContent = function(properties){
-  var name = properties.name;
+InfoWindow.prototype.setContent = function (properties) {
+  var
+  name = properties.name,
+  projects = null;
 
-  if (properties.overlayType == 'agencies') {
+  if (properties.overlayType === 'agencies') {
     var ids    = _.compact(properties.projects_ids.split("|"));
     var titles = _.compact(properties.projects_titles.split("|"));
 
-    var projects = _.uniq(titles); //_.zip(ids, titles);
+    projects = _.uniq(titles); //_.zip(ids, titles);
 
     if (projects) {
       var projectID = ids[0];
@@ -172,7 +129,7 @@ InfoWindow.prototype.setContent = function(properties){
       if (mapView.coordinates[projectID]) {
         var lat = mapView.coordinates[projectID][0];
         var lng = mapView.coordinates[projectID][1];
-        var projects = _.map(projects, function(project) { return "<li><a href='#' class='project' data-lng='"+lng+"' data-lat='"+lat+"'>" + project + "</a></li>" });
+        projects = _.map(projects, function (project) { return "<li><a href='#' class='project' data-lng='" + lng + "' data-lat='" + lat + "'>" + project + "</a></li>"; });
         properties.projects = projects.join("");
       } else {
         properties.projects = "";
@@ -182,60 +139,60 @@ InfoWindow.prototype.setContent = function(properties){
 
   this.div_.innerHTML = this.template(properties);
 
-  if (projects) this.bindProjects();
+  if (projects) {
+    this.bindProjects();
+  }
   this.bindClose();
-} 
+};
 
-InfoWindow.prototype.setSolutionURL = function(title, url){
+InfoWindow.prototype.setSolutionURL = function (title, url) {
   $(this.div_).find(".solutions li a").html(title);
   $(this.div_).find(".solutions li a").attr("href", url);
-} 
+};
 
-InfoWindow.prototype.setCallback = function(callback){
+InfoWindow.prototype.setCallback = function (callback) {
   $(".btn").on('click', callback);
-} 
+};
 
-InfoWindow.prototype.open = function(latlng){
+InfoWindow.prototype.open = function (latlng) {
   var that = this;
+
   this.latlng_ = latlng;
   this.moveMaptoOpen();
-  this.setPosition(function() {
+
+  this.setPosition(function () {
     that.show();
-  });     
+  });
+};
 
-} 
-
-InfoWindow.prototype.hide = function() {
+InfoWindow.prototype.hide = function () {
   if (this.div_) {
+
     var div = this.div_;
-    $(div).animate({
-      top: '+=' + 10 + 'px',
-      opacity: 0},
-      100, 'swing',
-      function () {
-        div.style.visibility = "hidden";
-      }
-    );
+
+    $(div).animate({ top: '+=' + 10 + 'px', opacity: 0 }, 100, 'swing',
+                   function () {
+                     div.style.visibility = "hidden";
+                   }
+                  );
   }
-}
+};
 
-
-InfoWindow.prototype.show = function() {
+InfoWindow.prototype.show = function () {
   if (this.div_) {
     this.div_.style.opacity = 0;
-    $(this.div_).animate({
-      top: '-=' + 10 + 'px',
-      opacity: 1},
-      250
-    );
+
+    $(this.div_).animate({ top: '-=' + 10 + 'px', opacity: 1 }, this.showDuration);
     this.div_.style.visibility = "visible";
   }
-}
+};
 
-InfoWindow.prototype.isVisible = function(marker_id) {
+InfoWindow.prototype.isVisible = function (marker_id) {
   if (this.div_) {
+
     var div = this.div_;
-    if (div.style.visibility == 'visible') {
+
+    if (div.style.visibility === 'visible') {
       return true;
     } else {
       return false;
@@ -243,13 +200,14 @@ InfoWindow.prototype.isVisible = function(marker_id) {
   } else {
     return false;
   }
-}
+};
 
-InfoWindow.prototype.moveMaptoOpen = function() {
-  var left = 0;
-  var top = 0;
-  var div = this.div_;
-  var pixPosition = this.getProjection().fromLatLngToContainerPixel(this.latlng_);
+InfoWindow.prototype.moveMaptoOpen = function () {
+  var
+     left = 0,
+     top = 0,
+     div = this.div_,
+     pixPosition = this.getProjection().fromLatLngToContainerPixel(this.latlng_);
 
   if ((pixPosition.x + 320) >= ($('#map').width())) {
     left = (pixPosition.x + 320 - $('#map').width());
@@ -259,5 +217,5 @@ InfoWindow.prototype.moveMaptoOpen = function() {
     top = (pixPosition.y - $(this.div_).find(".box").height() - 130);
   }
 
-  this.map_.panBy(left,top);
-}
+  this.map_.panBy(left, top);
+};

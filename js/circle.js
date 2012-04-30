@@ -5,11 +5,13 @@
 */
 function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
 
-  var distance = this.distanceBetweenPoints(centroidCenter, radiusCenter)
-    , self = this;
+  var
+    distance = this.distanceBetweenPoints(centroidCenter, radiusCenter),
+    self = this;
 
   // Draw circle
   this.circle = new google.maps.Circle({
+    parent: self,
     strokeColor: "#E79626",
     strokeOpacity: 1,
     strokeWeight: 1,
@@ -24,12 +26,14 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
 
   // Draw line
   var agency_lines = [];
+
   _.each(lines, function(line,i) {
-    
+
     if (!line) return false;
 
-    var coordinates = $.parseJSON(line).coordinates
-      , agency_center = new google.maps.LatLng(coordinates[1], coordinates[0]);
+    var
+      coordinates = $.parseJSON(line).coordinates,
+      agency_center = new google.maps.LatLng(coordinates[1], coordinates[0]);
 
     _.each(polygons, function(polygon, i) {
       var agency_line = new google.maps.Polyline({
@@ -43,111 +47,82 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
       agency_line.setMap(map);
       agency_lines.push(agency_line);
     });
-
+    return true;
   });
-
-
 
   // Append lines
   this.circle.setOptions({"lines": agency_lines});
 
   google.maps.event.addListener(this.circle, 'click', function(event) {
-    var 
-    that         = this,
-    properties   = this.polygons[0][0].geojsonProperties,
-    title        = properties.title,
-    approvalDate = properties.approval_date,
+
+    var
+    that              = this,
+    properties        = this.polygons[0][0].geojsonProperties,
+    title             = properties.title,
+    approvalDate      = properties.approval_date,
     fixedApprovalDate = properties.approval_date,
-    moreURL      = properties.external_project_url,
+    moreURL           = properties.external_project_url,
 
-    solutionName = properties.solution_name,
-    solutionURL  = properties.solution_url,
+    solutionName      = properties.solution_name,
+    solutionURL       = properties.solution_url,
 
-    agencyName   = properties.agency_name,
-    agencyURL    = properties.agency_url,
+    agencyName        = properties.agency_name,
+    agencyURL         = properties.agency_url,
 
-    topic_id     = properties.topic_id,
-    location     = properties.location_verbatim,
-    budget       = properties.budget;
+    nexsoCode         = properties.nexso_code,
+
+    topicName         = properties.topic_name,
+    location          = properties.location_verbatim,
+    budget            = properties.budget;
 
     function onHiddenAside() {
-      var 
+      var
       $asideContent = $(".aside .content"),
-      $asideItems = $asideContent.find("ul");
+      $asideItems = $asideContent.find("ul.data");
 
       $asideContent.find(".header h2").html(title);
 
       var prettyApprovalDate = prettifyDate(approvalDate);
 
-      if (prettyApprovalDate) {
-        $asideItems.find("li.approvalDate").show();
-        $asideItems.find("li.approvalDate span").text(prettyApprovalDate);
+
+      function setItem(itemName, content) {
+        var $item = $asideItems.find("li." + itemName);
+
+        if (typeof content === 'object' ) {
+          if (content.url !== null) {
+            $item.find("a").text(content.text).attr("href", content.url);
+            $item.show();
+          } else $item.hide();
+        } else if (content) {
+          $item.find("span").text(content);
+          $item.show();
+        } else $item.hide();
       }
-      else $asideItems.find("li.approvalDate").hide();
 
-      /*if (location) {
-        $asideItems.find("li.location").show();
-        $asideItems.find("li.location span").text(location);
-      } else $asideItems.find("li.location").hide();
-      */
-
-      if (budget > 0) {
-        $asideItems.find("li.budget").show();
-        $asideItems.find("li.budget span").text(accounting.formatMoney(budget));
-      } else $asideItems.find("li.budget").hide();
-
-        if (agencyName) {
-          $asideItems.find("li.agency").show();
-          $asideItems.find("li.agency a").text(agencyName);
-          $asideItems.find("li.agency a").on("click", function(e) {
-            e.preventDefault();
-
-            if (self.circle.lines.length > 0) {
-              var latLng = self.circle.lines[0].getPath().getAt(1);
-
-              map.panTo(latLng);
-              map.setZoom(12);
-
-             // _.each(mapView.overlays["agencies"], function(agency,i) {
-             //   if (agency.getPosition().lat() == latLng.lat() &&
-             //     agency.getPosition().lng() == latLng.lng()) {
-             //     agency.showContent(); 
-             //     return;
-             //   }
-             // });
-            }
-          });
-
-        } else $asideItems.find("li.agency").hide();
-
-      if (solutionURL != null) {
-        $asideItems.find("li.solution").show();
-        $asideItems.find("li.solution a").text(solutionName).attr("href", solutionURL);
-      } else $asideItems.find("li.solution").hide();
-
-      if (moreURL) {
-        $asideItems.find("li.more").show();
-        $asideItems.find("li.more a").attr("href", moreURL);
-      }
-      else $asideItems.find("li.more").hide();
-
+      setItem("approvalDate", prettyApprovalDate);
+      setItem("topic", topicName);
+      setItem("nexso_code", nexsoCode);
+      setItem("location", location);
+      setItem("budget", accounting.formatMoney(budget));
+      setItem("more", { url: moreURL, text: "External link" });
+      setItem("solution", { url: solutionURL, text: solutionName });
+      setItem("agency", { url: agencyURL, text: agencyName });
 
       previousZoom   = map.getZoom();
       previousCenter = map.getCenter();
 
-      aside.show();
+      Aside.show("project");
       Infowindow.hide();
 
       // Focus on the overlay with the related agency/ies
       var bounds = that.getBounds();
 
       _.each(self.circle.lines, function(line,i) {
-        bounds.extend(line.getPath().getAt(1))
+        bounds.extend(line.getPath().getAt(1));
       });
 
       map.fitBounds(bounds);
-      map.panBy(176,0);
-
+      map.panBy(176, 0);
 
       // Make it "selected"
       $('.aside a.close').data('project',self);
@@ -155,16 +130,24 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
     }
 
     function onInfowindowClick(e) {
-      e.preventDefault();
+      if (e) {
+        e.preventDefault();
+      }
+
       Timeline.hide();
-      aside.hide(onHiddenAside);
+      Aside.hide(onHiddenAside);
     }
 
-    // Infowindow setup
-    Infowindow.setContent({name:title, overlayType: "project"});
-    Infowindow.setSolutionURL(title, moreURL);
-    Infowindow.setCallback(onInfowindowClick);
-    Infowindow.open(event.latLng);
+    if (event.autoopen) {
+      onInfowindowClick();
+    } else {
+      // Infowindow setup
+      Infowindow.setContent({ name: title, overlayType: "project", agencyName: agencyName });
+      Infowindow.setSolutionURL(title, moreURL);
+      Infowindow.setCallback(onInfowindowClick);
+      Infowindow.open(event.latLng);
+    }
+
   });
 
   google.maps.event.addListener(this.circle, 'mouseover', this.onMouseOver);
@@ -175,10 +158,7 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
   return this;
 }
 
-
 RadiusWidget.prototype = new google.maps.MVCObject();
-
-
 RadiusWidget.prototype.onMouseOver = function(ev) {
   _.each(this.polygons,function(polygon,i) {
     if (polygon[0].disabled) polygon[0].setOptions(projectsDisabledHoverStyle);
@@ -186,8 +166,7 @@ RadiusWidget.prototype.onMouseOver = function(ev) {
   });
   if (this.disabled) this.setOptions(circleDisabledHoverStyle);
   else this.setOptions(circleStyleHover);
-}
-
+};
 
 RadiusWidget.prototype.onMouseOut = function(ev) {
   _.each(this.polygons,function(polygon,i) {
@@ -195,10 +174,9 @@ RadiusWidget.prototype.onMouseOut = function(ev) {
     else polygon[0].setOptions(projectsStyle);
   });
 
-  if (this.disabled) this.setOptions(circleDisabledStyle);  
+  if (this.disabled) this.setOptions(circleDisabledStyle);
   else this.setOptions(circleStyle);
-}
-
+};
 
 RadiusWidget.prototype.markSelected = function() {
   google.maps.event.clearListeners(this.circle, 'mouseover');
@@ -218,8 +196,7 @@ RadiusWidget.prototype.markSelected = function() {
   // Hide rest
   this.hideAll();
   filterView.disable();
-}
-
+};
 
 RadiusWidget.prototype.unMarkSelected = function(showAll) {
   google.maps.event.addListener(this.circle, 'mouseover', this.onMouseOver);
@@ -239,8 +216,7 @@ RadiusWidget.prototype.unMarkSelected = function(showAll) {
   // Show rest
   if (showAll) this.showAll();
   filterView.enable();
-}
-
+};
 
 RadiusWidget.prototype.hideAll = function() {
   var that = this;
@@ -250,7 +226,7 @@ RadiusWidget.prototype.hideAll = function() {
     if (that.circle.lines.length > 0 &&
       agency.getPosition().lat() != that.circle.lines[0].getPath().getAt(1).lat() &&
       agency.getPosition().lng() != that.circle.lines[0].getPath().getAt(1).lng()) {
-        agency.hide();  
+        agency.hide();
       }
   });
 
@@ -269,11 +245,9 @@ RadiusWidget.prototype.hideAll = function() {
 
       radiuswidget.circle.setOptions(circleDisabledStyle);
       radiuswidget.circle.disabled = true;
-
     }
   });
-}
-
+};
 
 RadiusWidget.prototype.showAll = function() {
   var that = this;
@@ -299,8 +273,7 @@ RadiusWidget.prototype.showAll = function() {
 
     }
   });
-}
-
+};
 
 /**
 * Update the radius when the distance has changed.

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>NEXSO</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <link href="css/home.css" media="screen, projection" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+      html { height: 100% }
+      body {
+        height: 100%; margin: 0; padding: 0; overflow:hidden;
+        font-family: "Helvetica Neue", sans-serif;
+        font-size: 15px;
+      }
+      .container {
+        position:absolute;
+        display:block;
+        left:0;
+        top: 38px;
+        bottom:0;
+        right:0;
+        width:100%;
+        border:0;
+      }
+
+      #iframe {
+        position:absolute; display:block; left:0; top: 0; bottom:0; right:0;
+        height:100%;
+        width:100%;
+        border:0;
+      }
+      .content { width:980px; margin: auto; }
+      .nav { height:38px; position:relative; }
+      .nav .logo {
+        display:block;
+        width:126px; height:32px;
+        background:url(/img/icons/nexso_logo.png) no-repeat 0 0;
+        position:absolute;
+        top:5px;
+      }
+      .nav .art {
+        display:block;
+        width:341px; height:97px;
+        background:url(/img/icons/header_art.png) no-repeat 0 0;
+        position:absolute;
+        z-index:10000;
+        float:right;
+        margin-left: 200px;
+        top:0px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="nav">
+      <div class="content">
+        <a href="#" class="logo"></a>
+        <div class="art"></div>
+      </div>
+    </div>
+    <div class="container">
+      <iframe src="index.html" id="iframe">
+      </iframe>
+    </div>
+  </body>
+</html>

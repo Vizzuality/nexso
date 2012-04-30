@@ -1,29 +1,242 @@
-var debug = true;
+$(function () {
 
-var // DEFAULTS
-lat              = 3.162456,
-lng              = -73.476563,
-zoom             = 3,
-minZoom          = 3,
-maxZoom          = 16,
-previousZoom     = 3,
-topics           = [1,2,3,4,5,6],
-solutionFilter   = "all",
-previousCenter,
-mapView,
-filterView,
-disabledFilters = false,
-globalZindex = 300;
+  var autocompleteSource = [];
+  var pane = [];
 
-var years     = [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014];
-var startYear = years[0];
-var endYear   = years[years.length - 1];
+  $(document).on("click", function() {
+    if ($(".nav a[data-toggle='filter']").hasClass('selected')) {
+      $(".nav a[data-toggle='filter']").removeClass('selected');
+      $(".nav .filter").fadeOut(150);
+    }
+  });
 
-$(function() {
+  $("a[data-click='search']").on("click", function(e) {
+    e.preventDefault();
+    Aside.show("search");
+  });
+
+  $("a[data-click='explore']").on("click", function(e) {
+    e.preventDefault();
+    startExploring();
+  });
+
+  $("a[data-click='visit']").on("click", function(e) {
+    e.preventDefault();
+    visitPlace();
+  });
+
+  $("a[data-click='welcome']").on("click", function(e) {
+    e.preventDefault();
+    showWelcome();
+  });
+
+  var latLngBounds = new google.maps.LatLngBounds(
+    new google.maps.LatLng(13.390290, -26.332470),
+    new google.maps.LatLng(-59.450451, -109.474930));
+
+  $("#addresspicker").geocomplete({
+    details: ".input_field",
+    detailsAttribute: "data-geo",
+    bounds: latLngBounds
+  });
+
+  function resetAutocomplete() {
+    $("#autocomplete").val('');
+    $(".nav .input_field .placeholder").fadeIn(250);
+  }
+
+  function bindAutocomplete() {
+    $( "#autocomplete" ).autocomplete({
+      minLength: 3,
+      source: autocompleteSource,
+
+      select: function( event, ui ) {
+        Aside.hide();
+        resetAutocomplete();
+
+        return false;
+      },
+      close: function() {
+        if ($("#autocomplete").val().length === 0) {
+          Aside.hide();
+        }
+      },
+      open: function(event, ui) {
+
+        if (Aside.isHidden()) {
+          Aside.show('search');
+        } else {
+          Aside.change("search");
+        }
+
+        if ($('.results .jspContainer').length > 0) {
+          $('ul.ui-autocomplete').removeAttr('style').hide().appendTo('.results .jspContainer').show();
+        } else {
+          $('ul.ui-autocomplete').removeAttr('style').hide().appendTo('.results').show();
+        }
+      }
+    }).data( "autocomplete" )._renderItem = function( ul, item ) {
+
+      var $a = $("<a>" + item.label + "</a>");
+
+      $a.on("click", function() {
+        google.maps.event.trigger(item.circle, 'click', {autoopen:true, latLng: null});
+        item.circle.parent.markSelected();
+      });
+
+      return $("<li></li>").data("item.autocomplete", item ).append($a).fadeIn(250).appendTo(ul);
+    };
+
+    $("#autocomplete").unbind('blur.autocomplete');
+  }
+
+
+  $("ul.stats li").each(function(i, li) {
+    var
+    el   = null,
+    spin = null,
+    $li  = $(li),
+    id   = 'spinner_' + $li.attr('class');
+
+    $li.append('<div id="' + id + '" class="spinner"></div>');
+    el = document.getElementById(id);
+    spin = new Spinner(config.BIG_SPINNER_OPTIONS).spin(el);
+    $li.find('.spinner').fadeIn(250);
+  });
+
+  function updateCounter(name, count) {
+    if ($(".welcome").length > 0) {
+
+      $(".stats li." + name + " span").html(count);
+
+      $(".stats li." + name + " .spinner ").fadeOut(250, function() {
+        $(this).remove();
+        $(".stats li." + name).removeClass("disabled");
+      });
+    }
+  }
+
+  function showWelcome() {
+    Aside.hide();
+    resetAutocomplete();
+
+    $(".timeline-cover").animate({opacity:1, bottom: "23px"}, 250);
+
+    $(".welcome, .backdrop").fadeIn(250, function() {
+
+      $(".nav .input_field").fadeOut(300, function() {
+        $(".filter-help").animate({ top: "0",  opacity:1 }, 250);
+      });
+
+      $(".nav ul.filters").animate({ right:0 }, 250);
+
+      $(".left-side").animate( { left: "0",  opacity:1 }, 400);
+      $(".right-side").animate({ left: "0", opacity:1 }, 400);
+    });
+  }
+
+  function visitPlace() {
+
+    var lat = $(".input_field input#lat").val();
+    var lng = $(".input_field input#lng").val();
+
+    if (!lat || !lng) {
+      return;
+    }
+
+    startExploring(function() {
+      var latLng = new google.maps.LatLng(lat, lng);
+
+      map.panTo(latLng);
+      map.setZoom(7);
+
+      $("#addresspicker").val("");
+      $(".input_field .placeholder").show();
+
+    });
+  }
+
+  function startExploring(callback) {
+
+    var // animation callbacks
+    removeDiv = function() {
+      $(this).remove();
+    },
+    afterHidingBackdrop = function() {
+      //removeDiv();
+
+      if (callback) {
+        callback();
+      }
+    },
+    afterHidingRightSide = function() {
+      //removeDiv();
+      $(".welcome, .backdrop").fadeOut(250, afterHidingBackdrop);
+    },
+    afterHidingTimeline = function() {
+      //removeDiv();
+      $(".filter-help").animate({ top: "-100px", opacity:0 }, 250);
+
+      $(".nav ul.filters").animate({ right: "240px" }, 300, function() {
+        $(".nav .input_field").fadeIn(250);
+      });
+
+      $(".left-side").animate( { left: "-200px", opacity:0 }, 400);
+      $(".right-side").animate({ left: "200px",  opacity:0 }, 400, afterHidingRightSide);
+      $(".pac-container").fadeOut(250);
+    };
+
+    $(".timeline-cover").animate({opacity:0, bottom: -30}, 250, afterHidingTimeline);
+  }
+
+  $(".input_field").smartPlaceholder();
+
+  $('#addresspicker').keydown(function (e) {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      visitPlace();
+    }
+  });
+
+  if ($("ul.radio li.selected").length <= 0) {
+    $("ul.radio li:first-child").addClass("selected");
+  }
+
+  $(".nav a[data-toggle='filter']").on("click", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if ($(".nav ul.filters").hasClass('disabled')) {
+      return;
+    }
+
+    $(".nav a[data-toggle='filter'].selected").not(this).removeClass("selected");
+    $(this).toggleClass("selected");
+
+    $(".nav a[data-toggle='filter']").not(this).parent().find(".filter").fadeOut(250);
+    $(this).parent().find(".filter").fadeToggle(150);
+  });
+
+  $(".nav .filter ul.radio li").on("click", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    $(this).parent().find("li").each(function() {
+      var id = $(this).attr('id');
+    });
+
+    $(this).parent().find("li").removeClass("selected");
+    $(this).addClass("selected");
+  });
+
+  $(".nav .filter").on("click", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  });
+
   /*
-  * SPINNER
-  */
-  var spinner = (function() {
+   * SPINNER
+   */
+  var spinner = (function () {
     var options = {
       lines: 7, // The number of lines to draw
       length: 0, // The length of each line
@@ -39,9 +252,9 @@ $(function() {
       zIndex: 2e9, // The z-index (defaults to 2000000000)
       top: 'auto', // Top position relative to parent in px
       left: 'auto' // Left position relative to parent in px
-    }
-    , el
-    , spin;
+    },
+    el,
+    spin;
 
     function _initialize() {
       el = document.getElementById('minispinner_wrapper');
@@ -60,11 +273,11 @@ $(function() {
     }
 
     function _disable() {
-      $(el).css('opacity',0)
+      $(el).css('opacity', 0);
     }
 
     function _enable() {
-      $(el).css('opacity',1)
+      $(el).css('opacity', 1);
     }
 
     function _bindEvents() {
@@ -93,16 +306,16 @@ $(function() {
       show: _show,
       hide: _hide,
       positionate: _positionate
-    }
+    };
   }());
-
 
   // Shows the circle, marker or polygon
   function showFeature(view, name, geojson, style){
+    var data = null;
     try {
-      var data = JSON.parse(geojson);
+      data = JSON.parse(geojson);
     } catch ( e ) {
-      var data = geojson;
+      data = geojson;
     }
 
     // Clone style hash so 'style' is not overwritten
@@ -110,13 +323,15 @@ $(function() {
 
     view.overlays[name] = new GeoJSON(data, name, overlayStyle || null);
 
-    if (view.overlays[name].type && view.overlays[name].type == "Error"){
+    if (view.overlays[name].type && view.overlays[name].type === "Error"){
       view.enableFilters();
       return;
     }
 
-    var polygons
-    , agencies;
+    var
+    polygons = [];
+    agencies = [];
+    solution_count = 0;
 
     if (view.overlays[name].length){
       for (var i = 0; i < view.overlays[name].length; i++) {
@@ -131,17 +346,27 @@ $(function() {
             overlay.setMap(map);
             polygons.push(overlay);
 
-           var projectID = overlay.geojsonProperties.project_id;
-           view.coordinates[projectID] = [view.overlays[name][i][0][0].geojsonProperties.centroid_lat, view.overlays[name][i][0][0].geojsonProperties.centroid_lon];
-          }                    
+            var projectID = overlay.geojsonProperties.project_id;
+            view.coordinates[projectID] = [view.overlays[name][i][0][0].geojsonProperties.centroid_lat, view.overlays[name][i][0][0].geojsonProperties.centroid_lon];
+          }
 
           // Draws circles
-          var o = view.overlays[name][i][0][0]
-          , cLatLng = new google.maps.LatLng(o.geojsonProperties.centroid_lat, o.geojsonProperties.centroid_lon)
-          , rLatLng = new google.maps.LatLng(o.geojsonProperties.radius_point_lat, o.geojsonProperties.radius_point_lon)
-          , distanceWidget = new RadiusWidget(map, cLatLng, rLatLng, view.overlays[name][i], [o.geojsonProperties.agency_position]);
+          var
+          o              = view.overlays[name][i][0][0],
+          properties     = o.geojsonProperties,
+          cLatLng        = new google.maps.LatLng(properties.centroid_lat, properties.centroid_lon),
+          rLatLng        = new google.maps.LatLng(properties.radius_point_lat, properties.radius_point_lon),
+          distanceWidget = new RadiusWidget(map, cLatLng, rLatLng, view.overlays[name][i], [properties.agency_position]);
+
+          if (name === 'projects') {
+            autocompleteSource.push({ circle: distanceWidget.circle, more: properties, value: properties.title, lat: properties.centroid_lat, lng: properties.centroid_lon});
+          }
+
           view.circles.push(distanceWidget);
 
+          if (name === "projects") {
+            solution_count += properties.solution_count;
+          }
 
         } else {
           view.overlays[name][i].setMap(map);
@@ -149,17 +374,23 @@ $(function() {
       }
     }
     //spinner.hide();
+
+    if (name === 'projects') {
+      updateCounter("solutions", solution_count);
+      bindAutocomplete();
+
+    }
+
     view.enableFilters();
   }
 
   // Key binding
   $(document).keyup(function(e) {
-    if (e.keyCode == 27) {  // esc
+    if (e.keyCode === 27) {  // esc
       Infowindow.hide();
       $(".nav .filter").fadeOut(150);
-    } 
+    }
   });
-
 
   function setupSpinner($el) {
     var options = {
@@ -174,86 +405,171 @@ $(function() {
       shadow: false, // Whether to render a shadow
       hwaccel: false, // Whether to use hardware acceleration
       zIndex: 2e9, // The z-index (defaults to 2000000000)
-      left: -22, 
+      left: -22,
       top:0
     };
 
     $el.addClass("loading");
-    el = document.getElementById($el.attr('id'));
-    var spinner = new Spinner(options).spin(el);
+
+    var
+    el      = document.getElementById($el.attr('id')),
+    spinner = new Spinner(options).spin(el);
+
     $(spinner.el).fadeIn(250);
   }
 
-  $(".aside .close").on('click', function(e) {
-    e.preventDefault();
+  Aside = (function() {
+    var
+    $el    = $(".aside"),
+    $close = $(".aside a.close"),
+    mode   = 0; // 0 = project; 1 = search
 
-    // Unselect the project
-    var project = $(this).data('project');
-    project.unMarkSelected(true);
-    $(this).removeData('project')
+    (function() {
+      $close.on('click', function(e) {
+        e.preventDefault();
 
-    aside.hide(Timeline.show);
-    map.setZoom(previousZoom);
-    //map.panTo(previousCenter);
-  });
+        if (mode === 0) { // project mode
+          $(this).data('project').unMarkSelected(true); // Unselect the project
+          $(this).removeData('project');
+          map.setZoom(previousZoom);
+          Aside.hide(Timeline.show);
+        } else { // regular mode
+          Aside.hide();
+          resetAutocomplete();
+        }
 
-  aside = (function() {
-    _show = function() {
+      });
+    })();
 
-      var projectBefore = $('.aside a.close').data('project');
+    _change = function(what) {
+
+      if (what === 'search' && mode === 0) {
+        var callback = function() { Aside.show(what); };
+        Aside.hide(callback);
+      }
+
+    },
+    _show = function(what) {
+
+      if (!Aside.isHidden()) {
+        Aside.hide();
+      }
+
+      if (what === "project") {
+        mode = 0;
+        resetAutocomplete();
+        $el.find(".search").hide();
+        $el.find(".project").show();
+      } else {
+        mode = 1;
+        $el.find(".project").hide();
+        $el.find(".search").show();
+      }
+
+      var projectBefore = $close.data('project');
+
       if (projectBefore) {
         projectBefore.unMarkSelected(true);
       }
 
-      $(".aside").find("li").css({opacity:0, marginLeft:150});
+      $el.find("ul.data li").css({opacity:0, marginLeft:150});
 
       $("#map").animate({ right: '352px' }, 250);
 
-      $(".aside").animate({ right: 0 }, 250, function() {
+      $el.animate({ right: 0 }, 250, function() {
         $(this).removeClass("hidden");
-        $(this).find("li").each(function(i, el) {
-          $(el).delay(i * 120).animate({marginLeft:0, opacity:1}, 200);
+
+        $el.delay(300).find("p").slideDown(350, function() {
+          $el.find("ul.data li").each(function(i, li) {
+            $(li).delay(i * 100).animate({marginLeft:0, opacity:1}, 200);
+          });
         });
+
+        var
+          $pane        = $(".scroll-pane-" + what),
+          windowHeight = $(window).height(),
+          panePosition = $pane.offset().top,
+          paneHeight   = windowHeight - panePosition;
+
+        $pane.css("height", paneHeight - 120);
+
+        if (pane[what]) { // if we loaded the pane before
+          var api = pane[what].data('jsp');
+          api.reinitialise();
+          api.scrollTo(0, 0); // scroll to top
+        } else {
+          pane[what] = $pane;
+          pane[what].jScrollPane();
+        }
+
       });
-    }
+    };
+
     _hide = function(callback) {
       $("#map").animate({ right: '0' }, 250);
-      $(".aside").animate({right:'-400px'}, 250, function() {
+
+      $el.animate({right:'-400px'}, 250, function() {
         $(this).addClass("hidden");
-        callback && callback();
+        $el.find("p").hide();
+
+        if (callback) {
+          callback();
+        }
+
       });
-    }
+    };
+
+    _isHidden = function() {
+      return $el.hasClass("hidden");
+    };
+
     return {
       hide: _hide,
-      show: _show
+      show: _show,
+      isHidden: _isHidden,
+      change:_change
     };
-  })();
+  }());
 
   Timeline = (function() {
     _show = function() {
-      if ($(".aside").hasClass("hidden"))
+      if (Aside.isHidden()) {
         $("#timeline").animate({bottom:19, opacity:1}, 300);
-    }
+      }
+    };
+
     _hide = function(callback) {
+
       $("#timeline").animate({bottom:-90, opacity:0}, 250, function() {
-        callback && callback();
+
+        if (callback) {
+          callback();
+        }
+
       });
-    }
+    };
+
     return {
       hide: _hide,
       show: _show
     };
-  })();
+  }());
 
   // Slider
-  $( "#timeline .slider" ).slider({ range: true, min: 0, max: 13*30, step: 30, values: [0, 500], 
+  $( "#timeline .slider" ).slider({
+    range: true,
+    min: 0,
+    max: 13*30,
+    step: 30,
+    values: [0, 500],
     stop: function(event, ui) {
 
-      mapView.startYear = startYear;
-      mapView.endYear   = endYear;
+      mapView.startYear = config.START_YEAR;
+      mapView.endYear   = config.END_YEAR;
 
       mapView.removeOverlay("projects");
       mapView.addProjects();
+
     },
     slide: function( event, ui ) {
       $('#timeline li').removeClass("selected");
@@ -261,8 +577,8 @@ $(function() {
       var min = (ui.values[0]/30) + 1;
       var max = (ui.values[1]/30);
 
-      startYear = years[min - 1];
-      endYear   = years[max - 1];
+      startYear = config.YEARS[min - 1];
+      endYear   = config.YEARS[max - 1];
 
       for (var i = min; i<=max; i++) {
         $('#timeline li:nth-child('+i+')').addClass("selected");
@@ -271,21 +587,17 @@ $(function() {
 
     // Map
     var mapOptions = {
-      zoom: zoom,
-      minZoom: minZoom,
-      maxZoom: maxZoom,
-      center: new google.maps.LatLng(lat, lng),
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      zoom:             config.ZOOM,
+      minZoom:          config.MINZOOM,
+      maxZoom:          config.MAXZOOM,
+      center:           new google.maps.LatLng(config.LAT, config.LNG),
+      mapTypeId:        google.maps.MapTypeId.ROADMAP,
       disableDefaultUI: true
     };
 
     var map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
-    google.maps.event.addDomListener(map, 'tilesloaded', function() {
-      // setTimeout(function() { if ($(".aside").hasClass("hidden")) showTimeline(); }, 700);
-    });
-
-    function zoomIn(controlDiv, map) {
+    function ZoomIn(controlDiv, map) {
       controlDiv.setAttribute('class', 'zoom_in');
 
       google.maps.event.addDomListener(controlDiv, 'mousedown', function() {
@@ -296,7 +608,7 @@ $(function() {
       });
     }
 
-    function zoomOut(controlDiv, map) {
+    function ZoomOut(controlDiv, map) {
       controlDiv.setAttribute('class', 'zoom_out');
 
       google.maps.event.addDomListener(controlDiv, 'mousedown', function() {
@@ -312,13 +624,13 @@ $(function() {
     // zoomIn
     var zoomInControlDiv = document.createElement('DIV');
     overlayID.appendChild(zoomInControlDiv);
-    var zoomInControl = new zoomIn(zoomInControlDiv, map);
+    var zoomInControl = new ZoomIn(zoomInControlDiv, map);
     zoomInControlDiv.index = 1;
 
     // zoomOut
     var zoomOutControlDiv = document.createElement('DIV');
     overlayID.appendChild(zoomOutControlDiv);
-    var zoomOutControl = new zoomOut(zoomOutControlDiv, map);
+    var zoomOutControl = new ZoomOut(zoomOutControlDiv, map);
     zoomOutControlDiv.index = 2;
 
     map.mapTypes.set('nexsoStyle', nexsoStyle);
@@ -330,12 +642,12 @@ $(function() {
       $(".stations").css({width:$(document).width(), height:$(document).height(), top:0, left:0});
     });
 
-    // We reuse the same Infowindow 
+    // We reuse the same Infowindow
     Infowindow = new InfoWindow({map:map});
 
     // generate CartoDB object linked to examples account.
     var CartoDB = Backbone.CartoDB({
-      user: 'nexso2' // you should put your account name here
+      user: config.CARTODB_USER
     });
 
     var Point = CartoDB.CartoDBModel.extend({
@@ -345,14 +657,16 @@ $(function() {
       name: function() {
         return this.get('name');
       },
-
       lat: function() {
-        if (!this.get('location')) return 0;
+        if (!this.get('location')) {
+          return 0;
+        }
         return this.get('location').coordinates[1];
       },
-
       lng: function() {
-        if (!this.get('location')) return 0;
+        if (!this.get('location')) {
+          return 0;
+        }
         return this.get('location').coordinates[0];
       }
     });
@@ -391,28 +705,40 @@ $(function() {
         this.addProjects();
       },
       enableFilters: function() {
-      if (!disabledFilters) return; 
-        // console.log('enablign filters');
+        if (!disabledFilters) {
+          return;
+        }
+
         disabledFilters = false;
-        $(".spinner").fadeOut(250, function() { 
+
+        $(".nav .spinner").fadeOut(250, function() {
           $(this).parent().removeClass("loading");
           $(this).remove();
         });
 
       },
       disableFilters: function() {
-        if (disabledFilters) return; 
-        // console.log('disabling filters');
+        if (disabledFilters) {
+          return;
+        }
         disabledFilters = true;
       },
       removeOverlay: function(name) {
-        if (name == "ashokas" || name == "agencies") this.removeMarkers(name);
-        else if (name == 'projects') this.removeProjects(name);
+
+        if (name === "ashokas" || name === "agencies") {
+          this.removeMarkers(name);
+        }
+        else if (name === 'projects') {
+          this.removeProjects(name);
+        }
+
       },
       removeMarkers:function(name) {
+
         for (var i = 0; i < this.overlays[name].length; i++){
           this.overlays[name][i].hide(true);
         }
+
         this.enableFilters();
       },
       removeProjects: function(name) {
@@ -423,9 +749,9 @@ $(function() {
         }
 
         if (this.overlays[name].length){ // Remove projects
-          for (var i = 0; i < this.overlays[name].length; i++){
-            if (this.overlays[name][i].length){
-              for (var j = 0; j < this.overlays[name][i].length; j++){
+          for (i = 0; i < this.overlays[name].length; i++) {
+            if (this.overlays[name][i].length) {
+              for (var j = 0; j < this.overlays[name][i].length; j++) {
                 this.overlays[name][i][j][0].setMap(null);
               }
             }
@@ -447,93 +773,65 @@ $(function() {
       addAshokas: function() {
         this.disableFilters();
 
-        if (this.overlays["ashokas"]) { // If we load the ashokas before, just show them
-          _.each(this.overlays["ashokas"], function(el,i) {
-            if (((solutionFilter == "solutions" && el.properties.solution_id) || solutionFilter == "all") && (_.include(topics, el.properties.topic_id))) el.show(true);
-            else el.hide(true);
+        if (this.overlays.ashokas) { // If we load the ashokas before, just show them
+          _.each(this.overlays.ashokas, function(el,i) {
+            if (((solutionFilter === "solutions" && el.properties.solution_id) || solutionFilter === "all") && (_.include(topics, el.properties.topic_id))) {
+              el.show(true);
+            }
+            else {
+              el.hide(true);
+            }
           });
 
           this.enableFilters();
 
         } else { // Load the ashokas
-          var query = "SELECT A.the_geom, A.ashoka_url AS agency_url, A.topic_id AS topic_id, A.name, " 
-          + "A.solution_id, S1.name solution_name, S1.nexso_url solution_url "
-          + "FROM v1_ashoka AS A " 
-          + "LEFT JOIN v1_solutions S1 ON (S1.cartodb_id = A.solution_id)"
-          + "WHERE A.the_geom IS NOT NULL AND topic_id IS NOT NULL";
-          this.addOverlay("ashokas", query);
+          var query = "SELECT A.the_geom, A.ashoka_url AS agency_url, A.topic_id AS topic_id, A.name, "  +
+            "A.solution_id, S1.name solution_name, S1.nexso_url solution_url " +
+            "FROM v1_ashoka AS A "  +
+            "LEFT JOIN v1_solutions S1 ON (S1.cartodb_id = A.solution_id)" +
+            "WHERE A.the_geom IS NOT NULL AND topic_id IS NOT NULL";
+          this.addOverlay("ashokas", queries.GET_ASHOKAS);
         }
       },
       addAgencies: function() {
         this.disableFilters();
 
-        if (this.overlays["agencies"]) { // If we load the agencies before, just show them
-          _.each(this.overlays["agencies"], function(el,i) {
-            if (((solutionFilter == "solutions" && el.properties.solution_id) || solutionFilter == "all") && (_.include(topics, el.properties.topic_id))) el.show(true);
-            else el.hide(true);
+        if (this.overlays.agencies) { // If we load the agencies before, just show them
+          _.each(this.overlays.agencies, function(el,i) {
+            if (((solutionFilter === "solutions" && el.properties.solution_id) || solutionFilter === "all") && (_.include(topics, el.properties.topic_id))) {
+              el.show(true);
+            }
+            else {
+              el.hide(true);
+            }
           });
 
           this.enableFilters();
 
         } else { // Load the agencies
-
-          var query = "SELECT A.the_geom, A.external_url AS agency_url, A.name AS agency_name, P.solution_id, P.topic_id, "
-          + "array_to_string(array(SELECT P.cartodb_id FROM v1_projects AS P WHERE P.agency_id = a.cartodb_id), '|') as projects_ids, "
-          + "array_to_string(array(SELECT P.title FROM v1_projects AS P WHERE P.agency_id = a.cartodb_id), '|') as projects_titles "
-          + "FROM v1_agencies AS A LEFT JOIN v1_projects AS P ON (A.cartodb_id = P.agency_id) LEFT JOIN v1_projects ON (A.cartodb_id = P.solution_id)"
-
-          this.addOverlay("agencies", query);
+          this.addOverlay("agencies", queries.GET_AGENCIES);
         }
       },
       addProjects: function() {
         this.disableFilters();
 
-        if (!this.startYear) this.startYear = 2002;
-        if (!this.endYear)   this.endYear   = 2014;
+        if (!this.startYear) {
+          this.startYear = config.START_YEAR;
+        }
 
-        // Filters by topic
-        var topicsCondition = (topics.length > 0) ? " P.topic_id  IN (" + topics.join(',') + ") AND " : "";
-        var solutionCondition = (solutionFilter == 'solutions') ? " P.solution_id IS NOT NULL AND " : "";
+        if (!this.endYear) {
+          this.endYear = config.END_YEAR;
+        }
 
-        var query = "WITH qu AS ( "
-          +"    WITH hull as ( "
-            +"        SELECT  "
-            +"            P.cartodb_id AS project_id, P.title, P.approval_date, P.fixed_approval_date, P.external_project_url,  "
-            +"            P.location_verbatim, P.topic_id, P.solution_id AS solution_id, P.budget, S.name AS solution_name, S.nexso_url AS solution_url,  "
-            +"            A.external_url AS agency_url, A.name AS agency_name, ST_AsGeoJSON(A.the_geom) AS agency_position, "
-            +"            ST_Collect(PWA.the_geom) AS the_geom  "
-            +"        FROM  "
-            +"            v1_projects P LEFT JOIN v1_solutions S ON (P.solution_id = S.cartodb_id) "
-            +"            LEFT JOIN v1_agencies A ON (P.agency_id = A.cartodb_id),  "
-            +"            v1_project_work_areas AS PWA  "
-            +"        WHERE  "
-            +"            P.cartodb_id = PWA.project_id AND  "
-            +             topicsCondition
-            +             solutionCondition
-            +"            EXTRACT(YEAR FROM P.fixed_approval_date) >= " + this.startYear + " AND  "
-            +"            EXTRACT(YEAR FROM P.fixed_approval_date) <= " + this.endYear + "  "
-            +"        GROUP BY  "
-            +"            P.cartodb_id, title, approval_date, fixed_approval_date,  "
-            +"            external_project_url, location_verbatim, topic_id, solution_id, budget, A.external_url, A.name, "
-            +"            solution_name, solution_url, agency_position"
-    +"    )  "
-    +"    SELECT *, ST_ConvexHull(the_geom) AS hull_geom FROM hull "
-    +" "
-    +")  "
-    +"SELECT  "
-    +"    project_id, title, approval_date, fixed_approval_date, external_project_url,  "
-    +"    location_verbatim, topic_id, budget, agency_name, agency_url, the_geom, agency_position, solution_id, solution_name, solution_url,  "
-    +"    ST_X(ST_Centroid(hull_geom)) AS centroid_lon,  "
-    +"    ST_Y(ST_Centroid(hull_geom)) AS centroid_lat,  "
-    +"    ST_X(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom),hull_geom))) AS radius_point_lon,  "
-    +"    ST_Y(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom), hull_geom))) AS radius_point_lat "
-    +"FROM qu  "
-    +"ORDER BY "
-    +"    ST_Area(hull_geom) desc";
+        // Build filters by topic & solution
+        var topicsCondition   = (topics.length > 0) ? " P.topic_id  IN (" + topics.join(',') + ") AND " : "";
+        var solutionCondition = (solutionFilter === 'solutions') ? " P.solution_id IS NOT NULL AND " : "";
 
+        var template = _.template(queries.GET_PROJECTS_QUERY_TEMPLATE);
+        var query    = template({ startYear: this.startYear, endYear: this.endYear, topicsCondition: topicsCondition, solutionCondition: solutionCondition });
 
-    this.addOverlay("projects", query, function() { Timeline.show(); });
-
+        this.addOverlay("projects", query, function() { Timeline.show(); });
       },
       addOverlay: function(name, query, callback) {
         var that = this;
@@ -542,18 +840,23 @@ $(function() {
         this.disableFilters();
 
         $.ajax({
-          url: "https://nexso2.cartodb.com/api/v2/sql",
+          url: config.CARTODB_ENDPOINT,
           data: { q: query, format:"geojson" },
           dataType: 'jsonp',
           success: function(data) {
 
             if (data.features.length <= 0) {
               that.enableFilters();
-              return; 
+              return;
             }
 
+            updateCounter(name, data.features.length);
             showFeature(that, name, data, projectsStyle);
-            callback && callback();
+
+            if (callback) {
+              callback();
+            }
+
           }
         });
       }
@@ -571,90 +874,30 @@ $(function() {
     // some helper view to show how to use the model
     var FilterView = Backbone.View.extend({
       initialize: function() {
+        var that = this;
 
         // Filter by solution & topic
-        this.$(".filter.filters ul.radio li").on("click", function(e) {
+        this.$("#solution-filter li").on("click", function(e) {
           e.preventDefault();
           e.stopPropagation();
 
-          if (disabledFilters) return;
-          mapView.disableFilters();
-
-          setupSpinner($(this));
-
-          solutionFilter = $(this).attr('id').trim();
-
-          mapView.removeOverlay("projects");
-          mapView.addProjects();
-          mapView.addAgencies();
-          mapView.addAshokas();
-
+          that.filterBySolution($(this));
         });
 
-        this.$(".filter.filters ul.ticks li").on("click", function(e) {
+        this.$("#topic-filter li").on("click", function(e) {
           e.preventDefault();
           e.stopPropagation();
 
-          if (disabledFilters) return;
-          mapView.disableFilters();
-          setupSpinner($(this));
-
-          $(this).toggleClass("selected");
-          var id = $(this).attr('id').trim();
-          var c  = parseInt($(this).attr('class').replace(/selected/, "").replace("t", "").trim());
-
-          if ($(this).hasClass('selected')) { // Shows the desired overlay
-            topics.push(c);
-          } else {
-            topics = _.without(topics, c);
-          }
-
-          if (topics.length > 0) {
-            $(".filter.view ul.ticks li#projects").addClass("selected"); // in case it was turned off
-            mapView.removeOverlay("projects");
-            mapView.addProjects();
-            mapView.addAgencies();
-            mapView.addAshokas();
-
-          } else {
-            mapView.removeOverlay("projects");
-            mapView.removeOverlay("agencies");
-            mapView.removeOverlay("ashokas");
-          }
-
+          that.filterByTopic($(this));
         });
 
-        this.$(".filter.view ul.ticks li").on("click", function(e) {
+        this.$("#type-filter li").on("click", function(e) {
           e.preventDefault();
           e.stopPropagation();
 
-          if (disabledFilters) return;
-          mapView.disableFilters();
-          setupSpinner($(this));
-
-          $(this).toggleClass("selected");
-
-          var id = $(this).attr('id').trim();
-          var c  = $(this).attr('class').replace(/selected/, "").trim();
-
-          if ($(this).hasClass('selected')) { // Shows the desired overlay
-
-            if (id == "agencies")       mapView.addAgencies();
-            else if (id == "ashokas")   mapView.addAshokas();
-            else if (id == "projects")  mapView.addProjects();
-
-          } else { // Removes the desired overlay
-
-            if (id == "projects" || id == "agencies" || id == "ashokas") {
-
-              if (id == 'projects') Timeline.hide(); Infowindow.hide(); 
-              mapView.removeOverlay(id);
-
-            } 
-          }
+          that.filterByType($(this));
         });
       },
-
       disable: function(){
         $(".cancel").on("click", function(e) {
           e.preventDefault();
@@ -667,6 +910,93 @@ $(function() {
       enable: function () {
         $("ul.filters").removeClass("disabled");
         $(".cancel").hide();
+      },
+      filterByTopic: function($el) {
+        if (disabledFilters) {
+          return;
+        }
+
+        mapView.disableFilters();
+        setupSpinner($el);
+
+        $el.toggleClass("selected");
+        var id = $el.attr('id').trim();
+        var c  = parseInt($el.attr('class').replace(/selected/, "").replace("t", "").trim(), 10);
+
+        if ($el.hasClass('selected')) { // Shows the desired overlay
+          topics.push(c);
+        } else {
+          topics = _.without(topics, c);
+        }
+
+        if (topics.length > 0) {
+          $("#projects").addClass("selected"); // in case it was turned off
+          mapView.removeOverlay("projects");
+          mapView.addProjects();
+          mapView.addAgencies();
+          mapView.addAshokas();
+        } else {
+          mapView.removeOverlay("projects");
+          mapView.removeOverlay("agencies");
+          mapView.removeOverlay("ashokas");
+        }
+      },
+      filterBySolution: function($el) {
+
+        if (disabledFilters) {
+          return;
+        }
+
+        mapView.disableFilters();
+
+        setupSpinner($el);
+
+        solutionFilter = $el.attr('id').trim();
+
+        mapView.removeOverlay("projects");
+        mapView.addProjects();
+        mapView.addAgencies();
+        mapView.addAshokas();
+
+      },
+      filterByType: function($el) {
+        if (disabledFilters) {
+          return;
+        }
+
+        mapView.disableFilters();
+        setupSpinner($el);
+
+        $el.toggleClass("selected");
+
+        var id = $el.attr('id').trim();
+        var c  = $el.attr('class').replace(/selected/, "").trim();
+
+        if ($el.hasClass('selected')) { // Shows the desired overlay
+
+          if (id === "agencies") {
+            mapView.addAgencies();
+          }
+          else if (id === "ashokas") {
+            mapView.addAshokas();
+          }
+          else if (id === "projects") {
+            mapView.addProjects();
+          }
+
+        } else { // Removes the desired overlay
+
+          if (id === "projects" || id === "agencies" || id === "ashokas") {
+
+            if (id === 'projects') {
+              Timeline.hide();
+            }
+
+            Infowindow.hide();
+            mapView.removeOverlay(id);
+
+          }
+        }
       }
     });
 

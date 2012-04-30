@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <title>NEXSO</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
     <link href="css/style.css" media="screen, projection" rel="stylesheet" type="text/css" />
@@ -12,99 +13,145 @@
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">google.load("jquery", "1.7.1");</script>
 
-    <script>var Infowindow, Timeline, aside;</script>
-    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3.8&amp;key=AIzaSyCbRutFCciUBrk1yMRPJEV59kq5ZgrJwEc&amp;sensor=false"> </script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3.8&amp;key=AIzaSyDsI63-LNuQsQ5wC2wP275SYtneXYUiUpg&amp;sensor=false&amp;libraries=places&amp;v=3.7"> </script>
+    <!--<script type="text/javascript" src="js/all.js"> </script>-->
     <script type="text/javascript" src="js/vendor/selectivizr-min.js"> </script>
     <script type="text/javascript" src="js/vendor/jquery-ui-1.8.18.custom.min.js"> </script>
+    <script type="text/javascript" src="js/vendor/jquery.geocomplete.js"> </script>
     <script type="text/javascript" src="js/vendor/date.js"> </script>
+    <script type="text/javascript" src="js/vendor/jquery.jscrollpane.min.js"> </script>
+    <script type="text/javascript" src="js/vendor/jquery.mousewheel.js"> </script>
+    <script type="text/javascript" src="js/vendor/mwheelIntent.js"> </script>
     <script type="text/javascript" src="js/vendor/underscore.string.js"> </script>
-    <script type="text/javascript" src="js/vendor/underscore-1.3.1.js"> </script>
+    <script type="text/javascript" src="js/vendor/lodash.min.js"> </script>
     <script type="text/javascript" src="js/vendor/backbone.js"> </script>
     <script type="text/javascript" src="js/vendor/GeoJSON.js"> </script>
     <script type="text/javascript" src="js/vendor/accounting.min.js"> </script>
     <script type="text/javascript" src="js/vendor/spin.min.js"> </script>
     <script type="text/javascript" src="js/backbone.cartodb.js"> </script>
-    <script type="text/javascript" src="js/filters.js"> </script>
+    <script type="text/javascript" src="js/plugins.js"> </script>
+    <script type="text/javascript" src="js/helpers.js"> </script>
     <script type="text/javascript" src="js/infowindow.js"> </script>
     <script type="text/javascript" src="js/NexsoMarker.js"> </script>
     <script type="text/javascript" src="js/circle.js"> </script>
-    <script type="text/javascript" src="js/helpers.js"> </script>
     <script type="text/javascript" src="js/app.js"> </script>
   </head>
   <body>
     <div class="nav">
       <div class="content">
-        <h1>Explorer</h1>
-        <ul class="filters">
-          <li>
-          <a href="#" data-toggle="filter">Iati</a>
-          <div class="filter iati">
-            <div class="content cf">
-              <ul class="symbols">
-                <li><div class="icon iati"></div></li>
-              </ul>
-              <div class="legend">
-                <h3><a href="http://www.openaidregister.org/organizations/104/projects.xml">DOWNLOAD (IATI)</a></h3>
-                <p>Powered by <a href="http://www.openaidregister.org/">OpenAidRegister</a></p>
+        <h1><a href="#" data-click="welcome">Explorer</a></h1>
+
+        <div class="options cf">
+          <div class="input_field">
+            <input type="text" id="autocomplete" />
+            <span class="placeholder">Search for an area...</span>
+            <a href="#" class="icon magnifier dark" data-click="search"></a>
+          </div>
+
+          <ul class="filters">
+            <li>
+            <a href="#" data-toggle="filter">Iati</a>
+            <div class="filter iati">
+              <div class="content cf">
+                <ul class="symbols">
+                  <li><div class="icon iati"></div></li>
+                </ul>
+                <div class="legend">
+                  <h3><a href="http://www.openaidregister.org/organizations/104/projects.xml">DOWNLOAD (IATI)</a></h3>
+                  <p>Powered by <a href="http://www.openaidregister.org/">OpenAidRegister</a></p>
+                </div>
               </div>
+              <div class="t"></div>
+              <div class="b"></div>
             </div>
-            <div class="t"></div>
-            <div class="b"></div>
-          </div>
-          </li>
+            </li>
 
-          <li><a href="#" data-toggle="filter">View</a>
+            <li><a href="#" data-toggle="filter">View</a>
 
-          <div class="filter view">
-            <div class="content cf">
-              <ul class="symbols">
-                <li><div class="icon projects"></div></li>
-                <li><div class="icon agencies"></div></li>
-                <li><div class="icon ashokas"></div></li>
-              </ul>
-              <ul class="ticks">
-                <li id="projects" class="selected"><a href="#">Projects</a></li>
-                <li id="agencies" class="selected"><a href="#">Executive agencies</a></li>
-                <li id="ashokas" class="selected"><a href="#">Ashoka fellows</a></li>
-              </ul>
+            <div class="filter view">
+              <div class="content cf">
+                <ul class="symbols">
+                  <li><div class="icon projects"></div></li>
+                  <li><div class="icon agencies"></div></li>
+                  <li><div class="icon ashokas"></div></li>
+                </ul>
+                <ul id="type-filter" class="ticks">
+                  <li id="projects" class="selected"><a href="#">Projects</a></li>
+                  <li id="agencies" class="selected"><a href="#">Executive agencies</a></li>
+                  <li id="ashokas" class="selected"><a href="#">Ashoka fellows</a></li>
+                </ul>
+              </div>
+              <div class="t"></div>
+              <div class="b"></div>
             </div>
-            <div class="t"></div>
-            <div class="b"></div>
-          </div>
 
-          </li>
-          <li>
-          <a href="#" data-toggle="filter">Filter</a>
+            </li>
+            <li>
+            <a href="#" data-toggle="filter">Filter</a>
 
-          <div class="filter filters">
-            <div class="content cf">
-              <h3 class="solution">By solution</h3>
-              <ul class="radio">
-                <li id="all"><a href="#">All</a></li>
-                <li id="solutions"><a href="#">Only fomin solutions</a></li>
-              </ul>
+            <div class="filter filters">
+              <div class="content cf">
+                <h3 class="solution">By solution</h3>
+                <ul id="solution-filter" class="radio">
+                  <li id="all"><a href="#">All</a></li>
+                  <li id="solutions"><a href="#">Only fomin solutions</a></li>
+                </ul>
 
-              <h3 class="topic">By topic</h3>
-              <ul class="ticks">
-                <li id="tourism" class="t1 selected"><a href="#">Sustainable tourism</a></li>
-                <li id="local" class="t2 selected"><a href="#">Local economic dev.</a></li>
-                <li id="employment" class="t3 selected"><a href="#">Youth employment</a></li>
-                <li id="woman" class="t4 selected"><a href="#">Women entrepeneurship</a></li>
-                <li id="financing" class="t5 selected"><a href="#">Early stage financing</a></li>
-                <li id="rural" class="t6 selected"><a href="#">Rural microfinance</a></li>
-              </ul>
+                <h3 class="topic">By topic</h3>
+                <ul id="topic-filter" class="ticks">
+                  <li id="tourism" class="t1 selected"><a href="#">Sustainable tourism</a></li>
+                  <li id="local" class="t2 selected"><a href="#">Local economic dev.</a></li>
+                  <li id="employment" class="t3 selected"><a href="#">Youth employment</a></li>
+                  <li id="woman" class="t4 selected"><a href="#">Women entrepeneurship</a></li>
+                  <li id="financing" class="t5 selected"><a href="#">Early stage financing</a></li>
+                  <li id="rural" class="t6 selected"><a href="#">Rural microfinance</a></li>
+                </ul>
 
+              </div>
+              <div class="t"></div>
+              <div class="b"></div>
             </div>
-            <div class="t"></div>
-            <div class="b"></div>
-          </div>
-
-          </li>
-        </ul>
-        <div class="cancel"></div>
+            </li>
+          </ul>
+        </div>
       </div>
       <div class="shadow"></div>
     </div>
+
+    <div class="filter-help">
+      <div class="help">
+        <div class="download">Download the data</div>
+        <div class="filter">Filter the map</div>
+      </div>
+    </div>
+
+    <div class="welcome">
+      <div class="left-side">
+        <h1>Welcome to NEXSO explorer</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse rutrum semper auctor. Maecenas rhoncus auctor ligula, a luctus neque cursus et. Nam purus leo, dictum ac vulputate non, semper euismod sem. Aenean nec sapien et metus volutpat sollicitudin sed ut nisi. Integer tempor. Luctus neque cursus es suspendisse rutrum semper auctor. Maecenas.</p>
+      </div>
+      <div class="right-side">
+        <ul class="stats">
+          <li class="projects disabled"><span>00</span> <strong>PROJECTS MAPPED</strong></li>
+          <li class="solutions disabled"><span>00</span> <strong>SOLUTIONS CONNECTED</strong></li>
+          <li class="ashokas disabled"><span>00</span> <strong>ASHOKA FELLOWS</strong></li>
+          <li class="agencies disabled"><span>00</span> <strong>EXECUTING AGENCIES</strong></li>
+        </ul>
+        <form action="">
+          <div class="input_field">
+            <input type="text" id="addresspicker" name="search" placeholder="" autocomplete="off" />
+            <input type="hidden" id="lat" data-geo="lat" />
+            <input type="hidden" id="lng" data-geo="lng" />
+            <span class="placeholder">Search for an area...</span>
+            <a href="#" class="icon magnifier" data-click="visit"></a>
+          </div>
+        </form>
+        <a href="#" class="btn" data-click="explore">Start exploring</a>
+        <div class="or">or</div>
+      </div>
+    </div>
+    <div id="timeline-cover" class="timeline-cover">Filter projects by years</div>
+    <div id="splash-backdrop" class="backdrop"></div>
 
     <div id="zoom_controls"></div>
     <div id="timeline">
@@ -129,23 +176,95 @@
 
     <div id="map"></div>
     <div id="aside" class="aside hidden"> 
-      <div class="content">
+      <div class="content search">
+        <ul class="legend">
+          <li class="icon agency"><strong>Executing agencies</strong></li>
+          <li class="icon ashoka"><strong>Ashoka fellows</strong></li>
+        </ul>
+        <div class="results scroll-pane-search">
+        </div>
+      </div>
+      <div class="content project">
         <div class="header">
           <div class="hgroup">
-            <h4>Executing agency</h4>
+            <h4>NEXSO PROJECT</h4>
             <h2>Regional Intercooperative Market for the Poor</h2>
           </div>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse rutrum semper auctor. Maecenas rhoncus auctor ligula, a luctus neque cursus et. Nam purus leo, dictum ac vulputate non, semper euismod sem... <a href="#">read more</a></p>
         </div>
-        <ul>
-          <li class="icon budget money"><h4>Funded amount</h4><span>$000.000</span></li>
-          <li class="icon approvalDate calendar"><h4>Approval date</h4><span>Date not available</span></li>
-          <li class="icon agency gear"><h4>Project details</h4><a href="#" target="_blank">...</a></li>
-          <li class="icon solution star"><h4>Solutions</h4><a href="#" target="_blank">Solution not available</a></li>
-          <li class="icon more plus"><h4>More information</h4><a href="#" target="_blank">External link</a></li>
-        </ul>
+        <div class="scroll-pane-project">
+          <ul class="data">
+            <li class="icon nexso_code star"><h4>NEXSO code</h4><span>...</span></li>
+            <li class="icon budget money"><h4>Funded amount</h4><span>$000.000</span></li>
+            <li class="icon approvalDate calendar"><h4>Approval date</h4><span>Date not available</span></li>
+            <li class="icon agency gear"><h4>Executing agency</h4><a href="#" target="_blank">...</a></li>
+            <li class="icon location marker"><h4>Location</h4><span>...</span></li>
+            <li class="icon solution star"><h4>Solutions</h4><a href="#" target="_blank">Solution not available</a></li>
+            <li class="icon topic star"><h4>Topic</h4><span>...</span></li>
+            <li class="icon more plus"><h4>More information</h4><a href="#" target="_blank">External link</a></li>
+          </ul>
+        </div>
       </div>
       <a href="#" class="close"></a>
     </div>
     <div id="minispinner_wrapper"></div>
+    <script id="infowindow-template" type="text/x-underscore-template">
+      <div class="box <%= overlayType %>">
+        <div class="content">
+          <div class="header">
+            <div class="hgroup">
+              <% if (overlayType == "project") { %>
+                <h4>Nexso project</h4>
+                <h2><%= name %></h2>
+                <% } else if (overlayType == "ashokas") { %>
+                <h4>Ashoka fellow</h4>
+                <h2><%= name %></h2>
+                <% } else if (overlayType == "agencies") { %>
+                <h4>Executing agency</h4>
+                <h2><%= agency_name %></h2>
+                <% } %>
+            </div>
+          </div>
+          <% if (overlayType == "project") { %>
+            <a href="#" class="btn">View project details</a>
+            <h4>Solution</h4>
+            <ul class="solutions">
+              <li><a href="#" target="_blank">…</a> </li>
+            </ul>
+            <% if (agencyName != null) { %>
+            <h4>Executing agency</h4>
+            <ul>
+              <li><%= agencyName %></li>
+            </ul>
+            <% } %>
+            <% } else if (overlayType == "ashokas") { %>
+            <% if (solution_name) { %>
+              <h4>Solutions</h4>
+              <ul>
+                <% if (solution_name) { %>
+                  <li><a href="<%= solution_url %>" target="_blank"><%= solution_name %></a> </li>
+                  <% } %>
+              </ul>
+              <% } %>
+            <% if (agency_url) {  %>
+              <h4>More info</h4>
+              <ul>
+                <li><a href="<%= agency_url %>" target="_blank">Agency profile at FOMIN</a> </li>
+              </ul>
+              <% } %>
+            <% } else { %>
+            <% if (agency_url) {  %>
+              <h4>More info</h4>
+              <ul>
+                <li><a href="<%= agency_url %>" target="_blank">Agency profile at FOMIN</a> </li>
+              </ul>
+              <% } %>
+            <%   if (projects) { %><h4>Projects</h4><ul><%= projects %></ul><% } %>
+            <% } %>
+        </div>
+        <a href="#" class="close"></a>
+        <div class="t"></div><div class="b"></div>
+      </div>
+    </script>
   </body>
 </html>
