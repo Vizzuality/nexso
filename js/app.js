@@ -1,6 +1,7 @@
 $(function () {
 
   var autocompleteSource = [];
+  var pane = [];
 
   $(document).on("click", function() {
     if ($(".nav a[data-toggle='filter']").hasClass('selected')) {
@@ -69,7 +70,14 @@ $(function () {
           Aside.change("search");
         }
 
-        $('ul.ui-autocomplete').removeAttr('style').hide().appendTo('.results').show();
+        //var api = pane["search"].data('jsp');
+        //api.reinitialise();
+
+        if ($('.results .jspContainer').length > 0) {
+          $('ul.ui-autocomplete').removeAttr('style').hide().appendTo('.results .jspContainer').show();
+        } else {
+          $('ul.ui-autocomplete').removeAttr('style').hide().appendTo('.results').show();
+        }
       }
     }).data( "autocomplete" )._renderItem = function( ul, item ) {
 
@@ -476,8 +484,22 @@ $(function () {
           });
         });
 
-          $('.scroll-pane_' + what ).jScrollPane();
-          scrollPane = true;
+        var
+          $pane        = $(".scroll-pane-" + what),
+          windowHeight = $(window).height(),
+          panePosition = $pane.offset().top,
+          paneHeight   = windowHeight - panePosition;
+
+        $pane.css("height", paneHeight - 120);
+
+        if (pane[what]) { // if we loaded the pane before
+          var api = pane[what].data('jsp');
+          api.reinitialise();
+          api.scrollTo(0, 0); // scroll to top
+        } else {
+          pane[what] = $pane;
+          pane[what].jScrollPane();
+        }
 
       });
     };

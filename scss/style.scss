@@ -1045,9 +1045,10 @@ $markerRadiusSize: 102px;
   }
 }
 
-.scroll-pane {
+.scroll-pane-search,
+.scroll-pane-project {
   width: 100%;
-  height: 500px;
+  height: 300px;
   overflow: auto;
   margin: 20px 0 0 0;
   outline:none;

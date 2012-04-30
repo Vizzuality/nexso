@@ -55,22 +55,24 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
 
   google.maps.event.addListener(this.circle, 'click', function(event) {
     var
-    that         = this,
-    properties   = this.polygons[0][0].geojsonProperties,
-    title        = properties.title,
-    approvalDate = properties.approval_date,
+    that              = this,
+    properties        = this.polygons[0][0].geojsonProperties,
+    title             = properties.title,
+    approvalDate      = properties.approval_date,
     fixedApprovalDate = properties.approval_date,
-    moreURL      = properties.external_project_url,
+    moreURL           = properties.external_project_url,
 
-    solutionName = properties.solution_name,
-    solutionURL  = properties.solution_url,
+    solutionName      = properties.solution_name,
+    solutionURL       = properties.solution_url,
 
-    agencyName   = properties.agency_name,
-    agencyURL    = properties.agency_url,
+    agencyName        = properties.agency_name,
+    agencyURL         = properties.agency_url,
 
-    topic_name   = properties.topic_name,
-    location     = properties.location_verbatim,
-    budget       = properties.budget;
+    nexso_code        = properties.nexso_code,
+
+    topic_name        = properties.topic_name,
+    location          = properties.location_verbatim,
+    budget            = properties.budget;
 
     function onHiddenAside() {
       var
@@ -91,6 +93,11 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
         $asideItems.find("li.topic").show();
         $asideItems.find("li.topic span").text(topic_name);
       } else $asideItems.find("li.topic").hide();
+
+      if (nexso_code) {
+        $asideItems.find("li.nexso_code").show();
+        $asideItems.find("li.nexso_code span").text(location);
+      } else $asideItems.find("li.nexso_code").hide();
 
       if (location) {
         $asideItems.find("li.location").show();

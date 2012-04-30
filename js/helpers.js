@@ -107,21 +107,21 @@ var queries = {
  GET_PROJECTS_QUERY_TEMPLATE: "WITH qu AS ( " +
    "    WITH hull as ( " +
    "        SELECT  " +
-   "            COUNT(S.cartodb_id) AS solution_count, P.cartodb_id AS project_id, P.title, P.approval_date, P.fixed_approval_date, P.external_project_url,  " +
+   "            P.nexso_code, COUNT(S.cartodb_id) AS solution_count, P.cartodb_id AS project_id, P.title, P.approval_date, P.fixed_approval_date, P.external_project_url,  " +
    "            P.location_verbatim, T.name AS topic_name, P.solution_id AS solution_id, P.budget, S.name AS solution_name, S.nexso_url AS solution_url,  " +
    "            A.external_url AS agency_url, A.name AS agency_name, ST_AsGeoJSON(A.the_geom) AS agency_position, " +
    "            ST_Collect(PWA.the_geom) AS the_geom  " +
    "        FROM  " +
    "            v1_projects P LEFT JOIN v1_solutions S ON (P.solution_id = S.cartodb_id) " +
-   "            LEFT JOIN v1_agencies A ON (P.agency_id = A.cartodb_id),  " +
-   "            v1_project_work_areas AS PWA, v1_topics AS T  " +
+   "            LEFT JOIN v1_agencies A ON (P.agency_id = A.cartodb_id) "+
+   "            LEFT JOIN v1_topics AS T ON (P.topic_id = T.cartodb_id),  " +
+   "            v1_project_work_areas AS PWA " +
    "        WHERE  " +
    "            P.cartodb_id = PWA.project_id AND <%= topicsCondition %> <%= solutionCondition %>" +
-   "            P.topic_id = T.cartodb_id AND " +
    "            EXTRACT(YEAR FROM P.fixed_approval_date) >= <%= startYear %> AND  " +
    "            EXTRACT(YEAR FROM P.fixed_approval_date) <= <%= endYear %> " +
    "        GROUP BY  " +
-   "            P.cartodb_id, title, approval_date, fixed_approval_date,  " +
+   "            P.nexso_code, P.cartodb_id, title, approval_date, fixed_approval_date,  " +
    "            external_project_url, location_verbatim, topic_name, solution_id, budget, A.external_url, A.name, " +
    "            solution_name, solution_url, agency_position" +
    "    )  " +
@@ -129,7 +129,7 @@ var queries = {
    " " +
    ")  " +
    "SELECT  " +
-   "    solution_count, project_id, title, approval_date, fixed_approval_date, external_project_url,  " +
+   "    nexso_code, solution_count, project_id, title, approval_date, fixed_approval_date, external_project_url,  " +
    "    location_verbatim, topic_name, budget, agency_name, agency_url, the_geom, agency_position, solution_id, solution_name, solution_url,  " +
    "    ST_X(ST_Centroid(hull_geom)) AS centroid_lon,  " +
    "    ST_Y(ST_Centroid(hull_geom)) AS centroid_lat,  " +
