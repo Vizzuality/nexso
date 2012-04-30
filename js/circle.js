@@ -68,9 +68,9 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
     agencyName        = properties.agency_name,
     agencyURL         = properties.agency_url,
 
-    nexso_code        = properties.nexso_code,
+    nexsoCode         = properties.nexso_code,
 
-    topic_name        = properties.topic_name,
+    topicName         = properties.topic_name,
     location          = properties.location_verbatim,
     budget            = properties.budget;
 
@@ -83,59 +83,45 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
 
       var prettyApprovalDate = prettifyDate(approvalDate);
 
-      if (prettyApprovalDate) {
-        $asideItems.find("li.approvalDate").show();
-        $asideItems.find("li.approvalDate span").text(prettyApprovalDate);
+
+      function setItem(itemName, content) {
+        var $item = $asideItems.find("li." + itemName);
+
+        if (typeof content === 'object' ) {
+          if (content.url !== null) {
+            $item.find("a").text(content.text).attr("href", content.url);
+            $item.show();
+          } else $item.hide();
+        } else if (content) {
+          $item.find("span").text(content);
+          $item.show();
+        } else $item.hide();
       }
-      else $asideItems.find("li.approvalDate").hide();
 
-      if (topic_name) {
-        $asideItems.find("li.topic").show();
-        $asideItems.find("li.topic span").text(topic_name);
-      } else $asideItems.find("li.topic").hide();
+      setItem("approvalDate", prettyApprovalDate);
+      setItem("topic", topicName);
+      setItem("nexso_code", nexsoCode);
+      setItem("location", location);
+      setItem("budget", accounting.formatMoney(budget));
+      setItem("more", { url: moreURL, text: "External link"});
+      setItem("solution", { url: solutionURL, text: solutionName});
 
-      if (nexso_code) {
-        $asideItems.find("li.nexso_code").show();
-        $asideItems.find("li.nexso_code span").text(location);
-      } else $asideItems.find("li.nexso_code").hide();
+      if (agencyName) {
+        $asideItems.find("li.agency").show();
+        $asideItems.find("li.agency a").text(agencyName);
+        $asideItems.find("li.agency a").on("click", function(e) {
+          e.preventDefault();
 
-      if (location) {
-        $asideItems.find("li.location").show();
-        $asideItems.find("li.location span").text(location);
-      } else $asideItems.find("li.location").hide();
+          if (self.circle.lines.length > 0) {
+            var latLng = self.circle.lines[0].getPath().getAt(1);
 
-      if (budget > 0) {
-        $asideItems.find("li.budget").show();
-        $asideItems.find("li.budget span").text(accounting.formatMoney(budget));
-      } else $asideItems.find("li.budget").hide();
+            map.panTo(latLng);
+            map.setZoom(12);
 
-        if (agencyName) {
-          $asideItems.find("li.agency").show();
-          $asideItems.find("li.agency a").text(agencyName);
-          $asideItems.find("li.agency a").on("click", function(e) {
-            e.preventDefault();
+          }
+        });
 
-            if (self.circle.lines.length > 0) {
-              var latLng = self.circle.lines[0].getPath().getAt(1);
-
-              map.panTo(latLng);
-              map.setZoom(12);
-
-            }
-          });
-
-        } else $asideItems.find("li.agency").hide();
-
-      if (solutionURL !== null) {
-        $asideItems.find("li.solution").show();
-        $asideItems.find("li.solution a").text(solutionName).attr("href", solutionURL);
-      } else $asideItems.find("li.solution").hide();
-
-      if (moreURL) {
-        $asideItems.find("li.more").show();
-        $asideItems.find("li.more a").attr("href", moreURL);
-      }
-      else $asideItems.find("li.more").hide();
+      } else $asideItems.find("li.agency").hide();
 
       previousZoom   = map.getZoom();
       previousCenter = map.getCenter();
