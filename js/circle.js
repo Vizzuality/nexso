@@ -54,6 +54,7 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
   this.circle.setOptions({"lines": agency_lines});
 
   google.maps.event.addListener(this.circle, 'click', function(event) {
+
     var
     that              = this,
     properties        = this.polygons[0][0].geojsonProperties,
@@ -132,6 +133,7 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
       if (e) {
         e.preventDefault();
       }
+
       Timeline.hide();
       Aside.hide(onHiddenAside);
     }
@@ -140,7 +142,7 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
       onInfowindowClick();
     } else {
       // Infowindow setup
-      Infowindow.setContent({name:title, overlayType: "project"});
+      Infowindow.setContent({ name: title, overlayType: "project", agencyName: agencyName });
       Infowindow.setSolutionURL(title, moreURL);
       Infowindow.setCallback(onInfowindowClick);
       Infowindow.open(event.latLng);

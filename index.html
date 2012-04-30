@@ -231,6 +231,12 @@
             <ul class="solutions">
               <li><a href="#" target="_blank">…</a> </li>
             </ul>
+            <% if (agencyName != null) { %>
+            <h4>Executing agency</h4>
+            <ul>
+              <li><%= agencyName %></li>
+            </ul>
+            <% } %>
             <% } else if (overlayType == "ashokas") { %>
             <% if (solution_name) { %>
               <h4>Solutions</h4>
