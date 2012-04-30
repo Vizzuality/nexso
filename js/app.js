@@ -67,8 +67,6 @@ $(function () {
       },
       open: function(event, ui) {
 
-
-
         if (Aside.isHidden()) {
           Aside.show('search');
         } else {
@@ -726,12 +724,14 @@ $(function () {
           return;
         }
 
-        disabledFilters = false;
+        setTimeout(function() {
+          disabledFilters = false;
 
-        $(".nav .spinner").fadeOut(250, function() {
-          $(this).parent().removeClass("loading");
-          $(this).remove();
-        });
+          $(".nav .spinner").fadeOut(250, function() {
+            $(this).parent().removeClass("loading");
+            $(this).remove();
+          });
+        }, 250);
 
       },
       disableFilters: function() {

@@ -69,6 +69,7 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
     agencyName        = properties.agency_name,
     agencyURL         = properties.agency_url,
 
+
     nexsoCode         = properties.nexso_code,
 
     topicName         = properties.topic_name,
@@ -89,10 +90,14 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
         var $item = $asideItems.find("li." + itemName);
 
         if (typeof content === 'object' ) {
-          if (content.url !== null) {
+          if (content.text != null && content.url !== null) {
             $item.find("a").text(content.text).attr("href", content.url);
             $item.show();
+          } else if (content.text != null) {
+            $item.find("a").text(content.text).attr("href", "#");
+            $item.show();
           } else $item.hide();
+
         } else if (content) {
           $item.find("span").text(content);
           $item.show();
@@ -142,7 +147,6 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
       onInfowindowClick();
     } else {
       // Infowindow setup
-      console.log(properties);
       Infowindow.setContent({ name: title, overlayType: "project", agencyName: agencyName });
       Infowindow.setSolutionURL(title, moreURL);
       Infowindow.setCallback(onInfowindowClick);
