@@ -1,1 +1,3 @@
-Test
+* This project uses SASS. 
+* To compress the javascript files run: bin/compress-js
+
