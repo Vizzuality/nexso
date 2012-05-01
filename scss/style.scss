@@ -1070,3 +1070,6 @@ $markerRadiusSize: 102px;
 .jspVerticalBar .jspArrow:focus { outline: none; }
 .jspCorner { background: #eeeef4; float: left; height: 100%; }
 
+
+.ie8 #autocomplete { line-height:30px; }
+.ie8 #addresspicker { line-height:30px; }
