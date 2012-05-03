@@ -176,6 +176,7 @@ $(function () {
         return;
       }
 
+      Aside.hide();
       resetLastSearch();
 
       startExploring(function() {
