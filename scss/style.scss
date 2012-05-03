@@ -139,7 +139,6 @@ h4 { font-size: 11px; font-weight:bold; }
       padding-right: 18px;
       padding-top:8px;
       background:url(/img/icons/l_arrow.png) no-repeat right top;
-
     }
 
     .filter {
@@ -1024,7 +1023,12 @@ $markerRadiusSize: 102px;
   background:rgba(255,255,255,.5);
   margin-left:-5px;
   z-index: 10600!important;
-  border-top: 0!important;
+  -webkit-border-bottom-right-radius: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  -moz-border-radius-bottomright: 3px;
+  -moz-border-radius-bottomleft: 3px;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
 
   .pac-item {
     margin-bottom: 10px;

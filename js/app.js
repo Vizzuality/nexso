@@ -4,6 +4,13 @@ $(function () {
     autocompleteSource = [],
     pane = [];
 
+  $(document).keyup(function(e) {
+    if (e.keyCode === 27) {  // esc
+      Infowindow.hide();
+      $(".nav .filter").fadeOut(150);
+    }
+  });
+
   $(document).on("click", function() {
     if ($(".nav a[data-toggle='filter']").hasClass('selected')) {
       $(".nav a[data-toggle='filter']").removeClass('selected');
@@ -11,23 +18,71 @@ $(function () {
     }
   });
 
-  $("a[data-click='search']").on("click", function(e) {
+  $('.addresspicker').keydown(function(e) {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      e.stopPropagation();
+      visitPlace();
+    }
+  });
+
+  if ($("ul.radio li.selected").length <= 0) {
+    $("ul.radio li:first-child").addClass("selected");
+  }
+
+  $(".nav a[data-toggle='filter']").on("click", function(e) {
     e.preventDefault();
-    Aside.show("search");
+    e.stopPropagation();
+
+    if ($(".nav ul.filters").hasClass('disabled')) {
+      return;
+    }
+
+    $(".nav a[data-toggle='filter'].selected").not(this).removeClass("selected");
+    $(this).toggleClass("selected");
+
+    $(".nav a[data-toggle='filter']").not(this).parent().find(".filter").fadeOut(250);
+    $(this).parent().find(".filter").fadeToggle(150);
+  });
+
+  $(".nav .filter ul.radio li").on("click", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    $(this).parent().find("li").each(function() {
+      var id = $(this).attr('id');
+    });
+
+    $(this).parent().find("li").removeClass("selected");
+    $(this).addClass("selected");
+  });
+
+  $(".nav .filter").on("click", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  });
+
+  $(".nav a[data-click='search']").on("click", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    visitPlace();
+  });
+
+  $(".welcome a[data-click='search']").on("click", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    visitPlace();
   });
 
   $("a[data-click='explore']").on("click", function(e) {
     e.preventDefault();
+    e.stopPropagation();
     startExploring();
-  });
-
-  $("a[data-click='visit']").on("click", function(e) {
-    e.preventDefault();
-    visitPlace();
   });
 
   $("a[data-click='welcome']").on("click", function(e) {
     e.preventDefault();
+    e.stopPropagation();
     showWelcome();
   });
 
@@ -35,81 +90,25 @@ $(function () {
     new google.maps.LatLng(13.390290, -26.332470),
     new google.maps.LatLng(-59.450451, -109.474930));
 
-    $("#addresspicker").geocomplete({
+    $(".addresspicker").geocomplete({
       details: ".input_field",
       detailsAttribute: "data-geo",
       bounds: latLngBounds
     });
 
     function resetAutocomplete() {
-      $("#autocomplete").val('');
-      $(".nav .input_field .placeholder").fadeIn(250);
-    }
-
-    function bindAutocomplete() {
-      $( "#autocomplete" ).autocomplete({
-        minLength: 3,
-        source: autocompleteSource,
-
-        search:function(event, ui) {
-
-          $(".results li").each(function(i, e) { $(e).remove(); });
-        },
-        select: function( event, ui ) {
-          Aside.hide();
-          resetAutocomplete();
-
-          return false;
-        },
-        close: function() {
-          if ($("#autocomplete").val().length === 0) {
-            Aside.hide();
-          }
-        },
-        open: function(event, ui) {
-
-          if (Aside.isHidden()) {
-            Aside.show('search');
-          } else {
-            Aside.change("search");
-          }
-
-          if ($('.results .jspContainer').length > 0) {
-            $('ul.ui-autocomplete').removeAttr('style').hide().appendTo('.results .jspContainer').show();
-          } else {
-            $('ul.ui-autocomplete').removeAttr('style').hide().appendTo('.results').show();
-          }
-
-        }
-      }).data( "autocomplete" )._renderItem = function( ul, item ) {
-
-        var $a = $("<a>" + item.label + "</a>");
-
-        $a.on("click", function(e) {
-          e.preventDefault();
-
-          google.maps.event.trigger(item.circle, 'click', { autoopen:true, latLng: null });
-          item.circle.parent.markSelected();
-        });
-
-        if (pane["search"]) {
-          pane['search'].data('jsp').reinitialise();
-          return pane["search"].data('jsp').getContentPane().append($("<li></li>").data("item.autocomplete", item ).append($a).fadeIn(250));
-        }
-        else {
-          return $("<li></li>").data("item.autocomplete", item ).append($a).fadeIn(250).appendTo(ul);
-        }
-      };
-
-      $("#autocomplete").unbind('blur.autocomplete');
+      $(".addresspicker").val('');
+      $(".input_field input.lat").val('');
+      $(".input_field input.lng").val('');
+      $(".input_field .placeholder").fadeIn(250);
     }
 
     $("ul.stats li").each(function(i, li) {
       var
-      el   = null,
-      spin = null,
-      $li  = $(li),
-      id   = 'spinner_' + $li.attr('class');
+        el   = null,
+        spin = null,
+        $li  = $(li),
+        id   = 'spinner_' + $li.attr('class');
 
       $li.append('<div id="' + id + '" class="spinner"></div>');
       el = document.getElementById(id);
@@ -150,8 +149,11 @@ $(function () {
 
     function visitPlace() {
 
-      var lat = $(".input_field input#lat").val();
-      var lng = $(".input_field input#lng").val();
+      var
+        lat = $("input[data-geo='lat']").val(),
+        lng = $("input[data-geo='lng']").val();
+
+      resetAutocomplete();
 
       if (!lat || !lng) {
         return;
@@ -161,31 +163,80 @@ $(function () {
         var latLng = new google.maps.LatLng(lat, lng);
 
         map.panTo(latLng);
-        map.setZoom(7);
+        map.setZoom(5);
 
-        $("#addresspicker").val("");
-        $(".input_field .placeholder").show();
-
+        searchInBounds();
       });
+    }
+
+    function searchInBounds() {
+      var
+        results = [],
+        bounds  = map.getBounds();
+
+        Aside.hide();
+
+      _.each(autocompleteSource, function(project) {
+
+        var latLng = new google.maps.LatLng(project.lat, project.lng);
+
+        if (bounds.contains(latLng)) {
+          results.push(project);
+        }
+      });
+
+      $(".results li").each(function(i, p) {
+        $(p).remove();
+      });
+
+      if (results.length > 0) {
+
+        _.each(results, function(result) {
+          var $a = $('<a href="#">' + result.value + '</a>');
+
+          what = 'search';
+
+          if (!pane[what]) { // if we loaded the pane before
+            pane[what] = $(".scroll-pane-" + what);
+            pane[what].jScrollPane();
+          }
+
+          var api = pane[what].data('jsp');
+          api.getContentPane().append( $("<li></li>").append($a));
+          api.reinitialise();
+
+          $a.on("click", function(e) {
+            e.preventDefault();
+
+            google.maps.event.trigger(result.circle, 'click', {
+              autoopen: true,
+              latLng: null
+            });
+            result.circle.parent.markSelected();
+          });
+
+        });
+
+        resetAutocomplete();
+        Aside.show("search");
+      }
     }
 
     function startExploring(callback) {
 
       var // animation callbacks
-      removeDiv = function() {
-        $(this).remove();
-      },
-      afterHidingBackdrop = function() {
+      hideBackdrop = function() {
 
         if (callback) {
           callback();
         }
 
       },
-      afterHidingRightSide = function() {
-        $(".welcome, .backdrop").fadeOut(250, afterHidingBackdrop);
+      hideRightSide = function() {
+        $(".backdrop").fadeOut(250);
+        $(".welcome").fadeOut(250, hideBackdrop);
       },
-      afterHidingTimeline = function() {
+      hideTimeline = function() {
         $(".filter-help").animate({ top: "-100px", opacity:0 }, 250);
 
         $(".nav ul.filters").animate({ right: "240px" }, 300, function() {
@@ -193,56 +244,15 @@ $(function () {
         });
 
         $(".left-side").animate( { left: "-200px", opacity:0 }, 400);
-        $(".right-side").animate({ left: "200px",  opacity:0 }, 400, afterHidingRightSide);
+        $(".right-side").animate({ left: "200px",  opacity:0 }, 400, hideRightSide);
         $(".pac-container").fadeOut(250);
       };
 
-      $(".timeline-cover").animate({opacity:0, bottom: -30}, 250, afterHidingTimeline);
+      $(".timeline-cover").animate({opacity:0, bottom: -30}, 250, hideTimeline);
     }
 
     $(".input_field").smartPlaceholder();
 
-    $('#addresspicker').keydown(function (e) {
-      if (e.keyCode === 13) {
-        e.preventDefault();
-        visitPlace();
-      }
-    });
-
-    if ($("ul.radio li.selected").length <= 0) {
-      $("ul.radio li:first-child").addClass("selected");
-    }
-
-    $(".nav a[data-toggle='filter']").on("click", function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-
-      if ($(".nav ul.filters").hasClass('disabled')) {
-        return;
-      }
-
-      $(".nav a[data-toggle='filter'].selected").not(this).removeClass("selected");
-      $(this).toggleClass("selected");
-
-      $(".nav a[data-toggle='filter']").not(this).parent().find(".filter").fadeOut(250);
-      $(this).parent().find(".filter").fadeToggle(150);
-    });
-
-    $(".nav .filter ul.radio li").on("click", function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      $(this).parent().find("li").each(function() {
-        var id = $(this).attr('id');
-      });
-
-      $(this).parent().find("li").removeClass("selected");
-      $(this).addClass("selected");
-    });
-
-    $(".nav .filter").on("click", function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-    });
 
     /*
      * SPINNER
@@ -340,14 +350,11 @@ $(function () {
       }
 
       var
-      polygons = [];
-      agencies = [];
-      solution_count = 0;
+      solution_count     = 0,
+      polygons           = [],
+      agencies           = [];
 
-      // Everytime
-      autocompleteSource = [];
-
-      if (view.overlays[name].length){
+      if (view.overlays[name].length) {
         for (var i = 0; i < view.overlays[name].length; i++) {
           if (view.overlays[name][i].length){
 
@@ -364,7 +371,6 @@ $(function () {
               view.coordinates[projectID] = [view.overlays[name][i][0][0].geojsonProperties.centroid_lat, view.overlays[name][i][0][0].geojsonProperties.centroid_lon];
             }
 
-            // Draws circles
             var
             o              = view.overlays[name][i][0][0],
             properties     = o.geojsonProperties,
@@ -374,13 +380,10 @@ $(function () {
 
             if (name === 'projects') {
               autocompleteSource.push({ circle: distanceWidget.circle, more: properties, value: properties.title, lat: properties.centroid_lat, lng: properties.centroid_lon});
+              solution_count += properties.solution_count;
             }
 
             view.circles.push(distanceWidget);
-
-            if (name === "projects") {
-              solution_count += properties.solution_count;
-            }
 
           } else {
             view.overlays[name][i].setMap(map);
@@ -392,19 +395,11 @@ $(function () {
 
       if (name === 'projects') {
         updateCounter("solutions", solution_count);
-        bindAutocomplete();
+        //bindAutocomplete();
       }
 
       view.enableFilters();
     }
-
-    // Key binding
-    $(document).keyup(function(e) {
-      if (e.keyCode === 27) {  // esc
-        Infowindow.hide();
-        $(".nav .filter").fadeOut(150);
-      }
-    });
 
     function setupSpinner($el) {
       var options = {
@@ -455,20 +450,11 @@ $(function () {
         });
       })();
 
-      _change = function(what) {
-
-        if (what === 'search' && mode === 0) {
-          var callback = function() { Aside.show(what); };
-          Aside.hide(callback);
-        }
-
-      };
-
       _show = function(what) {
 
-        if (!Aside.isHidden()) {
-          Aside.hide();
-        }
+        //if (!Aside.isHidden()) {
+        //Aside.hide();
+        //}
 
         if (what === "project") {
           mode = 0;
@@ -506,7 +492,11 @@ $(function () {
           panePosition = $pane.offset().top,
           paneHeight   = windowHeight - panePosition;
 
-          $pane.css("height", paneHeight - 120);
+          if (what == 'project') {
+            $pane.css("height", paneHeight - 120);
+          } else {
+            $pane.css("height", paneHeight - 20);
+          }
 
           if (pane[what]) { // if we loaded the pane before
             var api = pane[what].data('jsp');
@@ -541,8 +531,7 @@ $(function () {
       return {
         hide: _hide,
         show: _show,
-        isHidden: _isHidden,
-        change:_change
+        isHidden: _isHidden
       };
     }());
 
