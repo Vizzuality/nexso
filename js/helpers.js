@@ -54,43 +54,34 @@ var // Map styles
     circleDisabledStyle         = { strokeColor: "#E79626", strokeOpacity: 0.5, strokeWeight: 1, fillColor: "#E79626", fillOpacity: 0.0 },
     circleDisabledHoverStyle    = { strokeColor: "#1872A1", strokeOpacity: 0.5, strokeWeight: 2, fillColor: "#1872A1", fillOpacity: 0.2 };
 
-var mapStyles = [{
-   featureType: "water",
-   stylers: [
-     { saturation: -11 },
-     { lightness: 25 }
-   ]
- },{
-   featureType: "poi",
-   stylers: [
-     { saturation: -95 },
-     { lightness: 61 }
-   ]
- },{
-   featureType: "administrative",
-   stylers: [
-     { saturation: -99 },
-     { gamma: 3.51 }
-   ]
- },{
-   featureType: "road",
-   stylers: [
-     { visibility: "off" }
-   ]
- },{
-   featureType: "road",
-   stylers: [
-     { visibility: "off" }
-   ]
- },{
-   featureType: "landscape",
-   stylers: [
-     { saturation: -85 },
-     { lightness: 53 }
-   ]
- },{
- }
-];
+    var mapStyles = [{
+      featureType: "water",
+      stylers: [ { saturation: -34 }, { lightness: 29 } ] 
+    }, {
+      featureType: "poi",
+      stylers: [ { lightness: 42 }, { saturation: -40 } ] 
+    }, {
+      featureType: "administrative.land_parcel",
+      elementType: "labels",
+      stylers: [ { visibility: "off" } ]
+    }, {
+      featureType: "road",
+      stylers: [ { saturation: -99 }, { lightness: 70 } ]
+    }, {
+      featureType: "poi",
+      elementType: "labels",
+      stylers: [ { visibility: "off" } ]
+    }, {
+      featureType: "road",
+      elementType: "labels",
+      stylers: [ { visibility: "off" } ]
+    }, {
+      featureType: "road",
+    }, {
+      featureType: "administrative",
+      stylers: [ { saturation: -98 }, { lightness: 72 } ]
+    }, {
+    }];
 
 var queries = {
   GET_ASHOKAS: "SELECT A.the_geom, A.ashoka_url AS agency_url, A.topic_id AS topic_id, A.name, "  +
