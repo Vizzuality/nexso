@@ -96,6 +96,11 @@ $(function () {
       bounds: latLngBounds
     });
 
+    function resetLastSearch() {
+      $(".input_field input.lat").val('');
+      $(".input_field input.lng").val('');
+    }
+
     function resetAutocomplete() {
       $(".addresspicker").val('');
       $(".input_field input.lat").val('');
@@ -171,7 +176,7 @@ $(function () {
         return;
       }
 
-      resetAutocomplete();
+      resetLastSearch();
 
       startExploring(function() {
         var latLng = new google.maps.LatLng(lat, lng);
@@ -179,16 +184,16 @@ $(function () {
         map.panTo(latLng);
         map.setZoom(6);
 
-        searchInBounds();
+        searchInBounds(true);
       });
     }
 
-    function searchInBounds() {
+    function searchInBounds(open) {
       var
         results = [],
         bounds  = map.getBounds();
 
-        Aside.hide();
+        //if (!Aside.isHidden()) Aside.hide();
 
       _.each(autocompleteSource, function(project) {
 
@@ -199,17 +204,19 @@ $(function () {
         }
       });
 
-
       $(".results li").each(function(i, p) {
         $(p).remove();
       });
 
-      if (results.length > 0) {
+      if (results <= 0) {
+        $(".results .title").html("No projects found on this screen");
+        
+      } else if (results.length > 0) {
 
         var resultTitle = results.length + " " + (results.length === 1 ? ' project on screen' : ' projects on screen');
         $(".results .title").html(resultTitle);
 
-        _.each(results, function(result) {
+        _.each(results, function(result, i) {
           var $a = $('<a href="#">' + result.value + '</a>');
 
           what = 'search';
@@ -220,7 +227,7 @@ $(function () {
           }
 
           var api = pane[what].data('jsp');
-          api.getContentPane().append( $("<li></li>").append($a));
+          api.getContentPane().append( $("<li></li>").append($a).delay(i*50).animate({opacity:1}));
           api.reinitialise();
 
           $a.on("click", function(e) {
@@ -235,8 +242,11 @@ $(function () {
 
         });
 
-        resetAutocomplete();
-        Aside.show("search");
+        resetLastSearch();
+
+        if (open) {
+          Aside.show("search");
+        }
       }
     }
 
@@ -1018,5 +1028,13 @@ $(function () {
 
       filterView = new FilterView({
         el:$('.nav .content')
+      });
+
+      google.maps.event.addDomListener(map, 'zoom_changed', function() {
+        searchInBounds();
+      });
+
+      google.maps.event.addDomListener(map, 'dragend', function() {
+        searchInBounds();
       });
 });

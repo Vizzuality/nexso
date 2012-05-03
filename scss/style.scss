@@ -801,17 +801,25 @@ h4 { font-size: 11px; font-weight:bold; }
     margin-left:10px;
 
     &.search, &.project { display:none; }
-    &.search .results li {
-      a { cursor:pointer; }
+    &.search .results {
 
-      margin: 0 0 10px 0;
-      padding: 0 0 0 10px;
-      @include icons-sprite(bullet, $offset-y: 8px);
-      line-height:20px;
-      border: none;
+      strong { display:block; margin-bottom: 20px; font-weight:bold; font-size:11px; color:$title_blue; text-transform:uppercase; }
+
+      li {
+        list-style:none;
+        opacity:0;
+
+        a { cursor:pointer; border-bottom: 1px dashed $subtle_gray; }
+
+        margin: 0 0 10px 0;
+        padding: 0 0 0 10px;
+        @include icons-sprite(bullet, $offset-y: 8px);
+        line-height:20px;
+        border: none;
+      }
     }
 
-    h4 { margin: 0 0 5px 0; text-transform: uppercase; color:$light_gray; }
+    h4 { margin: 0; text-transform: uppercase; color:$light_gray; }
 
     ul {
       width: 283px;
@@ -1056,10 +1064,6 @@ $markerRadiusSize: 102px;
   margin: 20px 0 0 0;
   outline:none;
 }
-
-.aside .content.search .results strong { display:block; margin-bottom: 20px; font-weight:bold; font-size:11px; color:$title_blue; text-transform:uppercase; }
-.aside .content.search .results li { list-style:none;}
-.aside .content.search .results li a { border-bottom: 1px dashed $subtle_gray; }
 
 .jspContainer { overflow: hidden; position: relative; }
 .jspPane { position: absolute; }

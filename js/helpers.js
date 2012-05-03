@@ -56,10 +56,10 @@ var // Map styles
 
     var mapStyles = [{
       featureType: "water",
-      stylers: [ { saturation: -34 }, { lightness: 29 } ] 
+      stylers: [ { saturation: -34 }, { lightness: 29 } ]
     }, {
       featureType: "poi",
-      stylers: [ { lightness: 42 }, { saturation: -40 } ] 
+      stylers: [ { lightness: 42 }, { saturation: -40 } ]
     }, {
       featureType: "administrative.land_parcel",
       elementType: "labels",
