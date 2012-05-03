@@ -404,7 +404,6 @@ $(function () {
               distanceWidget = new RadiusWidget(map, cLatLng, rLatLng, view.overlays[name][i], [properties.agency_position]);
 
             if (name === 'projects') {
-              console.log(properties);
               autocompleteSource.push({ circle: distanceWidget.circle, more: properties, value: properties.title, lat: properties.centroid_lat, lng: properties.centroid_lon});
               solution_count += properties.solution_count;
             }
@@ -877,7 +876,7 @@ $(function () {
           }
 
           // Build filters by topic & solution
-          var topicsCondition   = (topics.length > 0) ? " P.topic_id  IN (" + topics.join(',') + ") AND " : "";
+          var topicsCondition   = (topics.length > 0) ? " P.topic_id  IN (" + topics.join(',') + ") AND " : " P.topic_id = 0 AND ";
           var solutionCondition = (solutionFilter === 'solutions') ? " P.solution_id IS NOT NULL AND " : "";
 
           var template = _.template(queries.GET_PROJECTS_QUERY_TEMPLATE);
@@ -988,10 +987,24 @@ $(function () {
           if (topics.length > 0) {
             $("#projects").addClass("selected"); // in case it was turned off
             mapView.removeOverlay("projects");
+
+            autocompleteSource = [];
+
+            if (!Aside.isHidden()) {
+              searchInBounds();
+            }
+
             mapView.addProjects();
             mapView.addAgencies();
             mapView.addAshokas();
           } else {
+
+            autocompleteSource = [];
+
+            if (!Aside.isHidden()) {
+              searchInBounds();
+            }
+
             mapView.removeOverlay("projects");
             mapView.removeOverlay("agencies");
             mapView.removeOverlay("ashokas");
