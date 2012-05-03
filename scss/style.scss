@@ -1057,6 +1057,7 @@ $markerRadiusSize: 102px;
   outline:none;
 }
 
+.aside .content.search .results strong { display:block; margin-bottom: 20px; font-weight:bold; font-size:11px; color:$title_blue; text-transform:uppercase; }
 .aside .content.search .results li { list-style:none;}
 .aside .content.search .results li a { border-bottom: 1px dashed $subtle_gray; }
 

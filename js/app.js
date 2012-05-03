@@ -167,17 +167,17 @@ $(function () {
         lat = $("input[data-geo='lat']").val(),
         lng = $("input[data-geo='lng']").val();
 
-      resetAutocomplete();
-
       if (!lat || !lng) {
         return;
       }
+
+      resetAutocomplete();
 
       startExploring(function() {
         var latLng = new google.maps.LatLng(lat, lng);
 
         map.panTo(latLng);
-        map.setZoom(5);
+        map.setZoom(6);
 
         searchInBounds();
       });
@@ -199,11 +199,15 @@ $(function () {
         }
       });
 
+
       $(".results li").each(function(i, p) {
         $(p).remove();
       });
 
       if (results.length > 0) {
+
+        var resultTitle = results.length + " " + (results.length === 1 ? ' project on screen' : ' projects on screen');
+        $(".results .title").html(resultTitle);
 
         _.each(results, function(result) {
           var $a = $('<a href="#">' + result.value + '</a>');
@@ -239,11 +243,9 @@ $(function () {
     function startExploring(callback) {
       var // animation callbacks
       hideBackdrop = function() {
-
         if (callback) {
           callback();
         }
-
       },
       hideRightSide = function() {
         $(".backdrop").fadeOut(250);
@@ -265,7 +267,6 @@ $(function () {
     }
 
     $(".input_field").smartPlaceholder();
-
 
     /*
      * SPINNER
@@ -344,8 +345,9 @@ $(function () {
     }());
 
     // Shows the circle, marker or polygon
-    function showFeature(view, name, geojson, style){
+    function showFeature(view, name, geojson, style) {
       var data = null;
+
       try {
         data = JSON.parse(geojson);
       } catch ( e ) {
@@ -363,9 +365,9 @@ $(function () {
       }
 
       var
-      solution_count     = 0,
-      polygons           = [],
-      agencies           = [];
+        solution_count     = 0,
+        polygons           = [],
+        agencies           = [];
 
       if (view.overlays[name].length) {
         for (var i = 0; i < view.overlays[name].length; i++) {
@@ -408,7 +410,6 @@ $(function () {
 
       if (name === 'projects') {
         updateCounter("solutions", solution_count);
-        //bindAutocomplete();
       }
 
       view.enableFilters();
