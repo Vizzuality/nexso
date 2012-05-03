@@ -30,7 +30,6 @@ NexsoMarker.prototype.draw = function() {
 
             that.properties.overlayType = that.overlayType_;
 
-            console.log(that.properties);
             Infowindow.setContent(that.properties);
             Infowindow.open(that.latlng_);
         });

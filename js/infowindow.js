@@ -93,8 +93,6 @@ InfoWindow.prototype.bindProjects = function () {
           rw.circle.parent.markSelected();
           google.maps.event.trigger(rw.circle, 'click', {autoopen:true, latLng: latLng});
 
-          //$(".infowindow .btn").click();
-
         }, 500);
       return;
       }
@@ -151,7 +149,7 @@ InfoWindow.prototype.setSolutionURL = function (title, url) {
 };
 
 InfoWindow.prototype.setCallback = function (callback) {
-  $(".btn").on('click', callback);
+  $(".infowindow .btn").on('click', callback);
 };
 
 InfoWindow.prototype.open = function (latlng) {

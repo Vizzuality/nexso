@@ -53,6 +53,7 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
   // Append lines
   this.circle.setOptions({"lines": agency_lines});
 
+  google.maps.event.clearListeners(this.circle, 'click');
   google.maps.event.addListener(this.circle, 'click', function(event) {
 
     var
@@ -68,7 +69,6 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
 
     agencyName        = properties.agency_name,
     agencyURL         = properties.agency_url,
-
 
     nexsoCode         = properties.nexso_code,
 
@@ -90,10 +90,10 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
         var $item = $asideItems.find("li." + itemName);
 
         if (typeof content === 'object' ) {
-          if (content.text != null && content.url !== null) {
+          if (content.text !== null && content.url !== null) {
             $item.find("a").text(content.text).attr("href", content.url);
             $item.show();
-          } else if (content.text != null) {
+          } else if (content.text !== null) {
             $item.find("a").text(content.text).attr("href", "#");
             $item.show();
           } else $item.hide();

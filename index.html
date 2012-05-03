@@ -201,7 +201,7 @@
         </div>
         <div class="scroll-pane-project">
           <ul class="data">
-            <li class="icon nexso_code star"><h4>NEXSO code</h4><span>...</span></li>
+            <li class="icon nexso_code star"><h4>Project number</h4><span>...</span></li>
             <li class="icon budget money"><h4>Funded amount</h4><span>$000.000</span></li>
             <li class="icon approvalDate calendar"><h4>Approval date</h4><span>Date not available</span></li>
             <li class="icon agency gear"><h4>Executing agency</h4><a href="#" target="_blank">...</a></li>
@@ -247,11 +247,14 @@
             </ul>
             <% } %>
             <% } else if (overlayType == "ashokas") { %>
-            <% if (solution_name) { %>
+            <% if (solution_name || solution2_name) { %>
               <h4>Solutions</h4>
               <ul>
                 <% if (solution_name) { %>
                   <li><a href="<%= solution_url %>" target="_blank"><%= solution_name %></a> </li>
+                  <% } %>
+                <% if (solution2_name) { %>
+                  <li><a href="<%= solution2_url %>" target="_blank"><%= solution2_name %></a> </li>
                   <% } %>
               </ul>
               <% } %>

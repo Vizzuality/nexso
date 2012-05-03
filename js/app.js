@@ -128,13 +128,27 @@ $(function () {
       }
     }
 
+    function resetMap() {
+      var latLng = new google.maps.LatLng(config.LAT, config.LNG);
+      map.panTo(latLng);
+      map.setZoom(config.ZOOM);
+    }
+
     function showWelcome() {
       Aside.hide();
       resetAutocomplete();
 
+      if ($(".aside .close").data('project')) { // Unselect the project
+        $(".aside .close").data('project').unMarkSelected(true); 
+        $(".aside .close").removeData('project');
+      }
+
+      resetMap();
+
       $(".timeline-cover").animate({opacity:1, bottom: "23px"}, 250);
 
-      $(".welcome, .backdrop").fadeIn(250, function() {
+      $(".welcome").fadeIn(250);
+      $(".backdrop").fadeIn(250, function() {
 
         $(".nav .input_field").fadeOut(300, function() {
           $(".filter-help").animate({ top: "0",  opacity:1 }, 250);
@@ -223,7 +237,6 @@ $(function () {
     }
 
     function startExploring(callback) {
-
       var // animation callbacks
       hideBackdrop = function() {
 
@@ -451,10 +464,6 @@ $(function () {
       })();
 
       _show = function(what) {
-
-        //if (!Aside.isHidden()) {
-        //Aside.hide();
-        //}
 
         if (what === "project") {
           mode = 0;
