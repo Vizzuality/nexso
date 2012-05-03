@@ -130,7 +130,7 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
       map.panBy(176, 0);
 
       // Make it "selected"
-      $('.aside a.close').data('project',self);
+      $('.aside a.toggle').data('project',self);
       self.markSelected();
     }
 

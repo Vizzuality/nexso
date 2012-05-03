@@ -96,6 +96,11 @@ $(function () {
       bounds: latLngBounds
     });
 
+    function resetLastSearch() {
+      $(".input_field input.lat").val('');
+      $(".input_field input.lng").val('');
+    }
+
     function resetAutocomplete() {
       $(".addresspicker").val('');
       $(".input_field input.lat").val('');
@@ -138,9 +143,9 @@ $(function () {
       Aside.hide();
       resetAutocomplete();
 
-      if ($(".aside .close").data('project')) { // Unselect the project
-        $(".aside .close").data('project').unMarkSelected(true); 
-        $(".aside .close").removeData('project');
+      if ($(".aside .toggle").data('project')) { // Unselect the project
+        $(".aside .toggle").data('project').unMarkSelected(true);
+        $(".aside .toggle").removeData('project');
       }
 
       resetMap();
@@ -171,7 +176,7 @@ $(function () {
         return;
       }
 
-      resetAutocomplete();
+      resetLastSearch();
 
       startExploring(function() {
         var latLng = new google.maps.LatLng(lat, lng);
@@ -179,16 +184,14 @@ $(function () {
         map.panTo(latLng);
         map.setZoom(6);
 
-        searchInBounds();
+        searchInBounds(true);
       });
     }
 
-    function searchInBounds() {
+    function searchInBounds(open) {
       var
         results = [],
         bounds  = map.getBounds();
-
-        Aside.hide();
 
       _.each(autocompleteSource, function(project) {
 
@@ -199,17 +202,19 @@ $(function () {
         }
       });
 
-
       $(".results li").each(function(i, p) {
         $(p).remove();
       });
 
-      if (results.length > 0) {
+      if (results <= 0) {
+        $(".results .title").html("No projects found on this screen");
+
+      } else if (results.length > 0) {
 
         var resultTitle = results.length + " " + (results.length === 1 ? ' project on screen' : ' projects on screen');
         $(".results .title").html(resultTitle);
 
-        _.each(results, function(result) {
+        _.each(results, function(result, i) {
           var $a = $('<a href="#">' + result.value + '</a>');
 
           what = 'search';
@@ -220,7 +225,7 @@ $(function () {
           }
 
           var api = pane[what].data('jsp');
-          api.getContentPane().append( $("<li></li>").append($a));
+          api.getContentPane().append( $("<li></li>").append($a).delay(i*50).animate({opacity:1}));
           api.reinitialise();
 
           $a.on("click", function(e) {
@@ -235,8 +240,11 @@ $(function () {
 
         });
 
-        resetAutocomplete();
-        Aside.show("search");
+        resetLastSearch();
+
+        if (open) {
+          Aside.show("search");
+        }
       }
     }
 
@@ -443,23 +451,29 @@ $(function () {
 
     Aside = (function() {
       var
-      $el    = $(".aside"),
-      $close = $(".aside a.close"),
-      mode   = 0; // 0 = project; 1 = search
+      $el     = $(".aside"),
+      $toggle = $(".aside a.toggle"),
+      mode    = 0; // 0 = project; 1 = search
 
       (function() {
-        $close.on('click', function(e) {
+        $toggle.on('click', function(e) {
           e.preventDefault();
 
-          if (mode === 0) { // project mode
-            $(this).data('project').unMarkSelected(true); // Unselect the project
-            $(this).removeData('project');
-            map.setZoom(previousZoom);
-            Aside.hide(Timeline.show);
-          } else { // regular mode
-            Aside.hide();
-            resetAutocomplete();
-          }
+          if ($toggle.hasClass("closed")) {
+            searchInBounds();
+            Aside.show("search");
+          } else {
+
+              if (mode === 0) { // project mode
+                $(this).data('project').unMarkSelected(true); // Unselect the project
+                $(this).removeData('project');
+                map.setZoom(previousZoom);
+                Aside.hide(Timeline.show);
+              } else { // regular mode
+                Aside.hide();
+                resetAutocomplete();
+              }
+            }
 
         });
       })();
@@ -477,7 +491,7 @@ $(function () {
           $el.find(".search").show();
         }
 
-        var projectBefore = $close.data('project');
+        var projectBefore = $toggle.data('project');
 
         if (projectBefore) {
           projectBefore.unMarkSelected(true);
@@ -488,7 +502,8 @@ $(function () {
         $("#map").animate({ right: '352px' }, 250);
 
         $el.animate({ right: 0 }, 250, function() {
-          $(this).removeClass("hidden");
+
+          $toggle.removeClass("closed");
 
           $el.delay(300).find("p").slideDown(350, function() {
             $el.find("ul.data li").each(function(i, li) {
@@ -523,9 +538,10 @@ $(function () {
       _hide = function(callback) {
         $("#map").animate({ right: '0' }, 250);
 
-        $el.animate({right:'-400px'}, 250, function() {
-          $(this).addClass("hidden");
+        $el.animate({right:'-330px'}, 250, function() {
           $el.find("p").hide();
+
+          $toggle.addClass("closed");
 
           if (callback) {
             callback();
@@ -535,7 +551,7 @@ $(function () {
       };
 
       _isHidden = function() {
-        return $el.hasClass("hidden");
+        return $toggle.hasClass("closed");
       };
 
       return {
@@ -1018,5 +1034,17 @@ $(function () {
 
       filterView = new FilterView({
         el:$('.nav .content')
+      });
+
+      google.maps.event.addDomListener(map, 'zoom_changed', function() {
+        if (!Aside.isHidden()) {
+          searchInBounds();
+        }
+      });
+
+      google.maps.event.addDomListener(map, 'dragend', function() {
+        if (!Aside.isHidden()) {
+          searchInBounds();
+        }
       });
 });
