@@ -132,7 +132,6 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
       map.panBy(176, 0);
 
       // Make it "selected"
-
       var projectBefore = $(".aside a.toggle").data('project');
 
       if (projectBefore) {
