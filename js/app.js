@@ -208,7 +208,7 @@ $(function () {
       });
 
       if (results <= 0) {
-        $(".results .title").html("No projects found on this screen");
+        $(".results .title").html("No projects found on the screen");
       } else if (results.length > 0) {
 
         var resultTitle = results.length + " " + (results.length === 1 ? ' project on screen' : ' projects on screen');
