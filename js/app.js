@@ -209,7 +209,6 @@ $(function () {
 
       if (results <= 0) {
         $(".results .title").html("No projects found on this screen");
-
       } else if (results.length > 0) {
 
         var resultTitle = results.length + " " + (results.length === 1 ? ' project on screen' : ' projects on screen');
@@ -1047,5 +1046,9 @@ $(function () {
         if (!Aside.isHidden()) {
           searchInBounds();
         }
+      });
+
+      google.maps.event.addDomListener(map, 'dragend', function() {
+        searchInBounds();
       });
 });

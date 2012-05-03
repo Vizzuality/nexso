@@ -882,7 +882,7 @@ h4 { font-size: 11px; font-weight:bold; }
     }
   }
 
-  a.toggle { 
+  a.toggle {
 
     &.closed {
       @include icons-sprite(open_big);
@@ -1093,7 +1093,6 @@ $markerRadiusSize: 102px;
 .jspVerticalBar .jspArrow { height: 16px; }
 .jspVerticalBar .jspArrow:focus { outline: none; }
 .jspCorner { background: #eeeef4; float: left; height: 100%; }
-
 
 .lt-ie9 #autocomplete { line-height:40px; }
 .lt-ie9 #addresspicker { line-height:40px; }
