@@ -232,10 +232,14 @@
           </div>
           <% if (overlayType == "project") { %>
             <a href="#" class="btn">View project details</a>
-            <h4>Solution</h4>
-            <ul class="solutions">
-              <li><a href="#" target="_blank">…</a> </li>
-            </ul>
+            <% if (solution_name) { %>
+              <h4>Solutions</h4>
+              <ul>
+                <% if (solution_name) { %>
+                  <li><a href="<%= solution_url %>" target="_blank"><%= solution_name %></a> </li>
+                  <% } %>
+              </ul>
+              <% } %>
             <% if (agencyName != null) { %>
             <h4>Executing agency</h4>
             <ul>

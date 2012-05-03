@@ -147,8 +147,8 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
       onInfowindowClick();
     } else {
       // Infowindow setup
-      Infowindow.setContent({ name: title, overlayType: "project", agencyName: agencyName });
-      Infowindow.setSolutionURL(title, moreURL);
+      Infowindow.setContent({ name: title, overlayType: "project", agencyName: agencyName, solution_name: solutionName, solution_url: solutionURL });
+      console.log(event);
       Infowindow.setCallback(onInfowindowClick);
       Infowindow.open(event.latLng);
     }
