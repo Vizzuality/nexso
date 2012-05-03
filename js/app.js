@@ -493,11 +493,11 @@ $(function () {
           $el.find(".search").show();
         }
 
-        var projectBefore = $toggle.data('project');
+        //var projectBefore = $toggle.data('project');
 
-        if (projectBefore) {
-          projectBefore.unMarkSelected(true);
-        }
+        //if (projectBefore) {
+          //projectBefore.unMarkSelected(true);
+        //}
 
         $el.find("ul.data li").css({opacity:0, marginLeft:150});
 

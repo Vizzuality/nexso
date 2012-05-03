@@ -1,68 +1,68 @@
 function NexsoMarker(overlayType, opts, geojsonProperties) {
-    this.properties = geojsonProperties;
-    this.latlng_ = opts.position;
-    this.opts = opts;
-    this.offsetVertical_ = -7;
-    this.offsetHorizontal_ = -7;
-    this.overlayType_ = overlayType;
-    this.width_ = 14;
-    this.height_ = 14;
-    this.div_ = null;
+  this.properties = geojsonProperties;
+  this.latlng_ = opts.position;
+  this.opts = opts;
+  this.offsetVertical_ = -7;
+  this.offsetHorizontal_ = -7;
+  this.overlayType_ = overlayType;
+  this.width_ = 14;
+  this.height_ = 14;
+  this.div_ = null;
 }
 
 NexsoMarker.prototype = new google.maps.OverlayView();
 
 NexsoMarker.prototype.draw = function() {
-    var
-        that = this,
-        div = this.div_;
+  var
+  that = this,
+  div = this.div_;
 
-    if (!div) {
-        div = this.div_ = document.createElement('DIV');
-        div.className = 'marker';
-        div.innerHTML = '<img src="' + this.opts.icon + '" alt="" title="" />';
+  if (!div) {
+    div = this.div_ = document.createElement('DIV');
+    div.className = 'marker';
+    div.innerHTML = '<img src="' + this.opts.icon + '" alt="" title="" />';
 
-        google.maps.event.addDomListener(div, 'click', function (ev) {
+    google.maps.event.addDomListener(div, 'click', function (ev) {
 
-          if (ev) {
-            ev.preventDefault ? ev.preventDefault() : ev.returnValue = false;
-            ev.stopPropagation ? ev.stopPropagation() : window.event.cancelBubble = true;
-          }
+      if (ev) {
+        ev.preventDefault ? ev.preventDefault() : ev.returnValue = false;
+        ev.stopPropagation ? ev.stopPropagation() : window.event.cancelBubble = true;
+      }
 
-          that.properties.overlayType = that.overlayType_;
+      that.properties.overlayType = that.overlayType_;
 
-          Infowindow.setContent(that.properties);
-          Infowindow.open(that.latlng_);
-        });
+      Infowindow.setContent(that.properties);
+      Infowindow.open(that.latlng_);
+    });
 
-        google.maps.event.addDomListener(div, 'mouseover', function (ev) {
+    google.maps.event.addDomListener(div, 'mouseover', function (ev) {
 
-          globalZindex++;
+      globalZindex++;
 
-          $(this).css('zIndex', globalZindex).animate({
-            width: '18px',
-            height: '18px',
-            marginTop:'-2px',
-            marginLeft:'-2px'
-          }, 100);
-        });
+      $(this).css('zIndex', globalZindex).animate({
+        width: '18px',
+        height: '18px',
+        marginTop:'-2px',
+        marginLeft:'-2px'
+      }, 100);
+    });
 
-        google.maps.event.addDomListener(div, 'mouseout', function (ev) {
+    google.maps.event.addDomListener(div, 'mouseout', function (ev) {
 
-          $(this).animate({
-            width: '14px',
-            height: '14px',
-            marginTop:'0px',
-            marginLeft:'0px'
-          }, 100);
-        });
+      $(this).animate({
+        width: '14px',
+        height: '14px',
+        marginTop:'0px',
+        marginLeft:'0px'
+      }, 100);
+    });
 
-        var panes = this.getPanes();
-        panes.overlayMouseTarget.appendChild(div);
-    }
+    var panes = this.getPanes();
+    panes.overlayMouseTarget.appendChild(div);
+  }
 
-    this.setPosition();
-}
+  this.setPosition();
+};
 
 NexsoMarker.prototype.setPosition = function() {
   if (this.div_) {
@@ -74,7 +74,7 @@ NexsoMarker.prototype.setPosition = function() {
       div.style.top = (pixPosition.y  + this.offsetVertical_) + 'px';
     }
   }
-}
+};
 
 NexsoMarker.prototype.hide = function(animate) {
   if (this.div_ && !$(this.div_).hasClass('h')) {
@@ -91,15 +91,14 @@ NexsoMarker.prototype.hide = function(animate) {
       $(div).addClass('h');
     }
   }
-}
-
+};
 
 NexsoMarker.prototype.changeOpacity = function(opacity) {
   var div = this.div_;
   $(div).animate({
     opacity: opacity
   }, {queue: true, duration:500});
-}
+};
 
 NexsoMarker.prototype.show = function(animate) {
   if (this.div_ && $(this.div_).hasClass('h')) {
@@ -118,15 +117,14 @@ NexsoMarker.prototype.show = function(animate) {
       $(div).removeClass('h');
     }
   }
-}
-
+};
 
 NexsoMarker.prototype.showContent = function() {
   if (this.div_) {
     google.maps.event.trigger(this.div_, 'click');
   }
-}
+};
 
 NexsoMarker.prototype.getPosition = function() {
   return this.latlng_;
-}
+};

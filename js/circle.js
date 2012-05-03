@@ -132,6 +132,15 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
       map.panBy(176, 0);
 
       // Make it "selected"
+
+      var projectBefore = $(".aside a.toggle").data('project');
+
+      if (projectBefore) {
+        console.log(projectBefore);
+        console.log('there was a project before');
+        projectBefore.unMarkSelected();
+      }
+
       $('.aside a.toggle').data('project',self);
       self.markSelected();
     }
@@ -192,6 +201,7 @@ RadiusWidget.prototype.markSelected = function() {
   _.each(this.circle.polygons,function(polygon,i) {
     polygon[0].setOptions(projectsHoverStyle);
   });
+
   this.circle.setOptions(circleStyleHover);
 
   // Lines
@@ -208,10 +218,12 @@ RadiusWidget.prototype.unMarkSelected = function(showAll) {
   google.maps.event.addListener(this.circle, 'mouseover', this.onMouseOver);
   google.maps.event.addListener(this.circle, 'mouseout', this.onMouseOut);
 
+  console.log('unmarking');
   // Polygons
-  _.each(this.circle.polygons,function(polygon,i) {
+  _.each(this.circle.polygons,function(polygon, i) {
     polygon[0].setOptions(projectsStyle);
   });
+
   this.circle.setOptions(circleStyle);
 
   // Lines
@@ -219,8 +231,11 @@ RadiusWidget.prototype.unMarkSelected = function(showAll) {
     line.setOptions({"visible": false});
   });
 
-  // Show rest
-  if (showAll) this.showAll();
+  // Show the rest
+  if (showAll) {
+    this.showAll();
+  }
+
   filterView.enable();
 };
 
@@ -264,6 +279,8 @@ RadiusWidget.prototype.showAll = function() {
   _.each(this.specialAgencies, function(agency) {
     agency.hide();
   });
+
+  this.specialAgencies = [];
 
   // Agencies
   mapView.addAgencies();
