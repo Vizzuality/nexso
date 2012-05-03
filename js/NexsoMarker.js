@@ -101,7 +101,6 @@ NexsoMarker.prototype.changeOpacity = function(opacity) {
   }, {queue: true, duration:500});
 }
 
-
 NexsoMarker.prototype.show = function(animate) {
   if (this.div_ && $(this.div_).hasClass('h')) {
     var div = this.div_;
@@ -127,7 +126,6 @@ NexsoMarker.prototype.showContent = function() {
     google.maps.event.trigger(this.div_, 'click');
   }
 }
-
 
 NexsoMarker.prototype.getPosition = function() {
   return this.latlng_;

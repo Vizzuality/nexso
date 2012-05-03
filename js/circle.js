@@ -7,7 +7,9 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
 
   var
     distance = this.distanceBetweenPoints(centroidCenter, radiusCenter),
-    self = this;
+    self     = this;
+
+  this.specialAgencies = [];
 
   // Draw circle
   this.circle = new google.maps.Circle({
@@ -231,6 +233,9 @@ RadiusWidget.prototype.hideAll = function() {
       agency.getPosition().lat() != that.circle.lines[0].getPath().getAt(1).lat() &&
       agency.getPosition().lng() != that.circle.lines[0].getPath().getAt(1).lng()) {
         agency.hide();
+      } else {
+        that.specialAgencies.push(agency);
+        agency.show();
       }
   });
 
@@ -255,6 +260,10 @@ RadiusWidget.prototype.hideAll = function() {
 
 RadiusWidget.prototype.showAll = function() {
   var that = this;
+
+  _.each(this.specialAgencies, function(agency) {
+    agency.hide();
+  });
 
   // Agencies
   mapView.addAgencies();

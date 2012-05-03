@@ -42,7 +42,12 @@ var // DEFAULTS
     solutionFilter   = "all",
     previousCenter,
     disabledFilters  = false,
-    globalZindex     = 300;
+    globalZindex     = 300,
+    visibleOverlays  = [];
+
+    visibleOverlays["ashokas"]  = true;
+    visibleOverlays["agencies"] = true;
+    visibleOverlays["projects"] = true;
 
 var // Map styles
     projectsStyle               = { strokeColor: "#E79626", strokeOpacity: 0.4, strokeWeight: 1, fillColor: "#E79626", fillOpacity: 0.2 },

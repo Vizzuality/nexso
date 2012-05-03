@@ -2,7 +2,7 @@ $(function () {
 
   var
     autocompleteSource = [],
-    pane = [];
+    pane               = [];
 
   $(document).keyup(function(e) {
     if (e.keyCode === 27) {  // esc
@@ -395,11 +395,11 @@ $(function () {
             }
 
             var
-            o              = view.overlays[name][i][0][0],
-            properties     = o.geojsonProperties,
-            cLatLng        = new google.maps.LatLng(properties.centroid_lat, properties.centroid_lon),
-            rLatLng        = new google.maps.LatLng(properties.radius_point_lat, properties.radius_point_lon),
-            distanceWidget = new RadiusWidget(map, cLatLng, rLatLng, view.overlays[name][i], [properties.agency_position]);
+              o              = view.overlays[name][i][0][0],
+              properties     = o.geojsonProperties,
+              cLatLng        = new google.maps.LatLng(properties.centroid_lat, properties.centroid_lon),
+              rLatLng        = new google.maps.LatLng(properties.radius_point_lat, properties.radius_point_lon),
+              distanceWidget = new RadiusWidget(map, cLatLng, rLatLng, view.overlays[name][i], [properties.agency_position]);
 
             if (name === 'projects') {
               autocompleteSource.push({ circle: distanceWidget.circle, more: properties, value: properties.title, lat: properties.centroid_lat, lng: properties.centroid_lon});
@@ -810,6 +810,11 @@ $(function () {
           });
         },
         addAshokas: function() {
+
+          if (!visibleOverlays["ashokas"]) {
+            return;
+          }
+
           this.disableFilters();
 
           if (this.overlays.ashokas) { // If we load the ashokas before, just show them
@@ -834,6 +839,11 @@ $(function () {
           }
         },
         addAgencies: function() {
+
+          if (!visibleOverlays["agencies"]) {
+            return;
+          }
+
           this.disableFilters();
 
           if (this.overlays.agencies) { // If we load the agencies before, just show them
@@ -999,6 +1009,7 @@ $(function () {
 
         },
         filterByType: function($el) {
+
           if (disabledFilters) {
             return;
           }
@@ -1013,6 +1024,8 @@ $(function () {
 
           if ($el.hasClass('selected')) { // Shows the desired overlay
 
+            visibleOverlays[id] = true;
+
             if (id === "agencies") {
               mapView.addAgencies();
             }
@@ -1024,6 +1037,8 @@ $(function () {
             }
 
           } else { // Removes the desired overlay
+
+            visibleOverlays[id] = false;
 
             if (id === "projects" || id === "agencies" || id === "ashokas") {
 

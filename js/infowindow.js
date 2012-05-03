@@ -171,8 +171,7 @@ InfoWindow.prototype.hide = function () {
     $(div).animate({ top: '+=' + 10 + 'px', opacity: 0 }, 100, 'swing',
                    function () {
                      div.style.visibility = "hidden";
-                   }
-                  );
+                   });
   }
 };
 
