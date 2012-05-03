@@ -512,10 +512,10 @@ $(function () {
           });
 
           var
-          $pane        = $(".scroll-pane-" + what),
-          windowHeight = $(window).height(),
-          panePosition = $pane.offset().top,
-          paneHeight   = windowHeight - panePosition;
+            $pane        = $(".scroll-pane-" + what),
+            windowHeight = $(window).height(),
+            panePosition = $pane.offset().top,
+            paneHeight   = windowHeight - panePosition;
 
           if (what == 'project') {
             $pane.css("height", paneHeight - 120);
@@ -538,7 +538,7 @@ $(function () {
       _hide = function(callback) {
         $("#map").animate({ right: '0' }, 250);
 
-        $el.animate({right:'-330px'}, 250, function() {
+        $el.animate({ right:'-330px' }, 250, function() {
           $el.find("p").hide();
 
           $toggle.addClass("closed");
@@ -666,10 +666,17 @@ $(function () {
       map.mapTypes.set('nexsoStyle', nexsoStyle);
       map.setMapTypeId('nexsoStyle');
 
-      google.maps.event.addListener(map, 'zoom_changed', function() {
-        Infowindow.hide();
+      google.maps.event.addDomListener(map, 'dragend', function() {
+        if (!Aside.isHidden()) {
+          searchInBounds();
+        }
+      });
 
-        $(".stations").css({width:$(document).width(), height:$(document).height(), top:0, left:0});
+      google.maps.event.addListener(map, 'zoom_changed', function() {
+
+        if (!Aside.isHidden()) {
+          searchInBounds();
+        }
       });
 
       // We reuse the same Infowindow
@@ -1034,21 +1041,5 @@ $(function () {
 
       filterView = new FilterView({
         el:$('.nav .content')
-      });
-
-      google.maps.event.addDomListener(map, 'zoom_changed', function() {
-        if (!Aside.isHidden()) {
-          searchInBounds();
-        }
-      });
-
-      google.maps.event.addDomListener(map, 'dragend', function() {
-        if (!Aside.isHidden()) {
-          searchInBounds();
-        }
-      });
-
-      google.maps.event.addDomListener(map, 'dragend', function() {
-        searchInBounds();
       });
 });
