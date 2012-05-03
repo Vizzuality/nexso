@@ -1,15 +1,16 @@
 var config = {
-    CARTODB_USER:     "nexso2",
-    CARTODB_ENDPOINT: "https://nexso2.cartodb.com/api/v2/sql",
-    ZOOM:             4,
-    MINZOOM:          3,
-    MAXZOOM:          16,
-    LAT:              2.7235,
-    LNG:              -81.171875,
-    MONTHNAMES:       ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-    YEARS:            [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014],
-    DATE_FORMAT:      "yyyy-MM-dd",
-    DATE_SUFFIXES:    ["th", "st", "nd", "rd"]
+    CARTODB_USER:       "nexso2",
+    CARTODB_ENDPOINT:   "https://nexso2.cartodb.com/api/v2/sql",
+    ZOOM:               4,
+    MINZOOM:            3,
+    MAXZOOM:            16,
+    LAT:                2.7235,
+    LNG:                -81.171875,
+    MONTHNAMES:         ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+    YEARS:              [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014],
+    DATE_FORMAT:        "yyyy-MM-dd",
+    DATE_SUFFIXES:      ["th", "st", "nd", "rd"],
+    MIN_PROJECT_RADIUS: 100
 };
 
 config.START_YEAR = config.YEARS[0];

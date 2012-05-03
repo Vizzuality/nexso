@@ -317,5 +317,10 @@ RadiusWidget.prototype.distanceBetweenPoints = function(p1, p2) {
   Math.sin(dLon / 2) * Math.sin(dLon / 2);
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   var d = R * c;
+
+  if (d < config.MIN_PROJECT_RADIUS) {
+    d = config.MIN_PROJECT_RADIUS;
+  }
+
   return d;
 };
