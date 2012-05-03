@@ -377,6 +377,8 @@ $(function () {
         polygons           = [],
         agencies           = [];
 
+        autocompleteSource = [];
+
       if (view.overlays[name].length) {
         for (var i = 0; i < view.overlays[name].length; i++) {
           if (view.overlays[name][i].length){
@@ -402,6 +404,7 @@ $(function () {
               distanceWidget = new RadiusWidget(map, cLatLng, rLatLng, view.overlays[name][i], [properties.agency_position]);
 
             if (name === 'projects') {
+              console.log(properties);
               autocompleteSource.push({ circle: distanceWidget.circle, more: properties, value: properties.title, lat: properties.centroid_lat, lng: properties.centroid_lon});
               solution_count += properties.solution_count;
             }
@@ -906,6 +909,10 @@ $(function () {
                 callback();
               }
 
+              if (name === 'projects' && !Aside.isHidden()) {
+                searchInBounds();
+              }
+
             }
           });
         }
@@ -1043,6 +1050,12 @@ $(function () {
             if (id === "projects" || id === "agencies" || id === "ashokas") {
 
               if (id === 'projects') {
+                autocompleteSource = [];
+
+                if (!Aside.isHidden()) {
+                  searchInBounds();
+                }
+
                 Timeline.hide();
               }
 
