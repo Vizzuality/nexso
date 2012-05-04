@@ -77,7 +77,27 @@ $(function () {
   $("a[data-click='explore']").on("click", function(e) {
     e.preventDefault();
     e.stopPropagation();
-    startExploring();
+
+      var
+        lat = $("input[data-geo='lat']").val(),
+        lng = $("input[data-geo='lng']").val();
+
+      if (!lat || !lng) {
+        startExploring();
+      } else {
+
+        Aside.hide();
+        resetLastSearch();
+
+        startExploring(function() {
+          var latLng = new google.maps.LatLng(lat, lng);
+
+          map.panTo(latLng);
+          map.setZoom(6);
+
+          searchInBounds(true);
+        });
+      }
   });
 
   $("a[data-click='welcome']").on("click", function(e) {
@@ -249,6 +269,7 @@ $(function () {
     }
 
     function startExploring(callback) {
+
       var // animation callbacks
       hideBackdrop = function() {
         if (callback) {
