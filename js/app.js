@@ -843,8 +843,19 @@ $(function () {
           this.disableFilters();
 
           if (this.overlays.ashokas) { // If we load the ashokas before, just show them
-            _.each(this.overlays.ashokas, function(el,i) {
-              if (((solutionFilter === "solutions" && el.properties.solution_id) || solutionFilter === "all") && (_.include(topics, el.properties.topic_id))) {
+            _.each(this.overlays.ashokas, function(el, i) {
+
+              // The topic come from the db separated by | (ej.: 1|2|3, 1, 3|1)
+              var topic_ids = el.properties.topic_ids.split("|");
+              if (!_.isArray(topic_ids)) topic_ids = [topic_ids];
+
+              // Ids should be integer
+              topic_ids = _.map(topic_ids, function(el) { return parseInt(el, 10); });
+
+              // Intersection. If topicMatches is not null, we have matches
+              var topicMatches = _.intersect(topics, topic_ids);
+
+              if (((solutionFilter === "solutions" && el.properties.solution_id) || solutionFilter === "all") && (topicMatches.length > 0)) {
                 el.show(true);
               }
               else {
@@ -855,11 +866,7 @@ $(function () {
             this.enableFilters();
 
           } else { // Load the ashokas
-            var query = "SELECT A.the_geom, A.ashoka_url AS agency_url, A.topic_id AS topic_id, A.name, "  +
-              "A.solution_id, S1.name solution_name, S1.nexso_url solution_url " +
-              "FROM v1_ashoka AS A "  +
-              "LEFT JOIN v1_solutions S1 ON (S1.cartodb_id = A.solution_id)" +
-              "WHERE A.the_geom IS NOT NULL AND topic_id IS NOT NULL";
+            console.log(queries.GET_ASHOKAS);
             this.addOverlay("ashokas", queries.GET_ASHOKAS);
           }
         },
@@ -999,6 +1006,7 @@ $(function () {
           }
 
           mapView.disableFilters();
+          Infowindow.hide();
           setupSpinner($el);
 
           $el.toggleClass("selected");
@@ -1046,6 +1054,7 @@ $(function () {
           }
 
           mapView.disableFilters();
+          Infowindow.hide();
 
           setupSpinner($el);
 
@@ -1064,6 +1073,7 @@ $(function () {
           }
 
           mapView.disableFilters();
+          Infowindow.hide();
           setupSpinner($el);
 
           $el.toggleClass("selected");

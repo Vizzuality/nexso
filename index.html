@@ -243,21 +243,34 @@
             </ul>
             <% } %>
             <% } else if (overlayType == "ashokas") { %>
-            <% if (solution_name || solution2_name) { %>
+            <% if (topic_ids) { %>
+              <h4>Country</h4>
+              <ul>
+                  <li><%= country %></li>
+              </ul>
+              <% } %>
+            <% if (organization_name) { %>
+              <h4>Organization</h4>
+              <ul>
+                  <li><%= organization_name %></li>
+              </ul>
+              <% } %>
+            <% if (solution_name) { %>
               <h4>Solutions</h4>
               <ul>
-                <% if (solution_name) { %>
                   <li><a href="<%= solution_url %>" target="_blank"><%= solution_name %></a> </li>
-                  <% } %>
-                <% if (solution2_name) { %>
-                  <li><a href="<%= solution2_url %>" target="_blank"><%= solution2_name %></a> </li>
-                  <% } %>
               </ul>
               <% } %>
             <% if (agency_url) {  %>
               <h4>More info</h4>
               <ul>
                 <li><a href="<%= agency_url %>" target="_blank">Agency profile at FOMIN</a> </li>
+              </ul>
+              <% } %>
+            <% if (!agency_url && external_url) {  %>
+              <h4>More info</h4>
+              <ul>
+                <li><a href="<%= external_url %>" target="_blank">External URL</a> </li>
               </ul>
               <% } %>
             <% } else { %>
