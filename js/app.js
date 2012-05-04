@@ -869,6 +869,10 @@ $(function () {
         addProjects: function() {
           this.disableFilters();
 
+          if (!visibleOverlays["projects"]) {
+            return;
+          }
+
           if (!this.startYear) {
             this.startYear = config.START_YEAR;
           }
@@ -987,7 +991,9 @@ $(function () {
           }
 
           if (topics.length > 0) {
-            $("#projects").addClass("selected"); // in case it was turned off
+
+            //$("#projects").addClass("selected"); // in case it was turned off
+
             mapView.removeOverlay("projects");
 
             autocompleteSource = [];
