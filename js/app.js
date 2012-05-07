@@ -11,6 +11,10 @@ $(function () {
     }
   });
 
+  $(window).resize(function() {
+    resizeScroll();
+  });
+
   $(document).on("click", function() {
     if ($(".nav a[data-toggle='filter']").hasClass('selected')) {
       $(".nav a[data-toggle='filter']").removeClass('selected');
@@ -126,6 +130,32 @@ $(function () {
       $(".input_field input.lat").val('');
       $(".input_field input.lng").val('');
       $(".input_field .placeholder").fadeIn(250);
+    }
+
+    function resizeScroll() {
+      var what = "project";
+
+      if ($(".aside").hasClass('search')) {
+        what = "search";
+      }
+
+      var
+        $pane        = $(".scroll-pane-" + what),
+        windowHeight = $(window).height(),
+        panePosition = $pane.offset().top,
+        paneHeight   = windowHeight - panePosition;
+
+      $pane.css("height", paneHeight - 20);
+
+      if (pane[what]) { // if we loaded the pane before
+        var api = pane[what].data('jsp');
+        api.reinitialise();
+        api.scrollTo(0, 0); // scroll to top
+      } else {
+        pane[what] = $pane;
+        pane[what].jScrollPane();
+      }
+
     }
 
     $("ul.stats li").each(function(i, li) {
@@ -539,26 +569,7 @@ $(function () {
             });
           });
 
-          var
-            $pane        = $(".scroll-pane-" + what),
-            windowHeight = $(window).height(),
-            panePosition = $pane.offset().top,
-            paneHeight   = windowHeight - panePosition;
-
-          if (what == 'project') {
-            $pane.css("height", paneHeight - 120);
-          } else {
-            $pane.css("height", paneHeight - 20);
-          }
-
-          if (pane[what]) { // if we loaded the pane before
-            var api = pane[what].data('jsp');
-            api.reinitialise();
-            api.scrollTo(0, 0); // scroll to top
-          } else {
-            pane[what] = $pane;
-            pane[what].jScrollPane();
-          }
+          resizeScroll();
 
         });
       };
