@@ -31,8 +31,15 @@ NexsoMarker.prototype.draw = function() {
 
       that.properties.overlayType = that.overlayType_;
 
-      var topic_names = that.properties.topic_names.split("|");
-      that.properties.topic_names = topic_names.join('. ') + ".";
+      var topic_names = that.properties.topic_names;
+
+      if (topic_names) {
+        topic_names = _.compact(topic_names.split("|"));
+
+        if (topic_names.length > 0) {
+          that.properties.topic_names = topic_names.join('. ') + ".";
+        }
+      }
 
       Infowindow.setContent(that.properties);
       Infowindow.open(that.latlng_);
