@@ -8,15 +8,25 @@
 }
 
 .lt-ie8 {
-
   .nav ul.filters li .filter {
-    top: 25px;
+    top: 45px;
+  }
+
+  .nav ul li .filter.view  {
+    div.content {
+      ul.ticks li {
+        background-position:14px -70px;
+        &.selected {
+          background-position:14px -56px;
+        }
+      }
+    }
   }
 
   .right-side .input_field { float:right; }
-    .input_field {
-      background:url(../img/backgrounds/bkg_input_left.png) no-repeat left 1px;
-      height:42px;
-      .placeholder { top:12px; }
-    }
+  .input_field {
+    background:url(../img/backgrounds/bkg_input_left.png) no-repeat left 1px;
+    height:42px;
+    .placeholder { top:12px; }
+  }
 }

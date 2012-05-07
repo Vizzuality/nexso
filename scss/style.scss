@@ -37,7 +37,7 @@ $zBase: 10;
 // Other
 $navHeight: 80px;
 
-html { height: 100% }
+html,
 body {
   height: 100%; margin: 0; padding: 0; overflow:hidden;
   font-family: "Helvetica Neue", sans-serif;
@@ -422,6 +422,7 @@ h4 { font-size: 11px; font-weight:bold; }
         text-transform: uppercase;
         background:url(../img/icons/arrows.png) no-repeat right 15px;
         z-index: 150;
+        outline:none;
       } // a
     } // li
   } // ul
@@ -467,7 +468,7 @@ h4 { font-size: 11px; font-weight:bold; }
 
   display:none;
   position:absolute;
-  width:$width;
+  width: $width;
   top: 35px;
   right:-4px; // default filter position
   z-index:100;
@@ -635,7 +636,6 @@ h4 { font-size: 11px; font-weight:bold; }
             background-position: $liLeftMargin -86px;
             &.selected { background-position: $liLeftMargin -59px; }
           }
-
 
           &:last-child {
             padding-bottom:0;
@@ -812,6 +812,8 @@ h4 { font-size: 11px; font-weight:bold; }
 
     &.search, &.project { display:none; }
     &.search .results {
+      position:relative;
+      left: -10px;
 
       li {
         list-style:none;
@@ -851,7 +853,6 @@ h4 { font-size: 11px; font-weight:bold; }
         &:last-child { border:none; }
       }
     }
-
 
     .header {
 
@@ -1104,7 +1105,7 @@ $markerRadiusSize: 102px;
 .jspVerticalBar * { margin: 0; padding: 0; }
 .jspCap { display: none; }
 .jspTrack { background: none; position: relative; }
-.jspDrag { background: rgba(0, 0, 0, 0.2); position: relative; top: 0; left: 0; cursor: pointer; @include border-radius(3px); }
+.jspDrag { background: #f1f1f1; background: rgba(0, 0, 0, 0.2); position: relative; top: 0; left: 0; cursor: pointer; @include border-radius(3px); }
 .jspArrow { background: #50506d; text-indent: -20000px; display: block; cursor: pointer; }
 .jspArrow.jspDisabled { cursor: default; background: #80808d; }
 .jspVerticalBar .jspArrow { height: 16px; }
