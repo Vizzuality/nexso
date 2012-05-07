@@ -8,6 +8,11 @@
 }
 
 .lt-ie8 {
+
+  .nav ul.filters li .filter {
+    top: 25px;
+  }
+
   .right-side .input_field { float:right; }
     .input_field {
       background:url(../img/backgrounds/bkg_input_left.png) no-repeat left 1px;

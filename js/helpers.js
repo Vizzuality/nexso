@@ -91,10 +91,12 @@ var // Map styles
 var queries = {
   GET_ASHOKAS: "SELECT A.the_geom, A.ashoka_url AS agency_url, A.name, A.country, A.organization_name, A.external_url, " +
             "A.solution_id, S1.name solution_name, S1.nexso_url solution_url, " +
-            "array_to_string(array(SELECT AT.topic_id FROM ashokas_topics AS AT WHERE AT.ashoka_id = A.cartodb_id), '|') as topic_ids " +
+            "array_to_string(array(SELECT AT.topic_id FROM ashokas_topics AS AT WHERE AT.ashoka_id = A.cartodb_id), '|') as topic_ids, " +
+            "array_to_string(array(SELECT T.name FROM v1_topics T, ashokas_topics AS AT WHERE AT.ashoka_id = A.cartodb_id AND T.cartodb_id = AT.topic_id), '|') as topic_names " +
             "FROM v2_ashoka A "  +
             "LEFT JOIN v1_solutions S1 ON (S1.cartodb_id = A.solution_id) " +
             "WHERE A.the_geom IS NOT NULL",
+
   GET_ASHOKAS_V1: "SELECT A.the_geom, A.ashoka_url AS agency_url, A.topic_id AS topic_id, A.name, "  +
             "A.solution_id, S1.name solution_name, S1.nexso_url solution_url, S2.name solution2_name, S2.nexso_url solution2_url " +
             "FROM v1_ashoka AS A "  +

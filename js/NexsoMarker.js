@@ -31,6 +31,9 @@ NexsoMarker.prototype.draw = function() {
 
       that.properties.overlayType = that.overlayType_;
 
+      var topic_names = that.properties.topic_names.split("|");
+      that.properties.topic_names = topic_names.join('. ') + ".";
+
       Infowindow.setContent(that.properties);
       Infowindow.open(that.latlng_);
     });
