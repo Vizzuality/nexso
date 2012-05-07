@@ -217,7 +217,6 @@ RadiusWidget.prototype.unMarkSelected = function(showAll) {
   google.maps.event.addListener(this.circle, 'mouseover', this.onMouseOver);
   google.maps.event.addListener(this.circle, 'mouseout', this.onMouseOut);
 
-  console.log('unmarking');
   // Polygons
   _.each(this.circle.polygons,function(polygon, i) {
     polygon[0].setOptions(projectsStyle);

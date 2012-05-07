@@ -214,9 +214,9 @@ $(function () {
         results = [],
         bounds  = map.getBounds();
 
-        if ($(".aside").data('project')) {
-          $(".aside").data('project').unMarkSelected(true); // Unselect the project
-          $(".aside").removeData('project');
+        if ($(".aside .toggle").data('project')) {
+          $(".aside .toggle").data('project').unMarkSelected(true); // Unselect the project
+          $(".aside .toggle").removeData('project');
         }
 
       _.each(autocompleteSource, function(project) {
