@@ -37,7 +37,8 @@ NexsoMarker.prototype.draw = function() {
         topic_names = _.compact(topic_names.split("|"));
 
         if (topic_names.length > 0) {
-          that.properties.topic_names = topic_names.join('. ') + ".";
+          that.properties.topic_names = topic_names.join('. ');
+          that.properties.topic_names += ".";
         }
       }
 
