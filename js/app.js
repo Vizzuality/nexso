@@ -238,11 +238,11 @@ $(function () {
       });
 
       if (results <= 0) {
-        $(".results .title").html("No projects found on the screen");
+        $(".aside").find(".counter").html("No projects found on the screen");
       } else if (results.length > 0) {
 
         var resultTitle = results.length + " " + (results.length === 1 ? ' project on screen' : ' projects on screen');
-        $(".results .title").html(resultTitle);
+        $(".aside").find(".counter").html(resultTitle);
 
         _.each(results, function(result, i) {
           var $a = $('<a href="#">' + result.value + '</a>');
@@ -517,10 +517,12 @@ $(function () {
           resetAutocomplete();
           $el.find(".search").hide();
           $el.find(".project").show();
+          $el.removeClass('search');
         } else {
           mode = 1;
           $el.find(".project").hide();
           $el.find(".search").show();
+          $el.addClass('search');
         }
 
         $el.find("ul.data li").css({opacity:0, marginLeft:150});
@@ -568,6 +570,7 @@ $(function () {
           $el.find("p").hide();
 
           $toggle.addClass("closed");
+          $el.removeClass('search'); // this removes the line pattern
 
           if (callback) {
             callback();

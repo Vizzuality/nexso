@@ -792,11 +792,12 @@ h4 { font-size: 11px; font-weight:bold; }
   position:absolute;
   top: $navHeight;
   right:-330px;
-  background:#fff;
   width: $width;
   height:100%;
   background: transparent url(../img/backgrounds/bkg_paper.png) left top repeat-y;
   z-index:10;
+
+  &.search > .content { background: #fff url(../img/backgrounds/bkg_paper_lines.png) left top repeat-y; }
 
   .content {
     background:#fff;
@@ -805,10 +806,10 @@ h4 { font-size: 11px; font-weight:bold; }
     padding: $pT $pR $pB $pL;
     margin-left:10px;
 
+    .counter { display:block; width:270px; margin-bottom: 20px; font-weight:bold; font-size:11px; color:$title_blue; text-transform:uppercase; }
+
     &.search, &.project { display:none; }
     &.search .results {
-
-      strong { display:block; width:270px; margin-bottom: 20px; font-weight:bold; font-size:11px; color:$title_blue; text-transform:uppercase; }
 
       li {
         list-style:none;
