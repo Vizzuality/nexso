@@ -163,10 +163,7 @@ $(function () {
       Aside.hide();
       resetAutocomplete();
 
-      if ($(".aside .toggle").data('project')) { // Unselect the project
-        $(".aside .toggle").data('project').unMarkSelected(true);
-        $(".aside .toggle").removeData('project');
-      }
+      unMarkProject();
 
       resetMap();
 
@@ -209,15 +206,23 @@ $(function () {
       });
     }
 
+    function unMarkProject() {
+      var
+        $asideToggle = $(".aside .toggle");
+        data         = $asideToggle.data('project');
+
+      if (data) {
+        data.unMarkSelected(true); // Unselect the project
+        $asideToggle.removeData('project');
+      }
+    }
+
     function searchInBounds(open) {
       var
         results = [],
         bounds  = map.getBounds();
 
-        if ($(".aside .toggle").data('project')) {
-          $(".aside .toggle").data('project').unMarkSelected(true); // Unselect the project
-          $(".aside .toggle").removeData('project');
-        }
+        unMarkProject();
 
       _.each(autocompleteSource, function(project) {
 
@@ -493,8 +498,7 @@ $(function () {
           } else {
 
               if (mode === 0) { // project mode
-                $(this).data('project').unMarkSelected(true); // Unselect the project
-                $(this).removeData('project');
+                unMarkProject();
                 map.setZoom(previousZoom);
                 Aside.hide(Timeline.show);
               } else { // regular mode
@@ -517,14 +521,6 @@ $(function () {
           mode = 1;
           $el.find(".project").hide();
           $el.find(".search").show();
-        }
-
-        if (what === 'search') {
-          var projectBefore = $toggle.data('project');
-
-          if (projectBefore) {
-            projectBefore.unMarkSelected(true);
-          }
         }
 
         $el.find("ul.data li").css({opacity:0, marginLeft:150});
@@ -1025,8 +1021,6 @@ $(function () {
           }
 
           if (topics.length > 0) {
-
-            //$("#projects").addClass("selected"); // in case it was turned off
 
             mapView.removeOverlay("projects");
 
