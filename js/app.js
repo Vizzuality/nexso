@@ -214,6 +214,11 @@ $(function () {
         results = [],
         bounds  = map.getBounds();
 
+        if ($(".aside").data('project')) {
+          $(".aside").data('project').unMarkSelected(true); // Unselect the project
+          $(".aside").removeData('project');
+        }
+
       _.each(autocompleteSource, function(project) {
 
         var latLng = new google.maps.LatLng(project.lat, project.lng);
