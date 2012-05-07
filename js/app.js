@@ -867,7 +867,6 @@ $(function () {
             this.enableFilters();
 
           } else { // Load the ashokas
-            console.log(queries.GET_ASHOKAS);
             this.addOverlay("ashokas", queries.GET_ASHOKAS);
           }
         },

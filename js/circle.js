@@ -135,8 +135,6 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
       var projectBefore = $(".aside a.toggle").data('project');
 
       if (projectBefore) {
-        console.log(projectBefore);
-        console.log('there was a project before');
         projectBefore.unMarkSelected();
       }
 
