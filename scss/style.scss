@@ -229,8 +229,10 @@ h4 { font-size: 11px; font-weight:bold; }
 }
 
 .input_field {
+  $inputHeight: 41px;
+
   position:relative;
-  height:41px;
+  height:$inputHeight;
   margin: 0 0 9px 0;
 
   @include backgrounds-sprite(bkg_input_left);
@@ -243,10 +245,15 @@ h4 { font-size: 11px; font-weight:bold; }
   .placeholder { position: absolute; top: 10px; left: 12px; font-size:15px; font-weight:200; color:#CCC; line-height:normal; }
 
   input[type="text"] {
-    height:41px;
-    width:362px - 34 - 6 - 6;
-    margin-left: 6px;
-    padding: 0 34px 0 6px;
+
+    $paddingRight: 34px;
+    $paddingLeft: 6px;
+    $marginLeft: 6px;
+
+    height:$inputHeight;
+    width:362px - $paddingRight - $paddingLeft - $marginLeft;
+    margin-left: $marginLeft;
+    padding: 0 $paddingRight 0 $paddingLeft;
 
     border:none;
     background:url(../img/backgrounds/bkg_input_right.png) repeat-x right 0;
@@ -870,13 +877,19 @@ h4 { font-size: 11px; font-weight:bold; }
         padding: 0;
         border: none;
 
+        strong {
+          font-size:11px;
+          font-weight:bold;
+          text-transform:uppercase;
+        }
+
         &:first-child { margin-right: 10px; }
         &.agency strong { color: $gold; }
         &.ashoka strong { color: $green; }
 
         &.icon { padding-left: 15px; }
-        &.icon.agency { @include icons-sprite(agency_mini, $offset-y:4px); }
-        &.icon.ashoka { @include icons-sprite(ashoka_mini, $offset-y:4px); }
+        &.icon.agency { @include icons-sprite(agency_mini, $offset-y:6px); }
+        &.icon.ashoka { @include icons-sprite(ashoka_mini, $offset-y:6px); }
       }
     }
   }
@@ -1071,6 +1084,8 @@ $markerRadiusSize: 102px;
   }
 }
 
+// Scrollbars
+
 .scroll-pane-search,
 .scroll-pane-project {
   width: 100%;
@@ -1086,14 +1101,10 @@ $markerRadiusSize: 102px;
 .jspVerticalBar * { margin: 0; padding: 0; }
 .jspCap { display: none; }
 .jspTrack { background: none; position: relative; }
-.jspDrag { background: rgba(0,0,0,.2); position: relative; top: 0; left: 0; cursor: pointer; @include border-radius(3px); }
+.jspDrag { background: rgba(0, 0, 0, 0.2); position: relative; top: 0; left: 0; cursor: pointer; @include border-radius(3px); }
 .jspArrow { background: #50506d; text-indent: -20000px; display: block; cursor: pointer; }
 .jspArrow.jspDisabled { cursor: default; background: #80808d; }
 .jspVerticalBar .jspArrow { height: 16px; }
 .jspVerticalBar .jspArrow:focus { outline: none; }
 .jspCorner { background: #eeeef4; float: left; height: 100%; }
 
-// IE < 9
-.lt-ie9 .addresspicker { line-height:40px; }
-.lt-ie9 .welcome .left-side { float:left;  }
-.lt-ie9 .welcome .right-side { float:left; }

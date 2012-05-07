@@ -1,5 +1,17 @@
-/* Welcome to Compass. Use this file to write IE specific override styles.
- * Import this file using the following HTML or equivalent:
- * <!--[if IE]>
- *   <link href="/stylesheets/ie.css" media="screen, projection" rel="stylesheet" type="text/css" />
- * <![endif]--> */
+// IE < 9
+.lt-ie9 {
+  .addresspicker { line-height:40px; }
+  .welcome {
+    .left-side { float:left;  }
+    .right-side { float:left; }
+  }
+}
+
+.lt-ie8 {
+  .right-side .input_field { float:right; }
+    .input_field {
+      background:url(../img/backgrounds/bkg_input_left.png) no-repeat left 1px;
+      height:42px;
+      .placeholder { top:12px; }
+    }
+}

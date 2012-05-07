@@ -82,12 +82,11 @@ var // Map styles
       elementType: "labels",
       stylers: [ { visibility: "off" } ]
     }, {
-      featureType: "road",
+      featureType: "road"
     }, {
       featureType: "administrative",
       stylers: [ { saturation: -98 }, { lightness: 72 } ]
-    }, {
-    }];
+    }, {}];
 
 var queries = {
   GET_ASHOKAS: "SELECT A.the_geom, A.ashoka_url AS agency_url, A.name, A.country, A.organization_name, A.external_url, " +
