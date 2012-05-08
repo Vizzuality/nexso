@@ -1,27 +1,15 @@
-@font-face {
-    font-family: 'NewsCycle';
-    src: url('../fonts/NewsCycle-Regular-webfont.eot');
-    src: url('../fonts/NewsCycle-Regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/NewsCycle-Regular-webfont.woff') format('woff'),
-         url('../fonts/NewsCycle-Regular-webfont.ttf') format('truetype'),
-         url('../fonts/NewsCycle-Regular-webfont.svg#NewsCycleRegular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
 /* For modern browsers */
 .cf:before,
 .cf:after {
-    content:"";
-    display:table;
+  content:"";
+  display:table;
 }
 
 .cf:after {
-    clear:both;
+  clear:both;
 }
 
 /* For IE 6/7 (trigger hasLayout) */
 .cf {
-    zoom:1;
+  zoom:1;
 }
