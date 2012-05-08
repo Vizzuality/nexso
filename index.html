@@ -60,7 +60,7 @@
                 <ul id="type-filter" class="ticks">
                   <li id="projects" class="selected"><a href="#">Projects</a></li>
                   <li id="agencies" class="selected"><a href="#">Executive agencies</a></li>
-                  <li id="ashokas" class="selected"><a href="#">Ashoka fellows</a></li>
+                  <li id="ashokas" class="selected"><a href="#">Ashoka network</a></li>
                 </ul>
               </div>
               <div class="t"></div>
@@ -161,7 +161,7 @@
       <div class="content search">
         <ul class="legend">
           <li class="icon agency"><strong>Executing agencies</strong></li>
-          <li class="icon ashoka"><strong>Ashoka fellows</strong></li>
+          <li class="icon ashoka"><strong>Ashoka network</strong></li>
         </ul>
         <strong class="counter">0 projects on screen</strong>
         <div class="results scroll-pane-search">
@@ -200,7 +200,7 @@
                 <h4>Nexso project</h4>
                 <h2><%= name %></h2>
                 <% } else if (overlayType == "ashokas") { %>
-                <h4>Ashoka fellow</h4>
+                <h4>Ashoka Network</h4>
                 <h2><%= name %></h2>
                 <% } else if (overlayType == "agencies") { %>
                 <h4>Executing agency</h4>
@@ -250,7 +250,7 @@
             <% if (agency_url) {  %>
               <h4>More info</h4>
               <ul>
-                <li><a href="<%= agency_url %>" target="_blank">Agency profile at FOMIN</a> </li>
+                <li><a href="<%= agency_url %>" target="_blank">External URL</a> </li>
               </ul>
               <% } %>
             <% if (!agency_url && external_url) {  %>

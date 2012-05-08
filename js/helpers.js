@@ -93,16 +93,9 @@ var queries = {
             "A.solution_id, S1.name solution_name, S1.nexso_url solution_url, " +
             "array_to_string(array(SELECT AT.topic_id FROM ashokas_topics AS AT WHERE AT.ashoka_id = A.cartodb_id), '|') as topic_ids, " +
             "array_to_string(array(SELECT T.name FROM v1_topics T, ashokas_topics AS AT WHERE AT.ashoka_id = A.cartodb_id AND T.cartodb_id = AT.topic_id), '|') as topic_names " +
-            "FROM v2_ashoka A "  +
+            "FROM ashokas_topics AT, v2_ashoka A "  +
             "LEFT JOIN v1_solutions S1 ON (S1.cartodb_id = A.solution_id) " +
-            "WHERE A.the_geom IS NOT NULL",
-
-  GET_ASHOKAS_V1: "SELECT A.the_geom, A.ashoka_url AS agency_url, A.topic_id AS topic_id, A.name, "  +
-            "A.solution_id, S1.name solution_name, S1.nexso_url solution_url, S2.name solution2_name, S2.nexso_url solution2_url " +
-            "FROM v1_ashoka AS A "  +
-            "LEFT JOIN v1_solutions S1 ON (S1.cartodb_id = A.solution_id) " +
-            "LEFT JOIN v1_solutions S2 ON (S2.cartodb_id = A.solution1_id) " +
-            "WHERE A.the_geom IS NOT NULL AND topic_id IS NOT NULL",
+            "WHERE A.the_geom IS NOT NULL AND AT.ashoka_id = A.cartodb_id",
 
  GET_AGENCIES: "SELECT A.the_geom, A.external_url AS agency_url, A.name AS agency_name, P.solution_id, P.topic_id, " +
             "array_to_string(array(SELECT P.cartodb_id FROM v1_projects AS P WHERE P.agency_id = a.cartodb_id), '|') as projects_ids, " +

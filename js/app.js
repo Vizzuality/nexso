@@ -563,13 +563,16 @@ $(function () {
 
           $toggle.removeClass("closed");
 
+          resizeScroll();
+
           $el.delay(300).find("p").slideDown(350, function() {
-            $el.find("ul.data li").each(function(i, li) {
-              $(li).delay(i * 100).animate({marginLeft:0, opacity:1}, 200);
+
+            setTimeout(function() { resizeScroll(); }, $el.find("ul.data > li").length * 100);
+
+            $el.find("ul.data > li").each(function(i, li) {
+              $(li).delay(i * 100).animate({ marginLeft:0, opacity:1 }, 200);
             });
           });
-
-          resizeScroll();
 
         });
       };
