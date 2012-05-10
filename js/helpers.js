@@ -116,8 +116,8 @@ var queries = {
    "            v1_project_work_areas AS PWA " +
    "        WHERE  " +
    "            P.cartodb_id = PWA.project_id AND <%= topicsCondition %> <%= solutionCondition %>" +
-   "            EXTRACT(YEAR FROM P.fixed_approval_date) >= <%= startYear %> AND  " +
-   "            EXTRACT(YEAR FROM P.fixed_approval_date) <= <%= endYear %> " +
+   "            (EXTRACT(YEAR FROM P.fixed_approval_date) >= <%= startYear %> AND  " +
+   "            EXTRACT(YEAR FROM P.fixed_approval_date) <= <%= endYear %> OR (EXTRACT(YEAR FROM P.fixed_approval_date) < 2002)) " +
    "        GROUP BY  " +
    "            P.nexso_code, P.cartodb_id, title, approval_date, fixed_approval_date,  " +
    "            external_project_url, location_verbatim, topic_name, solution_id, budget, A.external_url, A.name, " +

@@ -2,7 +2,9 @@ $(function () {
 
   var
     autocompleteSource = [],
-    pane               = [];
+    pane               = [],
+    startYear,
+    endYear;
 
   $(document).keyup(function(e) {
     if (e.keyCode === 27) {  // esc
@@ -637,8 +639,11 @@ $(function () {
       values: [0, 500],
       stop: function(event, ui) {
 
-        mapView.startYear = config.START_YEAR;
-        mapView.endYear   = config.END_YEAR;
+        var min = (ui.values[0]/30) + 1;
+        var max = (ui.values[1]/30);
+
+        startYear = config.YEARS[min - 1];
+        endYear   = config.YEARS[max - 1];
 
         mapView.removeOverlay("projects");
         mapView.addProjects();
@@ -918,12 +923,12 @@ $(function () {
             return;
           }
 
-          if (!this.startYear) {
-            this.startYear = config.START_YEAR;
+          if (!startYear) {
+            startYear = config.START_YEAR;
           }
 
-          if (!this.endYear) {
-            this.endYear = config.END_YEAR;
+          if (!endYear) {
+            endYear = config.END_YEAR;
           }
 
           // Build filters by topic & solution
@@ -931,7 +936,7 @@ $(function () {
           var solutionCondition = (solutionFilter === 'solutions') ? " P.solution_id IS NOT NULL AND " : "";
 
           var template = _.template(queries.GET_PROJECTS_QUERY_TEMPLATE);
-          var query    = template({ startYear: this.startYear, endYear: this.endYear, topicsCondition: topicsCondition, solutionCondition: solutionCondition });
+          var query    = template({ startYear: startYear, endYear: endYear, topicsCondition: topicsCondition, solutionCondition: solutionCondition });
 
           this.addOverlay("projects", query, function() { Timeline.show(); });
         },
