@@ -74,6 +74,8 @@ var // Map styles
       featureType: "road",
       stylers: [ { saturation: -99 }, { lightness: 70 } ]
     }, {
+      featureType: "poi", stylers: [ { visibility: "off" } ]
+    }, {
       featureType: "poi",
       elementType: "labels",
       stylers: [ { visibility: "off" } ]
