@@ -1,281 +1,301 @@
 <!doctype html>
 <!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
-<html lang="en">
-  <head>
-    <title>NEXSO</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-    <link href='http://fonts.googleapis.com/css?family=News+Cycle&subset=all' rel='stylesheet' type='text/css'>
-    <link href="css/style.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+    <!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+      <!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+        <html lang="en">
+          <head>
+            <title>NEXSO</title>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+            <link href='http://fonts.googleapis.com/css?family=News+Cycle&subset=all' rel='stylesheet' type='text/css'>
+            <link href="css/style.css" media="screen, projection" rel="stylesheet" type="text/css" />
 
-    <!--[if IE]>
-    <link href="css/ie.css" media="screen, projection" rel="stylesheet" type="text/css" />
-    <![endif]--> 
+            <!--[if IE]>
+            <link href="css/ie.css" media="screen, projection" rel="stylesheet" type="text/css" />
+            <![endif]--> 
 
-    <script src="js/vendor/modernizr-2.5.3.min.js"></script>
-  </head>
-  <body>
-    <div class="nav">
-      <div class="content">
-        <h1><a href="#" data-click="welcome">Explorer</a></h1>
+            <script src="js/vendor/modernizr-2.5.3.min.js"></script>
+          </head>
+          <body>
+            <div class="nav">
+              <div class="content">
+                <h1><a href="#" data-click="welcome">Explorer</a></h1>
 
-        <div class="options cf">
-          <div class="input_field">
-            <input type="text" class="addresspicker" placeholder="" autocomplete="off" />
-            <input type="hidden" class="lat" data-geo="lat" />
-            <input type="hidden" class="lng" data-geo="lng" />
-            <span class="placeholder">Search for an area...</span>
-            <a href="#" class="icon magnifier dark" data-click="search"></a>
-          </div>
+                <div class="options cf">
+                  <div class="input_field">
+                    <input type="text" class="addresspicker" placeholder="" autocomplete="off" />
+                    <input type="hidden" class="lat" data-geo="lat" />
+                    <input type="hidden" class="lng" data-geo="lng" />
+                    <span class="placeholder">Search for an area...</span>
+                    <a href="#" class="icon magnifier dark" data-click="search"></a>
+                  </div>
 
-          <ul class="filters">
-            <!--<li>
-            <a href="#" data-toggle="filter">Iati</a>
-            <div class="filter iati">
-              <div class="content cf">
-                <ul class="symbols">
-                  <li><div class="icon iati"></div></li>
-                </ul>
-                <div class="legend">
-                  <h3><a href="http://www.openaidregister.org/organizations/104/projects.xml">DOWNLOAD (IATI)</a></h3>
-                  <p>Powered by <a href="http://www.openaidregister.org/">OpenAidRegister</a></p>
+                  <ul class="filters">
+                    <!--<li>
+                    <a href="#" data-toggle="filter">Iati</a>
+                    <div class="filter iati">
+                      <div class="content cf">
+                        <ul class="symbols">
+                          <li><div class="icon iati"></div></li>
+                        </ul>
+                        <div class="legend">
+                          <h3><a href="http://www.openaidregister.org/organizations/104/projects.xml">DOWNLOAD (IATI)</a></h3>
+                          <p>Powered by <a href="http://www.openaidregister.org/">OpenAidRegister</a></p>
+                        </div>
+                      </div>
+                      <div class="t"></div>
+                      <div class="b"></div>
+                    </div>
+                    </li>-->
+
+                    <li><a href="#" data-toggle="filter">View</a>
+
+                    <div class="filter view">
+                      <div class="content cf">
+                        <ul class="symbols">
+                          <li><div class="icon projects"></div></li>
+                          <li><div class="icon agencies"></div></li>
+                          <li><div class="icon ashokas"></div></li>
+                        </ul>
+                        <ul id="type-filter" class="ticks">
+                          <li id="projects" class="selected"><a href="#">Projects</a></li>
+                          <li id="agencies" class="selected"><a href="#">Executive agencies</a></li>
+                          <li id="ashokas" class="selected"><a href="#">Ashoka network</a></li>
+                        </ul>
+                      </div>
+                      <div class="t"></div>
+                      <div class="b"></div>
+                    </div>
+                    </li>
+
+                    <li>
+                    <a href="#" data-toggle="filter">Filter</a>
+
+                    <div class="filter filters">
+                      <div class="content cf">
+                        <h3 class="solution">By solution</h3>
+                        <ul id="solution-filter" class="radio">
+                          <li id="all"><a href="#">All</a></li>
+                          <li id="solutions"><a href="#">Only fomin solutions</a></li>
+                        </ul>
+
+                        <h3 class="topic">By topic</h3>
+                        <ul id="topic-filter" class="ticks">
+                          <li id="tourism" class="t1 selected"><a href="#">Sustainable tourism</a></li>
+                          <li id="local" class="t2 selected"><a href="#">Local economic dev.</a></li>
+                          <li id="employment" class="t3 selected"><a href="#">Youth employment</a></li>
+                          <li id="woman" class="t4 selected"><a href="#">Women entrepeneurship</a></li>
+                          <li id="financing" class="t5 selected"><a href="#">Early stage financing</a></li>
+                          <li id="rural" class="t6 selected"><a href="#">Rural microfinance</a></li>
+                        </ul>
+
+                      </div>
+                      <div class="t"></div>
+                      <div class="b"></div>
+                    </div>
+                    </li>
+                  </ul>
                 </div>
               </div>
-              <div class="t"></div>
-              <div class="b"></div>
+              <div class="shadow"></div>
             </div>
-            </li>-->
 
-            <li><a href="#" data-toggle="filter">View</a>
+            <div class="filter-help">
+              <div class="help">
+                <div class="filter">Filter the map</div>
+              </div>
+            </div>
 
-            <div class="filter view">
-              <div class="content cf">
-                <ul class="symbols">
-                  <li><div class="icon projects"></div></li>
-                  <li><div class="icon agencies"></div></li>
-                  <li><div class="icon ashokas"></div></li>
+            <div class="welcome">
+              <div class="left-side">
+                <h1>Welcome to NEXSO explorer</h1>
+                <p>NEXSO Explorer is an interactive map providing users with visual access to selected location-specic information, such as MIF project data, NEXSO Solutions, featured knowledge products and<br />topic-specic data provided by MIF partners</p>
+              </div>
+              <div class="right-side">
+                <ul class="stats">
+                  <li class="projects disabled"><span>00</span> <strong>PROJECTS MAPPED</strong></li>
+                  <li class="solutions disabled"><span>00</span> <strong>SOLUTIONS CONNECTED</strong></li>
+                  <li class="ashokas disabled"><span>00</span> <strong>ASHOKA NETWORK</strong></li>
+                  <li class="agencies disabled"><span>00</span> <strong>EXECUTING AGENCIES</strong></li>
                 </ul>
-                <ul id="type-filter" class="ticks">
-                  <li id="projects" class="selected"><a href="#">Projects</a></li>
-                  <li id="agencies" class="selected"><a href="#">Executive agencies</a></li>
-                  <li id="ashokas" class="selected"><a href="#">Ashoka network</a></li>
+                <form action="">
+                  <div class="input_field">
+                    <input type="text" class="addresspicker" name="search" placeholder="" autocomplete="off" />
+                    <input type="hidden" class="lat" data-geo="lat" />
+                    <input type="hidden" class="lng" data-geo="lng" />
+                    <span class="placeholder">Search for an area...</span>
+                    <a href="#" class="icon magnifier" data-click="search"></a>
+                  </div>
+                </form>
+                <a href="#" class="btn" data-click="explore">Start exploring</a>
+                <div class="or">or</div>
+              </div>
+            </div>
+            <div id="timeline-cover" class="timeline-cover">Filter projects by years</div>
+            <div id="splash-backdrop" class="backdrop"></div>
+
+            <div id="zoom_controls"></div>
+            <div id="timeline">
+              <div class="slider">
+                <ul class="years">
+                  <li class="selected">2002</li>
+                  <li class="selected">2003</li>
+                  <li class="selected">2004</li>
+                  <li class="selected">2005</li>
+                  <li class="selected">2006</li>
+                  <li class="selected">2007</li>
+                  <li class="selected">2008</li>
+                  <li class="selected">2009</li>
+                  <li class="selected">2010</li>
+                  <li class="selected">2011</li>
+                  <li class="selected">2012</li>
+                  <li class="selected">2013</li>
+                  <li class="selected last">2014</li>
                 </ul>
               </div>
-              <div class="t"></div>
-              <div class="b"></div>
             </div>
-            </li>
 
-            <li>
-            <a href="#" data-toggle="filter">Filter</a>
-
-            <div class="filter filters">
-              <div class="content cf">
-                <h3 class="solution">By solution</h3>
-                <ul id="solution-filter" class="radio">
-                  <li id="all"><a href="#">All</a></li>
-                  <li id="solutions"><a href="#">Only fomin solutions</a></li>
+            <div id="map"></div>
+            <div id="aside" class="aside hidden"> 
+              <div class="content search">
+                <ul class="legend">
+                  <li class="icon agency"><strong>Executing agencies</strong></li>
+                  <li class="icon ashoka"><strong>Ashoka network</strong></li>
                 </ul>
-
-                <h3 class="topic">By topic</h3>
-                <ul id="topic-filter" class="ticks">
-                  <li id="tourism" class="t1 selected"><a href="#">Sustainable tourism</a></li>
-                  <li id="local" class="t2 selected"><a href="#">Local economic dev.</a></li>
-                  <li id="employment" class="t3 selected"><a href="#">Youth employment</a></li>
-                  <li id="woman" class="t4 selected"><a href="#">Women entrepeneurship</a></li>
-                  <li id="financing" class="t5 selected"><a href="#">Early stage financing</a></li>
-                  <li id="rural" class="t6 selected"><a href="#">Rural microfinance</a></li>
-                </ul>
-
+                <strong class="counter">0 projects on screen</strong>
+                <div class="results scroll-pane-search">
+                </div>
               </div>
-              <div class="t"></div>
-              <div class="b"></div>
+              <div class="content project">
+                <div class="header">
+                  <div class="hgroup">
+                    <h4>Project Title</h4>
+                    <h2>Regional Intercooperative Market for the Poor</h2>
+                  </div>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse rutrum semper auctor. Maecenas rhoncus auctor ligula, a luctus neque cursus et. Nam purus leo, dictum ac vulputate non, semper euismod sem... <a href="#">read more</a></p>
+                </div>
+                <div class="scroll-pane-project">
+                  <ul class="data">
+                    <li class="icon nexso_code star"><h4>Project number</h4><span>...</span></li>
+                    <li class="icon budget money"><h4>Funded amount</h4><span>$000.000</span></li>
+                    <li class="icon approvalDate calendar"><h4>Approval date</h4><span>Date not available</span></li>
+                    <li class="icon agency gear"><h4>Executing agency</h4><a href="#" target="_blank">...</a></li>
+                    <li class="icon location marker"><h4>Location</h4><span>...</span></li>
+                    <li class="icon solution star"><h4>Solutions</h4><a href="#" target="_blank">Solution not available</a></li>
+                    <li class="icon topic star"><h4>Topic</h4><span>...</span></li>
+                    <li class="icon more plus"><h4>More information</h4><a href="#" target="_blank">External link</a></li>
+                  </ul>
+                </div>
+              </div>
+              <a href="#" class="toggle closed"></a>
             </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="shadow"></div>
-    </div>
-
-    <div class="filter-help">
-      <div class="help">
-        <div class="filter">Filter the map</div>
-      </div>
-    </div>
-
-    <div class="welcome">
-      <div class="left-side">
-        <h1>Welcome to NEXSO explorer</h1>
-        <p>NEXSO Explorer is an interactive map providing users with visual access to selected location-specic information, such as MIF project data, NEXSO Solutions, featured knowledge products and<br />topic-specic data provided by MIF partners</p>
-      </div>
-      <div class="right-side">
-        <ul class="stats">
-          <li class="projects disabled"><span>00</span> <strong>PROJECTS MAPPED</strong></li>
-          <li class="solutions disabled"><span>00</span> <strong>SOLUTIONS CONNECTED</strong></li>
-          <li class="ashokas disabled"><span>00</span> <strong>ASHOKA NETWORK</strong></li>
-          <li class="agencies disabled"><span>00</span> <strong>EXECUTING AGENCIES</strong></li>
-        </ul>
-        <form action="">
-          <div class="input_field">
-            <input type="text" class="addresspicker" name="search" placeholder="" autocomplete="off" />
-            <input type="hidden" class="lat" data-geo="lat" />
-            <input type="hidden" class="lng" data-geo="lng" />
-            <span class="placeholder">Search for an area...</span>
-            <a href="#" class="icon magnifier" data-click="search"></a>
-          </div>
-        </form>
-        <a href="#" class="btn" data-click="explore">Start exploring</a>
-        <div class="or">or</div>
-      </div>
-    </div>
-    <div id="timeline-cover" class="timeline-cover">Filter projects by years</div>
-    <div id="splash-backdrop" class="backdrop"></div>
-
-    <div id="zoom_controls"></div>
-    <div id="timeline">
-      <div class="slider">
-        <ul class="years">
-          <li class="selected">2002</li>
-          <li class="selected">2003</li>
-          <li class="selected">2004</li>
-          <li class="selected">2005</li>
-          <li class="selected">2006</li>
-          <li class="selected">2007</li>
-          <li class="selected">2008</li>
-          <li class="selected">2009</li>
-          <li class="selected">2010</li>
-          <li class="selected">2011</li>
-          <li class="selected">2012</li>
-          <li class="selected">2013</li>
-          <li class="selected last">2014</li>
-        </ul>
-      </div>
-    </div>
-
-    <div id="map"></div>
-    <div id="aside" class="aside hidden"> 
-      <div class="content search">
-        <ul class="legend">
-          <li class="icon agency"><strong>Executing agencies</strong></li>
-          <li class="icon ashoka"><strong>Ashoka network</strong></li>
-        </ul>
-        <strong class="counter">0 projects on screen</strong>
-        <div class="results scroll-pane-search">
-        </div>
-      </div>
-      <div class="content project">
-        <div class="header">
-          <div class="hgroup">
-            <h4>Project Title</h4>
-            <h2>Regional Intercooperative Market for the Poor</h2>
-          </div>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse rutrum semper auctor. Maecenas rhoncus auctor ligula, a luctus neque cursus et. Nam purus leo, dictum ac vulputate non, semper euismod sem... <a href="#">read more</a></p>
-        </div>
-        <div class="scroll-pane-project">
-          <ul class="data">
-            <li class="icon nexso_code star"><h4>Project number</h4><span>...</span></li>
-            <li class="icon budget money"><h4>Funded amount</h4><span>$000.000</span></li>
-            <li class="icon approvalDate calendar"><h4>Approval date</h4><span>Date not available</span></li>
-            <li class="icon agency gear"><h4>Executing agency</h4><a href="#" target="_blank">...</a></li>
-            <li class="icon location marker"><h4>Location</h4><span>...</span></li>
-            <li class="icon solution star"><h4>Solutions</h4><a href="#" target="_blank">Solution not available</a></li>
-            <li class="icon topic star"><h4>Topic</h4><span>...</span></li>
-            <li class="icon more plus"><h4>More information</h4><a href="#" target="_blank">External link</a></li>
-          </ul>
-        </div>
-      </div>
-      <a href="#" class="toggle closed"></a>
-    </div>
-    <div id="minispinner_wrapper"></div>
-    <script id="infowindow-template" type="text/x-underscore-template">
-      <div class="box <%= overlayType %>">
-        <div class="content">
-          <div class="header">
-            <div class="hgroup">
-              <% if (overlayType == "project") { %>
-                <h4>Nexso project</h4>
-                <h2><%= name %></h2>
-                <% } else if (overlayType == "ashokas") { %>
-                <h4>Ashoka Network</h4>
-                <h2><%= name %></h2>
-                <% } else if (overlayType == "agencies") { %>
-                <h4>Executing agency</h4>
-                <h2><%= agency_name %></h2>
-                <% } %>
-            </div>
-          </div>
-          <% if (overlayType == "project") { %>
-            <a href="#" class="btn">View project details</a>
-            <% if (solution_name) { %>
-              <h4>Solution</h4>
-              <ul class="solutions">
-                <li><a href="<%= solution_url %>" target="_blank"><%= solution_name %></a> </li>
-              </ul>
-              <% } %>
-            <% if (agencyName != null) { %>
-            <h4>Executing agency</h4>
-            <ul>
-              <li><%= agencyName %></li>
-            </ul>
-            <% } %>
-            <% } else if (overlayType == "ashokas") { %>
-            <% if (topic_names) { %>
-              <h4>Topic</h4>
-              <ul>
-                  <li><%= topic_names %></li>
-              </ul>
-              <% } %>
-            <% if (country) { %>
-              <h4>Country</h4>
-              <ul>
-                  <li><%= country %></li>
-              </ul>
-              <% } %>
-            <% if (organization_name) { %>
-              <h4>Organization</h4>
-              <ul>
-                  <li><%= organization_name %></li>
-              </ul>
-              <% } %>
-            <% if (solution_name) { %>
-              <h4>Solutions</h4>
-              <ul>
-                  <li><a href="<%= solution_url %>" target="_blank"><%= solution_name %></a> </li>
-              </ul>
-              <% } %>
-            <% if (agency_url) {  %>
-              <h4>More info</h4>
-              <ul>
-                <li><a href="<%= agency_url %>" target="_blank">External URL</a> </li>
-              </ul>
-              <% } %>
-            <% if (!agency_url && external_url) {  %>
-              <h4>More info</h4>
-              <ul>
-                <li><a href="<%= external_url %>" target="_blank">External URL</a> </li>
-              </ul>
-              <% } %>
-            <% } else { %>
-            <% if (agency_url) {  %>
-              <h4>More info</h4>
-              <ul>
-                <li><a href="<%= agency_url %>" target="_blank">Agency profile at FOMIN</a> </li>
-              </ul>
-              <% } %>
-            <%   if (projects) { %><h4>Projects</h4><ul><%= projects %></ul><% } %>
-            <% } %>
-        </div>
-        <a href="#" class="close"></a>
-        <div class="t"></div><div class="b"></div>
-      </div>
-    </script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.7.2.min.js"><\/script>')</script>
-    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3.8&amp;key=AIzaSyCbRutFCciUBrk1yMRPJEV59kq5ZgrJwEc&amp;sensor=false&amp;libraries=places&amp;v=3.7"> </script>
-    <script type="text/javascript" src="js/all.js"> </script>
-  </body>
-</html>
+            <div id="minispinner_wrapper"></div>
+            <script id="infowindow-template" type="text/x-underscore-template">
+              <div class="box <%= overlayType %>">
+                <div class="content">
+                  <div class="header">
+                    <div class="hgroup">
+                      <% if (overlayType == "project") { %>
+                        <h4>Nexso project</h4>
+                        <h2><%= name %></h2>
+                        <% } else if (overlayType == "ashokas") { %>
+                        <h4>Ashoka Network</h4>
+                        <h2><%= name %></h2>
+                        <% } else if (overlayType == "agencies") { %>
+                        <h4>Executing agency</h4>
+                        <h2><%= agency_name %></h2>
+                        <% } %>
+                    </div>
+                  </div>
+                  <% if (overlayType == "project") { %>
+                    <a href="#" class="btn">View project details</a>
+                    <% if (solution_name) { %>
+                      <h4>Solution</h4>
+                      <ul class="solutions">
+                        <li><a href="<%= solution_url %>" target="_blank"><%= solution_name %></a> </li>
+                      </ul>
+                      <% } %>
+                    <% if (agencyName != null) { %>
+                      <h4>Executing agency</h4>
+                      <ul>
+                        <li><%= agencyName %></li>
+                      </ul>
+                      <% } %>
+                    <% } else if (overlayType == "ashokas") { %>
+                    <% if (topic_names) { %>
+                      <h4>Topic</h4>
+                      <ul>
+                        <li><%= topic_names %></li>
+                      </ul>
+                      <% } %>
+                    <% if (country) { %>
+                      <h4>Country</h4>
+                      <ul>
+                        <li><%= country %></li>
+                      </ul>
+                      <% } %>
+                    <% if (organization_name) { %>
+                      <h4>Organization</h4>
+                      <ul>
+                        <li><%= organization_name %></li>
+                      </ul>
+                      <% } %>
+                    <% if (solution_name) { %>
+                      <h4>Solutions</h4>
+                      <ul>
+                        <li><a href="<%= solution_url %>" target="_blank"><%= solution_name %></a> </li>
+                      </ul>
+                      <% } %>
+                    <% if (agency_url) {  %>
+                      <h4>More info</h4>
+                      <ul>
+                        <li><a href="<%= agency_url %>" target="_blank">External URL</a> </li>
+                      </ul>
+                      <% } %>
+                    <% if (!agency_url && external_url) {  %>
+                      <h4>More info</h4>
+                      <ul>
+                        <li><a href="<%= external_url %>" target="_blank">External URL</a> </li>
+                      </ul>
+                      <% } %>
+                    <% } else { %>
+                    <% if (agency_url) {  %>
+                      <h4>More info</h4>
+                      <ul>
+                        <li><a href="<%= agency_url %>" target="_blank">Agency profile at FOMIN</a> </li>
+                      </ul>
+                      <% } %>
+                    <%   if (projects) { %><h4>Projects</h4><ul><%= projects %></ul><% } %>
+                    <% } %>
+                </div>
+                <a href="#" class="close"></a>
+                <div class="t"></div><div class="b"></div>
+              </div>
+            </script>
+            <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+            <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.7.2.min.js"><\/script>')</script>
+              <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3.8&amp;key=AIzaSyCbRutFCciUBrk1yMRPJEV59kq5ZgrJwEc&amp;sensor=false&amp;libraries=places&amp;v=3.7"> </script>
+              <!--<script type="text/javascript" src="js/all.js"></script>-->
+              <script type="text/javascript" src="js/vendor/jquery-ui-1.8.18.custom.min.js"> </script>
+              <script type="text/javascript" src="js/vendor/selectivizr-min.js"> </script>
+              <script type="text/javascript" src="js/vendor/jquery.geocomplete.js"> </script>
+              <script type="text/javascript" src="js/vendor/date.js"> </script>
+              <script type="text/javascript" src="js/vendor/jquery.jscrollpane.min.js"> </script>
+              <script type="text/javascript" src="js/vendor/jquery.mousewheel.js"> </script>
+              <script type="text/javascript" src="js/vendor/mwheelIntent.js"> </script>
+              <script type="text/javascript" src="js/vendor/underscore.string.js"> </script>
+              <script type="text/javascript" src="js/vendor/lodash.min.js"> </script>
+              <script type="text/javascript" src="js/vendor/backbone.js"> </script>
+              <script type="text/javascript" src="js/vendor/GeoJSON.js"> </script>
+              <script type="text/javascript" src="js/vendor/accounting.min.js"> </script>
+              <script type="text/javascript" src="js/vendor/spin.min.js"> </script>
+              <script type="text/javascript" src="js/backbone.cartodb.js"> </script>
+              <script type="text/javascript" src="js/plugins.js"> </script>
+              <script type="text/javascript" src="js/helpers.js"> </script>
+              <script type="text/javascript" src="js/infowindow.js"> </script>
+              <script type="text/javascript" src="js/NexsoMarker.js"> </script>
+              <script type="text/javascript" src="js/circle.js"> </script>
+              <script type="text/javascript" src="js/app.js"> </script>
+            </body>
+          </html>

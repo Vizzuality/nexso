@@ -91,7 +91,7 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
       function setItem(itemName, content) {
         var $item = $asideItems.find("li." + itemName);
 
-        if (typeof content === 'object' ) {
+        if (content !== null && typeof content === 'object') {
           if (content.text !== null && content.url !== null) {
             $item.find("a").text(content.text).attr("href", content.url);
             $item.show();
@@ -105,6 +105,8 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
           $item.show();
         } else $item.hide();
       }
+
+      var parsedDate = parseDate(approvalDate);
 
       setItem("approvalDate", prettyApprovalDate);
       setItem("topic", topicName);

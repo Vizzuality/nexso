@@ -98,9 +98,9 @@ var queries = {
             "WHERE A.the_geom IS NOT NULL AND AT.ashoka_id = A.cartodb_id",
 
  GET_AGENCIES: "SELECT A.the_geom, A.external_url AS agency_url, A.name AS agency_name, P.solution_id, P.topic_id, " +
-            "array_to_string(array(SELECT P.cartodb_id FROM v1_projects AS P WHERE P.agency_id = a.cartodb_id), '|') as projects_ids, " +
-            "array_to_string(array(SELECT P.title FROM v1_projects AS P WHERE P.agency_id = a.cartodb_id), '|') as projects_titles " +
-            "FROM v1_agencies AS A LEFT JOIN v1_projects AS P ON (A.cartodb_id = P.agency_id) LEFT JOIN v1_projects ON (A.cartodb_id = P.solution_id)",
+            "array_to_string(array(SELECT P.cartodb_id FROM v3_projects AS P WHERE P.agency_id = a.cartodb_id), '|') as projects_ids, " +
+            "array_to_string(array(SELECT P.title FROM v3_projects AS P WHERE P.agency_id = a.cartodb_id), '|') as projects_titles " +
+            "FROM v1_agencies AS A LEFT JOIN v3_projects AS P ON (A.cartodb_id = P.agency_id) LEFT JOIN v3_projects ON (A.cartodb_id = P.solution_id)",
 
  GET_PROJECTS_QUERY_TEMPLATE: "WITH qu AS ( " +
    "    WITH hull as ( " +
@@ -110,10 +110,10 @@ var queries = {
    "            A.external_url AS agency_url, A.name AS agency_name, ST_AsGeoJSON(A.the_geom) AS agency_position, " +
    "            ST_Collect(PWA.the_geom) AS the_geom  " +
    "        FROM  " +
-   "            v1_projects P LEFT JOIN v1_solutions S ON (P.solution_id = S.cartodb_id) " +
+   "            v3_projects P LEFT JOIN v1_solutions S ON (P.solution_id = S.cartodb_id) " +
    "            LEFT JOIN v1_agencies A ON (P.agency_id = A.cartodb_id) "+
    "            LEFT JOIN v1_topics AS T ON (P.topic_id = T.cartodb_id),  " +
-   "            v1_project_work_areas AS PWA " +
+   "            v3_project_work_areas AS PWA " +
    "        WHERE  " +
    "            P.cartodb_id = PWA.project_id AND <%= topicsCondition %> <%= solutionCondition %>" +
    "            (EXTRACT(YEAR FROM P.fixed_approval_date) >= <%= startYear %> AND  " +
@@ -154,9 +154,14 @@ function isEmpty(str) {
   return !str.match(/\S/g);
 }
 
+function parseDate(date) {
+  return Date.parseExact(date.splice(4, 0, "-" ).splice(7, 0, "-" ), config.DATE_FORMAT);
+}
+
 // Transform a date into something similar to: July 14th, 2006
 function prettifyDate(date) {
-  var parsedDate = Date.parseExact(date.splice(4, 0, "-" ).splice(7, 0, "-" ), config.DATE_FORMAT);
+
+  var parsedDate = parseDate(date);
 
   if (parsedDate) {
 

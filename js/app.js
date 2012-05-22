@@ -958,6 +958,7 @@ $(function () {
               }
 
               updateCounter(name, data.features.length);
+
               showFeature(that, name, data, projectsStyle);
 
               if (callback) {
