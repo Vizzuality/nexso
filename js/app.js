@@ -798,6 +798,7 @@ $(function () {
 
             that.removeOverlay("ashokas");
             $("#ashokas").removeClass("selected");
+            visibleOverlays["ashokas"]  = false;
           }, 1000);
 
         },
