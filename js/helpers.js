@@ -47,7 +47,7 @@ var // DEFAULTS
     globalZindex     = 300,
     visibleOverlays  = [];
 
-    visibleOverlays["ashokas"]  = true;
+    visibleOverlays["ashokas"]  = false;
     visibleOverlays["agencies"] = true;
     visibleOverlays["projects"] = true;
 
