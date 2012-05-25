@@ -79,6 +79,21 @@ h4 { font-size: 11px; font-weight:bold; }
   &:hover {cursor:pointer!important;}
 }
 
+.cartodb-logo {
+  position: absolute;
+  left: 70px;
+  bottom: 5px;
+  width: 82px;
+  height: 43px;
+  @include icons-sprite(vizzuality_white_shadow);
+  z-index: 10;
+  overflow: hidden;
+  text-indent: -9999%;
+  font-size: 0;
+  display: block;
+  line-height: 0;
+}
+
 .backdrop {
   position: fixed;
   top: 0;
