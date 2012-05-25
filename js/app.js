@@ -958,7 +958,6 @@ $(function () {
         addOverlay: function(name, query, callback) {
           var that = this;
 
-          console.log(query);
           //spinner.show();
           this.disableFilters();
 
