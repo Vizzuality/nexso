@@ -788,6 +788,16 @@ $(function () {
           this.addAgencies();
           this.addAshokas();
           this.addProjects();
+
+          var that = this;
+
+          setTimeout(function() {
+
+            mapView.removeOverlay("ashokas");
+            $("#ashokas").removeClass("selected");
+
+          }, 500);
+
         },
         enableFilters: function() {
           if (!disabledFilters) {
@@ -822,11 +832,13 @@ $(function () {
         },
         removeMarkers:function(name) {
 
-          for (var i = 0; i < this.overlays[name].length; i++){
-            this.overlays[name][i].hide(true);
-          }
+          if (this.overlays[name]) {
+            for (var i = 0; i < this.overlays[name].length; i++){
+              this.overlays[name][i].hide(true);
+            }
 
-          this.enableFilters();
+            this.enableFilters();
+          }
         },
         removeProjects: function(name) {
           if (this.circles.length > 0) { // Remove circles
