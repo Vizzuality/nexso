@@ -799,7 +799,7 @@ $(function () {
             that.removeOverlay("ashokas");
             $("#ashokas").removeClass("selected");
 
-          }, 500);
+          }, 1000);
 
         },
         enableFilters: function() {
