@@ -796,7 +796,7 @@ $(function () {
 
           setTimeout(function() {
 
-            mapView.removeOverlay("ashokas");
+            that.removeOverlay("ashokas");
             $("#ashokas").removeClass("selected");
 
           }, 500);
