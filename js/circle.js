@@ -333,9 +333,9 @@ RadiusWidget.prototype.distanceBetweenPoints = function(p1, p2) {
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   var d = R * c;
 
-  if (d < config.MIN_PROJECT_RADIUS) {
-    d = d + config.MIN_PROJECT_RADIUS;
-  }
+  //if (d < config.MIN_PROJECT_RADIUS) {
+    //d = d + config.MIN_PROJECT_RADIUS;
+  //}
 
   return d;
 };

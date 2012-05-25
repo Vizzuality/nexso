@@ -124,8 +124,8 @@ var queries = {
    "            external_project_url, location_verbatim, topic_name, solution_id, budget, A.external_url, A.name, " +
    "            solution_name, solution_url, agency_position" +
    "    )  " +
-   "    SELECT *, ST_ConvexHull(the_geom) AS hull_geom FROM hull " +
-   //"    SELECT *, ST_ConvexHull(the_geom), CASE WHEN nexso_code IN (SELECT distinct on (ST_SnapToGrid(ST_Centroid(the_geom), 100)) nexso_code FROM hull) THEN ST_ConvexHull(the_geom) ELSE ST_Buffer(ST_ConvexHull(the_geom),ceil(30*random())/10.0) END as hull_geom FROM hull " +
+   //"    SELECT *, ST_ConvexHull(the_geom) AS hull_geom FROM hull " +
+   "    SELECT *, ST_ConvexHull(the_geom), CASE WHEN nexso_code IN (SELECT distinct on (ST_SnapToGrid(ST_Centroid(the_geom), 0.60)) nexso_code FROM hull) THEN ST_ConvexHull(the_geom) ELSE ST_Buffer(ST_ConvexHull(the_geom),ceil(50*random())/10.0) END as hull_geom FROM hull " +
    " " +
    ")  " +
    "SELECT  " +
