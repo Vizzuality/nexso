@@ -3,7 +3,7 @@
 *
 * @constructor
 */
-function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
+function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines, zIndex) {
 
   var
     distance = this.distanceBetweenPoints(centroidCenter, radiusCenter),
@@ -22,9 +22,9 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
     center: centroidCenter,
     radius: distance * 1000,
     geodesic: true,
-    polygons: polygons
+    polygons: polygons,
+    zIndex:zIndex
   });
-
 
   // Draw line
   var agency_lines = [];
@@ -64,7 +64,7 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines) {
     title             = properties.title,
     approvalDate      = properties.approval_date,
     fixedApprovalDate = properties.approval_date,
-    moreURL           = properties.external_project_url,
+    moreURL           = config.MIF_URL + properties.nexso_code,
 
     solutionName      = properties.solution_name,
     solutionURL       = properties.solution_url,

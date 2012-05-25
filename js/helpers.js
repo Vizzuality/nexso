@@ -10,7 +10,8 @@ var config = {
     YEARS:              [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014],
     DATE_FORMAT:        "yyyy-MM-dd",
     DATE_SUFFIXES:      ["th", "st", "nd", "rd"],
-    MIN_PROJECT_RADIUS: 100
+    MIN_PROJECT_RADIUS: 100,
+    MIF_URL:            "http://www5.iadb.org/mif/ProgramsandProjects/ProjectsList/ProjectProfile/tabid/85/language/en-US/Default.aspx?prj="
 };
 
 config.START_YEAR = config.YEARS[0];
@@ -127,7 +128,7 @@ var queries = {
    " " +
    ")  " +
    "SELECT  " +
-   "    nexso_code, solution_count, project_id, title, approval_date, fixed_approval_date, external_project_url,  " +
+   "    ST_Area(hull_geom), nexso_code, solution_count, project_id, title, approval_date, fixed_approval_date, external_project_url,  " +
    "    location_verbatim, topic_name, budget, agency_name, agency_url, the_geom, agency_position, solution_id, solution_name, solution_url,  " +
    "    ST_X(ST_Centroid(hull_geom)) AS centroid_lon,  " +
    "    ST_Y(ST_Centroid(hull_geom)) AS centroid_lat,  " +
@@ -135,7 +136,7 @@ var queries = {
    "    ST_Y(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom), hull_geom))) AS radius_point_lat " +
    "FROM qu  " +
    "ORDER BY " +
-   "    ST_Area(hull_geom) desc"
+   "    ST_Area(hull_geom) DESC"
 };
 
 String.prototype.splice = function( idx, rem, s ) {

@@ -438,7 +438,8 @@ $(function () {
       var
         solution_count     = 0,
         polygons           = [],
-        agencies           = [];
+        agencies           = [],
+        zIndex             = 0;
 
         autocompleteSource = [];
 
@@ -459,12 +460,14 @@ $(function () {
               view.coordinates[projectID] = [view.overlays[name][i][0][0].geojsonProperties.centroid_lat, view.overlays[name][i][0][0].geojsonProperties.centroid_lon];
             }
 
+            zIndex += 10;
+
             var
               o              = view.overlays[name][i][0][0],
               properties     = o.geojsonProperties,
               cLatLng        = new google.maps.LatLng(properties.centroid_lat, properties.centroid_lon),
               rLatLng        = new google.maps.LatLng(properties.radius_point_lat, properties.radius_point_lon),
-              distanceWidget = new RadiusWidget(map, cLatLng, rLatLng, view.overlays[name][i], [properties.agency_position]);
+              distanceWidget = new RadiusWidget(map, cLatLng, rLatLng, view.overlays[name][i], [properties.agency_position], zIndex);
 
             if (name === 'projects') {
               autocompleteSource.push({ circle: distanceWidget.circle, more: properties, value: properties.title, lat: properties.centroid_lat, lng: properties.centroid_lon});
