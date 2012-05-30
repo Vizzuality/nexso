@@ -65,15 +65,16 @@ var // Map styles
       featureType: "water",
       stylers: [ { saturation: -34 }, { lightness: 29 } ]
     }, {
-      featureType: "poi",
-      stylers: [ { lightness: 42 }, { saturation: -40 } ]
-    }, {
       featureType: "administrative.land_parcel",
       elementType: "labels",
       stylers: [ { visibility: "off" } ]
     }, {
       featureType: "road",
       stylers: [ { saturation: -99 }, { lightness: 70 } ]
+    }, {
+      featureType: "poi",
+      elementType: "stylers",
+      stylers: [ { visibility: "off" } ]
     }, {
       featureType: "poi",
       elementType: "labels",
