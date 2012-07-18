@@ -685,7 +685,8 @@ $(function () {
         maxZoom:          config.MAXZOOM,
         center:           new google.maps.LatLng(config.LAT, config.LNG),
         mapTypeId:        google.maps.MapTypeId.ROADMAP,
-        disableDefaultUI: true
+        disableDefaultUI: true,
+        scaleControl:true
       };
 
       var map = new google.maps.Map(document.getElementById('map'), mapOptions);
