@@ -520,7 +520,7 @@ $(function () {
     Aside = (function() {
       var
       $el     = $(".aside"),
-      $toggle = $(".aside a.toggle"),
+      $toggle = $(".nav .toggle, .aside a.toggle"),
       mode    = 0; // 0 = project; 1 = search
 
       (function() {
@@ -560,6 +560,12 @@ $(function () {
           $el.addClass('search');
         }
 
+        $(".nav .back").fadeIn(250);
+
+        if ($(window).width() < 1200) {
+          $(".nav .options").animate({ left:"-80px" }, 250);
+        }
+
         $el.find("ul.data li").css({opacity:0, marginLeft:150});
 
         $("#map").animate({ right: '352px' }, 250);
@@ -584,6 +590,12 @@ $(function () {
 
       _hide = function(callback) {
         $("#map").animate({ right: '0' }, 250);
+
+        $(".nav .back").fadeOut(250);
+
+        if ($(".nav .options").position().left > 0 ) {
+          $(".nav .options").animate({ left:"0" }, 250);
+        }
 
         $el.animate({ right:'-330px' }, 250, function() {
           $el.find("p").hide();
