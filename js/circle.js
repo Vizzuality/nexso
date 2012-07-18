@@ -15,7 +15,7 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines, zIndex
   this.circle = new google.maps.Circle({
     parent: self,
     strokeColor: "#E79626",
-    strokeOpacity: 1,
+    strokeOpacity: .6,
     strokeWeight: 1,
     fillColor: "#E79626",
     fillOpacity: 0,
@@ -41,7 +41,7 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines, zIndex
       var agency_line = new google.maps.Polyline({
         path: [polygon[0].getBounds().getCenter(), agency_center],
         strokeColor: "#1872A1",
-        strokeOpacity: 1,
+        strokeOpacity: .6,
         strokeWeight: 1,
         visible: false
       });
