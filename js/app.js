@@ -292,12 +292,13 @@ $(function () {
 
           $a.on("click", function(e) {
             e.preventDefault();
+            result.marker.showInfowindow();
 
-            google.maps.event.trigger(result.circle, 'click', {
-              autoopen: true,
-              latLng: null
-            });
-            result.circle.parent.markSelected();
+            //google.maps.event.trigger(result.circle, 'click', {
+              //autoopen: true,
+              //latLng: null
+            //});
+            //result.circle.parent.markSelected();
           });
 
         });
@@ -462,19 +463,45 @@ $(function () {
 
             zIndex += 10;
 
-            var
-              o              = view.overlays[name][i][0][0],
-              properties     = o.geojsonProperties,
-              cLatLng        = new google.maps.LatLng(properties.centroid_lat, properties.centroid_lon),
-              rLatLng        = new google.maps.LatLng(properties.radius_point_lat, properties.radius_point_lon),
-              distanceWidget = new RadiusWidget(map, cLatLng, rLatLng, view.overlays[name][i], [properties.agency_position], zIndex);
+            //distanceWidget = new RadiusWidget(map, cLatLng, rLatLng, view.overlays[name][i], [properties.agency_position], zIndex);
 
+            var
+            o           = view.overlays[name][i][0][0],
+            properties  = o.geojsonProperties,
+            opts        = {};
+
+            // circle properties
+            properties.cLatLng  = new google.maps.LatLng(properties.centroid_lat, properties.centroid_lon),
+            properties.rLatLng  = new google.maps.LatLng(properties.radius_point_lat, properties.radius_point_lon);
+            properties.map      = map;
+            properties.polygons = view.overlays[name][i];
+            properties.lines    = [properties.agency_position];
+            properties.zIndex   = zIndex;
+
+            // marker options
+            opts.position = new google.maps.LatLng(properties.cLatLng.lat(), properties.cLatLng.lng());
+            opts.icon     = 'img/icons/working_area.png';
+            opts.zIndex   = zIndex;
+
+            // Create and add the marker
+            var marker = new NexsoMarker("project", opts, properties);
+            marker.setMap(map);
+
+            // add the marker to the autocomplete array, so we can show it in the right pane
             if (name === 'projects') {
-              autocompleteSource.push({ circle: distanceWidget.circle, more: properties, value: properties.title, lat: properties.centroid_lat, lng: properties.centroid_lon});
+
+              autocompleteSource.push({
+                marker: marker,
+                more:   properties,
+                value:  properties.title,
+                lat:    properties.centroid_lat,
+                lng:    properties.centroid_lon
+              });
+
               solution_count += properties.solution_count;
             }
 
-            view.circles.push(distanceWidget);
+            view.circles.push(marker);
 
           } else {
             view.overlays[name][i].setMap(map);
@@ -532,15 +559,15 @@ $(function () {
             Aside.show("search");
           } else {
 
-              if (mode === 0) { // project mode
-                unMarkProject();
-                map.setZoom(previousZoom);
-                Aside.hide(Timeline.show);
-              } else { // regular mode
-                Aside.hide();
-                resetAutocomplete();
-              }
+            if (mode === 0) { // project mode
+              unMarkProject();
+              map.setZoom(previousZoom);
+              Aside.hide(Timeline.show);
+            } else { // regular mode
+              Aside.hide();
+              resetAutocomplete();
             }
+          }
 
         });
       })();
@@ -604,6 +631,7 @@ $(function () {
           $el.removeClass('search'); // this removes the line pattern
 
           if (callback) {
+            console.log(callback);
             callback();
           }
 
@@ -690,6 +718,7 @@ $(function () {
       };
 
       var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+      window.map = map;
 
       function ZoomIn(controlDiv, map) {
         controlDiv.setAttribute('class', 'zoom_in');

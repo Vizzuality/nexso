@@ -24,6 +24,7 @@ NexsoMarker.prototype.draw = function() {
 
     google.maps.event.addDomListener(div, 'click', function (ev) {
 
+
       if (ev) {
         ev.preventDefault ? ev.preventDefault() : ev.returnValue = false;
         ev.stopPropagation ? ev.stopPropagation() : window.event.cancelBubble = true;
@@ -31,19 +32,33 @@ NexsoMarker.prototype.draw = function() {
 
       that.properties.overlayType = that.overlayType_;
 
-      var topic_names = that.properties.topic_names;
+      map        = that.properties.map;
+      that.circle = {};
 
-      if (topic_names) {
-        topic_names = _.compact(topic_names.split("|"));
+      if (that.properties.overlayType == 'project') {
 
-        if (topic_names.length > 0) {
-          that.properties.topic_names = topic_names.join('. ');
-          that.properties.topic_names += ".";
+        that.showInfowindow();
+
+
+
+
+      } else {
+
+
+        var topic_names = that.properties.topic_names;
+
+        if (topic_names) {
+          topic_names = _.compact(topic_names.split("|"));
+
+          if (topic_names.length > 0) {
+            that.properties.topic_names = topic_names.join('. ');
+            that.properties.topic_names += ".";
+          }
         }
-      }
 
-      Infowindow.setContent(that.properties);
-      Infowindow.open(that.latlng_);
+        Infowindow.setContent(that.properties);
+        Infowindow.open(that.latlng_);
+      }
     });
 
     google.maps.event.addDomListener(div, 'mouseover', function (ev) {
@@ -86,6 +101,109 @@ NexsoMarker.prototype.setPosition = function() {
     }
   }
 };
+
+NexsoMarker.prototype.markSelected = function() {
+  // Polygons
+  _.each(this.properties.polygons,function(polygon,i) {
+    polygon[0].setOptions(projectsHoverStyle);
+  });
+
+  // Lines
+  _.each(this.properties.lines,function(line,i) {
+    line.setOptions({"visible": true});
+  });
+
+  // Hide rest
+  this.hideAll();
+  filterView.disable();
+};
+
+NexsoMarker.prototype.unMarkSelected = function(showAll) {
+
+  // Polygons
+  _.each(this.properties.polygons,function(polygon, i) {
+    polygon[0].setOptions(projectsStyle);
+  });
+
+  // Lines
+  _.each(this.properties.lines,function(line,i) {
+    line.setOptions({"visible": false});
+  });
+
+  // Show the rest
+  if (showAll) {
+    this.showAll();
+  }
+
+  filterView.enable();
+};
+
+NexsoMarker.prototype.hideAll = function() {
+  var that = this;
+
+  /*// Agencies
+  _.each(mapView.overlays["agencies"], function(agency,i) {
+  if (that.circle.lines.length > 0 &&
+  agency.getPosition().lat() != that.circle.lines[0].getPath().getAt(1).lat() &&
+  agency.getPosition().lng() != that.circle.lines[0].getPath().getAt(1).lng()) {
+  agency.hide();
+  } else {
+  that.specialAgencies.push(agency);
+  agency.show();
+  }
+  });*/
+
+  // Ashokas
+  mapView.hideOverlay('ashokas');
+
+  // Projects
+  _.each(mapView.circles, function(radiuswidget,i) {
+
+    if (that != radiuswidget) {
+      // Polygons
+      _.each(radiuswidget.properties.polygons,function(polygon,i) {
+        polygon[0].setOptions(projectsDisabledStyle);
+        polygon[0].disabled = true;
+      });
+
+      //radiuswidget.circle.setOptions(circleDisabledStyle);
+      //radiuswidget.circle.disabled = true;
+    }
+  });
+};
+
+NexsoMarker.prototype.showAll = function() {
+  var that = this;
+
+  _.each(this.specialAgencies, function(agency) {
+    agency.hide();
+  });
+
+  this.specialAgencies = [];
+
+  // Agencies
+  mapView.addAgencies();
+
+  // Ashokas
+  mapView.addAshokas();
+
+  // Projects
+  _.each(mapView.circles, function(radiuswidget,i) {
+
+    if (that != radiuswidget) {
+      // Polygons
+      _.each(radiuswidget.properties.polygons,function(polygon,i) {
+        polygon[0].setOptions(projectsStyle);
+        polygon[0].disabled = false;
+      });
+
+      //radiuswidget.circle.setOptions(circleStyle);
+      //radiuswidget.circle.disabled = false;
+
+    }
+  });
+};
+
 
 NexsoMarker.prototype.hide = function(animate) {
   if (this.div_ && !$(this.div_).hasClass('h')) {
@@ -139,3 +257,178 @@ NexsoMarker.prototype.showContent = function() {
 NexsoMarker.prototype.getPosition = function() {
   return this.latlng_;
 };
+
+
+NexsoMarker.prototype.showInfowindow = function() {
+  var that = this;
+
+  if (that.distanceWidget) {
+    that.distanceWidget.circle.setMap(null);
+    delete that.distanceWidget;
+  }
+
+  that.distanceWidget = new RadiusWidget(map, that.properties.cLatLng, that.properties.rLatLng, that.properties.polygons, that.properties.lines, that.properties.zIndex);
+
+  // Draw line
+  var agency_lines = [];
+
+  _.each([that.properties.agency_position], function(line,i) {
+
+    if (!line) return false;
+
+    var
+    coordinates   = $.parseJSON(line).coordinates,
+    agency_center = new google.maps.LatLng(coordinates[1], coordinates[0]);
+
+
+    _.each(that.properties.polygons, function(polygon, i) {
+      var agency_line = new google.maps.Polyline({
+        path: [polygon[0].getBounds().getCenter(), agency_center],
+        strokeColor: "#1872A1",
+        strokeOpacity: .6,
+        strokeWeight: 1,
+        visible: false
+      });
+
+      agency_line.setMap(map);
+      agency_lines.push(agency_line);
+    });
+
+    return true;
+
+  });
+
+  // Append lines
+  that.properties.lines = agency_lines;
+
+  var
+  properties = that.properties,
+  title             = properties.title,
+  approvalDate      = properties.approval_date,
+  fixedApprovalDate = properties.approval_date,
+  moreURL           = config.MIF_URL + properties.nexso_code,
+
+  solutionName      = properties.solution_name,
+  solutionURL       = properties.solution_url,
+
+  agencyName        = properties.agency_name,
+  agencyURL         = properties.agency_url,
+
+  nexsoCode         = properties.nexso_code,
+
+  topicName         = properties.topic_name,
+  location          = properties.location_verbatim,
+  budget            = properties.budget;
+
+
+  function onInfowindowClick(e) {
+    if (e) {
+      e.preventDefault();
+    }
+
+    Timeline.hide();
+    Aside.hide(function() {
+      that.onHiddenAside(that);
+    });
+  }
+
+  if (event.autoopen) {
+    onInfowindowClick();
+  } else {
+    // Infowindow setup
+    Infowindow.setContent({ name: title, overlayType: "project", agencyName: agencyName, solution_name: solutionName, solution_url: solutionURL });
+    Infowindow.setCallback(onInfowindowClick);
+    Infowindow.open(that.latlng_);
+  }
+
+};
+
+NexsoMarker.prototype.onHiddenAside = function(that) {
+
+  var
+  properties        = that.properties,
+  title             = properties.title,
+  approvalDate      = properties.approval_date,
+  fixedApprovalDate = properties.approval_date,
+  moreURL           = config.MIF_URL + properties.nexso_code,
+
+  solutionName      = properties.solution_name,
+  solutionURL       = properties.solution_url,
+
+  agencyName        = properties.agency_name,
+  agencyURL         = properties.agency_url,
+
+  nexsoCode         = properties.nexso_code,
+
+  topicName         = properties.topic_name,
+  location          = properties.location_verbatim,
+  budget            = properties.budget;
+
+  var
+  $asideContent = $(".aside .content"),
+  $asideItems = $asideContent.find("ul.data");
+
+  $asideContent.find(".header h2").html(title);
+
+  var prettyApprovalDate = prettifyDate(approvalDate);
+
+  function setItem(itemName, content) {
+    var $item = $asideItems.find("li." + itemName);
+
+    if (content !== null && typeof content === 'object') {
+      if (content.text !== null && content.url !== null) {
+        $item.find("a").text(content.text).attr("href", content.url);
+        $item.show();
+      } else if (content.text !== null) {
+        $item.find("a").text(content.text).attr("href", "#");
+        $item.show();
+      } else $item.hide();
+
+    } else if (content) {
+      $item.find("span").text(content);
+      $item.show();
+    } else $item.hide();
+  }
+
+  var parsedDate = parseDate(approvalDate);
+
+  setItem("approvalDate", prettyApprovalDate);
+  setItem("topic", topicName);
+  setItem("nexso_code", nexsoCode);
+  setItem("location", location);
+  setItem("budget", accounting.formatMoney(budget));
+  setItem("more", { url: moreURL, text: "External link" });
+  setItem("solution", { url: solutionURL, text: solutionName });
+  setItem("agency", { url: agencyURL, text: agencyName });
+
+  previousZoom   = map.getZoom();
+  previousCenter = map.getCenter();
+
+  Aside.show("project");
+  Infowindow.hide();
+
+  // Focus on the overlay with the related agency/ies
+  var bounds = that.distanceWidget.circle.getBounds();
+
+  _.each(that.properties.lines, function(line,i) {
+    bounds.extend(line.getPath().getAt(1));
+  });
+
+  window.map.fitBounds(bounds);
+  map.panBy(176, 0);
+
+  if (that.distanceWidget) {
+    that.distanceWidget.circle.setMap(null);
+    delete that.distanceWidget;
+  }
+
+  // Make it "selected"
+  var projectBefore = $(".aside a.toggle").data('project');
+
+  if (projectBefore) {
+    projectBefore.unMarkSelected();
+  }
+
+  $('.aside a.toggle').data('project', that);
+  that.markSelected();
+}

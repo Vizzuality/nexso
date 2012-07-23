@@ -23,7 +23,8 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines, zIndex
     radius: distance * 1000,
     geodesic: true,
     polygons: polygons,
-    zIndex:zIndex
+    zIndex:zIndex,
+    visible:false
   });
 
   // Draw line
@@ -129,6 +130,9 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines, zIndex
       _.each(self.circle.lines, function(line,i) {
         bounds.extend(line.getPath().getAt(1));
       });
+
+
+      debugger;
 
       map.fitBounds(bounds);
       map.panBy(176, 0);
