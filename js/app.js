@@ -631,7 +631,6 @@ $(function () {
           $el.removeClass('search'); // this removes the line pattern
 
           if (callback) {
-            console.log(callback);
             callback();
           }
 
