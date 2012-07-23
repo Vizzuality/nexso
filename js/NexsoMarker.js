@@ -24,7 +24,6 @@ NexsoMarker.prototype.draw = function() {
 
     google.maps.event.addDomListener(div, 'click', function (ev) {
 
-
       if (ev) {
         ev.preventDefault ? ev.preventDefault() : ev.returnValue = false;
         ev.stopPropagation ? ev.stopPropagation() : window.event.cancelBubble = true;
@@ -32,16 +31,8 @@ NexsoMarker.prototype.draw = function() {
 
       that.properties.overlayType = that.overlayType_;
 
-      map        = that.properties.map;
-      that.circle = {};
-
       if (that.properties.overlayType == 'project') {
-
         that.showInfowindow();
-
-
-
-
       } else {
 
 
@@ -290,7 +281,7 @@ NexsoMarker.prototype.showInfowindow = function() {
         visible: false
       });
 
-      agency_line.setMap(map);
+      agency_line.setMap(window.map);
       agency_lines.push(agency_line);
     });
 
@@ -401,8 +392,8 @@ NexsoMarker.prototype.onHiddenAside = function(that) {
   setItem("solution", { url: solutionURL, text: solutionName });
   setItem("agency", { url: agencyURL, text: agencyName });
 
-  previousZoom   = map.getZoom();
-  previousCenter = map.getCenter();
+  previousZoom   = window.map.getZoom();
+  previousCenter = window.map.getCenter();
 
   Aside.show("project");
   Infowindow.hide();
@@ -415,7 +406,7 @@ NexsoMarker.prototype.onHiddenAside = function(that) {
   });
 
   window.map.fitBounds(bounds);
-  map.panBy(176, 0);
+  window.map.panBy(176, 0);
 
   if (that.distanceWidget) {
     that.distanceWidget.circle.setMap(null);

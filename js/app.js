@@ -1,6 +1,7 @@
 $(function () {
 
   var
+    projects           = [],
     autocompleteSource = [],
     pane               = [],
     startYear,
@@ -463,17 +464,21 @@ $(function () {
 
             zIndex += 10;
 
-            //distanceWidget = new RadiusWidget(map, cLatLng, rLatLng, view.overlays[name][i], [properties.agency_position], zIndex);
-
             var
             o           = view.overlays[name][i][0][0],
             properties  = o.geojsonProperties,
             opts        = {};
 
+
+            var marker = projects[properties.nexso_code];
+
+            if (marker) {
+              marker.show();
+            } else {
+
             // circle properties
             properties.cLatLng  = new google.maps.LatLng(properties.centroid_lat, properties.centroid_lon),
             properties.rLatLng  = new google.maps.LatLng(properties.radius_point_lat, properties.radius_point_lon);
-            properties.map      = map;
             properties.polygons = view.overlays[name][i];
             properties.lines    = [properties.agency_position];
             properties.zIndex   = zIndex;
@@ -484,8 +489,14 @@ $(function () {
             opts.zIndex   = zIndex;
 
             // Create and add the marker
-            var marker = new NexsoMarker("project", opts, properties);
+            marker = new NexsoMarker("project", opts, properties);
             marker.setMap(map);
+            projects[marker.properties.nexso_code] = marker;
+
+            view.circles.push(marker);
+            }
+
+
 
             // add the marker to the autocomplete array, so we can show it in the right pane
             if (name === 'projects') {
@@ -501,7 +512,6 @@ $(function () {
               solution_count += properties.solution_count;
             }
 
-            view.circles.push(marker);
 
           } else {
             view.overlays[name][i].setMap(map);
@@ -835,6 +845,8 @@ $(function () {
 
           var that = this;
 
+          _.bindAll(this, "removeOverlay");
+
           setTimeout(function() {
 
             that.removeOverlay("ashokas");
@@ -887,7 +899,7 @@ $(function () {
         removeProjects: function(name) {
           if (this.circles.length > 0) { // Remove circles
             for (var i = 0; i < this.circles.length; i++){
-              this.circles[i].circle.setMap(null);
+              this.circles[i].hide();
             }
           }
 
@@ -987,14 +999,14 @@ $(function () {
             endYear = config.END_YEAR;
           }
 
-          // Build filters by topic & solution
-          var topicsCondition   = (topics.length > 0) ? " P.topic_id  IN (" + topics.join(',') + ") AND " : " P.topic_id = 0 AND ";
-          var solutionCondition = (solutionFilter === 'solutions') ? " P.solution_id IS NOT NULL AND " : "";
+            // Build filters by topic & solution
+            var topicsCondition   = (topics.length > 0) ? " P.topic_id  IN (" + topics.join(',') + ") AND " : " P.topic_id = 0 AND ";
+            var solutionCondition = (solutionFilter === 'solutions') ? " P.solution_id IS NOT NULL AND " : "";
 
-          var template = _.template(queries.GET_PROJECTS_QUERY_TEMPLATE);
-          var query    = template({ startYear: startYear, endYear: endYear, topicsCondition: topicsCondition, solutionCondition: solutionCondition });
+            var template = _.template(queries.GET_PROJECTS_QUERY_TEMPLATE);
+            var query    = template({ startYear: startYear, endYear: endYear, topicsCondition: topicsCondition, solutionCondition: solutionCondition });
 
-          this.addOverlay("projects", query, function() { Timeline.show(); });
+            this.addOverlay("projects", query, function() { Timeline.show(); });
         },
         addOverlay: function(name, query, callback) {
           var that = this;
