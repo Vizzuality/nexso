@@ -1,11 +1,11 @@
 $(function () {
 
   var
-    projects           = [],
-    autocompleteSource = [],
-    pane               = [],
-    startYear,
-    endYear;
+  projects           = [],
+  autocompleteSource = [],
+  pane               = [],
+  startYear,
+  endYear;
 
   $(document).keyup(function(e) {
     if (e.keyCode === 27) {  // esc
@@ -85,26 +85,26 @@ $(function () {
     e.preventDefault();
     e.stopPropagation();
 
-      var
-        lat = $("input[data-geo='lat']").val(),
-        lng = $("input[data-geo='lng']").val();
+    var
+    lat = $("input[data-geo='lat']").val(),
+    lng = $("input[data-geo='lng']").val();
 
-      if (!lat || !lng) {
-        startExploring();
-      } else {
+    if (!lat || !lng) {
+      startExploring();
+    } else {
 
-        Aside.hide();
-        resetLastSearch();
+      Aside.hide();
+      resetLastSearch();
 
-        startExploring(function() {
-          var latLng = new google.maps.LatLng(lat, lng);
+      startExploring(function() {
+        var latLng = new google.maps.LatLng(lat, lng);
 
-          map.panTo(latLng);
-          map.setZoom(6);
+        map.panTo(latLng);
+        map.setZoom(6);
 
-          searchInBounds(true);
-        });
-      }
+        searchInBounds(true);
+      });
+    }
   });
 
   $("a[data-click='welcome']").on("click", function(e) {
@@ -143,10 +143,10 @@ $(function () {
       }
 
       var
-        $pane        = $(".scroll-pane-" + what),
-        windowHeight = $(window).height(),
-        panePosition = $pane.offset().top,
-        paneHeight   = windowHeight - panePosition;
+      $pane        = $(".scroll-pane-" + what),
+      windowHeight = $(window).height(),
+      panePosition = $pane.offset().top,
+      paneHeight   = windowHeight - panePosition;
 
       $pane.css("height", paneHeight - 20);
 
@@ -163,10 +163,10 @@ $(function () {
 
     $("ul.stats li").each(function(i, li) {
       var
-        el   = null,
-        spin = null,
-        $li  = $(li),
-        id   = 'spinner_' + $li.attr('class');
+      el   = null,
+      spin = null,
+      $li  = $(li),
+      id   = 'spinner_' + $li.attr('class');
 
       $li.append('<div id="' + id + '" class="spinner"></div>');
       el = document.getElementById(id);
@@ -219,8 +219,8 @@ $(function () {
     function visitPlace() {
 
       var
-        lat = $("input[data-geo='lat']").val(),
-        lng = $("input[data-geo='lng']").val();
+      lat = $("input[data-geo='lat']").val(),
+      lng = $("input[data-geo='lng']").val();
 
       if (!lat || !lng) {
         return;
@@ -241,8 +241,8 @@ $(function () {
 
     function unMarkProject() {
       var
-        $asideToggle = $(".aside .toggle");
-        data         = $asideToggle.data('project');
+      $asideToggle = $(".aside .toggle");
+      data         = $asideToggle.data('project');
 
       if (data) {
         data.unMarkSelected(true); // Unselect the project
@@ -252,10 +252,10 @@ $(function () {
 
     function searchInBounds(open) {
       var
-        results = [],
-        bounds  = map.getBounds();
+      results = [],
+      bounds  = map.getBounds();
 
-        unMarkProject();
+      unMarkProject();
 
       _.each(autocompleteSource, function(project) {
 
@@ -296,8 +296,8 @@ $(function () {
             result.marker.showInfowindow();
 
             //google.maps.event.trigger(result.circle, 'click', {
-              //autoopen: true,
-              //latLng: null
+            //autoopen: true,
+            //latLng: null
             //});
             //result.circle.parent.markSelected();
           });
@@ -342,8 +342,8 @@ $(function () {
     $(".input_field").smartPlaceholder();
 
     /*
-     * SPINNER
-     */
+    * SPINNER
+    */
     var spinner = (function () {
       var options = {
         lines: 7, // The number of lines to draw
@@ -417,6 +417,38 @@ $(function () {
       };
     }());
 
+    function addMarker(overlay, lat, lng) {
+
+      var
+      properties = overlay[0][0].geojsonProperties,
+      marker     = projects[properties.nexso_code];
+
+      if (marker) {
+        marker.show();
+      } else {
+
+        // circle properties
+        properties.cLatLng  = new google.maps.LatLng(properties.centroid_lat, properties.centroid_lon),
+        properties.rLatLng  = new google.maps.LatLng(properties.radius_point_lat, properties.radius_point_lon);
+        properties.polygons = overlay;
+        properties.lines    = [properties.agency_position];
+
+        //var lat = properties.cLatLng.lat();
+        //var lng = properties.cLatLng.lng();
+
+        var
+        position = new google.maps.LatLng(lat, lng),
+        icon     = 'img/icons/working_area.png';
+
+        // Create and add the marker
+        marker = new NexsoMarker("project", { position: position, icon: icon }, properties);
+        marker.setMap(map);
+      }
+
+      return marker;
+    }
+
+
     // Shows the circle, marker or polygon
     function showFeature(view, name, geojson, style) {
       var data = null;
@@ -438,12 +470,13 @@ $(function () {
       }
 
       var
-        solution_count     = 0,
-        polygons           = [],
-        agencies           = [],
-        zIndex             = 0;
+      solution_count     = 0,
+      polygons           = [],
+      agencies           = [],
+      zIndex             = 0;
 
-        autocompleteSource = [];
+      autocompleteSource = [];
+      p = 0;
 
       if (view.overlays[name].length) {
         for (var i = 0; i < view.overlays[name].length; i++) {
@@ -452,65 +485,45 @@ $(function () {
             polygons = [];
             agencies = [];
 
-            // Draws polygons
+            // Draws the polygons
             for (var j = 0; j < view.overlays[name][i].length; j++) {
+
               var overlay = view.overlays[name][i][j][0];
               overlay.setMap(map);
               polygons.push(overlay);
 
               var projectID = overlay.geojsonProperties.project_id;
               view.coordinates[projectID] = [view.overlays[name][i][0][0].geojsonProperties.centroid_lat, view.overlays[name][i][0][0].geojsonProperties.centroid_lon];
+
+              var
+              lat = view.overlays[name][i][j][0].geojsonProperties.pwa_lat,
+              lng = view.overlays[name][i][j][0].geojsonProperties.pwa_lon;
+
+              p++;
+
+              // Add a marker on top
+              var marker = addMarker(view.overlays[name][i], lat, lng);
+              view.circles.push(marker);
+
             }
-
-            zIndex += 10;
-
-            var
-            o           = view.overlays[name][i][0][0],
-            properties  = o.geojsonProperties,
-            opts        = {};
-
-
-            var marker = projects[properties.nexso_code];
-
-            if (marker) {
-              marker.show();
-            } else {
-
-            // circle properties
-            properties.cLatLng  = new google.maps.LatLng(properties.centroid_lat, properties.centroid_lon),
-            properties.rLatLng  = new google.maps.LatLng(properties.radius_point_lat, properties.radius_point_lon);
-            properties.polygons = view.overlays[name][i];
-            properties.lines    = [properties.agency_position];
-            properties.zIndex   = zIndex;
-
-            // marker options
-            opts.position = new google.maps.LatLng(properties.cLatLng.lat(), properties.cLatLng.lng());
-            opts.icon     = 'img/icons/working_area.png';
-            opts.zIndex   = zIndex;
-
-            // Create and add the marker
-            marker = new NexsoMarker("project", opts, properties);
-            marker.setMap(map);
-            projects[marker.properties.nexso_code] = marker;
-
-            view.circles.push(marker);
-            }
-
 
 
             // add the marker to the autocomplete array, so we can show it in the right pane
-            if (name === 'projects') {
+            //if (name === 'projects') {
 
-              autocompleteSource.push({
-                marker: marker,
-                more:   properties,
-                value:  properties.title,
-                lat:    properties.centroid_lat,
-                lng:    properties.centroid_lon
-              });
+              //projects[marker.properties.nexso_code] = marker;
 
-              solution_count += properties.solution_count;
-            }
+              //autocompleteSource.push({
+                //marker: marker,
+                //more:   marker.properties,
+                //value:  marker.properties.title,
+                //lat:    marker.properties.centroid_lat,
+                //lng:    marker.properties.centroid_lon
+              //});
+
+              //solution_count += marker.properties.solution_count;
+            //}
+
 
 
           } else {
@@ -999,14 +1012,14 @@ $(function () {
             endYear = config.END_YEAR;
           }
 
-            // Build filters by topic & solution
-            var topicsCondition   = (topics.length > 0) ? " P.topic_id  IN (" + topics.join(',') + ") AND " : " P.topic_id = 0 AND ";
-            var solutionCondition = (solutionFilter === 'solutions') ? " P.solution_id IS NOT NULL AND " : "";
+          // Build filters by topic & solution
+          var topicsCondition   = (topics.length > 0) ? " P.topic_id  IN (" + topics.join(',') + ") AND " : " P.topic_id = 0 AND ";
+          var solutionCondition = (solutionFilter === 'solutions') ? " P.solution_id IS NOT NULL AND " : "";
 
-            var template = _.template(queries.GET_PROJECTS_QUERY_TEMPLATE);
-            var query    = template({ startYear: startYear, endYear: endYear, topicsCondition: topicsCondition, solutionCondition: solutionCondition });
+          var template = _.template(queries.GET_PROJECTS_QUERY_TEMPLATE);
+          var query    = template({ startYear: startYear, endYear: endYear, topicsCondition: topicsCondition, solutionCondition: solutionCondition });
 
-            this.addOverlay("projects", query, function() { Timeline.show(); });
+          this.addOverlay("projects", query, function() { Timeline.show(); });
         },
         addOverlay: function(name, query, callback) {
           var that = this;
