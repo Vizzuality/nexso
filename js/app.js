@@ -313,12 +313,19 @@ $(function () {
     function startExploring(callback) {
 
       var // animation callbacks
+
       hideBackdrop = function() {
-        if (callback) {
-          callback();
-        }
+
+        searchInBounds();
+
+        if (callback) { callback(); }
+
       },
+
       hideRightSide = function() {
+
+        Aside.show();
+
         $(".backdrop").fadeOut(250);
         $(".welcome").fadeOut(250, hideBackdrop);
       },
@@ -431,9 +438,6 @@ $(function () {
         properties.rLatLng  = new google.maps.LatLng(properties.radius_point_lat, properties.radius_point_lon);
         properties.polygons = overlay;
 
-        //var lat = properties.cLatLng.lat();
-        //var lng = properties.cLatLng.lng();
-
         var
         position = new google.maps.LatLng(lat, lng),
         icon     = 'img/icons/working_area.png';
@@ -448,13 +452,13 @@ $(function () {
           mapView.projectMarkers[properties.nexso_code] = [];
           project_count++;
 
-              autocompleteSource.push({
-                marker: marker,
-                more:   marker.properties,
-                value:  marker.properties.title,
-                lat:    marker.properties.pwa_lat,
-                lng:    marker.properties.pwa_lon
-              });
+          autocompleteSource.push({
+            marker: marker,
+            more:   marker.properties,
+            value:  marker.properties.title,
+            lat:    marker.properties.pwa_lat,
+            lng:    marker.properties.pwa_lon
+          });
 
         }
 
@@ -487,11 +491,13 @@ $(function () {
       }
 
       var
-      polygons           = [],
-      agencies           = [],
-      zIndex             = 0;
+      polygons               = [],
+      agencies               = [],
+      zIndex                 = 0;
 
-      autocompleteSource = [];
+      projects               = [];
+      autocompleteSource     = [];
+      mapView.projectMarkers = {};
       p = 0;
 
       window.view = view;
@@ -870,8 +876,6 @@ $(function () {
           this.previousCenter = null;
 
           var that = this;
-
-          Aside.show();
 
         },
         enableFilters: function() {

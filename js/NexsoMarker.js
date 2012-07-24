@@ -289,6 +289,7 @@ NexsoMarker.prototype.showInfowindow = function() {
   budget            = properties.budget;
 
   function onInfowindowClick(e) {
+
     if (e) {
       e.preventDefault();
     }
@@ -304,10 +305,9 @@ NexsoMarker.prototype.showInfowindow = function() {
 
   }
 
-
-    Infowindow.setContent({ name: title, overlayType: "project", agencyName: agencyName, solution_name: solutionName, solution_url: solutionURL });
-    Infowindow.setCallback(onInfowindowClick);
-    Infowindow.open(that.latlng_);
+  Infowindow.setContent({ name: title, overlayType: "project", agencyName: agencyName, solution_name: solutionName, solution_url: solutionURL });
+  Infowindow.setCallback(onInfowindowClick);
+  Infowindow.open(that.latlng_);
 
 };
 
