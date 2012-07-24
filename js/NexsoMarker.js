@@ -96,13 +96,13 @@ NexsoMarker.prototype.setPosition = function() {
 NexsoMarker.prototype.markSelected = function() {
   // Polygons
   _.each(this.properties.polygons,function(polygon,i) {
-    polygon[0].setOptions(projectsHoverStyle);
+    polygon.setOptions(projectsHoverStyle);
   });
 
   // Lines
-  _.each(this.properties.lines,function(line,i) {
-    line.setOptions({"visible": true});
-  });
+  //_.each(this.properties.lines,function(line,i) {
+    //line.setOptions({"visible": true});
+  //});
 
   // Hide rest
   this.hideAll();
@@ -113,13 +113,13 @@ NexsoMarker.prototype.unMarkSelected = function(showAll) {
 
   // Polygons
   _.each(this.properties.polygons,function(polygon, i) {
-    polygon[0].setOptions(projectsStyle);
+    polygon.setOptions(projectsStyle);
   });
 
   // Lines
-  _.each(this.properties.lines,function(line,i) {
-    line.setOptions({"visible": false});
-  });
+  //_.each(this.properties.lines,function(line,i) {
+    //line.setOptions({"visible": false});
+  //});
 
   // Show the rest
   if (showAll) {
@@ -153,8 +153,8 @@ NexsoMarker.prototype.hideAll = function() {
     if (that != radiuswidget) {
       // Polygons
       _.each(radiuswidget.properties.polygons,function(polygon,i) {
-        polygon[0].setOptions(projectsDisabledStyle);
-        polygon[0].disabled = true;
+        polygon.setOptions(projectsDisabledStyle);
+        polygon.disabled = true;
       });
 
       //radiuswidget.circle.setOptions(circleDisabledStyle);
@@ -184,8 +184,8 @@ NexsoMarker.prototype.showAll = function() {
     if (that != radiuswidget) {
       // Polygons
       _.each(radiuswidget.properties.polygons,function(polygon,i) {
-        polygon[0].setOptions(projectsStyle);
-        polygon[0].disabled = false;
+        polygon.setOptions(projectsStyle);
+        polygon.disabled = false;
       });
 
       //radiuswidget.circle.setOptions(circleStyle);
@@ -249,6 +249,42 @@ NexsoMarker.prototype.getPosition = function() {
   return this.latlng_;
 };
 
+NexsoMarker.prototype.drawLine = function() {
+  _.each(this.properties.lines, function(l) {
+    l.setMap(window.map);
+  });
+};
+
+NexsoMarker.prototype.generateLine = function(properties) {
+  var that = this;
+  var agency_lines = [];
+
+  _.each([properties.agency_position], function(line,i) {
+
+    if (!line) return false;
+
+    var
+    coordinates   = $.parseJSON(line).coordinates,
+    agency_center = new google.maps.LatLng(coordinates[1], coordinates[0]);
+
+    _.each(that.properties.polygons, function(polygon, i) {
+
+      var agency_line = new google.maps.Polyline({
+        path: [polygon.getBounds().getCenter(), agency_center],
+        strokeColor: "#1872A1",
+        strokeWeight: 1,
+        visible: false
+      });
+
+      //agency_line.setMap(window.map);
+      agency_lines.push(agency_line);
+
+    });
+  });
+
+  return agency_lines;
+
+};
 
 NexsoMarker.prototype.showInfowindow = function() {
   var that = this;
@@ -260,40 +296,13 @@ NexsoMarker.prototype.showInfowindow = function() {
 
   that.distanceWidget = new RadiusWidget(map, that.properties.cLatLng, that.properties.rLatLng, that.properties.polygons, that.properties.lines, that.properties.zIndex);
 
-  // Draw line
-  var agency_lines = [];
-
-  _.each([that.properties.agency_position], function(line,i) {
-
-    if (!line) return false;
-
-    var
-    coordinates   = $.parseJSON(line).coordinates,
-    agency_center = new google.maps.LatLng(coordinates[1], coordinates[0]);
-
-
-    _.each(that.properties.polygons, function(polygon, i) {
-      var agency_line = new google.maps.Polyline({
-        path: [polygon[0].getBounds().getCenter(), agency_center],
-        strokeColor: "#1872A1",
-        strokeOpacity: .6,
-        strokeWeight: 1,
-        visible: false
-      });
-
-      agency_line.setMap(window.map);
-      agency_lines.push(agency_line);
-    });
-
-    return true;
-
-  });
+  //agency_lines = that.generateLine(that.properties);
 
   // Append lines
-  that.properties.lines = agency_lines;
+  //that.properties.lines = agency_lines;
 
   var
-  properties = that.properties,
+  properties        = that.properties,
   title             = properties.title,
   approvalDate      = properties.approval_date,
   fixedApprovalDate = properties.approval_date,
@@ -401,9 +410,9 @@ NexsoMarker.prototype.onHiddenAside = function(that) {
   // Focus on the overlay with the related agency/ies
   var bounds = that.distanceWidget.circle.getBounds();
 
-  _.each(that.properties.lines, function(line,i) {
-    bounds.extend(line.getPath().getAt(1));
-  });
+  //_.each(that.properties.lines, function(line,i) {
+    //bounds.extend(line.getPath().getAt(1));
+  //});
 
   window.map.fitBounds(bounds);
   window.map.panBy(176, 0);

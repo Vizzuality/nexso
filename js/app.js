@@ -420,7 +420,7 @@ $(function () {
     function addMarker(overlay, lat, lng) {
 
       var
-      properties = overlay[0][0].geojsonProperties,
+      properties = overlay[0].geojsonProperties,
       marker     = projects[properties.nexso_code];
 
       if (marker) {
@@ -478,6 +478,7 @@ $(function () {
       autocompleteSource = [];
       p = 0;
 
+window.view = view;
       if (view.overlays[name].length) {
         for (var i = 0; i < view.overlays[name].length; i++) {
           if (view.overlays[name][i].length){
@@ -488,22 +489,25 @@ $(function () {
             // Draws the polygons
             for (var j = 0; j < view.overlays[name][i].length; j++) {
 
-              var overlay = view.overlays[name][i][j][0];
+              var overlay = view.overlays[name][i][j];
               overlay.setMap(map);
               polygons.push(overlay);
 
               var projectID = overlay.geojsonProperties.project_id;
-              view.coordinates[projectID] = [view.overlays[name][i][0][0].geojsonProperties.centroid_lat, view.overlays[name][i][0][0].geojsonProperties.centroid_lon];
+              view.coordinates[projectID] = [view.overlays[name][i][0].geojsonProperties.centroid_lat, view.overlays[name][i][0].geojsonProperties.centroid_lon];
 
               var
-              lat = view.overlays[name][i][j][0].geojsonProperties.pwa_lat,
-              lng = view.overlays[name][i][j][0].geojsonProperties.pwa_lon;
+              lat = view.overlays[name][i][j].geojsonProperties.pwa_lat,
+              lng = view.overlays[name][i][j].geojsonProperties.pwa_lon;
 
-              p++;
+              if (name == 'projects') {
 
-              // Add a marker on top
-              var marker = addMarker(view.overlays[name][i], lat, lng);
-              view.circles.push(marker);
+                p++;
+
+                // Add a marker on top
+                var marker = addMarker(view.overlays[name][i], lat, lng);
+                view.circles.push(marker);
+              }
 
             }
 
@@ -1016,7 +1020,7 @@ $(function () {
           var topicsCondition   = (topics.length > 0) ? " P.topic_id  IN (" + topics.join(',') + ") AND " : " P.topic_id = 0 AND ";
           var solutionCondition = (solutionFilter === 'solutions') ? " P.solution_id IS NOT NULL AND " : "";
 
-          var template = _.template(queries.GET_PROJECTS_QUERY_TEMPLATE);
+          var template = _.template(queries.GET_PROJECTS_QUERY_TEMPLATE_2);
           var query    = template({ startYear: startYear, endYear: endYear, topicsCondition: topicsCondition, solutionCondition: solutionCondition });
 
           this.addOverlay("projects", query, function() { Timeline.show(); });
