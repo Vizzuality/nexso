@@ -101,6 +101,8 @@ NexsoMarker.prototype.markSelected = function() {
     });
   });
 
+  this.hideAll();
+
   filterView.disable();
 };
 
@@ -121,6 +123,8 @@ NexsoMarker.prototype.unMarkSelected = function(showAll) {
 
 NexsoMarker.prototype.hideAll = function() {
   var that = this;
+
+  console.log('hide ashokas');
 
   // Ashokas
   mapView.hideOverlay('ashokas');
@@ -158,17 +162,15 @@ NexsoMarker.prototype.showAll = function() {
   mapView.addAshokas();
 
   // Projects
-  _.each(mapView.circles, function(radiuswidget,i) {
+  _.each(mapView.circles, function(radiuswidget, i) {
 
     if (that != radiuswidget) {
+
       // Polygons
       _.each(radiuswidget.properties.polygons,function(polygon,i) {
         polygon.setOptions(projectsStyle);
         polygon.disabled = false;
       });
-
-      //radiuswidget.circle.setOptions(circleStyle);
-      //radiuswidget.circle.disabled = false;
 
     }
   });
