@@ -94,18 +94,13 @@ NexsoMarker.prototype.setPosition = function() {
 };
 
 NexsoMarker.prototype.markSelected = function() {
-  // Polygons
-  _.each(this.properties.polygons,function(polygon,i) {
-    polygon.setOptions(projectsHoverStyle);
+  _.each(mapView.projectMarkers[mapView.currentProject], function(marker) {
+    _.each(marker.properties.polygons, function(polygon) {
+      polygon.setOptions(projectsHoverStyle);
+      polygon.disabled = false;
+    });
   });
 
-  // Lines
-  //_.each(this.properties.lines,function(line,i) {
-    //line.setOptions({"visible": true});
-  //});
-
-  // Hide rest
-  this.hideAll();
   filterView.disable();
 };
 
@@ -132,35 +127,24 @@ NexsoMarker.prototype.unMarkSelected = function(showAll) {
 NexsoMarker.prototype.hideAll = function() {
   var that = this;
 
-  /*// Agencies
-  _.each(mapView.overlays["agencies"], function(agency,i) {
-  if (that.circle.lines.length > 0 &&
-  agency.getPosition().lat() != that.circle.lines[0].getPath().getAt(1).lat() &&
-  agency.getPosition().lng() != that.circle.lines[0].getPath().getAt(1).lng()) {
-  agency.hide();
-  } else {
-  that.specialAgencies.push(agency);
-  agency.show();
-  }
-  });*/
-
   // Ashokas
   mapView.hideOverlay('ashokas');
 
-  // Projects
-  _.each(mapView.circles, function(radiuswidget,i) {
+  _.each(mapView.projectMarkers, function(project, i) {
+    _.each(project, function(marker) {
+      if (marker.properties.nexso_code != mapView.currentProject) {
 
-    if (that != radiuswidget) {
-      // Polygons
-      _.each(radiuswidget.properties.polygons,function(polygon,i) {
-        polygon.setOptions(projectsDisabledStyle);
-        polygon.disabled = true;
-      });
+        // Polygons
+        _.each(marker.properties.polygons, function(polygon) {
+          polygon.setOptions(projectsDisabledStyle);
+          polygon.disabled = true;
+        });
 
-      //radiuswidget.circle.setOptions(circleDisabledStyle);
-      //radiuswidget.circle.disabled = true;
-    }
+      }
+    });
+
   });
+
 };
 
 NexsoMarker.prototype.showAll = function() {
@@ -249,40 +233,37 @@ NexsoMarker.prototype.getPosition = function() {
   return this.latlng_;
 };
 
-NexsoMarker.prototype.drawLine = function() {
-  _.each(this.properties.lines, function(l) {
-    l.setMap(window.map);
-  });
+NexsoMarker.prototype.removeLine = function() {
+
+  if (this.properties.line) {
+    this.properties.line.setMap(null);
+  }
+
 };
 
-NexsoMarker.prototype.generateLine = function(properties) {
-  var that = this;
-  var agency_lines = [];
+NexsoMarker.prototype.drawLine = function() {
 
-  _.each([properties.agency_position], function(line,i) {
+  if (this.properties.line) {
+    this.properties.line.setMap(window.map);
+  }
 
-    if (!line) return false;
+};
 
-    var
-    coordinates   = $.parseJSON(line).coordinates,
-    agency_center = new google.maps.LatLng(coordinates[1], coordinates[0]);
+NexsoMarker.prototype.generateLine = function() {
 
-    _.each(that.properties.polygons, function(polygon, i) {
+  if (!this.properties.agency_position) return;
 
-      var agency_line = new google.maps.Polyline({
-        path: [polygon.getBounds().getCenter(), agency_center],
-        strokeColor: "#1872A1",
-        strokeWeight: 1,
-        visible: false
-      });
+  var
+  coordinates    = $.parseJSON(this.properties.agency_position).coordinates,
+  agency_center  = new google.maps.LatLng(coordinates[1], coordinates[0]),
+  polygon_center = new google.maps.LatLng(this.properties.pwa_lat, this.properties.pwa_lon);
 
-      //agency_line.setMap(window.map);
-      agency_lines.push(agency_line);
-
-    });
+  this.properties.line = new google.maps.Polyline({
+    path: [polygon_center, agency_center],
+    strokeColor: "#1872A1",
+    strokeWeight: 1,
+    visible: true
   });
-
-  return agency_lines;
 
 };
 
@@ -294,12 +275,7 @@ NexsoMarker.prototype.showInfowindow = function() {
     delete that.distanceWidget;
   }
 
-  that.distanceWidget = new RadiusWidget(map, that.properties.cLatLng, that.properties.rLatLng, that.properties.polygons, that.properties.lines, that.properties.zIndex);
-
-  //agency_lines = that.generateLine(that.properties);
-
-  // Append lines
-  //that.properties.lines = agency_lines;
+  //that.distanceWidget = new RadiusWidget(map, that.properties.cLatLng, that.properties.rLatLng, that.properties.polygons, that.properties.lines, that.properties.zIndex);
 
   var
   properties        = that.properties,
@@ -320,7 +296,6 @@ NexsoMarker.prototype.showInfowindow = function() {
   location          = properties.location_verbatim,
   budget            = properties.budget;
 
-
   function onInfowindowClick(e) {
     if (e) {
       e.preventDefault();
@@ -330,12 +305,18 @@ NexsoMarker.prototype.showInfowindow = function() {
     Aside.hide(function() {
       that.onHiddenAside(that);
     });
+
+    mapView.removeLines(mapView.currentProject);
+    mapView.showLines(that.properties.nexso_code);
+
   }
 
   if (event.autoopen) {
+
     onInfowindowClick();
-  } else {
-    // Infowindow setup
+
+  } else { // Infowindow setup
+
     Infowindow.setContent({ name: title, overlayType: "project", agencyName: agencyName, solution_name: solutionName, solution_url: solutionURL });
     Infowindow.setCallback(onInfowindowClick);
     Infowindow.open(that.latlng_);
@@ -408,19 +389,12 @@ NexsoMarker.prototype.onHiddenAside = function(that) {
   Infowindow.hide();
 
   // Focus on the overlay with the related agency/ies
-  var bounds = that.distanceWidget.circle.getBounds();
+  //var bounds = that.distanceWidget.circle.getBounds();
 
-  //_.each(that.properties.lines, function(line,i) {
-    //bounds.extend(line.getPath().getAt(1));
-  //});
-
-  window.map.fitBounds(bounds);
-  window.map.panBy(176, 0);
-
-  if (that.distanceWidget) {
-    that.distanceWidget.circle.setMap(null);
-    delete that.distanceWidget;
-  }
+  //if (that.distanceWidget) {
+    //that.distanceWidget.circle.setMap(null);
+    //delete that.distanceWidget;
+  //}
 
   // Make it "selected"
   var projectBefore = $(".aside a.toggle").data('project');

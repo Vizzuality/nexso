@@ -1,3 +1,18 @@
+if (!google.maps.Polygon.prototype.getBounds) {
+        google.maps.Polygon.prototype.getBounds = function(latLng) {
+            var bounds = new google.maps.LatLngBounds();
+            var paths = this.getPaths();
+            var path;
+            for (var p = 0; p < paths.getLength(); p++) {
+                path = paths.getAt(p);
+                for (var i = 0; i < path.getLength(); i++) {
+                    bounds.extend(path.getAt(i));
+                }
+            }
+            return bounds;
+        }
+    }
+
 var config = {
     CARTODB_USER:       "nexso2",
     CARTODB_ENDPOINT:   "https://nexso2.cartodb.com/api/v2/sql",
@@ -108,7 +123,7 @@ var queries = {
    "        SELECT  " +
    "            P.nexso_code, COUNT(S.cartodb_id) AS solution_count, P.cartodb_id AS project_id, P.title, P.approval_date, P.fixed_approval_date, P.external_project_url,  " +
    "            P.location_verbatim, T.name AS topic_name, P.solution_id AS solution_id, P.budget, S.name AS solution_name, S.nexso_url AS solution_url,  " +
-   "            A.external_url AS agency_url, A.name AS agency_name, ST_AsGeoJSON(A.the_geom) AS agency_position,PWA.the_geom as the_geom " +
+   "            A.external_url AS agency_url, A.name AS agency_name, ST_AsGeoJSON(A.the_geom) AS agency_position, PWA.the_geom as the_geom " +
    "        FROM  " +
    "            v3_projects P LEFT JOIN v1_solutions S ON (P.solution_id = S.cartodb_id) " +
    "            LEFT JOIN v1_agencies A ON (P.agency_id = A.cartodb_id) "+
@@ -130,14 +145,8 @@ var queries = {
    "    nexso_code, solution_count, project_id, title, approval_date, fixed_approval_date, external_project_url,  " +
    "    location_verbatim, topic_name, budget, agency_name, agency_url, the_geom, agency_position, solution_id, solution_name, solution_url,  " +
    "    ST_X(ST_Centroid(the_geom)) AS pwa_lon,  " +
-   "    ST_Y(ST_Centroid(the_geom)) AS pwa_lat,  " +
-   "    ST_X(ST_Centroid(hull_geom)) AS centroid_lon,  " +
-   "    ST_Y(ST_Centroid(hull_geom)) AS centroid_lat,  " +
-   "    ST_X(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom),hull_geom))) AS radius_point_lon,  " +
-   "    ST_Y(ST_EndPoint(ST_LongestLine(ST_Centroid(hull_geom), hull_geom))) AS radius_point_lat " +
-   "FROM qu  " +
-   "ORDER BY " +
-   "    ST_Area(hull_geom) DESC",
+   "    ST_Y(ST_Centroid(the_geom)) AS pwa_lat " +
+   "FROM qu  ",
 
  GET_PROJECTS_QUERY_TEMPLATE: "WITH qu AS ( " +
    "    WITH hull as ( " +

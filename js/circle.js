@@ -18,13 +18,13 @@ function RadiusWidget(map, centroidCenter, radiusCenter, polygons, lines, zIndex
     strokeOpacity: .6,
     strokeWeight: 1,
     fillColor: "#E79626",
-    fillOpacity: 0,
+    fillOpacity: 1,
     center: centroidCenter,
     radius: distance * 1000,
     geodesic: true,
     polygons: polygons,
     zIndex:zIndex,
-    visible:false
+    visible:true
   });
 
   this.circle.setMap(map);

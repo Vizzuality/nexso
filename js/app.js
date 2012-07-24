@@ -1,6 +1,8 @@
 $(function () {
 
   var
+  solution_count     = 0,
+  project_count      = 0,
   projects           = [],
   autocompleteSource = [],
   pane               = [],
@@ -421,7 +423,8 @@ $(function () {
 
       var
       properties = overlay[0].geojsonProperties,
-      marker     = projects[properties.nexso_code];
+      key        = properties.nexso_code+""+ properties.pwa_lon+""+properties.pwa_lat,
+      marker     = projects[key];
 
       if (marker) {
         marker.show();
@@ -431,7 +434,6 @@ $(function () {
         properties.cLatLng  = new google.maps.LatLng(properties.centroid_lat, properties.centroid_lon),
         properties.rLatLng  = new google.maps.LatLng(properties.radius_point_lat, properties.radius_point_lon);
         properties.polygons = overlay;
-        properties.lines    = [properties.agency_position];
 
         //var lat = properties.cLatLng.lat();
         //var lng = properties.cLatLng.lng();
@@ -443,11 +445,21 @@ $(function () {
         // Create and add the marker
         marker = new NexsoMarker("project", { position: position, icon: icon }, properties);
         marker.setMap(map);
+
+        projects[key] = marker;
+
+        if (mapView.projectMarkers[properties.nexso_code] == undefined) {
+          mapView.projectMarkers[properties.nexso_code] = [];
+          project_count++;
+        }
+
+        solution_count += marker.properties.solution_count;
+        mapView.projectMarkers[properties.nexso_code].push(marker);
+
       }
 
       return marker;
     }
-
 
     // Shows the circle, marker or polygon
     function showFeature(view, name, geojson, style) {
@@ -470,7 +482,6 @@ $(function () {
       }
 
       var
-      solution_count     = 0,
       polygons           = [],
       agencies           = [],
       zIndex             = 0;
@@ -478,7 +489,8 @@ $(function () {
       autocompleteSource = [];
       p = 0;
 
-window.view = view;
+      window.view = view;
+
       if (view.overlays[name].length) {
         for (var i = 0; i < view.overlays[name].length; i++) {
           if (view.overlays[name][i].length){
@@ -493,19 +505,22 @@ window.view = view;
               overlay.setMap(map);
               polygons.push(overlay);
 
-              var projectID = overlay.geojsonProperties.project_id;
-              view.coordinates[projectID] = [view.overlays[name][i][0].geojsonProperties.centroid_lat, view.overlays[name][i][0].geojsonProperties.centroid_lon];
-
-              var
-              lat = view.overlays[name][i][j].geojsonProperties.pwa_lat,
-              lng = view.overlays[name][i][j].geojsonProperties.pwa_lon;
+              //var projectID = overlay.geojsonProperties.project_id;
+              //view.coordinates[projectID] = [view.overlays[name][i][0].geojsonProperties.centroid_lat, view.overlays[name][i][0].geojsonProperties.centroid_lon];
 
               if (name == 'projects') {
+
+
+                var properties = view.overlays[name][i][j].geojsonProperties;
+                var lat = properties.pwa_lat;
+                var lng = properties.pwa_lon;
 
                 p++;
 
                 // Add a marker on top
                 var marker = addMarker(view.overlays[name][i], lat, lng);
+                marker.generateLine();
+
                 view.circles.push(marker);
               }
 
@@ -539,6 +554,7 @@ window.view = view;
       //spinner.hide();
 
       if (name === 'projects') {
+        updateCounter("projects", project_count);
         updateCounter("solutions", solution_count);
       }
 
@@ -859,6 +875,8 @@ window.view = view;
           this.addAgencies();
           this.addAshokas();
           this.addProjects();
+          this.currentProject = null;
+          this.projectMarkers = {};
 
           var that = this;
 
@@ -914,6 +932,7 @@ window.view = view;
           }
         },
         removeProjects: function(name) {
+
           if (this.circles.length > 0) { // Remove circles
             for (var i = 0; i < this.circles.length; i++){
               this.circles[i].hide();
@@ -924,7 +943,7 @@ window.view = view;
             for (i = 0; i < this.overlays[name].length; i++) {
               if (this.overlays[name][i].length) {
                 for (var j = 0; j < this.overlays[name][i].length; j++) {
-                  this.overlays[name][i][j][0].setMap(null);
+                  this.overlays[name][i][j].setMap(null);
                 }
               }
             }
@@ -932,6 +951,34 @@ window.view = view;
 
           this.enableFilters();
         },
+
+        removeLines: function(nexso_code) {
+
+          _.each(this.projectMarkers[nexso_code], function(m) {
+            m.removeLine();
+          });
+
+        },
+
+        showLines: function(nexso_code) {
+
+          this.currentProject = nexso_code;
+          var bounds = new google.maps.LatLngBounds();
+
+          _.each(this.projectMarkers[nexso_code], function(m) {
+            m.drawLine();
+
+            bounds.extend(m.properties.line.getPath().getAt(1));
+            bounds.extend(m.properties.polygons[0].getBounds().getCenter());
+
+          });
+
+          window.map.fitBounds(bounds);
+          window.map.panBy(176, 0);
+          window.map.setZoom(window.map.getZoom() - 1);
+
+        },
+
         changeOpacity: function(name, opacity) {
           _.each(mapView.overlays[name], function(el) {
             el.changeOpacity(opacity);
@@ -1042,7 +1089,7 @@ window.view = view;
                 return;
               }
 
-              updateCounter(name, data.features.length);
+              if (name != "projects") updateCounter(name, data.features.length);
 
               showFeature(that, name, data, projectsStyle);
 
