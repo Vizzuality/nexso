@@ -647,6 +647,7 @@ h4 { font-size: 11px; font-weight:bold; }
             width:14px;
             height:14px;
             @include icons-sprite(view);
+
             &.projects { @include icons-sprite(view);}
             &.agencies { @include icons-sprite(view, $offset-y:-59px);}
             &.ashokas { @include icons-sprite(view, $offset-y:-120px);}
@@ -823,6 +824,7 @@ h4 { font-size: 11px; font-weight:bold; }
   $pL: 33px;
 
   position:absolute;
+
   top: $navHeight;
   right:-330px;
   width: $width;
@@ -838,6 +840,18 @@ h4 { font-size: 11px; font-weight:bold; }
     width:$width - $pL - $pR;
     padding: $pT $pR $pB $pL;
     margin-left:10px;
+
+    position:relative;
+
+    .spinner {
+      position:absolute;
+      top: 73px;
+      right: 40px;
+      background: url(../img/icons/spinner.gif) no-repeat;
+      width: 16px;
+      height: 16px;
+    }
+
 
     .counter { display:block; width:270px; margin-bottom: 20px; font-weight:bold; font-size:11px; color:$title_blue; text-transform:uppercase; }
     .icon.counter { background: transparent url(../img/icons/project_mini.png) no-repeat left 1px; padding-left: 15px; }

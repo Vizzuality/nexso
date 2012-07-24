@@ -276,6 +276,7 @@ $(function () {
 
       if (results <= 0) {
         $(".aside").find(".counter").html("No projects found on the screen");
+          $(".aside .spinner").fadeOut(250);
       } else if (results.length > 0) {
 
         var resultTitle = results.length + " " + (results.length === 1 ? ' project on screen' : ' projects on screen');
@@ -295,6 +296,7 @@ $(function () {
           api.getContentPane().append( $("<li></li>").append($a).delay(i*50).animate({opacity:1}));
           api.reinitialise();
 
+
           $a.on("click", function(e) {
             e.preventDefault();
             result.marker.showInfowindow();
@@ -303,6 +305,7 @@ $(function () {
         });
 
         resetLastSearch();
+          $(".aside .spinner").fadeOut(250);
 
         if (open) {
           Aside.show("search");
@@ -717,6 +720,7 @@ $(function () {
       values: [0, 500],
       stop: function(event, ui) {
 
+          $(".aside .spinner").fadeIn(250);
         var min = (ui.values[0]/30) + 1;
         var max = (ui.values[1]/30);
 
@@ -796,6 +800,7 @@ $(function () {
 
       google.maps.event.addDomListener(map, 'dragend', function() {
         if (!Aside.isHidden()) {
+          $(".aside .spinner").fadeIn(250);
           searchInBounds();
         }
       });
@@ -803,6 +808,7 @@ $(function () {
       google.maps.event.addListener(map, 'zoom_changed', function() {
 
         if (!Aside.isHidden()) {
+          $(".aside .spinner").fadeIn(250);
           searchInBounds();
         }
       });
