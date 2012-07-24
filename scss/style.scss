@@ -35,6 +35,10 @@ $zBase: 10;
 // Other
 $navHeight: 80px;
 
+// Sprites
+$icons-ashoka_mini-spacing: 40px;
+$icons-agency_mini-spacing: 40px;
+
 html,
 body {
   height: 100%; margin: 0; padding: 0; overflow:hidden;
@@ -902,10 +906,10 @@ h4 { font-size: 11px; font-weight:bold; }
     } // header
 
     .legend {
-      margin: 0 0 20px 0;
+      margin: 0 0 10px 0;
 
       li {
-        display: inline;
+        display: block;
         padding: 0;
         border: none;
 

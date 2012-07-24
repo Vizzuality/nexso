@@ -304,16 +304,10 @@ NexsoMarker.prototype.showInfowindow = function() {
 
   }
 
-  if (event.autoopen) {
-
-    onInfowindowClick();
-
-  } else { // Infowindow setup
 
     Infowindow.setContent({ name: title, overlayType: "project", agencyName: agencyName, solution_name: solutionName, solution_url: solutionURL });
     Infowindow.setCallback(onInfowindowClick);
     Infowindow.open(that.latlng_);
-  }
 
 };
 

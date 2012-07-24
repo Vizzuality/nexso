@@ -298,12 +298,6 @@ $(function () {
           $a.on("click", function(e) {
             e.preventDefault();
             result.marker.showInfowindow();
-
-            //google.maps.event.trigger(result.circle, 'click', {
-            //autoopen: true,
-            //latLng: null
-            //});
-            //result.circle.parent.markSelected();
           });
 
         });
@@ -534,27 +528,7 @@ $(function () {
 
                 view.circles.push(marker);
               }
-
             }
-
-
-            // add the marker to the autocomplete array, so we can show it in the right pane
-            //if (name === 'projects') {
-
-              //projects[marker.properties.nexso_code] = marker;
-
-              //autocompleteSource.push({
-                //marker: marker,
-                //more:   marker.properties,
-                //value:  marker.properties.title,
-                //lat:    marker.properties.centroid_lat,
-                //lng:    marker.properties.centroid_lon
-              //});
-
-            //}
-
-
-
           } else {
             view.overlays[name][i].setMap(map);
           }
@@ -896,6 +870,9 @@ $(function () {
           this.previousCenter = null;
 
           var that = this;
+
+          Aside.show();
+
         },
         enableFilters: function() {
           if (!disabledFilters) {
