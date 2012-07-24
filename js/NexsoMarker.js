@@ -111,11 +111,6 @@ NexsoMarker.prototype.unMarkSelected = function(showAll) {
     polygon.setOptions(projectsStyle);
   });
 
-  // Lines
-  //_.each(this.properties.lines,function(line,i) {
-    //line.setOptions({"visible": false});
-  //});
-
   // Show the rest
   if (showAll) {
     this.showAll();
@@ -178,7 +173,6 @@ NexsoMarker.prototype.showAll = function() {
     }
   });
 };
-
 
 NexsoMarker.prototype.hide = function(animate) {
   if (this.div_ && !$(this.div_).hasClass('h')) {
@@ -270,12 +264,8 @@ NexsoMarker.prototype.generateLine = function() {
 NexsoMarker.prototype.showInfowindow = function() {
   var that = this;
 
-  if (that.distanceWidget) {
-    that.distanceWidget.circle.setMap(null);
-    delete that.distanceWidget;
-  }
-
-  //that.distanceWidget = new RadiusWidget(map, that.properties.cLatLng, that.properties.rLatLng, that.properties.polygons, that.properties.lines, that.properties.zIndex);
+  mapView.previousZoom   = window.map.getZoom();
+  mapView.previousCenter = window.map.getCenter();
 
   var
   properties        = that.properties,
@@ -302,6 +292,7 @@ NexsoMarker.prototype.showInfowindow = function() {
     }
 
     Timeline.hide();
+
     Aside.hide(function() {
       that.onHiddenAside(that);
     });
@@ -382,19 +373,8 @@ NexsoMarker.prototype.onHiddenAside = function(that) {
   setItem("solution", { url: solutionURL, text: solutionName });
   setItem("agency", { url: agencyURL, text: agencyName });
 
-  previousZoom   = window.map.getZoom();
-  previousCenter = window.map.getCenter();
-
   Aside.show("project");
   Infowindow.hide();
-
-  // Focus on the overlay with the related agency/ies
-  //var bounds = that.distanceWidget.circle.getBounds();
-
-  //if (that.distanceWidget) {
-    //that.distanceWidget.circle.setMap(null);
-    //delete that.distanceWidget;
-  //}
 
   // Make it "selected"
   var projectBefore = $(".aside a.toggle").data('project');

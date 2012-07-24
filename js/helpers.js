@@ -54,15 +54,13 @@ var // DEFAULTS
     mapView,
     filterView,
     debug            = true,
-    previousZoom     = 3,
     topics           = [1, 2, 3, 4, 5, 6],
     solutionFilter   = "all",
-    previousCenter,
     disabledFilters  = false,
     globalZindex     = 300,
     visibleOverlays  = [];
 
-    visibleOverlays["ashokas"]  = true;
+    visibleOverlays["ashokas"]  = false;
     visibleOverlays["agencies"] = true;
     visibleOverlays["projects"] = true;
 

@@ -4,6 +4,8 @@ $(function () {
   solution_count     = 0,
   project_count      = 0,
   projects           = [],
+
+
   autocompleteSource = [],
   pane               = [],
   startYear,
@@ -612,8 +614,13 @@ $(function () {
 
             if (mode === 0) { // project mode
               unMarkProject();
-              map.setZoom(previousZoom);
+              map.setOptions({ zoom: mapView.previousZoom, center: mapView.previousCenter });
+
               Aside.hide(Timeline.show);
+
+              mapView.removeLines(mapView.currentProject);
+              mapView.currentProject = null;
+
             } else { // regular mode
               Aside.hide();
               resetAutocomplete();
@@ -882,10 +889,11 @@ $(function () {
           this.coordinates = [];
           this.addAgencies();
           this.countAshokas();
-          //this.addAshokas();
           this.addProjects();
           this.currentProject = null;
           this.projectMarkers = {};
+          this.previousZoom   = 3;
+          this.previousCenter = null;
 
           var that = this;
         },
@@ -984,15 +992,21 @@ $(function () {
         },
 
         changeOpacity: function(name, opacity) {
+
           _.each(mapView.overlays[name], function(el) {
             el.changeOpacity(opacity);
           });
+
         },
+
         hideOverlay: function(name) {
+
           _.each(mapView.overlays[name], function(el) {
             el.hide(true);
           });
+
         },
+
         countAshokas: function() {
 
           $.ajax({
@@ -1000,9 +1014,7 @@ $(function () {
             data: { q: queries.GET_ASHOKAS, format:"geojson" },
             dataType: 'jsonp',
             success: function(data) {
-
               updateCounter("ashokas", data.features.length);
-
             }
           });
         },
