@@ -255,6 +255,7 @@ $(function () {
     }
 
     function searchInBounds(open) {
+
       var
       results = [],
       bounds  = map.getBounds();
@@ -506,39 +507,31 @@ $(function () {
       window.view = view;
 
       if (view.overlays[name].length) {
-        for (var i = 0; i < view.overlays[name].length; i++) {
-          if (view.overlays[name][i].length){
 
-            polygons = [];
-            agencies = [];
+        polygons = [];
+        agencies = [];
+
+        for (var i = 0; i < view.overlays[name].length; i++) {
+          if (view.overlays[name][i].length){ // projects
 
             // Draws the polygons
-            for (var j = 0; j < view.overlays[name][i].length; j++) {
+            var overlay = view.overlays[name][i][0];
+            overlay.setMap(map);
+            polygons.push(overlay);
 
-              var overlay = view.overlays[name][i][j];
-              overlay.setMap(map);
-              polygons.push(overlay);
+            var
+            properties = view.overlays[name][i][0].geojsonProperties,
+            lat = properties.pwa_lat,
+            lng = properties.pwa_lon;
 
-              //var projectID = overlay.geojsonProperties.project_id;
-              //view.coordinates[projectID] = [view.overlays[name][i][0].geojsonProperties.centroid_lat, view.overlays[name][i][0].geojsonProperties.centroid_lon];
+            p++;
 
-              if (name == 'projects') {
+            // Add a marker on top
+            var marker = addMarker(view.overlays[name][i], lat, lng);
+            marker.generateLine();
 
-
-                var properties = view.overlays[name][i][j].geojsonProperties;
-                var lat = properties.pwa_lat;
-                var lng = properties.pwa_lon;
-
-                p++;
-
-                // Add a marker on top
-                var marker = addMarker(view.overlays[name][i], lat, lng);
-                marker.generateLine();
-
-                view.circles.push(marker);
-              }
-            }
-          } else {
+            view.circles.push(marker);
+          } else { // other: agencies, ashokas
             view.overlays[name][i].setMap(map);
           }
         }
@@ -732,6 +725,7 @@ $(function () {
         mapView.addProjects();
 
       },
+
       slide: function( event, ui ) {
         $('#timeline li').removeClass("selected");
 
@@ -941,9 +935,7 @@ $(function () {
           if (this.overlays[name].length){ // Remove projects
             for (i = 0; i < this.overlays[name].length; i++) {
               if (this.overlays[name][i].length) {
-                for (var j = 0; j < this.overlays[name][i].length; j++) {
-                  this.overlays[name][i][j].setMap(null);
-                }
+                this.overlays[name][i][0].setMap(null);
               }
             }
           }
