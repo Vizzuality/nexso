@@ -720,7 +720,8 @@ $(function () {
       values: [0, 500],
       stop: function(event, ui) {
 
-          $(".aside .spinner").fadeIn(250);
+        $(".aside .spinner").fadeIn(250);
+
         var min = (ui.values[0]/30) + 1;
         var max = (ui.values[1]/30);
 
@@ -925,6 +926,12 @@ $(function () {
         },
         removeProjects: function(name) {
 
+          project_count        = 0;
+          solution_count       = 0;
+          projects             = [];
+          this.projectMarkers  = {};
+          autocompleteSource   = [];
+
           if (this.circles.length > 0) { // Remove circles
             for (var i = 0; i < this.circles.length; i++){
               this.circles[i].hide();
@@ -1063,6 +1070,7 @@ $(function () {
             this.addOverlay("agencies", queries.GET_AGENCIES);
           }
         },
+
         addProjects: function() {
           this.disableFilters();
 
@@ -1087,6 +1095,7 @@ $(function () {
 
           this.addOverlay("projects", query, function() { Timeline.show(); });
         },
+
         addOverlay: function(name, query, callback) {
           var that = this;
 
