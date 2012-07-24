@@ -451,6 +451,15 @@ $(function () {
         if (mapView.projectMarkers[properties.nexso_code] == undefined) {
           mapView.projectMarkers[properties.nexso_code] = [];
           project_count++;
+
+              autocompleteSource.push({
+                marker: marker,
+                more:   marker.properties,
+                value:  marker.properties.title,
+                lat:    marker.properties.pwa_lat,
+                lng:    marker.properties.pwa_lon
+              });
+
         }
 
         solution_count += marker.properties.solution_count;
@@ -540,7 +549,6 @@ $(function () {
                 //lng:    marker.properties.centroid_lon
               //});
 
-              //solution_count += marker.properties.solution_count;
             //}
 
 
@@ -873,22 +881,13 @@ $(function () {
           this.circles = [];
           this.coordinates = [];
           this.addAgencies();
-          this.addAshokas();
+          this.countAshokas();
+          //this.addAshokas();
           this.addProjects();
           this.currentProject = null;
           this.projectMarkers = {};
 
           var that = this;
-
-          _.bindAll(this, "removeOverlay");
-
-          setTimeout(function() {
-
-            that.removeOverlay("ashokas");
-            $("#ashokas").removeClass("selected");
-            visibleOverlays["ashokas"]  = false;
-          }, 1000);
-
         },
         enableFilters: function() {
           if (!disabledFilters) {
@@ -968,8 +967,13 @@ $(function () {
           _.each(this.projectMarkers[nexso_code], function(m) {
             m.drawLine();
 
-            bounds.extend(m.properties.line.getPath().getAt(1));
-            bounds.extend(m.properties.polygons[0].getBounds().getCenter());
+            if (m.properties.line) {
+              bounds.extend(m.properties.line.getPath().getAt(1));
+            }
+
+            if (m.properties.polygons) {
+              bounds.extend(m.properties.polygons[0].getBounds().getCenter());
+            }
 
           });
 
@@ -989,6 +993,20 @@ $(function () {
             el.hide(true);
           });
         },
+        countAshokas: function() {
+
+          $.ajax({
+            url: config.CARTODB_ENDPOINT,
+            data: { q: queries.GET_ASHOKAS, format:"geojson" },
+            dataType: 'jsonp',
+            success: function(data) {
+
+              updateCounter("ashokas", data.features.length);
+
+            }
+          });
+        },
+
         addAshokas: function() {
 
           if (!visibleOverlays["ashokas"]) {
