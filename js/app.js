@@ -541,8 +541,6 @@ $(function () {
         }
       }
 
-      //spinner.hide();
-
       if (name === 'projects') {
         updateCounter("projects", project_count);
         updateCounter("solutions", solution_count);
