@@ -5,8 +5,8 @@ $(function () {
   project_count      = 0,
   projects           = [],
 
-
   autocompleteSource = [],
+  autocompletePos    = [],
   pane               = [],
   startYear,
   endYear;
@@ -262,7 +262,11 @@ $(function () {
 
       unMarkProject();
 
-      _.each(autocompleteSource, function(project) {
+
+      //worker.postMessage({ data: autocompletePos, bounds: bounds }); // Send data to our worker.
+
+
+      _.each(autocompletePos, function(project) {
 
         var latLng = new google.maps.LatLng(project.lat, project.lng);
 
@@ -283,28 +287,28 @@ $(function () {
         var resultTitle = results.length + " " + (results.length === 1 ? ' project on screen' : ' projects on screen');
         $(".aside").find(".counter").html(resultTitle);
 
-        _.each(results, function(result, i) {
-          var $a = $('<a href="#">' + result.value + '</a>');
-
           what = 'search';
-
           if (!pane[what]) { // if we loaded the pane before
             pane[what] = $(".scroll-pane-" + what);
             pane[what].jScrollPane();
           }
 
           var api = pane[what].data('jsp');
-          api.getContentPane().append( $("<li></li>").append($a).delay(i*50).animate({opacity:1}));
-          api.reinitialise();
 
+        _.each(results, function(result, i) {
+          var $a = $('<a href="#">' + result.value + '</a>');
+
+
+          api.getContentPane().append( $("<li></li>").append($a));
 
           $a.on("click", function(e) {
             e.preventDefault();
-            result.marker.showInfowindow();
+            autocompleteSource[result.key].showInfowindow();
           });
 
         });
 
+          api.reinitialise();
         resetLastSearch();
           $(".aside .spinner").fadeOut(250);
 
@@ -350,82 +354,6 @@ $(function () {
 
     $(".input_field").smartPlaceholder();
 
-    /*
-    * SPINNER
-    */
-    var spinner = (function () {
-      var options = {
-        lines: 7, // The number of lines to draw
-        length: 0, // The length of each line
-        width: 3, // The line thickness
-        radius: 4, // The radius of the inner circle
-        rotate: 0, // The rotation offset
-        color: '#000', // #rgb or #rrggbb
-        speed: 1, // Rounds per second
-        trail: 55, // Afterglow percentage
-        shadow: false, // Whether to render a shadow
-        hwaccel: false, // Whether to use hardware acceleration
-        className: 'spinner', // The CSS class to assign to the spinner
-        zIndex: 2e9, // The z-index (defaults to 2000000000)
-        top: 'auto', // Top position relative to parent in px
-        left: 'auto' // Left position relative to parent in px
-      },
-      el,
-      spin;
-
-      function _initialize() {
-        el = document.getElementById('minispinner_wrapper');
-        spin = new Spinner(options).spin(el);
-      }
-
-      function _show() {
-        $(el).fadeIn();
-        _bindEvents();
-      }
-
-      function _hide() {
-        $(el).fadeOut(function(){
-          _unbindEvents();
-        });
-      }
-
-      function _disable() {
-        $(el).css('opacity', 0);
-      }
-
-      function _enable() {
-        $(el).css('opacity', 1);
-      }
-
-      function _bindEvents() {
-        $(window).mousemove( function(e) {
-          spinner.positionate(e.pageX + 10,e.pageY + 10);
-        });
-        $(window).mouseleave( function(e) {
-          _disable();
-        });
-        $(window).mouseenter( function(e) {
-          _enable();
-        });
-      }
-
-      function _unbindEvents() {
-        $(window).unbind('mousemove mouseleave mouseenter');
-      }
-
-      function _positionate(x,y) {
-        $(el).css({'top':y + 'px', 'left': x + 'px'});
-      }
-
-      _initialize(options);
-
-      return {
-        show: _show,
-        hide: _hide,
-        positionate: _positionate
-      };
-    }());
-
     function addMarker(overlay, lat, lng) {
 
       var
@@ -437,9 +365,6 @@ $(function () {
         marker.show();
       } else {
 
-        // circle properties
-        properties.cLatLng  = new google.maps.LatLng(properties.centroid_lat, properties.centroid_lon),
-        properties.rLatLng  = new google.maps.LatLng(properties.radius_point_lat, properties.radius_point_lon);
         properties.polygons = overlay;
 
         var
@@ -450,19 +375,20 @@ $(function () {
         marker = new NexsoMarker("project", { position: position, icon: icon }, properties);
         marker.setMap(map);
 
-        projects[key] = marker;
+        projects[key] = true;
 
         if (mapView.projectMarkers[properties.nexso_code] == undefined) {
           mapView.projectMarkers[properties.nexso_code] = [];
           project_count++;
 
-          autocompleteSource.push({
-            marker: marker,
-            more:   marker.properties,
+          autocompletePos.push({
+            key: key,
             value:  marker.properties.title,
             lat:    marker.properties.pwa_lat,
             lng:    marker.properties.pwa_lon
           });
+
+          autocompleteSource[key] = marker;
 
         }
 
@@ -495,12 +421,11 @@ $(function () {
       }
 
       var
-      polygons               = [],
-      agencies               = [],
       zIndex                 = 0;
 
       projects               = [];
       autocompleteSource     = [];
+      autocompletePos     = [];
       mapView.projectMarkers = {};
       p = 0;
 
@@ -508,29 +433,25 @@ $(function () {
 
       if (view.overlays[name].length) {
 
-        polygons = [];
-        agencies = [];
-
         for (var i = 0; i < view.overlays[name].length; i++) {
           if (view.overlays[name][i].length){ // projects
 
             // Draws the polygons
             var overlay = view.overlays[name][i][0];
+
             overlay.setMap(map);
-            polygons.push(overlay);
 
             var
             properties = view.overlays[name][i][0].geojsonProperties,
-            lat = properties.pwa_lat,
-            lng = properties.pwa_lon;
+            lat        = properties.pwa_lat,
+            lng        = properties.pwa_lon;
 
             p++;
 
-            // Add a marker on top
             var marker = addMarker(view.overlays[name][i], lat, lng);
             marker.generateLine();
+            view.markers.push(marker);
 
-            view.circles.push(marker);
           } else { // other: agencies, ashokas
             view.overlays[name][i].setMap(map);
           }
@@ -864,7 +785,7 @@ $(function () {
         initialize: function() {
           this.state = 1;
           this.overlays = [];
-          this.circles = [];
+          this.markers = [];
           this.coordinates = [];
           this.addAgencies();
           this.countAshokas();
@@ -889,6 +810,7 @@ $(function () {
               $(this).parent().removeClass("loading");
               $(this).remove();
             });
+
           }, 250);
 
         },
@@ -922,13 +844,21 @@ $(function () {
 
           project_count        = 0;
           solution_count       = 0;
+
+          delete projects;
           projects             = [];
+
+          delete this.projectMarkers;
           this.projectMarkers  = {};
+
+          delete autocompletePos;
+          autocompletePos   = [];
+          delete autocompleteSource;
           autocompleteSource   = [];
 
-          if (this.circles.length > 0) { // Remove circles
-            for (var i = 0; i < this.circles.length; i++){
-              this.circles[i].hide();
+          if (this.markers.length > 0) { // Remove markers
+            for (var i = 0; i < this.markers.length; i++){
+              this.markers[i].hide();
             }
           }
 
@@ -1195,6 +1125,7 @@ $(function () {
             mapView.removeOverlay("projects");
 
             autocompleteSource = [];
+            autocompletePos = [];
 
             if (!Aside.isHidden()) {
               searchInBounds();
@@ -1206,6 +1137,7 @@ $(function () {
           } else {
 
             autocompleteSource = [];
+            autocompletePos = [];
 
             if (!Aside.isHidden()) {
               searchInBounds();
@@ -1272,6 +1204,7 @@ $(function () {
 
               if (id === 'projects') {
                 autocompleteSource = [];
+            autocompletePos = [];
 
                 if (!Aside.isHidden()) {
                   searchInBounds();

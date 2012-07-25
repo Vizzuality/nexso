@@ -32,9 +32,10 @@ NexsoMarker.prototype.draw = function() {
       that.properties.overlayType = that.overlayType_;
 
       if (that.properties.overlayType == 'project') {
-        that.showInfowindow();
-      } else {
 
+        that.showInfowindow();
+
+      } else {
 
         var topic_names = that.properties.topic_names;
 
@@ -162,7 +163,7 @@ NexsoMarker.prototype.showAll = function() {
   mapView.addAshokas();
 
   // Projects
-  _.each(mapView.circles, function(radiuswidget, i) {
+  _.each(mapView.markers, function(radiuswidget, i) {
 
     if (that != radiuswidget) {
 
