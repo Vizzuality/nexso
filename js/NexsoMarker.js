@@ -125,8 +125,6 @@ NexsoMarker.prototype.unMarkSelected = function(showAll) {
 NexsoMarker.prototype.hideAll = function() {
   var that = this;
 
-  console.log('hide ashokas');
-
   // Ashokas
   mapView.hideOverlay('ashokas');
 

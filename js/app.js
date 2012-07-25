@@ -298,7 +298,6 @@ $(function () {
         _.each(results, function(result, i) {
           var $a = $('<a href="#">' + result.value + '</a>');
 
-
           api.getContentPane().append( $("<li></li>").append($a));
 
           $a.on("click", function(e) {
@@ -885,23 +884,30 @@ $(function () {
 
           this.currentProject = nexso_code;
           var bounds = new google.maps.LatLngBounds();
+          var gotBounds = false;
 
           _.each(this.projectMarkers[nexso_code], function(m) {
+
             m.drawLine();
 
             if (m.properties.line) {
               bounds.extend(m.properties.line.getPath().getAt(1));
+              gotBounds = true;
             }
 
             if (m.properties.polygons) {
               bounds.extend(m.properties.polygons[0].getBounds().getCenter());
+              gotBounds = true;
             }
 
           });
 
-          window.map.fitBounds(bounds);
           window.map.panBy(176, 0);
-          window.map.setZoom(window.map.getZoom() - 1);
+
+          if (gotBounds) {
+            window.map.fitBounds(bounds);
+            window.map.setZoom(window.map.getZoom() - 1);
+          }
 
         },
 
