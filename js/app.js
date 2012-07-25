@@ -197,7 +197,7 @@ $(function () {
     }
 
     function showWelcome() {
-      Aside.hide();
+              Aside.hide(Timeline.show);
       resetAutocomplete();
 
       unMarkProject();
