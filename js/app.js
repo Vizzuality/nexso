@@ -197,7 +197,7 @@ $(function () {
     }
 
     function showWelcome() {
-              Aside.hide(Timeline.show);
+      Aside.hide(Timeline.show);
       resetAutocomplete();
 
       unMarkProject();
@@ -258,13 +258,10 @@ $(function () {
 
       var
       results = [],
+      added   = [],
       bounds  = map.getBounds();
 
       unMarkProject();
-
-
-      //worker.postMessage({ data: autocompletePos, bounds: bounds }); // Send data to our worker.
-
 
       _.each(autocompletePos, function(project) {
 
@@ -284,9 +281,6 @@ $(function () {
           $(".aside .spinner").fadeOut(250);
       } else if (results.length > 0) {
 
-        var resultTitle = results.length + " " + (results.length === 1 ? ' project on screen' : ' projects on screen');
-        $(".aside").find(".counter").html(resultTitle);
-
           what = 'search';
           if (!pane[what]) { // if we loaded the pane before
             pane[what] = $(".scroll-pane-" + what);
@@ -294,18 +288,29 @@ $(function () {
           }
 
           var api = pane[what].data('jsp');
+          var c = 0;
 
-        _.each(results, function(result, i) {
-          var $a = $('<a href="#">' + result.value + '</a>');
+          _.each(results, function(result, i) {
+            if (!added[result.value]) {
+              var $a = $('<a href="#">' + result.value + '</a>');
 
-          api.getContentPane().append( $("<li></li>").append($a));
+              api.getContentPane().append( $("<li></li>").append($a));
 
-          $a.on("click", function(e) {
-            e.preventDefault();
-            autocompleteSource[result.key].showInfowindow();
-          });
+              added[result.value] = true;
+              c++;
+
+              $a.on("click", function(e) {
+                e.preventDefault();
+                autocompleteSource[result.key].showInfowindow();
+              });
+
+
+          }
 
         });
+
+          var resultTitle = c + " " + (c === 1 ? ' project on screen' : ' projects on screen');
+          $(".aside").find(".counter").html(resultTitle);
 
           api.reinitialise();
         resetLastSearch();
@@ -380,19 +385,20 @@ $(function () {
           mapView.projectMarkers[properties.nexso_code] = [];
           project_count++;
 
-          autocompletePos.push({
-            key: key,
-            value:  marker.properties.title,
-            lat:    marker.properties.pwa_lat,
-            lng:    marker.properties.pwa_lon
-          });
-
-          autocompleteSource[key] = marker;
 
         }
 
         solution_count += marker.properties.solution_count;
         mapView.projectMarkers[properties.nexso_code].push(marker);
+
+        autocompletePos.push({
+          key: key,
+          value:  marker.properties.title,
+          lat:    marker.properties.pwa_lat,
+          lng:    marker.properties.pwa_lon
+        });
+
+        autocompleteSource[key] = marker;
 
       }
 
@@ -424,7 +430,7 @@ $(function () {
 
       projects               = [];
       autocompleteSource     = [];
-      autocompletePos     = [];
+      autocompletePos        = [];
       mapView.projectMarkers = {};
       p = 0;
 
@@ -852,6 +858,7 @@ $(function () {
 
           delete autocompletePos;
           autocompletePos   = [];
+
           delete autocompleteSource;
           autocompleteSource   = [];
 
