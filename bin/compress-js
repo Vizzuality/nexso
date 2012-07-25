@@ -17,6 +17,5 @@ java -jar bin/compiler.jar --js \
        js/helpers.js \
        js/infowindow.js \
        js/NexsoMarker.js \
-       /*js/circle.js \*/
        js/app.js \
        --js_output_file js/all.js 
