@@ -1,6 +1,7 @@
 $(function () {
 
   var
+  p,
   solution_count     = 0,
   project_count      = 0,
   projects           = [],
@@ -331,12 +332,21 @@ $(function () {
         searchInBounds();
 
         if (callback) { callback(); }
+        var i = 0;
+        _.each(p, function(l) {
+          i++;
+          if (mapView.nexso_code && l.properties.nexso_code == mapView.nexso_code) {
+            console.log(l);
+            l.open();
+          }
+
+        });
 
       },
 
       hideRightSide = function() {
 
-        Aside.show();
+        if (!mapView.nexso_code) Aside.show();
 
         $(".backdrop").fadeOut(250);
         $(".welcome").fadeOut(250, hideBackdrop);
@@ -466,6 +476,8 @@ $(function () {
       if (name === 'projects') {
         updateCounter("projects", project_count);
         updateCounter("solutions", solution_count);
+
+        p = view.markers;
       }
 
       view.enableFilters();
@@ -800,7 +812,14 @@ $(function () {
           this.previousZoom   = 3;
           this.previousCenter = null;
 
-          var that = this;
+          $.urlParam = function(name){
+            var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
+            return results[1] || 0;
+          }
+
+          console.log($.urlParam('project'));
+          var project = $.urlParam('project');
+          if (project) this.nexso_code = project;
 
         },
         enableFilters: function() {
