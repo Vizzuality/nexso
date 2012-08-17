@@ -1,7 +1,7 @@
 $(function () {
 
   var
-  p,
+  loadedProjects,
   solution_count     = 0,
   project_count      = 0,
   projects           = [],
@@ -189,6 +189,22 @@ $(function () {
           $(".stats li." + name).removeClass("disabled");
         });
       }
+
+      if (name == 'projects') {
+        var i = 0;
+
+        _.each(loadedProjects, function(l) {
+          i++;
+          if (mapView.nexso_code && l.properties.nexso_code == mapView.nexso_code) {
+            startExploring(function() {
+              Timeline.hide();
+            });
+            l.open();
+            return false;
+          }
+        });
+
+      }
     }
 
     function resetMap() {
@@ -332,16 +348,6 @@ $(function () {
         searchInBounds();
 
         if (callback) { callback(); }
-        var i = 0;
-        _.each(p, function(l) {
-          i++;
-          if (mapView.nexso_code && l.properties.nexso_code == mapView.nexso_code) {
-            console.log(l);
-            l.open();
-          }
-
-        });
-
       },
 
       hideRightSide = function() {
@@ -474,10 +480,10 @@ $(function () {
       }
 
       if (name === 'projects') {
+        loadedProjects = view.markers;
         updateCounter("projects", project_count);
         updateCounter("solutions", solution_count);
 
-        p = view.markers;
       }
 
       view.enableFilters();
@@ -814,11 +820,15 @@ $(function () {
 
           $.urlParam = function(name){
             var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
-            return results[1] || 0;
+
+            if (results) {
+              return results[1];
+            } else return 0;
           }
 
           console.log($.urlParam('project'));
           var project = $.urlParam('project');
+
           if (project) this.nexso_code = project;
 
         },
