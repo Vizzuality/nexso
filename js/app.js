@@ -195,6 +195,8 @@ $(function () {
 
         _.each(loadedProjects, function(l) {
           i++;
+
+
           if (mapView.nexso_code && l.properties.nexso_code == mapView.nexso_code) {
             startExploring(function() {
               Timeline.hide();
@@ -826,7 +828,6 @@ $(function () {
             } else return 0;
           }
 
-          console.log($.urlParam('project'));
           var project = $.urlParam('project');
 
           if (project) this.nexso_code = project;
