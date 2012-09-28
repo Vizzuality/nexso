@@ -213,7 +213,7 @@ $(function () {
 
         });
 
-        if (!found) {
+        if (!found && mapView.nexso_code) {
 
         $(".error").html("There's no project with the NEXSO code " + mapView.nexso_code );
 
