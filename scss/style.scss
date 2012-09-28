@@ -417,6 +417,23 @@ h4 { font-size: 11px; font-weight:bold; }
   h1 { position:relative; top: 10px; float:left; }
   h1 a { color: $title_blue; }
 
+  .error {
+    display: none;
+    position:absolute;
+    padding: 7px 0;
+    top: 80px;
+    width: 100%;
+
+    background:#FF5200;
+    color: white;
+    font-weight:bold;
+
+    text-align: center;
+
+    @include box-shadow(1px 1px 2px rgba(#000, .3));
+    z-index: 1000;
+  }
+
   .back {
     display:none;
 

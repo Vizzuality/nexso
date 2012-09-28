@@ -192,20 +192,38 @@ $(function () {
 
       if (name == 'projects') {
         var i = 0;
+        var found = false;
 
         _.each(loadedProjects, function(l) {
           i++;
 
 
           if (mapView.nexso_code && l.properties.nexso_code == mapView.nexso_code) {
+
             startExploring(function() {
               Timeline.hide();
             });
+
             l.open();
+
+            found = true;
+
             return false;
           }
+
         });
 
+        if (!found) {
+
+        $(".error").html("There's no project with the NEXSO code " + mapView.nexso_code );
+
+          $(".error").slideDown(250, function() {
+            setTimeout(function() {
+              $(".error").slideUp(250);
+            }, 5000);
+          });
+
+        }
       }
     }
 
